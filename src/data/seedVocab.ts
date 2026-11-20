@@ -7,13 +7,14 @@ import type {
   VocabWord,
 } from '../types/vocab';
 import {
+  CHINESE_COURSE_WORDS,
   CHINESE_DECKS,
-  CHINESE_WORDS,
   mergeChineseSeed,
   migrateChineseDeckId,
   migrateChineseWordId,
   resolveMigratedChineseDeckLevel,
 } from '../../Chinese/chineseDecks';
+import { DEFAULT_HSK_EDITION } from '../../Chinese/hsk1Courses';
 import { ENGLISH_DECKS, ENGLISH_WORDS, PRE_V5_ENGLISH_WORD_IDS } from './englishDecks';
 
 export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: string; short: string }> = {
@@ -26,11 +27,11 @@ export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: strin
 };
 
 const ENGLISH_DATA_VERSION = 2;
-export const CURRENT_DATA_VERSION = 5;
+export const CURRENT_DATA_VERSION = 6;
 
 export const INITIAL_DECKS: VocabDeck[] = [...CHINESE_DECKS, ...ENGLISH_DECKS];
 
-export const INITIAL_WORDS: VocabWord[] = [...CHINESE_WORDS, ...ENGLISH_WORDS];
+export const INITIAL_WORDS: VocabWord[] = [...CHINESE_COURSE_WORDS, ...ENGLISH_WORDS];
 
 interface SeedState {
   decks: VocabDeck[];
@@ -76,7 +77,7 @@ export function withCurrentSeed<T extends SeedState>(state: T): T {
   if (state.version >= CURRENT_DATA_VERSION) return state;
 
   const chinese = mergeChineseSeed(state.decks, state.words, state.version);
-  const english = mergeEnglishSeed(chinese.decks, chinese.words, state.version);
+  const library = state.version < 5 ? mergeEnglishSeed(chinese.decks, chinese.words, state.version) : chinese;
 
   let { profile } = state;
   if (state.version < ENGLISH_DATA_VERSION &&
@@ -105,8 +106,8 @@ export function withCurrentSeed<T extends SeedState>(state: T): T {
 
   return {
     ...state,
-    decks: english.decks,
-    words: english.words,
+    decks: library.decks,
+    words: library.words,
     profile,
     logs,
     ...(state.settings ? { settings: { ...INITIAL_SETTINGS, ...state.settings } } : {}),
@@ -139,6 +140,7 @@ export const INITIAL_SETTINGS: AppSettings = {
   zenFocusMode: false,
   srsMode: 'standard',
   dailyNewWordLimit: 8,
+  hskEdition: DEFAULT_HSK_EDITION,
   speechRate: 1.0,
   autoPlayAudio: false,
   showExamplePhonetic: true,

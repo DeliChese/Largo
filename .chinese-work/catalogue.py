@@ -7,7 +7,7 @@ from pathlib import Path
 from read_hsk3 import reading, term
 
 ROOT = Path(__file__).parent
-DESTINATION = ROOT.parent / 'Chinese/chineseVocabulary.json'
+DESTINATION = ROOT / 'draft-catalogue.json'
 
 # These meanings have a different use from the same written form already in the catalogue.
 DISTINCT = {506, 519, 578, 683, 858, 908}

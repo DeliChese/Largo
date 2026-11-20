@@ -6,6 +6,7 @@ import {
   V4_CHINESE_WORD_IDS,
 } from '../src/data/seedMigration';
 import catalogue from './chineseVocabulary.json' with { type: 'json' };
+import { HSK_EDITIONS, HSK1_COURSES } from './hsk1Courses';
 
 interface CatalogueCard {
   id: string;
@@ -35,22 +36,50 @@ interface CatalogueDeck {
 
 const NOW = Date.now();
 const DECKS_DATA = catalogue as CatalogueDeck[];
+const SUPPLEMENT_SOURCE = 'deck-zh-textbook-supplements';
+const priorDecks = new Map(DECKS_DATA.map((deck) => [deck.id, deck]));
+const v5WordIds = new Set(DECKS_DATA.filter((deck) => deck.id !== SUPPLEMENT_SOURCE)
+  .flatMap((deck) => deck.cards.map(({ id }) => id)));
 
-export const CHINESE_DECKS: VocabDeck[] = DECKS_DATA.map((topic) => ({
-  id: topic.id,
-  name: topic.name,
-  description: topic.description,
-  category: topic.category,
-  language: 'zh',
-  level: topic.level,
-  isCustom: false,
-  createdAt: NOW,
-}));
+const cardsByTerm = new Map<string, CatalogueCard[]>();
+for (const deck of DECKS_DATA) {
+  for (const card of deck.cards) {
+    const matches = cardsByTerm.get(card.term);
+    if (matches) matches.push(card);
+    else cardsByTerm.set(card.term, [card]);
+  }
+}
+
+function resolveLessonWordId(selector: string): string {
+  const [term, hskId] = selector.split('@');
+  const matches = (cardsByTerm.get(term) ?? []).filter((card) => !hskId || card.hskId === Number(hskId));
+  if (matches.length !== 1) throw new Error(`Expected one Chinese card for ${selector}, got ${matches.length}`);
+  return matches[0].id;
+}
+
+export const CHINESE_DECKS: VocabDeck[] = HSK_EDITIONS.flatMap(({ id: edition }) =>
+  HSK1_COURSES[edition].lessons.map((lesson, index): VocabDeck => ({
+    id: `deck-zh-${edition}-hsk1-l${String(index + 1).padStart(2, '0')}`,
+    name: `Bài ${index + 1} · ${lesson.title}`,
+    description: lesson.description,
+    category: lesson.topic,
+    language: 'zh',
+    level: 'hsk1',
+    hskEdition: edition,
+    wordIds: lesson.terms.map(resolveLessonWordId),
+    isCustom: false,
+    createdAt: NOW,
+  })),
+);
+
+const courseDeckByWordId = new Map(CHINESE_DECKS.flatMap((deck) =>
+  (deck.wordIds ?? []).map((id) => [id, deck.id] as const),
+));
 
 export const CHINESE_WORDS: VocabWord[] = DECKS_DATA.flatMap((topic) =>
   topic.cards.map((card): VocabWord => ({
     id: card.id,
-    deckId: topic.id,
+    deckId: courseDeckByWordId.get(card.id) ?? topic.id,
     language: 'zh',
     term: card.term,
     phonetic: card.phonetic,
@@ -77,6 +106,7 @@ export const CHINESE_WORDS: VocabWord[] = DECKS_DATA.flatMap((topic) =>
 
 const BUILTIN_DECK_IDS = new Set(CHINESE_DECKS.map(({ id }) => id));
 const BUILTIN_WORD_IDS = new Set(CHINESE_WORDS.map(({ id }) => id));
+export const CHINESE_COURSE_WORDS = CHINESE_WORDS.filter(({ id }) => courseDeckByWordId.has(id));
 
 function pickBetterWordProgress(current: VocabWord | undefined, candidate: VocabWord): VocabWord {
   if (!current) return candidate;
@@ -123,20 +153,33 @@ export function mergeChineseSeed(decks: VocabDeck[], words: VocabWord[], version
     }
   }
 
-  const remainingDecks = decks.filter((deck) => {
-    if (deck.language !== 'zh') return true;
-    if (BUILTIN_DECK_IDS.has(deck.id)) return false;
-    if (deck.id in LEGACY_DECK_ID_MAP) return false;
-    return deck.isCustom;
-  });
+  const remainingDecks = decks.filter((deck) => deck.language !== 'zh' || deck.isCustom);
+  const availableDeckIds = new Set([...BUILTIN_DECK_IDS, ...remainingDecks.map(({ id }) => id)]);
+  const previousDecks = new Map(decks.map((deck) => [migrateChineseDeckId(deck.id), deck]));
+  for (const word of customOrOtherWords) {
+    if (word.language !== 'zh' || availableDeckIds.has(word.deckId)) continue;
+    const previous = previousDecks.get(word.deckId);
+    const source = previous ?? priorDecks.get(word.deckId);
+    remainingDecks.push({
+      id: word.deckId,
+      name: source?.name ?? 'Từ đã thêm',
+      description: source?.description ?? '',
+      language: 'zh',
+      category: 'Cá nhân',
+      level: 'custom',
+      isCustom: true,
+      createdAt: previous?.createdAt ?? word.createdAt,
+    });
+    availableDeckIds.add(word.deckId);
+  }
 
-  const priorBuiltinIds = version < 3 ? V1_CHINESE_WORD_IDS : V4_CHINESE_WORD_IDS;
+  const priorBuiltinIds = version < 3 ? V1_CHINESE_WORD_IDS : version < 5 ? V4_CHINESE_WORD_IDS : v5WordIds;
 
   const updatedChineseWords = CHINESE_WORDS.flatMap((word) => {
     const saved = savedBuiltinWords.get(word.id);
     if (!saved) {
-      // Respect deletions of words that existed in the user's prior version, while introducing newly added cards.
-      return priorBuiltinIds.has(word.id) ? [] : [word];
+      // Add the course's new cards and respect deliberate deletions of existing cards.
+      return priorBuiltinIds.has(word.id) || !courseDeckByWordId.has(word.id) ? [] : [word];
     }
     return [{
       ...word,
@@ -148,11 +191,7 @@ export function mergeChineseSeed(decks: VocabDeck[], words: VocabWord[], version
   });
 
   return {
-    decks: [
-      ...remainingDecks.filter((deck) => deck.isCustom),
-      ...CHINESE_DECKS,
-      ...remainingDecks.filter((deck) => !deck.isCustom),
-    ],
+    decks: [...CHINESE_DECKS, ...remainingDecks],
     words: [
       ...customOrOtherWords,
       ...updatedChineseWords,

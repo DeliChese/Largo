@@ -1,4 +1,5 @@
 export type LanguageCode = 'en' | 'zh' | 'ja' | 'fr' | 'ko' | 'es';
+export type HskEdition = 'hsk20' | 'hsk30';
 
 export type BloomLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -84,6 +85,8 @@ export interface VocabDeck {
   language: LanguageCode;
   category: string;
   level?: string;
+  hskEdition?: HskEdition;
+  wordIds?: readonly string[];
   isCustom: boolean;
   createdAt: number;
 }
@@ -100,6 +103,7 @@ export interface StudySessionLog {
   deckId: string | 'all';
   language?: LanguageCode;
   level?: string;
+  hskEdition?: HskEdition;
   wordsReviewed: number;
   correctCount: number;
   xpEarned: number;
@@ -133,6 +137,7 @@ export interface AppSettings {
   srsMode: SRSMode;
   dailyNewWordLimit: number;
   studyLevels?: Partial<Record<LanguageCode, string>>;
+  hskEdition?: HskEdition;
   speechRate: number; // 0.7 | 0.85 | 1.0 | 1.15
   speechVoices?: Partial<Record<LanguageCode, string>>;
   autoPlayAudio: boolean;

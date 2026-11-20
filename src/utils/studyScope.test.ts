@@ -4,11 +4,11 @@ import { ENGLISH_DECKS, ENGLISH_WORDS } from '../data/englishDecks';
 import { CHINESE_DECKS, CHINESE_WORDS } from '../../Chinese/chineseDecks';
 import { LEGACY_DECK_ID_MAP, LEGACY_WORD_ID_MAP } from '../data/seedMigration';
 import catalogue from '../../Chinese/chineseVocabulary.json' with { type: 'json' };
-import { CURRENT_DATA_VERSION, INITIAL_DECKS, INITIAL_PROFILE, INITIAL_WORDS, withCurrentSeed } from '../data/seedVocab';
+import { CURRENT_DATA_VERSION, INITIAL_DECKS, INITIAL_PROFILE, INITIAL_SETTINGS, INITIAL_WORDS, withCurrentSeed } from '../data/seedVocab';
 import type { StudySessionLog, VocabDeck, VocabWord } from '../types/vocab';
 import { searchChineseDictionary } from './chineseDict';
-import { getClozeExample } from './studyPlan';
-import { getDeckStudyLevel, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './studyScope';
+import { getClozeExample, getDailyStudyPlan, getPracticeWords } from './studyPlan';
+import { getDeckStudyLevel, getEditionDecks, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './studyScope';
 
 function makeWord(id: string, deckId: string, term: string, language: 'zh' | 'en' = 'zh'): VocabWord {
   return {
@@ -37,7 +37,7 @@ function makeWord(id: string, deckId: string, term: string, language: 'zh' | 'en
 
 test('language and level selections keep the review library scoped without legacy decks', () => {
   assert.deepEqual(getStudyLanguages(INITIAL_DECKS), ['zh', 'en']);
-  assert.deepEqual(getStudyLevels('zh', INITIAL_DECKS).map(({ id }) => id), ['all', 'hsk1', 'hsk2', 'hsk3', 'everyday']);
+  assert.deepEqual(getStudyLevels('zh', INITIAL_DECKS).map(({ id }) => id), ['all', 'hsk1']);
   assert.deepEqual(getStudyLevels('en', INITIAL_DECKS).map(({ id }) => id), ['all', 'a1', 'a2', 'b1']);
 
   const a2Decks = getScopedDecks(INITIAL_DECKS, 'en', 'a2');
@@ -57,7 +57,7 @@ test('custom languages and explicit levels are included alongside starter langua
   const deck = { ...ENGLISH_DECKS[0], language: 'ja' as const, level: 'N4', isCustom: true };
   const unclassified = { ...deck, id: 'user-words', level: undefined, category: 'Cá nhân' };
   assert.deepEqual(getStudyLanguages([...INITIAL_DECKS, deck]), ['zh', 'en', 'ja']);
-  assert.equal(getDeckStudyLevel(CHINESE_DECKS.find((d) => d.level === 'hsk2')!), 'hsk2');
+  assert.equal(getDeckStudyLevel(CHINESE_DECKS[0]), 'hsk1');
   assert.deepEqual(getStudyLevels('ja', [deck, unclassified]).map(({ id }) => id), ['all', 'n4', 'custom']);
   assert.deepEqual(getScopedDecks([deck, unclassified], 'ja', 'custom'), [unclassified]);
 });
@@ -75,9 +75,8 @@ test('English seed data has 6 balanced decks of 12 cards with complete context f
   }
 });
 
-test('unified Chinese library has 56 balanced decks and 1382 uniformly complete cards', async () => {
-  assert.equal(CHINESE_DECKS.length, 56);
-  assert.equal(CHINESE_WORDS.length, 1382);
+test('the Chinese vocabulary source retains coverage and context for the courses and dictionary lookup', async () => {
+  assert.equal(CHINESE_WORDS.length, 1388);
   assert.equal(new Set(CHINESE_WORDS.map(({ id }) => id)).size, CHINESE_WORDS.length);
   assert.ok(CHINESE_DECKS.every((deck) => deck.level !== 'legacy' && deck.category !== 'Bộ từ trước đây'));
 
@@ -85,21 +84,6 @@ test('unified Chinese library has 56 balanced decks and 1382 uniformly complete 
   const sourceIds = (ids: Array<number | undefined>) => [...new Set(ids.filter((id) => id !== undefined))].sort((a, b) => a - b);
   assert.deepEqual(sourceIds(cards.map((card) => card.hskId)), Array.from({ length: 1000 }, (_, i) => i + 1));
   assert.deepEqual(sourceIds(cards.map((card) => card.a1000Id)), Array.from({ length: 1000 }, (_, i) => i + 1));
-
-  for (const [level, expectedDecks, expectedWords] of [
-    ['hsk1', 12, 300],
-    ['hsk2', 9, 200],
-    ['hsk3', 19, 500],
-    ['everyday', 16, 382],
-  ] as const) {
-    const decks = getScopedDecks(INITIAL_DECKS, 'zh', level);
-    assert.equal(decks.length, expectedDecks, `deck count for ${level}`);
-    assert.equal(getScopedWords(INITIAL_WORDS, decks, 'zh').length, expectedWords, `word count for ${level}`);
-    for (const deck of decks) {
-      const count = CHINESE_WORDS.filter((w) => w.deckId === deck.id).length;
-      assert.ok(count >= 16 && count <= 34, `deck ${deck.id} has out-of-range size ${count}`);
-    }
-  }
 
   for (const word of CHINESE_WORDS) {
     assert.ok(word.phonetic, `missing phonetic on ${word.id}`);
@@ -117,9 +101,9 @@ test('unified Chinese library has 56 balanced decks and 1382 uniformly complete 
     );
   }
 
-  assert.deepEqual(INITIAL_WORDS.filter(({ term }) => term === '过').map(({ phonetic }) => phonetic), ['guo', 'guò']);
-  assert.deepEqual(INITIAL_WORDS.filter(({ term }) => term === '只').map(({ phonetic }) => phonetic), ['zhī', 'zhǐ']);
-  assert.equal(INITIAL_WORDS.filter(({ term }) => term === '点').length, 2);
+  assert.deepEqual(CHINESE_WORDS.filter(({ term }) => term === '过').map(({ phonetic }) => phonetic), ['guo', 'guò']);
+  assert.deepEqual(CHINESE_WORDS.filter(({ term }) => term === '只').map(({ phonetic }) => phonetic), ['zhī', 'zhǐ']);
+  assert.equal(CHINESE_WORDS.filter(({ term }) => term === '点').length, 2);
 
   const [entry] = await searchChineseDictionary('saoma');
   assert.equal(entry?.term, '扫码');
@@ -127,7 +111,35 @@ test('unified Chinese library has 56 balanced decks and 1382 uniformly complete 
   assert.ok(entry.examples[0]?.phonetic);
 });
 
-test('migrating v1 and v4 states preserves SRS progress, custom decks, deletions, and adds new v5 cards', () => {
+test('both Chinese textbooks scope and order their HSK 1 lessons', () => {
+  const hsk30CoreIds = new Set(catalogue.flatMap((deck) => deck.cards)
+    .filter((card) => 'hskLevel' in card && card.hskLevel === 1).map(({ id }) => id));
+  for (const [edition, count, first] of [['hsk20', 182, '你'], ['hsk30', 305, '你好']] as const) {
+    const decks = getEditionDecks(INITIAL_DECKS, 'zh', edition);
+    const words = getScopedWords(INITIAL_WORDS, decks, 'zh');
+    assert.equal(decks.length, 15);
+    assert.ok(decks.every((deck) => deck.hskEdition === edition && deck.level === 'hsk1'));
+    assert.equal(words.length, count);
+    assert.equal(words[0].term, first);
+    assert.equal(new Set(words.map(({ id }) => id)).size, words.length);
+    for (const deck of decks) {
+      assert.deepEqual(words.filter(({ deckId }) => deckId === deck.id).map(({ id }) => id), deck.wordIds);
+    }
+    assert.deepEqual(getDailyStudyPlan(words, INITIAL_PROFILE, 4, Date.now()).words, words.slice(0, 4));
+    const firstLesson = getScopedWords(words, [decks[0]], 'zh').map((word, index) => ({
+      ...word, srs: { ...word.srs, nextReviewAt: 1000 - index },
+    }));
+    assert.deepEqual(getPracticeWords(firstLesson, decks[0].id, 'all', 1, 'flashcard', Date.now()), firstLesson);
+    if (edition === 'hsk30') {
+      assert.equal(hsk30CoreIds.size, 300);
+      assert.deepEqual(new Set(words.map(({ id }) => id).filter((id) => hsk30CoreIds.has(id))), hsk30CoreIds);
+      assert.equal(words.find(({ term }) => term === '手机号')?.deckId, 'deck-zh-hsk30-hsk1-l06');
+      assert.equal(words.find(({ term }) => term === '下雪')?.deckId, 'deck-zh-hsk30-hsk1-l12');
+    }
+  }
+});
+
+test('migrating v1 and v4 states preserves SRS progress, custom decks, deletions, and adds textbook cards', () => {
   const oldDeckId = 'deck-hsk1-core';
   const oldDeck: VocabDeck = {
     id: oldDeckId, name: 'HSK 1 · Nền tảng', description: 'old', language: 'zh',
@@ -180,11 +192,11 @@ test('migrating v1 and v4 states preserves SRS progress, custom decks, deletions
   assert.ok(migratedV1.decks.some(({ id }) => id === migratedOldDeckWord?.deckId));
   assert.ok(migratedV1.decks.some(({ id }) => id === customDeck.id));
   assert.equal(migratedV1.decks.some(({ level }) => level === 'legacy'), false);
-  assert.ok(migratedV1.words.some(({ term }) => term === '感兴趣'));
+  assert.ok(migratedV1.words.some(({ term }) => term === '手机号'));
   assert.equal(migratedV1.words.some(({ id }) => id === mappedDeletedId), false);
   assert.equal(migratedV1.words.filter(({ language }) => language === 'en').length, ENGLISH_WORDS.length);
 
-  // v4 upgrade: keeps v4 deletions (zh-a1000-4 and 1 old English card), keeps SRS on zh-a1000-*, adds new HSK 3 + B1-2 cards
+  // v4 upgrade: keeps deletions and Chinese progress, then adds the new textbook and English cards.
   const v4WordId = 'zh-a1000-158';
   const mappedV4Id = LEGACY_WORD_ID_MAP[v4WordId];
   const deletedV4Id = 'zh-a1000-4';
@@ -213,7 +225,44 @@ test('migrating v1 and v4 states preserves SRS progress, custom decks, deletions
   assert.equal(migratedV4.words.some(({ id }) => id === mappedDeletedV4Id), false);
   assert.equal(migratedV4.words.filter((w) => w.language === 'en').length, ENGLISH_WORDS.length - 1);
   assert.equal(migratedV4.words.filter((w) => w.deckId === 'deck-en-b1-communication').length, 12);
-  assert.ok(migratedV4.words.some((w) => w.term === '感兴趣'));
+  assert.ok(migratedV4.words.some((w) => w.term === '手机号'));
   assert.deepEqual(migratedV4.logs, [{ ...v4Log, deckId: 'deck-zh-hsk2-people', level: 'hsk2' }]);
   assert.equal(withCurrentSeed(migratedV4), migratedV4);
+});
+
+test('v5 progress is shared by both editions and out-of-course reviews stay in storage', () => {
+  const shared = CHINESE_WORDS.find(({ term }) => term === '你')!;
+  const outOfCourse = CHINESE_WORDS.find(({ term }) => term === '扫码')!;
+  const oldDeck: VocabDeck = {
+    id: 'deck-zh-hsk1-core', name: 'Bộ của phiên bản trước', description: '', language: 'zh',
+    category: 'HSK 1', level: 'hsk1', isCustom: false, createdAt: 1000,
+  };
+  const personal = makeWord('my-card', oldDeck.id, '筆記本');
+  const srs = { ...shared.srs, repetitions: 4, lastReviewedAt: 12_000, nextReviewAt: 25_000 };
+  const state = withCurrentSeed({
+    version: 5,
+    decks: [oldDeck, ...ENGLISH_DECKS],
+    words: [
+      { ...shared, deckId: oldDeck.id, bloomLevel: 3, srs },
+      { ...outOfCourse, srs }, personal, ...ENGLISH_WORDS.slice(0, -1),
+    ],
+    profile: { ...INITIAL_PROFILE, todayWordIds: [shared.id, outOfCourse.id] },
+    settings: { ...INITIAL_SETTINGS, studyLevels: { zh: 'hsk3' } },
+    logs: [],
+  });
+  const hsk20 = getScopedWords(state.words, getEditionDecks(state.decks, 'zh', 'hsk20'), 'zh');
+  const hsk30 = getScopedWords(state.words, getEditionDecks(state.decks, 'zh', 'hsk30'), 'zh');
+  assert.equal(state.settings.hskEdition, 'hsk30');
+  assert.equal(hsk20.find(({ id }) => id === shared.id)?.deckId, 'deck-zh-hsk20-hsk1-l01');
+  assert.equal(hsk30.find(({ id }) => id === shared.id)?.deckId, 'deck-zh-hsk30-hsk1-l02');
+  for (const course of [hsk20, hsk30]) {
+    assert.equal(course.find(({ id }) => id === shared.id)?.srs, srs);
+    assert.equal(course.find(({ id }) => id === shared.id)?.bloomLevel, 3);
+    assert.ok(!course.some(({ term }) => term === '好' || term === outOfCourse.term));
+    assert.ok(course.includes(personal));
+  }
+  assert.ok(state.decks.find(({ id }) => id === oldDeck.id)?.isCustom);
+  assert.equal(state.words.find(({ id }) => id === outOfCourse.id)?.srs, srs);
+  assert.deepEqual(state.profile.todayWordIds, [shared.id, outOfCourse.id]);
+  assert.equal(state.words.filter(({ language }) => language === 'en').length, ENGLISH_WORDS.length - 1);
 });

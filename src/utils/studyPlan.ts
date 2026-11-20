@@ -235,7 +235,11 @@ export function getPracticeWords(library: VocabWord[], deckId: string, filter: S
       return getChoiceCandidates(word, library, mode === 'collocation', 2).length >= 2;
     }
     return true;
-  }).sort((a, b) => priority(a) - priority(b) || a.srs.nextReviewAt - b.srs.nextReviewAt);
+  }).sort((a, b) => {
+    const byPriority = priority(a) - priority(b);
+    if (byPriority || a.srs.lastReviewedAt === null) return byPriority;
+    return a.srs.nextReviewAt - b.srs.nextReviewAt;
+  });
 }
 
 export function getStudyExercise(word: VocabWord, mode: StudySessionMode, retry: boolean): { mode: StudyModeId; reverse: boolean; phrase?: boolean } {

@@ -1,4 +1,4 @@
-import type { LanguageCode, VocabDeck, VocabWord } from '../types/vocab';
+import type { HskEdition, LanguageCode, VocabDeck, VocabWord } from '../types/vocab';
 
 interface StudyLevel {
   id: string;
@@ -8,12 +8,6 @@ interface StudyLevel {
 const ALL_LEVELS: StudyLevel = { id: 'all', label: 'Tất cả cấp độ' };
 const CUSTOM_LEVEL: StudyLevel = { id: 'custom', label: 'Bộ cá nhân' };
 const BUILTIN_LEVELS: Partial<Record<LanguageCode, StudyLevel[]>> = {
-  zh: [
-    { id: 'hsk1', label: 'HSK 1' },
-    { id: 'hsk2', label: 'HSK 2' },
-    { id: 'hsk3', label: 'HSK 3' },
-    { id: 'everyday', label: 'Giao tiếp bổ sung' },
-  ],
   en: [{ id: 'a1', label: 'A1' }, { id: 'a2', label: 'A2' }, { id: 'b1', label: 'B1' }],
 };
 
@@ -54,7 +48,23 @@ export function getScopedDecks(decks: readonly VocabDeck[], language: LanguageCo
   );
 }
 
+export function getEditionDecks(decks: readonly VocabDeck[], language: LanguageCode, edition: HskEdition): VocabDeck[] {
+  return decks.filter((deck) => deck.language === language && (language !== 'zh' || deck.isCustom || deck.hskEdition === edition));
+}
+
 export function getScopedWords(words: readonly VocabWord[], scopedDecks: readonly VocabDeck[], language: LanguageCode): VocabWord[] {
   const deckIds = new Set(scopedDecks.map((deck) => deck.id));
-  return words.filter((word) => word.language === language && deckIds.has(word.deckId));
+  const directWords = words.filter((word) => word.language === language && deckIds.has(word.deckId));
+  if (!scopedDecks.some((deck) => deck.wordIds)) return directWords;
+
+  // Lesson membership is a view of the same cards. Reviews are saved against the shared word ID.
+  const byId = new Map(words.filter((word) => word.language === language).map((word) => [word.id, word]));
+  const assigned = new Set<string>();
+  const lessons = scopedDecks.flatMap((deck) => (deck.wordIds ?? []).flatMap((id) => {
+    const word = byId.get(id);
+    if (!word || assigned.has(id)) return [];
+    assigned.add(id);
+    return [{ ...word, deckId: deck.id }];
+  }));
+  return [...lessons, ...directWords.filter((word) => !assigned.has(word.id))];
 }

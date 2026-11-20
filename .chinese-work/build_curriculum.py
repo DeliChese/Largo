@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Build the unified, normalized Chinese curriculum (Chinese/chineseVocabulary.json)
-and deterministic v1..v4 -> v5 migration tables (src/data/seedMigration.ts).
+Export a draft of the previous textbook grouping for editorial review.
+The app uses the stable cards and lesson assignments under Chinese/.
 """
 
 from __future__ import annotations
@@ -13,15 +13,14 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).parent
-PROJECT_ROOT = ROOT.parent
 sys.path.insert(0, str(ROOT))
 
 from catalogue import enrich, merge  # noqa: E402
 from hanzi_meta import CHAR_META, EXTRA_CHAR_PINYIN, RAD_MAP, WORD_SV_OVERRIDES  # noqa: E402
 from sentence_pinyin import build_vocab_lexicon, join_syllables, sentence_to_pinyin  # noqa: E402
 
-VOCAB_DEST = PROJECT_ROOT / 'Chinese/chineseVocabulary.json'
-MIGRATION_DEST = PROJECT_ROOT / 'src/data/seedMigration.ts'
+VOCAB_DEST = ROOT / 'draft-curriculum.json'
+MIGRATION_DEST = ROOT / 'draft-migration.txt'
 
 # ---------------------------------------------------------------------------
 # 1. Extra starter.json cards not in catalogue.merge() -> everyday supplement
@@ -711,7 +710,7 @@ def main():
         if targets:
             legacy_word_id_map[v5_id] = targets
 
-    # Write Chinese/chineseVocabulary.json
+    # Write the draft catalogue.
     lines = ['[']
     for g_idx, g in enumerate(cleaned_groups):
         lines.append('  {')

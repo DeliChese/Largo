@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import {
   BookOpenCheck,
@@ -11,11 +11,12 @@ import {
   Volume2,
   X,
 } from 'lucide-react';
-import type { LanguageCode, VocabDeck, VocabWord } from '../types/vocab';
+import type { HskEdition, LanguageCode, VocabDeck, VocabWord } from '../types/vocab';
+import { HSK1_COURSES } from '../../Chinese/hsk1Courses';
 import { LANGUAGE_LABELS } from '../data/seedVocab';
 import { BLOOM_META, calculateRetentionProbability, formatIntervalVi } from '../utils/srsBloom';
 import { stripTrailingPinyin } from '../utils/studyPlan';
-import { getStudyLevels } from '../utils/studyScope';
+import { getDeckStudyLevel, getStudyLevels } from '../utils/studyScope';
 import { speakPronunciation } from '../utils/soundEngine';
 import { type ChineseDictEntry, searchChineseDictionary } from '../utils/chineseDict';
 import { compactPhonetic, searchable } from '../utils/vocabSearch';
@@ -59,7 +60,10 @@ interface DecksViewProps {
   decks: VocabDeck[];
   words: VocabWord[];
   language: LanguageCode;
+  hskEdition: HskEdition;
+  levels: ReturnType<typeof getStudyLevels>;
   activeLevel: string;
+  onChangeLevel: (level: string) => void;
   speechRate: number;
   showExamplePhonetic?: boolean;
   onToggleExamplePhonetic?: () => void;
@@ -75,7 +79,10 @@ export const DecksView: React.FC<DecksViewProps> = ({
   decks,
   words,
   language,
+  hskEdition,
+  levels,
   activeLevel,
+  onChangeLevel,
   speechRate,
   showExamplePhonetic = true,
   onToggleExamplePhonetic,
@@ -86,9 +93,12 @@ export const DecksView: React.FC<DecksViewProps> = ({
   onStartDeckStudy,
   onImportWordsJson,
 }) => {
-  const [selectedDeckId, setSelectedDeckId] = useState<string>(decks[0]?.id || 'all');
+  const [selectedDeckId, setSelectedDeckId] = useState(() => decks.find((deck) => deck.hskEdition)?.id ?? decks[0]?.id ?? 'all');
+  const [deckQuery, setDeckQuery] = useState('');
+  const [topicFilter, setTopicFilter] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
+  const wordScroll = useRef<HTMLDivElement>(null);
   const [showNewDeckModal, setShowNewDeckModal] = useState(false);
   const [showAddWordModal, setShowAddWordModal] = useState(false);
   const [showZhDictModal, setShowZhDictModal] = useState(false);
@@ -118,12 +128,27 @@ export const DecksView: React.FC<DecksViewProps> = ({
   const [wordSynonyms, setWordSynonyms] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
 
-  const activeDeck = decks.find((d) => d.id === selectedDeckId) || null;
-  const targetDeck = activeDeck ?? decks[0];
+  const topics = useMemo(() => [...new Set(decks.map(({ category }) => category))]
+    .filter(Boolean).sort((a, b) => a.localeCompare(b, 'vi')), [decks]);
+  const topic = topics.includes(topicFilter) ? topicFilter : '';
+  const filteredDecks = useMemo(() => {
+    const q = searchable(deckQuery);
+    return decks.filter((deck) => {
+      const level = levels.find(({ id }) => id === getDeckStudyLevel(deck))?.label ?? '';
+      return (!topic || deck.category === topic) && (!q || searchable(`${deck.name} ${deck.category} ${deck.description} ${level}`).includes(q));
+    });
+  }, [decks, deckQuery, topic, levels]);
+  const filteredWords = useMemo(() => {
+    const ids = new Set(filteredDecks.map(({ id }) => id));
+    return words.filter(({ deckId }) => ids.has(deckId));
+  }, [words, filteredDecks]);
+  const activeDeck = filteredDecks.find((d) => d.id === selectedDeckId) ?? null;
+  const targetDeck = activeDeck ?? filteredDecks[0] ?? decks[0];
   const inputExamples = WORD_FORM_EXAMPLES[targetDeck?.language ?? language];
-  const zhDeck = activeDeck?.language === 'zh' ? activeDeck : decks.find((deck) => deck.language === 'zh');
-  const currentLevel = getStudyLevels(language, decks).find(({ id }) => id === activeLevel);
-  const creationLevels = getStudyLevels(deckLang, decks).filter(({ id }) => id !== 'all' && id !== 'custom');
+  const zhDeck = targetDeck?.language === 'zh' ? targetDeck : undefined;
+  const creationLevels = (deckLang === language ? levels : getStudyLevels(deckLang, decks))
+    .filter(({ id }) => id !== 'all' && id !== 'custom');
+  const textbook = language === 'zh' ? HSK1_COURSES[hskEdition] : undefined;
 
   const deckCounts = useMemo(() => {
     const counts = new Map<string, number>();
@@ -132,7 +157,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
   }, [words]);
 
   const visibleWords = useMemo(() => {
-    const base = activeDeck ? words.filter((word) => word.deckId === activeDeck.id) : words;
+    const base = activeDeck ? filteredWords.filter((word) => word.deckId === activeDeck.id) : filteredWords;
     const q = searchable(searchQuery);
     if (!q) return base;
     const phoneticQuery = compactPhonetic(q);
@@ -144,12 +169,16 @@ export const DecksView: React.FC<DecksViewProps> = ({
         (w.sinoVietnamese && searchable(w.sinoVietnamese).includes(q)) ||
         w.collocations.some((c) => searchable(c.phrase).includes(q) || searchable(c.meaning).includes(q)),
     ).sort((a, b) => Number(searchable(b.term) === q) - Number(searchable(a.term) === q));
-  }, [words, activeDeck, searchQuery]);
+  }, [filteredWords, activeDeck, searchQuery]);
 
   const pageCount = Math.max(1, Math.ceil(visibleWords.length / WORDS_PER_PAGE));
   const currentPage = Math.min(page, pageCount);
   const pageStart = (currentPage - 1) * WORDS_PER_PAGE;
   const pageWords = visibleWords.slice(pageStart, pageStart + WORDS_PER_PAGE);
+
+  useEffect(() => {
+    if (wordScroll.current) wordScroll.current.scrollTop = 0;
+  }, [activeDeck?.id, activeLevel, currentPage, deckQuery, searchQuery, topic]);
 
   const selectDeck = (id: string) => {
     setSelectedDeckId(id);
@@ -217,6 +246,9 @@ export const DecksView: React.FC<DecksViewProps> = ({
       level: deckLevel === 'custom' ? undefined : deckLevel,
       category: deckCategory.trim() || 'Cá nhân',
     });
+    setDeckQuery('');
+    setTopicFilter('');
+    setSearchQuery('');
     selectDeck(newId);
     setDeckName('');
     setDeckDesc('');
@@ -315,12 +347,13 @@ export const DecksView: React.FC<DecksViewProps> = ({
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+    <div className="deck-library">
+      <div className="deck-library-heading">
         <div className="page-intro min-w-0">
           <h1>Bộ từ vựng</h1>
-          <p>{LANGUAGE_LABELS[language].name}{activeLevel !== 'all' && currentLevel && ' · ' + currentLevel.label} · {decks.length} bộ</p>
+          <p>{textbook ? (
+            <a className="text-button" href={textbook.source} target="_blank" rel="noreferrer">{textbook.book}</a>
+          ) : LANGUAGE_LABELS[language].name}</p>
         </div>
 
         <div className="flex flex-wrap xl:flex-nowrap items-center gap-2 shrink-0">
@@ -344,7 +377,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
             type="button"
             onClick={openAddWord}
             className="button-primary"
-            disabled={!decks.length}
+            disabled={!targetDeck}
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Thêm từ vào bộ</span>
@@ -369,181 +402,115 @@ export const DecksView: React.FC<DecksViewProps> = ({
         </div>
       )}
 
-      {/* Main Split: Decks Sidebar + Words List */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Decks Column */}
-        <div
-          className="glass-panel lg:col-span-4 min-w-0 p-4 space-y-3"
-        >
-          <button
-            type="button"
-            onClick={() => selectDeck('all')}
-            aria-pressed={!activeDeck}
-            className="w-full text-left rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors cursor-pointer flex items-center justify-between"
-            style={{
-              backgroundColor: !activeDeck ? 'var(--accent-soft)' : 'transparent',
-              color: !activeDeck ? 'var(--accent-text)' : 'var(--text-primary)',
-            }}
-          >
-            <span>Tất cả thẻ trong phạm vi</span>
-            <span className="font-mono tabular-nums">
-              {words.length}
-            </span>
-          </button>
-
-          {decks.length === 0 ? (
-            <p className="px-3 py-4 text-xs text-center" style={{ color: 'var(--text-muted)' }}>
-              Chưa có bộ từ ở cấp độ này.
-            </p>
-          ) : (
-            <div className="divide-y" style={{ borderColor: 'var(--border-hairline)' }}>
-              {decks.map((deck) => {
-                const count = deckCounts.get(deck.id) ?? 0;
-                const active = selectedDeckId === deck.id;
-                return (
-                  <div
-                    key={deck.id}
-                    className="py-1.5 flex items-center justify-between gap-2"
-                    style={{ borderColor: 'var(--border-hairline)' }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => selectDeck(deck.id)}
-                      aria-pressed={active}
-                      className="flex-1 text-left rounded-xl px-3 py-2 transition-colors cursor-pointer min-w-0"
-                      style={{
-                        backgroundColor: active ? 'var(--accent-soft)' : 'transparent',
-                        color: active ? 'var(--accent-text)' : 'var(--text-primary)',
-                      }}
-                    >
-                      <div className="text-xs font-semibold truncate">{deck.name}</div>
-                      <div className="text-[11px] mt-0.5 truncate" style={{ color: 'var(--text-muted)' }}>
-                        {deck.category} · {count} thẻ
-                      </div>
-                    </button>
-                    {deck.isCustom && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          onDeleteDeck(deck.id);
-                          if (selectedDeckId === deck.id) selectDeck('all');
-                        }}
-                        aria-label={`Xóa bộ từ ${deck.name}`}
-                        className="p-2 rounded-lg hover:text-rose-500 cursor-pointer shrink-0"
-                        style={{ color: 'var(--text-muted)' }}
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        {/* Words Table / List */}
-        <div
-          className="glass-panel lg:col-span-8 min-w-0 p-4 sm:p-5 space-y-4"
-        >
-          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
-            <div
-              className="flex-1 flex items-center gap-2 rounded-lg border px-3 py-2"
-              style={{
-                backgroundColor: 'var(--bg-canvas)',
-                borderColor: 'var(--border-hairline)',
-              }}
-            >
-              <Search className="w-4 h-4 shrink-0" style={{ color: 'var(--text-muted)' }} />
-              <input
-                type="text"
-                aria-label="Tìm trong bộ từ vựng"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setPage(1);
-                }}
-                placeholder={language === 'zh' ? 'Từ vựng, pinyin, âm Hán-Việt hoặc nghĩa…' : 'Từ, cụm từ, phiên âm hoặc nghĩa…'}
-                className="w-full bg-transparent text-xs focus:outline-none"
-                style={{ color: 'var(--text-primary)' }}
-              />
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2 shrink-0">
-              {language === 'zh' && onToggleExamplePhonetic && (
-                <button
-                  type="button"
-                  aria-pressed={showExamplePhonetic}
-                  onClick={onToggleExamplePhonetic}
-                  className="flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium cursor-pointer whitespace-nowrap"
-                  style={{
-                    borderColor: 'var(--border-hairline)',
-                    backgroundColor: showExamplePhonetic ? 'var(--accent-soft)' : 'transparent',
-                    color: showExamplePhonetic ? 'var(--accent-text)' : 'var(--text-secondary)',
-                  }}
-                >
-                  <span>{showExamplePhonetic ? 'Ẩn pinyin ví dụ' : 'Hiện pinyin ví dụ'}</span>
-                </button>
-              )}
-
-              <label
-                className={'flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium whitespace-nowrap ' +
-                  (activeDeck ? 'cursor-pointer' : 'opacity-50')}
-                style={{ borderColor: 'var(--border-hairline)' }}
-                title={activeDeck ? 'Nhập vào bộ ' + activeDeck.name : 'Chọn một bộ từ để nhập'}
-              >
-                <Upload className="w-3.5 h-3.5" />
-                <span>Nhập JSON</span>
-                <input type="file" accept=".json" disabled={!activeDeck} onChange={handleImportFile} className="sr-only" />
+      <div className="deck-workspace">
+        <aside className="glass-panel deck-directory" aria-label="Danh mục bộ thẻ">
+          <div className="deck-directory-controls">
+            <button type="button" className="deck-picker deck-picker-all" onClick={() => selectDeck('all')} aria-pressed={!activeDeck}>
+              <span>Tất cả thẻ trong phạm vi</span>
+              <span className="deck-card-count">{filteredWords.length}</span>
+            </button>
+            <label className="deck-search">
+              <Search size={16} aria-hidden="true" />
+              <input type="search" aria-label="Tìm bộ từ" placeholder="Tìm bài học hoặc bộ từ…" value={deckQuery}
+                onChange={(event) => { setDeckQuery(event.target.value); setPage(1); }} />
+            </label>
+            <div className="deck-filters">
+              <label>
+                <span>Cấp độ</span>
+                <select value={activeLevel} onChange={(event) => { onChangeLevel(event.target.value); selectDeck('all'); }}>
+                  {levels.map(({ id, label }) => <option key={id} value={id}>{label}</option>)}
+                </select>
               </label>
-
-              <button
-                type="button"
-                onClick={handleExportDeck}
-                disabled={!visibleWords.length}
-                className="flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium cursor-pointer whitespace-nowrap"
-                style={{ borderColor: 'var(--border-hairline)' }}
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span>Xuất JSON</span>
-              </button>
-
-              {activeDeck && (
-                <button
-                  type="button"
-                  onClick={() => onStartDeckStudy(activeDeck.id)}
-                  className="button-primary"
-                  disabled={!deckCounts.get(activeDeck.id)}
-                >
-                  Học bộ này
-                </button>
-              )}
+              <label>
+                <span>Chủ đề</span>
+                <select value={topic} onChange={(event) => { setTopicFilter(event.target.value); setPage(1); }}>
+                  <option value="">Tất cả chủ đề</option>
+                  {topics.map((category) => <option key={category} value={category}>{category}</option>)}
+                </select>
+              </label>
             </div>
           </div>
 
-          {pageCount > 1 && (
-            <nav aria-label="Phân trang bộ từ" className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-xs tabular-nums" style={{ color: 'var(--text-secondary)' }} role="status">
-                {pageStart + 1}–{pageStart + pageWords.length} / {visibleWords.length} thẻ
-              </p>
-              <div className="flex gap-2">
-                <button type="button" className="button-secondary" disabled={currentPage === 1}
-                  onClick={() => setPage(currentPage - 1)}>
-                  Trang trước
+          <div className="deck-directory-list" tabIndex={0} role="region" aria-label="Danh sách bài học và bộ từ">
+            {filteredDecks.map((deck) => (
+              <div className="deck-list-item" key={deck.id}>
+                <button type="button" className="deck-picker" onClick={() => selectDeck(deck.id)} aria-pressed={activeDeck?.id === deck.id}>
+                  <span>{deck.name}</span>
+                  <span className="deck-card-count">{deckCounts.get(deck.id) ?? 0} thẻ</span>
                 </button>
-                <button type="button" className="button-secondary" disabled={currentPage === pageCount}
-                  onClick={() => setPage(currentPage + 1)}>
-                  Trang sau
-                </button>
+                {deck.isCustom && (
+                  <button type="button" onClick={() => {
+                    onDeleteDeck(deck.id);
+                    if (selectedDeckId === deck.id) selectDeck('all');
+                  }} aria-label={`Xóa bộ từ ${deck.name}`} className="deck-delete">
+                    <Trash2 size={15} aria-hidden="true" />
+                  </button>
+                )}
               </div>
-            </nav>
-          )}
+            ))}
+            {!filteredDecks.length && <p className="panel-empty">Không có bộ từ phù hợp.</p>}
+          </div>
+        </aside>
 
+        <section className="glass-panel deck-content" aria-labelledby="deck-content-title">
+          <div className="deck-content-controls">
+            <div className="deck-content-heading">
+              <div>
+                <h2 id="deck-content-title">{activeDeck?.name ?? 'Thẻ trong phạm vi'}</h2>
+                {activeDeck?.description && <p>{activeDeck.description}</p>}
+              </div>
+              {activeDeck && (
+                <button type="button" onClick={() => onStartDeckStudy(activeDeck.id)} className="button-primary"
+                  disabled={!deckCounts.get(activeDeck.id)}>
+                  {activeDeck.hskEdition ? 'Học bài này' : 'Học bộ này'}
+                </button>
+              )}
+            </div>
+            <div className="deck-content-tools">
+              <label className="deck-search">
+                <Search size={16} aria-hidden="true" />
+                <input type="search" aria-label="Tìm trong bộ từ vựng" value={searchQuery}
+                  onChange={(event) => { setSearchQuery(event.target.value); setPage(1); }}
+                  placeholder={language === 'zh' ? 'Từ, pinyin hoặc nghĩa…' : 'Từ, cụm từ hoặc nghĩa…'} />
+              </label>
+              {language === 'zh' && onToggleExamplePhonetic && (
+                <button type="button" className="button-secondary" aria-pressed={showExamplePhonetic} onClick={onToggleExamplePhonetic}>
+                  {showExamplePhonetic ? 'Ẩn pinyin ví dụ' : 'Hiện pinyin ví dụ'}
+                </button>
+              )}
+              <label className={`button-secondary deck-import${activeDeck ? '' : ' opacity-50'}`}
+                title={activeDeck ? 'Nhập vào bộ ' + activeDeck.name : 'Chọn một bộ từ để nhập'}>
+                <Upload size={14} aria-hidden="true" /> Nhập JSON
+                <input type="file" accept=".json" disabled={!activeDeck} onChange={handleImportFile} className="sr-only" />
+              </label>
+              <button type="button" className="button-secondary" onClick={handleExportDeck} disabled={!visibleWords.length}>
+                <Download size={14} aria-hidden="true" /> Xuất JSON
+              </button>
+            </div>
+
+            {pageCount > 1 && (
+              <nav aria-label="Phân trang bộ từ" className="flex flex-wrap items-center justify-between gap-2">
+                <p className="text-xs tabular-nums" style={{ color: 'var(--text-secondary)' }} role="status">
+                  {pageStart + 1}–{pageStart + pageWords.length} / {visibleWords.length} thẻ
+                </p>
+                <div className="flex gap-2">
+                  <button type="button" className="button-secondary" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>
+                    Trang trước
+                  </button>
+                  <button type="button" className="button-secondary" disabled={currentPage === pageCount} onClick={() => setPage(currentPage + 1)}>
+                    Trang sau
+                  </button>
+                </div>
+              </nav>
+            )}
+          </div>
+
+          <div ref={wordScroll} className="deck-word-list" tabIndex={0} role="region" aria-label="Danh sách thẻ từ vựng">
           {visibleWords.length === 0 ? (
             <div className="py-12 text-center space-y-3">
               <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                 {!decks.length ? 'Tạo bộ từ để lưu từ và cụm từ bạn muốn học.'
-                  : searchQuery.trim() ? 'Không có kết quả phù hợp.' : 'Bộ từ này đang trống.'}
+                  : searchQuery.trim() || !filteredDecks.length ? 'Không có kết quả phù hợp.' : 'Bộ từ này đang trống.'}
               </p>
               <button
                 type="button"
@@ -676,7 +643,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
               })}
             </div>
           )}
-        </div>
+          </div>
+        </section>
       </div>
 
       {/* Modal: Chinese-Vietnamese Hanzii-format Dictionary Lookup */}

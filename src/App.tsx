@@ -6,6 +6,7 @@ import type {
   AppRoute,
   AppSettings,
   BloomLevel,
+  HskEdition,
   LanguageCode,
   ReviewQuality,
   StudyModeId,
@@ -16,6 +17,7 @@ import type {
   VocabDeck,
   VocabWord,
 } from './types/vocab';
+import { DEFAULT_HSK_EDITION, HSK_EDITIONS } from '../Chinese/hsk1Courses';
 import {
   INITIAL_DECKS,
   INITIAL_LOGS,
@@ -31,7 +33,7 @@ import {
   applyStudyReview, getDailyStudyPlan, getIntensiveStudyPlan, getPracticeWords, PRACTICE_SESSION_SIZE, recordStudyActivity,
   type StudyFilter,
 } from './utils/studyPlan';
-import { getDeckStudyLevel, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './utils/studyScope';
+import { getDeckStudyLevel, getEditionDecks, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './utils/studyScope';
 import {
   clearOfflineState,
   loadOfflineState,
@@ -65,6 +67,7 @@ interface ActiveSession {
   deckId: string;
   language: LanguageCode;
   level: string;
+  hskEdition?: HskEdition;
   words: VocabWord[];
 }
 
@@ -273,21 +276,29 @@ export default function App() {
   }, []);
 
   const language = profile.targetLanguage;
+  const hskEdition = settings.hskEdition === 'hsk20' ? 'hsk20' : DEFAULT_HSK_EDITION;
   const languages = useMemo(() => [...new Set([...getStudyLanguages(decks), language])], [decks, language]);
-  const levels = useMemo(() => getStudyLevels(language, decks), [language, decks]);
+  const editionDecks = useMemo(() => getEditionDecks(decks, language, hskEdition), [decks, language, hskEdition]);
+  const levels = useMemo(() => getStudyLevels(language, editionDecks), [language, editionDecks]);
   const level = levels.find((entry) => entry.id === settings.studyLevels?.[language]) ?? levels[0];
-  const scopedDecks = useMemo(() => getScopedDecks(decks, language, level.id), [decks, language, level.id]);
+  const scopedDecks = useMemo(() => getScopedDecks(editionDecks, language, level.id), [editionDecks, language, level.id]);
   const scopedWords = useMemo(() => getScopedWords(words, scopedDecks, language), [words, scopedDecks, language]);
+  const profileWords = useMemo(() => {
+    const deckIds = new Set(decks.map(({ id }) => id));
+    const lessonWordIds = new Set(decks.flatMap(({ wordIds }) => wordIds ?? []));
+    return words.filter((word) => word.srs.lastReviewedAt !== null || deckIds.has(word.deckId) || lessonWordIds.has(word.id));
+  }, [decks, words]);
   const scopedLogs = useMemo(() => {
     const decksById = new Map(decks.map((deck) => [deck.id, deck]));
     return logs.filter((log) => {
       const deck = decksById.get(log.deckId);
       const logLanguage = log.language ?? deck?.language ?? 'zh';
       if (logLanguage !== language) return false;
+      if (language === 'zh' && log.hskEdition && log.hskEdition !== hskEdition) return false;
       const logLevel = log.level && log.level !== 'all' ? log.level : deck ? getDeckStudyLevel(deck) : log.level;
       return level.id === 'all' || level.id === logLevel;
     });
-  }, [logs, decks, language, level.id]);
+  }, [logs, decks, language, level.id, hskEdition]);
   const plan = useMemo(() => getDailyStudyPlan(scopedWords, profile, settings.dailyNewWordLimit, now, words),
     [scopedWords, profile, settings.dailyNewWordLimit, now, words]);
   const intensive = useMemo(() => getIntensiveStudyPlan(scopedWords, now), [scopedWords, now]);
@@ -326,7 +337,7 @@ export default function App() {
     if (!hydrated || pool.length === 0) return;
     navigate('study');
     const id = globalThis.crypto?.randomUUID?.() ?? 'study-' + Date.now() + '-' + Math.random().toString(36).slice(2);
-    setActiveSession({ id, mode, deckId, language, level: level.id, words: pool });
+    setActiveSession({ id, mode, deckId, language, level: level.id, hskEdition: language === 'zh' ? hskEdition : undefined, words: pool });
   };
 
   const startDailySession = () => {
@@ -355,6 +366,11 @@ export default function App() {
   const changeLevel = (nextLevel: string) => {
     resetScopeSelection();
     setSettings((current) => ({ ...current, studyLevels: { ...current.studyLevels, [language]: nextLevel } }));
+  };
+
+  const changeHskEdition = (edition: HskEdition) => {
+    resetScopeSelection();
+    setSettings((current) => ({ ...current, hskEdition: edition }));
   };
 
   const handleBeginHubSession = (
@@ -401,7 +417,7 @@ export default function App() {
     if (!activeSession) return;
     const entry: StudySessionLog = {
       id: activeSession.id, timestamp: Date.now(), mode: activeSession.mode, deckId: activeSession.deckId,
-      language: activeSession.language, level: activeSession.level, ...progress,
+      language: activeSession.language, level: activeSession.level, hskEdition: activeSession.hskEdition, ...progress,
     };
     setLogs((prev) => prev.some((log) => log.id === entry.id)
       ? prev.map((log) => log.id === entry.id ? entry : log)
@@ -449,13 +465,14 @@ export default function App() {
         deckId: 'all',
         language,
         level: level.id,
+        hskEdition: language === 'zh' ? hskEdition : undefined,
         wordsReviewed: 0,
         correctCount: 0,
         xpEarned,
         durationSeconds: 0,
       },
     ]);
-  }, [language, level.id]);
+  }, [language, level.id, hskEdition]);
 
   const handleCreateDeck = (deck: Omit<VocabDeck, 'id' | 'createdAt' | 'isCustom'>) => {
     const id = `deck-custom-${Date.now()}`;
@@ -635,7 +652,8 @@ export default function App() {
   const isZenStudyActive = route === 'study' && !!activeSession && settings.zenFocusMode;
   const activeViewKey = route === 'study' ? activeSession?.id ?? 'study-hub' : route;
   const activeDeckId = scopedDecks.some((deck) => deck.id === selectedDeckId) ? selectedDeckId : 'all';
-  const scopeKey = language + '-' + level.id;
+  const editionKey = language === 'zh' ? `${language}-${hskEdition}` : language;
+  const scopeKey = `${editionKey}-${level.id}`;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -679,7 +697,7 @@ export default function App() {
                   </button>
                   <span className="header-current">{NAV_LABELS[route]}</span>
                 </div>
-                <div className="study-scope" role="group" aria-label="Ngôn ngữ và cấp độ đang học">
+                <div className="study-scope" role="group" aria-label="Phạm vi học">
                   {languages.length === 2 ? (
                     <div className="scope-language-switch" role="group" aria-label="Ngôn ngữ đang học">
                       {languages.map((code) => (
@@ -698,12 +716,20 @@ export default function App() {
                       <ChevronDown size={14} aria-hidden="true" />
                     </label>
                   )}
-                  <label className="scope-field">
+                  {language === 'zh' && (
+                    <label className="scope-field">
+                      <select aria-label="Phiên bản HSK" value={hskEdition} onChange={(event) => changeHskEdition(event.target.value as HskEdition)}>
+                        {HSK_EDITIONS.map(({ id, label }) => <option key={id} value={id}>{label}</option>)}
+                      </select>
+                      <ChevronDown size={14} aria-hidden="true" />
+                    </label>
+                  )}
+                  {route !== 'decks' && <label className="scope-field">
                     <select aria-label="Cấp độ đang học" value={level.id} onChange={(event) => changeLevel(event.target.value)}>
                       {levels.map((entry) => <option key={entry.id} value={entry.id}>{entry.label}</option>)}
                     </select>
                     <ChevronDown size={14} aria-hidden="true" />
-                  </label>
+                  </label>}
                 </div>
                 <div className="header-actions">
                   <WordLookup key={scopeKey} words={scopedWords} speechRate={settings.speechRate} />
@@ -810,11 +836,14 @@ export default function App() {
 
                   {route === 'decks' && (
                     <DecksView
-                      key={scopeKey}
+                      key={editionKey}
                       decks={scopedDecks}
                       words={scopedWords}
                       language={language}
+                      hskEdition={hskEdition}
+                      levels={levels}
                       activeLevel={level.id}
+                      onChangeLevel={changeLevel}
                       speechRate={settings.speechRate}
                       showExamplePhonetic={settings.showExamplePhonetic ?? true}
                       onToggleExamplePhonetic={() => setSettings((value) => ({ ...value, showExamplePhonetic: !(value.showExamplePhonetic ?? true) }))}
@@ -836,7 +865,7 @@ export default function App() {
                   )}
 
                   {route === 'profile' && (
-                    <ProfileView profile={profile} words={words} logs={logs}
+                    <ProfileView profile={profile} words={profileWords} logs={logs}
                       avatarUrl={avatarUrl} coverUrl={coverUrl} imagesReady={hydrated}
                       onUpdateImage={handleUpdateProfileImage}
                       onOpenAchievements={() => navigate('achievements')}
