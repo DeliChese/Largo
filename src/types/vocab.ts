@@ -1,5 +1,6 @@
 export type LanguageCode = 'en' | 'zh' | 'ja' | 'fr' | 'ko' | 'es';
 export type HskEdition = 'hsk20' | 'hsk30';
+export type EnglishLocale = 'en-GB' | 'en-US';
 
 export type BloomLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -47,6 +48,16 @@ export interface ExampleSentence {
   translation: string;
 }
 
+export interface EnglishWordForm {
+  term?: string;
+  phonetic?: string;
+  collocations?: CollocationItem[];
+  examples?: ExampleSentence[];
+}
+
+export type EnglishWordForms = Partial<Record<EnglishLocale, EnglishWordForm>>;
+export type SpeechVoices = Partial<Record<LanguageCode | EnglishLocale, string>>;
+
 export interface SRSState {
   easeFactor: number;
   intervalDays: number;
@@ -66,6 +77,7 @@ export interface VocabWord {
   partOfSpeech: string;
   meaning: string;
   language: LanguageCode;
+  englishForms?: EnglishWordForms;
   sinoVietnamese?: string; // Âm Hán-Việt cho tiếng Trung
   radical?: string; // Bộ thủ / cấu tạo chữ Hán
   collocations: CollocationItem[];
@@ -89,6 +101,22 @@ export interface VocabDeck {
   wordIds?: readonly string[];
   isCustom: boolean;
   createdAt: number;
+}
+
+export interface DeckWordImport {
+  term: string;
+  meaning: string;
+  phonetic?: string;
+  partOfSpeech?: string;
+  notes?: string;
+  collocation?: string;
+  collocationMeaning?: string;
+  example?: string;
+  examplePhonetic?: string;
+  translation?: string;
+  collocations?: CollocationItem[];
+  examples?: ExampleSentence[];
+  englishForms?: EnglishWordForms;
 }
 
 export interface StudySessionLog {
@@ -138,8 +166,9 @@ export interface AppSettings {
   dailyNewWordLimit: number;
   studyLevels?: Partial<Record<LanguageCode, string>>;
   hskEdition?: HskEdition;
+  englishLocale?: EnglishLocale;
   speechRate: number; // 0.7 | 0.85 | 1.0 | 1.15
-  speechVoices?: Partial<Record<LanguageCode, string>>;
+  speechVoices?: SpeechVoices;
   autoPlayAudio: boolean;
   showExamplePhonetic?: boolean;
   soundEnabled: boolean;

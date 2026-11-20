@@ -1,4 +1,5 @@
-import type { LanguageCode } from '../types/vocab';
+import type { EnglishLocale, LanguageCode, SpeechVoices } from '../types/vocab';
+import { getEnglishLocale, getSpeechVoice } from './englishStudy';
 import { loadSpeechClip } from './speechClipCache';
 
 class SoundEngine {
@@ -81,16 +82,17 @@ const LANG_LOCALE_MAP: Record<LanguageCode, string> = {
   es: 'es-ES',
 };
 
-type PronunciationVoices = Partial<Record<LanguageCode, string>>;
-let selectedVoices: PronunciationVoices = {};
+let selectedVoices: SpeechVoices = {};
+let selectedEnglishLocale: EnglishLocale | undefined;
 let currentPlayback: {
   controller: AbortController;
   source?: AudioBufferSourceNode;
   onEnd?: () => void;
 } | null = null;
 
-export function setPronunciationVoices(voices: PronunciationVoices = {}) {
+export function setPronunciationVoices(voices: SpeechVoices = {}, englishLocale?: EnglishLocale) {
   selectedVoices = voices;
+  selectedEnglishLocale = englishLocale;
 }
 
 export function stopPronunciation() {
@@ -104,13 +106,19 @@ export function stopPronunciation() {
 
 export function speakPronunciation(
   text: string,
-  language: LanguageCode = 'en',
+  voiceLanguage: LanguageCode | EnglishLocale = 'en',
   rate: number = 1.0,
   onStart?: () => void,
   onEnd?: () => void,
   onFallback?: () => void,
 ): boolean {
   if (typeof window === 'undefined' || !text.trim()) return false;
+  const explicitLocale = voiceLanguage === 'en-GB' || voiceLanguage === 'en-US' ? voiceLanguage : undefined;
+  const language = voiceLanguage === 'en-GB' || voiceLanguage === 'en-US' ? 'en' : voiceLanguage;
+  const englishLocale = explicitLocale ?? selectedEnglishLocale;
+  const targetLocale = language === 'en'
+    ? getEnglishLocale({ englishLocale, speechVoices: selectedVoices })
+    : LANG_LOCALE_MAP[language];
   stopPronunciation();
   const playback: NonNullable<typeof currentPlayback> = { controller: new AbortController(), onEnd };
   currentPlayback = playback;
@@ -128,12 +136,12 @@ export function speakPronunciation(
     }
     try {
       const utterance = new SpeechSynthesisUtterance(text);
-      const targetLocale = LANG_LOCALE_MAP[language] || 'en-US';
       utterance.lang = targetLocale;
       utterance.rate = rate;
       const voices = window.speechSynthesis.getVoices();
-      utterance.voice = voices.find((voice) => voice.lang.toLowerCase() === targetLocale.toLowerCase()) ??
-        voices.find((voice) => voice.lang.toLowerCase().startsWith(language + '-')) ?? null;
+      const exactVoice = voices.find((voice) => voice.lang.toLowerCase() === targetLocale.toLowerCase());
+      const relatedVoice = language === 'en' ? undefined : voices.find((voice) => voice.lang.toLowerCase().startsWith(language + '-'));
+      utterance.voice = exactVoice ?? relatedVoice ?? null;
       utterance.onstart = () => { if (currentPlayback === playback) onStart?.(); };
       utterance.onend = finish;
       utterance.onerror = finish;
@@ -145,7 +153,7 @@ export function speakPronunciation(
     }
   }
 
-  const voiceId = selectedVoices[language];
+  const voiceId = getSpeechVoice(selectedVoices, language, englishLocale);
   if (!voiceId) return speakOnDevice();
 
   void (async () => {

@@ -762,6 +762,23 @@
 }
 .deck-directory-list { max-height: 11rem; padding: 6px; }
 .deck-word-list { max-height: 58dvh; padding-inline: 14px; }
+.english-variants { display: flex; flex-wrap: wrap; gap: 6px; margin-block: 5px; }
+.english-variant {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-height: 30px;
+  padding: 3px 8px;
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+.english-variant:hover { border-color: var(--accent-text); color: var(--accent-text); }
+.english-variant strong { color: var(--text-primary); }
 .deck-library :is(.deck-directory-list, .deck-word-list):focus-visible { outline: 2px solid var(--accent-text); outline-offset: -2px; }
 .deck-list-item { display: flex; align-items: center; gap: 3px; }
 .deck-list-item + .deck-list-item { margin-top: 3px; }

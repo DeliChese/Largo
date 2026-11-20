@@ -6,6 +6,8 @@ import type {
   AppRoute,
   AppSettings,
   BloomLevel,
+  DeckWordImport,
+  EnglishLocale,
   HskEdition,
   LanguageCode,
   ReviewQuality,
@@ -26,14 +28,17 @@ import {
   INITIAL_WORDS,
   LANGUAGE_LABELS,
   CURRENT_DATA_VERSION,
+  hasCurrentSeedDecks,
   withCurrentSeed,
 } from './data/seedVocab';
-import { generateSmartReminders, isWordDue, localStudyDate, reviewXp } from './utils/srsBloom';
+import { createInitialSRS, generateSmartReminders, isWordDue, localStudyDate, reviewXp } from './utils/srsBloom';
 import {
   applyStudyReview, getDailyStudyPlan, getIntensiveStudyPlan, getPracticeWords, PRACTICE_SESSION_SIZE, recordStudyActivity,
   type StudyFilter,
 } from './utils/studyPlan';
 import { getDeckStudyLevel, getEditionDecks, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './utils/studyScope';
+import { ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishLocale, getEnglishStudyWord } from './utils/englishStudy';
+import { importCollocations, importEnglishForms, importExamples, trimImportText } from './utils/vocabImport';
 import {
   clearOfflineState,
   loadOfflineState,
@@ -205,7 +210,7 @@ export default function App() {
 
   // Persist to IndexedDB + localStorage whenever state changes
   useEffect(() => {
-    if (!hydrated) return;
+    if (!hydrated || !hasCurrentSeedDecks(decks)) return;
     saveOfflineState({
       decks,
       words,
@@ -245,8 +250,8 @@ export default function App() {
   }, [settings.soundEnabled, settings.soundVolume]);
 
   useEffect(() => {
-    setPronunciationVoices(settings.speechVoices);
-  }, [settings.speechVoices]);
+    setPronunciationVoices(settings.speechVoices, settings.englishLocale);
+  }, [settings.speechVoices, settings.englishLocale]);
 
   // Hash URL sync
   const navigate = useCallback((nextRoute: AppRoute, sub?: AnalyticsSubRoute) => {
@@ -276,13 +281,17 @@ export default function App() {
   }, []);
 
   const language = profile.targetLanguage;
+  const englishLocale = getEnglishLocale(settings);
   const hskEdition = settings.hskEdition === 'hsk20' ? 'hsk20' : DEFAULT_HSK_EDITION;
   const languages = useMemo(() => [...new Set([...getStudyLanguages(decks), language])], [decks, language]);
   const editionDecks = useMemo(() => getEditionDecks(decks, language, hskEdition), [decks, language, hskEdition]);
   const levels = useMemo(() => getStudyLevels(language, editionDecks), [language, editionDecks]);
   const level = levels.find((entry) => entry.id === settings.studyLevels?.[language]) ?? levels[0];
   const scopedDecks = useMemo(() => getScopedDecks(editionDecks, language, level.id), [editionDecks, language, level.id]);
-  const scopedWords = useMemo(() => getScopedWords(words, scopedDecks, language), [words, scopedDecks, language]);
+  const libraryWords = useMemo(() => getScopedWords(words, scopedDecks, language), [words, scopedDecks, language]);
+  const scopedWords = useMemo(() => language === 'en'
+    ? libraryWords.map((word) => getEnglishStudyWord(word, englishLocale))
+    : libraryWords, [libraryWords, language, englishLocale]);
   const profileWords = useMemo(() => {
     const deckIds = new Set(decks.map(({ id }) => id));
     const lessonWordIds = new Set(decks.flatMap(({ wordIds }) => wordIds ?? []));
@@ -371,6 +380,13 @@ export default function App() {
   const changeHskEdition = (edition: HskEdition) => {
     resetScopeSelection();
     setSettings((current) => ({ ...current, hskEdition: edition }));
+  };
+
+  const changeEnglishLocale = (locale: EnglishLocale) => {
+    setActiveSession(null);
+    setShowReminderPopover(false);
+    stopPronunciation();
+    setSettings((current) => ({ ...current, englishLocale: locale }));
   };
 
   const handleBeginHubSession = (
@@ -498,14 +514,7 @@ export default function App() {
       ...word,
       id: `w-custom-${now}-${Math.random().toString(36).slice(2, 6)}`,
       createdAt: now,
-      srs: {
-        easeFactor: 2.5,
-        intervalDays: 0,
-        repetitions: 0,
-        lapses: 0,
-        nextReviewAt: now,
-        lastReviewedAt: null,
-      },
+      srs: createInitialSRS(now),
     };
     setWords((prev) => [newWord, ...prev]);
   };
@@ -516,22 +525,13 @@ export default function App() {
 
   const handleImportWordsJson = (
     deckId: string,
-    items: Array<{
-      term: string;
-      phonetic?: string;
-      partOfSpeech?: string;
-      meaning: string;
-      collocation?: string;
-      collocationMeaning?: string;
-      example?: string;
-      translation?: string;
-    }>,
+    items: DeckWordImport[],
   ) => {
     const targetDeck = decks.find((d) => d.id === deckId);
     if (!targetDeck) return 0;
     const lang = targetDeck.language;
     const now = Date.now();
-    const trimText = (value: unknown) => typeof value === 'string' ? value.trim() : '';
+    const trimText = trimImportText;
     const valid = items
       .filter((i) => i && typeof i.term === 'string' && i.term.trim() && typeof i.meaning === 'string' && i.meaning.trim())
       .map((item, idx) => ({
@@ -542,20 +542,17 @@ export default function App() {
         phonetic: trimText(item.phonetic),
         partOfSpeech: trimText(item.partOfSpeech) || 'Danh từ',
         meaning: item.meaning.trim(),
-        collocations: trimText(item.collocation) ? [{ phrase: trimText(item.collocation), meaning: trimText(item.collocationMeaning) }] : [],
-        examples: trimText(item.example)
-          ? [{ sentence: trimText(item.example), translation: trimText(item.translation) }]
-          : [],
+        notes: trimText(item.notes) || undefined,
+        collocations: importCollocations(item.collocations) ?? (trimText(item.collocation)
+          ? [{ phrase: trimText(item.collocation), meaning: trimText(item.collocationMeaning) }]
+          : []),
+        examples: importExamples(item.examples) ?? (trimText(item.example)
+          ? [{ sentence: trimText(item.example), phonetic: trimText(item.examplePhonetic) || undefined, translation: trimText(item.translation) }]
+          : []),
+        ...(lang === 'en' && { englishForms: importEnglishForms(item.englishForms) }),
         synonyms: [],
         bloomLevel: 1 as BloomLevel,
-        srs: {
-          easeFactor: 2.5,
-          intervalDays: 0,
-          repetitions: 0,
-          lapses: 0,
-          nextReviewAt: now,
-          lastReviewedAt: null,
-        },
+        srs: createInitialSRS(now),
         createdAt: now,
       }));
     if (valid.length > 0) {
@@ -653,7 +650,7 @@ export default function App() {
   const activeViewKey = route === 'study' ? activeSession?.id ?? 'study-hub' : route;
   const activeDeckId = scopedDecks.some((deck) => deck.id === selectedDeckId) ? selectedDeckId : 'all';
   const editionKey = language === 'zh' ? `${language}-${hskEdition}` : language;
-  const scopeKey = `${editionKey}-${level.id}`;
+  const scopeKey = language === 'en' ? `${editionKey}-${level.id}-${englishLocale}` : `${editionKey}-${level.id}`;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -724,6 +721,14 @@ export default function App() {
                       <ChevronDown size={14} aria-hidden="true" />
                     </label>
                   )}
+                  {language === 'en' && (
+                    <label className="scope-field">
+                      <select aria-label="Biến thể tiếng Anh" value={englishLocale} onChange={(event) => changeEnglishLocale(event.target.value as EnglishLocale)}>
+                        {ENGLISH_LOCALES.map((locale) => <option key={locale} value={locale}>{ENGLISH_LOCALE_LABEL[locale]}</option>)}
+                      </select>
+                      <ChevronDown size={14} aria-hidden="true" />
+                    </label>
+                  )}
                   {route !== 'decks' && <label className="scope-field">
                     <select aria-label="Cấp độ đang học" value={level.id} onChange={(event) => changeLevel(event.target.value)}>
                       {levels.map((entry) => <option key={entry.id} value={entry.id}>{entry.label}</option>)}
@@ -732,7 +737,7 @@ export default function App() {
                   </label>}
                 </div>
                 <div className="header-actions">
-                  <WordLookup key={scopeKey} words={scopedWords} speechRate={settings.speechRate} />
+                  <WordLookup key={scopeKey} words={libraryWords} englishLocale={englishLocale} speechRate={settings.speechRate} />
                   <button type="button" className="icon-button" title={isDarkActive ? 'Giao diện sáng' : 'Giao diện tối'}
                     aria-label={isDarkActive ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối'}
                     onClick={() => setSettings((value) => ({ ...value, colorScheme: isDarkActive ? 'light' : 'dark' }))}>
@@ -838,8 +843,9 @@ export default function App() {
                     <DecksView
                       key={editionKey}
                       decks={scopedDecks}
-                      words={scopedWords}
+                      words={libraryWords}
                       language={language}
+                      englishLocale={englishLocale}
                       hskEdition={hskEdition}
                       levels={levels}
                       activeLevel={level.id}
@@ -851,10 +857,10 @@ export default function App() {
                       onDeleteDeck={handleDeleteDeck}
                       onAddWord={handleAddWord}
                       onDeleteWord={handleDeleteWord}
-                      onStartDeckStudy={(deckId) => {
-                        setSelectedMode('flashcard');
+                      onStartDeckStudy={(deckId, mode) => {
+                        setSelectedMode(mode);
                         setSelectedDeckId(deckId);
-                        handleBeginHubSession('flashcard', deckId);
+                        handleBeginHubSession(mode, deckId);
                       }}
                       onImportWordsJson={handleImportWordsJson}
                     />

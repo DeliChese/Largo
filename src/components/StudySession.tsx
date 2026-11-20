@@ -9,6 +9,8 @@ import {
   getStudyExercise, isScheduledReview, stripTrailingPinyin, STUDY_MODE_LABELS,
 } from '../utils/studyPlan';
 import { soundEngine, speakPronunciation, stopPronunciation } from '../utils/soundEngine';
+import { getEnglishLocale } from '../utils/englishStudy';
+import { EnglishVariantDetails } from './EnglishVariantDetails';
 
 export interface SessionProgress {
   wordsReviewed: number;
@@ -49,7 +51,7 @@ const RATINGS: { value: ReviewQuality; label: string; tone: string }[] = [
   { value: 4, label: 'Rất dễ', tone: 'easy' },
 ];
 
-const SPEECH_LOCALES = { zh: 'zh-CN', en: 'en-US', ja: 'ja-JP', fr: 'fr-FR', ko: 'ko-KR', es: 'es-ES' };
+const SPEECH_LOCALES = { zh: 'zh-CN', ja: 'ja-JP', fr: 'fr-FR', ko: 'ko-KR', es: 'es-ES' };
 const SPEED_DURATION = 60_000;
 const EMPTY_PROGRESS: SessionProgress = { wordsReviewed: 0, correctCount: 0, xpEarned: 0, durationSeconds: 0 };
 
@@ -113,7 +115,7 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
     () => isChoices ? getStudyChoices(word, sessionLibrary.current, isPhrase) : [],
     [word, isChoices, isPhrase],
   );
-  const language = SPEECH_LOCALES[word.language];
+  const language = word.language === 'en' ? getEnglishLocale(settings) : SPEECH_LOCALES[word.language];
   const canSpeakPrompt = !exercise.reverse || flipped;
   const shouldAutoSpeak = isDictation || (settings.autoPlayAudio && (isFlashcard || exerciseMode === 'quiz') && canSpeakPrompt);
 
@@ -406,6 +408,7 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
                 </div>
               ) : (
                 <div className="recall-detail">
+                  <EnglishVariantDetails word={word} speechRate={settings.speechRate} />
                   {phraseInUse && (
                     <div className="example-line">
                       <div>
@@ -422,7 +425,7 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
                       <div>
                         <p lang={language}>{word.language === 'zh' ? stripTrailingPinyin(firstExample.sentence) : firstExample.sentence}</p>
                         {showExamplePhonetic && firstExample.phonetic && <p className="example-phonetic">{firstExample.phonetic}</p>}
-                        <p>{firstExample.translation}</p>
+                        {firstExample.translation && <p>{firstExample.translation}</p>}
                       </div>
                       <button type="button" className="icon-button" onClick={() => speakExample(firstExample.sentence)} aria-label="Nghe câu ví dụ">
                         <Volume2 size={17} aria-hidden="true" />
@@ -441,7 +444,7 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
                         <div>
                           <p lang={language}>{word.language === 'zh' ? stripTrailingPinyin(item.sentence) : item.sentence}</p>
                           {showExamplePhonetic && item.phonetic && <p className="example-phonetic">{item.phonetic}</p>}
-                          <p>{item.translation}</p>
+                          {item.translation && <p>{item.translation}</p>}
                         </div>
                         <button className="icon-button" type="button" onClick={() => speakExample(item.sentence)} aria-label={'Nghe ví dụ ' + (i + 2)}><Volume2 size={17} aria-hidden="true" /></button>
                       </div>
@@ -476,6 +479,7 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
                   <div role="status">
                     <strong>{feedback.message}</strong>
                     {mode !== 'speed' && firstExample && <p lang={language}>{word.language === 'zh' ? stripTrailingPinyin(firstExample.sentence) : firstExample.sentence}</p>}
+                    {isPhrase && firstExample?.translation && <p>{firstExample.translation}</p>}
                     {mode !== 'speed' && showExamplePhonetic && firstExample?.phonetic && <p className="example-phonetic">{firstExample.phonetic}</p>}
                   </div>
                   {mode !== 'speed' && <button type="button" ref={nextButton} className="button-primary" onClick={() => advance()}>Tiếp tục <ArrowRight size={17} aria-hidden="true" /></button>}

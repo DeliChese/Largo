@@ -1,5 +1,6 @@
 import type { BloomLevel, ReviewQuality, SRSMode, StudyModeId, StudySessionMode, UserProfile, VocabWord } from '../types/vocab';
 import { calculateNextSRS, isWordDue, localStudyDate, normalizeText } from './srsBloom';
+import { ENGLISH_COLLOCATION_POS } from './englishStudy';
 
 export const DAILY_SESSION_SIZE = 12;
 export const PRACTICE_SESSION_SIZE = 15;
@@ -183,6 +184,9 @@ export function getPhraseClozeExample(word: VocabWord) {
 }
 
 function getPrimaryPhrase(word: VocabWord) {
+  if (word.language === 'en' && word.partOfSpeech === ENGLISH_COLLOCATION_POS) {
+    return { phrase: word.term, meaning: word.meaning };
+  }
   return word.collocations.find(({ phrase, meaning }) => phrase.trim() && meaning.trim());
 }
 

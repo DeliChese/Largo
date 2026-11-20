@@ -22,6 +22,17 @@ const BLOOM_EVIDENCE_LIMIT: Record<StudyModeId, BloomLevel> = {
   synthesis: 6,
 };
 
+export function createInitialSRS(now: number): SRSState {
+  return {
+    easeFactor: 2.5,
+    intervalDays: 0,
+    repetitions: 0,
+    lapses: 0,
+    nextReviewAt: now,
+    lastReviewedAt: null,
+  };
+}
+
 export function localStudyDate(now: number = Date.now()): string {
   const date = new Date(now);
   const month = String(date.getMonth() + 1).padStart(2, '0');

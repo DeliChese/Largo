@@ -8,7 +8,7 @@ interface StudyLevel {
 const ALL_LEVELS: StudyLevel = { id: 'all', label: 'Tất cả cấp độ' };
 const CUSTOM_LEVEL: StudyLevel = { id: 'custom', label: 'Bộ cá nhân' };
 const BUILTIN_LEVELS: Partial<Record<LanguageCode, StudyLevel[]>> = {
-  en: [{ id: 'a1', label: 'A1' }, { id: 'a2', label: 'A2' }, { id: 'b1', label: 'B1' }],
+  en: [{ id: 'a1', label: 'A1' }, { id: 'a2', label: 'A2' }, { id: 'b1', label: 'B1' }, { id: 'b2', label: 'B2' }],
 };
 
 export function getStudyLanguages(decks: readonly VocabDeck[]): LanguageCode[] {

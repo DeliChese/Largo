@@ -16,7 +16,7 @@ export default defineConfig(() => {
           codeSplitting: {
             groups: [
               { name: 'chinese-vocabulary', test: /[\\/]Chinese[\\/]chineseVocabulary\.json$/ },
-              { name: 'starter-vocabulary', test: /[\\/]src[\\/]data[\\/]englishDecks\.ts$/ },
+              { name: 'english-vocabulary', test: /[\\/]src[\\/]data[\\/]englishDecks\.ts$/ },
             ],
           },
         },
@@ -38,7 +38,7 @@ export default defineConfig(() => {
       },
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['icon.svg', 'apple-touch-icon.png', 'pwa-192x192.png', 'pwa-512x512.png', 'pwa-maskable-512x512.png'],
+        includeAssets: ['icon.svg', 'apple-touch-icon.png', 'pwa-192x192.png', 'pwa-512x512.png', 'pwa-maskable-512x512.png', 'english-sources.txt'],
         manifest: {
           id: '/',
           name: 'Largo · Học từ và cụm từ',

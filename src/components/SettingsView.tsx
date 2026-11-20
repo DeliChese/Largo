@@ -3,6 +3,7 @@ import { Bell, Check, Download, Moon, RotateCcw, Sun, Volume2, Wifi } from 'luci
 import type {
   AppSettings,
   ColorSchemeMode,
+  EnglishLocale,
   LanguageCode,
   SRSMode,
   ThemeId,
@@ -10,6 +11,7 @@ import type {
 } from '../types/vocab';
 import { SRS_MODE_META } from '../utils/srsBloom';
 import { soundEngine, speakPronunciation, stopPronunciation } from '../utils/soundEngine';
+import { ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishLocale, getSpeechVoice } from '../utils/englishStudy';
 import { PWAInstallButton } from './PWAInstallButton';
 import { LANGUAGE_LABELS } from '../data/seedVocab';
 
@@ -40,13 +42,20 @@ const VOICE_SAMPLES: Record<LanguageCode, string> = {
 function PronunciationSettings({ settings, isOnline, activeLanguage, onUpdateSettings }: Pick<
   SettingsViewProps, 'settings' | 'isOnline' | 'activeLanguage' | 'onUpdateSettings'
 >) {
-  const [language, setLanguage] = useState(activeLanguage);
+  const [voiceLanguage, setVoiceLanguage] = useState<LanguageCode | EnglishLocale>(() =>
+    activeLanguage === 'en' ? getEnglishLocale(settings) : activeLanguage,
+  );
   const [voices, setVoices] = useState<AzureVoice[]>([]);
   const [catalogStatus, setCatalogStatus] = useState('loading');
   const [attempt, setAttempt] = useState(0);
   const [previewMessage, setPreviewMessage] = useState('');
-  const voiceId = settings.speechVoices?.[language] ?? '';
-  const options = voices.filter(({ locale }) => locale.toLowerCase().startsWith(language + '-'));
+  const englishLocale = voiceLanguage === 'en-GB' || voiceLanguage === 'en-US' ? voiceLanguage : undefined;
+  const language = voiceLanguage === 'en-GB' || voiceLanguage === 'en-US' ? 'en' : voiceLanguage;
+  const voiceId = getSpeechVoice(settings.speechVoices, language, englishLocale) ?? '';
+  const options = voices.filter(({ locale }) => englishLocale
+    ? locale.toLowerCase() === englishLocale.toLowerCase()
+    : locale.toLowerCase().startsWith(language + '-'),
+  );
 
   useEffect(() => {
     if (!isOnline) return;
@@ -87,12 +96,14 @@ function PronunciationSettings({ settings, isOnline, activeLanguage, onUpdateSet
       <div className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_auto] gap-3 items-end">
         <div className="control-field">
           <label htmlFor="voice-language">Ngôn ngữ</label>
-          <select id="voice-language" value={language} onChange={(event) => {
+          <select id="voice-language" value={voiceLanguage} onChange={(event) => {
             stopPronunciation();
-            setLanguage(event.target.value as LanguageCode);
+            setVoiceLanguage(event.target.value as LanguageCode | EnglishLocale);
             setPreviewMessage('');
           }}>
-            {Object.entries(LANGUAGE_LABELS).map(([code, label]) => <option key={code} value={code}>{label.name}</option>)}
+            {Object.entries(LANGUAGE_LABELS).flatMap(([code, label]) => code === 'en'
+              ? ENGLISH_LOCALES.map((locale) => <option key={locale} value={locale}>{ENGLISH_LOCALE_LABEL[locale]}</option>)
+              : <option key={code} value={code}>{label.name}</option>)}
           </select>
         </div>
         <div className="control-field">
@@ -101,8 +112,11 @@ function PronunciationSettings({ settings, isOnline, activeLanguage, onUpdateSet
             stopPronunciation();
             setPreviewMessage('');
             const next = { ...settings.speechVoices };
-            if (event.target.value) next[language] = event.target.value;
-            else delete next[language];
+            if (event.target.value) next[voiceLanguage] = event.target.value;
+            else {
+              delete next[voiceLanguage];
+              if (englishLocale && next.en?.startsWith(englishLocale + '-')) delete next.en;
+            }
             onUpdateSettings({ speechVoices: next });
           }}>
             <option value="">Mặc định của thiết bị</option>
@@ -112,7 +126,7 @@ function PronunciationSettings({ settings, isOnline, activeLanguage, onUpdateSet
         </div>
         <button type="button" className="button-secondary" onClick={() => {
           setPreviewMessage('');
-          speakPronunciation(VOICE_SAMPLES[language], language, settings.speechRate, undefined, undefined, () => {
+          speakPronunciation(VOICE_SAMPLES[language], voiceLanguage, settings.speechRate, undefined, undefined, () => {
             setPreviewMessage('Giọng Azure chưa phát được. Largo đang thử giọng của thiết bị.');
           });
         }}>

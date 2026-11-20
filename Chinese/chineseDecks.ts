@@ -108,6 +108,17 @@ const BUILTIN_DECK_IDS = new Set(CHINESE_DECKS.map(({ id }) => id));
 const BUILTIN_WORD_IDS = new Set(CHINESE_WORDS.map(({ id }) => id));
 export const CHINESE_COURSE_WORDS = CHINESE_WORDS.filter(({ id }) => courseDeckByWordId.has(id));
 
+export function hasCurrentChineseDecks(decks: readonly VocabDeck[]): boolean {
+  const byId = new Map(decks.map((deck) => [deck.id, deck]));
+  return CHINESE_DECKS.every((lesson) => {
+    const saved = byId.get(lesson.id);
+    const expectedIds = lesson.wordIds ?? [];
+    return saved?.language === 'zh' && !saved.isCustom && saved.level === lesson.level &&
+      saved.hskEdition === lesson.hskEdition && Array.isArray(saved.wordIds) &&
+      saved.wordIds.length === expectedIds.length && saved.wordIds.every((id, index) => id === expectedIds[index]);
+  });
+}
+
 function pickBetterWordProgress(current: VocabWord | undefined, candidate: VocabWord): VocabWord {
   if (!current) return candidate;
   const currentReviewed = current.srs.lastReviewedAt !== null;
@@ -153,7 +164,7 @@ export function mergeChineseSeed(decks: VocabDeck[], words: VocabWord[], version
     }
   }
 
-  const remainingDecks = decks.filter((deck) => deck.language !== 'zh' || deck.isCustom);
+  const remainingDecks = decks.filter((deck) => !BUILTIN_DECK_IDS.has(deck.id) && (deck.language !== 'zh' || deck.isCustom));
   const availableDeckIds = new Set([...BUILTIN_DECK_IDS, ...remainingDecks.map(({ id }) => id)]);
   const previousDecks = new Map(decks.map((deck) => [migrateChineseDeckId(deck.id), deck]));
   for (const word of customOrOtherWords) {
@@ -174,12 +185,13 @@ export function mergeChineseSeed(decks: VocabDeck[], words: VocabWord[], version
   }
 
   const priorBuiltinIds = version < 3 ? V1_CHINESE_WORD_IDS : version < 5 ? V4_CHINESE_WORD_IDS : v5WordIds;
+  const hadTextbookDecks = decks.some(({ id }) => BUILTIN_DECK_IDS.has(id));
 
   const updatedChineseWords = CHINESE_WORDS.flatMap((word) => {
     const saved = savedBuiltinWords.get(word.id);
     if (!saved) {
       // Add the course's new cards and respect deliberate deletions of existing cards.
-      return priorBuiltinIds.has(word.id) || !courseDeckByWordId.has(word.id) ? [] : [word];
+      return hadTextbookDecks || priorBuiltinIds.has(word.id) || !courseDeckByWordId.has(word.id) ? [] : [word];
     }
     return [{
       ...word,

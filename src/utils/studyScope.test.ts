@@ -1,14 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ENGLISH_DECKS, ENGLISH_WORDS } from '../data/englishDecks';
+import { ENGLISH_COLLOCATION_CATEGORY, ENGLISH_DECKS, ENGLISH_WORDS, STARTER_ENGLISH_DECKS, STARTER_ENGLISH_WORDS } from '../data/englishDecks';
 import { CHINESE_DECKS, CHINESE_WORDS } from '../../Chinese/chineseDecks';
 import { LEGACY_DECK_ID_MAP, LEGACY_WORD_ID_MAP } from '../data/seedMigration';
 import catalogue from '../../Chinese/chineseVocabulary.json' with { type: 'json' };
-import { CURRENT_DATA_VERSION, INITIAL_DECKS, INITIAL_PROFILE, INITIAL_SETTINGS, INITIAL_WORDS, withCurrentSeed } from '../data/seedVocab';
+import { CURRENT_DATA_VERSION, hasCurrentSeedDecks, INITIAL_DECKS, INITIAL_PROFILE, INITIAL_SETTINGS, INITIAL_WORDS, withCurrentSeed } from '../data/seedVocab';
 import type { StudySessionLog, VocabDeck, VocabWord } from '../types/vocab';
 import { searchChineseDictionary } from './chineseDict';
-import { getClozeExample, getDailyStudyPlan, getPracticeWords } from './studyPlan';
+import { applyStudyReview, getClozeExample, getCollocationPrompt, getDailyStudyPlan, getPracticeWords, getStudyChoices } from './studyPlan';
 import { getDeckStudyLevel, getEditionDecks, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './studyScope';
+import { getEnglishLocale, getEnglishStudyWord, getSpeechVoice } from './englishStudy';
+import { importEnglishForms } from './vocabImport';
 
 function makeWord(id: string, deckId: string, term: string, language: 'zh' | 'en' = 'zh'): VocabWord {
   return {
@@ -38,18 +40,17 @@ function makeWord(id: string, deckId: string, term: string, language: 'zh' | 'en
 test('language and level selections keep the review library scoped without legacy decks', () => {
   assert.deepEqual(getStudyLanguages(INITIAL_DECKS), ['zh', 'en']);
   assert.deepEqual(getStudyLevels('zh', INITIAL_DECKS).map(({ id }) => id), ['all', 'hsk1']);
-  assert.deepEqual(getStudyLevels('en', INITIAL_DECKS).map(({ id }) => id), ['all', 'a1', 'a2', 'b1']);
+  assert.deepEqual(getStudyLevels('en', INITIAL_DECKS).map(({ id }) => id), ['all', 'a1', 'a2', 'b1', 'b2']);
 
   const a2Decks = getScopedDecks(INITIAL_DECKS, 'en', 'a2');
   const a2 = getScopedWords(INITIAL_WORDS, a2Decks, 'en');
-  assert.equal(a2Decks.length, 2);
-  assert.equal(a2.length, 24);
+  assert.equal(a2.length, 1008);
   assert.ok(a2.every((word) => word.language === 'en' && a2Decks.some((deck) => word.deckId === deck.id)));
 
   const b1Decks = getScopedDecks(INITIAL_DECKS, 'en', 'b1');
   const b1 = getScopedWords(INITIAL_WORDS, b1Decks, 'en');
-  assert.equal(b1Decks.length, 2);
-  assert.equal(b1.length, 24);
+  assert.equal(b1.length, 1058);
+  assert.equal(getScopedWords(INITIAL_WORDS, getScopedDecks(INITIAL_DECKS, 'en', 'b2'), 'en').length, 1034);
   assert.equal(getScopedDecks(INITIAL_DECKS, 'zh', 'b1').length, 0);
 });
 
@@ -62,17 +63,62 @@ test('custom languages and explicit levels are included alongside starter langua
   assert.deepEqual(getScopedDecks([deck, unclassified], 'ja', 'custom'), [unclassified]);
 });
 
-test('English seed data has 6 balanced decks of 12 cards with complete context fields', () => {
-  assert.equal(ENGLISH_DECKS.length, 6);
-  assert.equal(ENGLISH_WORDS.length, 72);
+test('English source data contains the A1–B2 word lists, collocation decks, and regional pairs', () => {
+  assert.equal(ENGLISH_WORDS.length, 4008);
   assert.equal(new Set(ENGLISH_WORDS.map((word) => word.id)).size, ENGLISH_WORDS.length);
+  assert.equal(new Set(ENGLISH_WORDS.map((word) => word.term.toLowerCase())).size, ENGLISH_WORDS.length);
   for (const deck of ENGLISH_DECKS) {
-    assert.equal(ENGLISH_WORDS.filter((w) => w.deckId === deck.id).length, 12, deck.id);
+    const cards = getScopedWords(ENGLISH_WORDS, [deck], 'en');
+    assert.ok(cards.length && cards.length <= 40, deck.id);
+    assert.ok(cards.every((word) => word.term && word.meaning && word.partOfSpeech), deck.id);
   }
-  for (const word of ENGLISH_WORDS) {
+  for (const word of STARTER_ENGLISH_WORDS) {
     assert.ok(word.phonetic && word.partOfSpeech && word.meaning && word.collocations[0]?.meaning && word.examples[0]?.translation, word.term);
     assert.ok(getClozeExample(word), word.term);
   }
+  for (const level of ['a1', 'a2', 'b1', 'b2']) {
+    const decks = getScopedDecks(ENGLISH_DECKS, 'en', level);
+    const words = getScopedWords(ENGLISH_WORDS, decks, 'en');
+    const phraseDecks = decks.filter(({ category }) => category === ENGLISH_COLLOCATION_CATEGORY);
+    const phrases = getScopedWords(words, phraseDecks, 'en');
+    assert.equal(phrases.length, 72);
+    const regional = words.filter(({ id }) => id.startsWith('en-regional-'));
+    assert.equal(regional.length, 12);
+    for (const locale of ['en-GB', 'en-US'] as const) {
+      const localized = words.map((word) => getEnglishStudyWord(word, locale));
+      for (const deck of phraseDecks) {
+        const exercises = getPracticeWords(localized, deck.id, 'all', 1, 'collocation', Date.now());
+        assert.equal(exercises.length, 18);
+        for (const word of exercises) {
+          assert.equal(getCollocationPrompt(word), word.meaning);
+          assert.ok(word.examples[0]?.translation && getClozeExample(word), word.term);
+        }
+        assert.ok(getStudyChoices(exercises[0], localized, true).some(({ label }) => label === exercises[0].term));
+      }
+      assert.ok(regional.every((word) => getClozeExample(getEnglishStudyWord(word, locale))));
+    }
+  }
+});
+
+test('English regional forms share a card ID and SRS, with matching examples and accent-specific voices', () => {
+  const word = ENGLISH_WORDS.find(({ id }) => id === 'en-regional-color')!;
+  const british = getEnglishStudyWord(word, 'en-GB');
+  const american = getEnglishStudyWord(word, 'en-US');
+  assert.equal(british.term, 'colour');
+  assert.equal(american.term, 'color');
+  assert.equal(british.id, american.id);
+  assert.notEqual(british.phonetic, american.phonetic);
+  assert.equal(getClozeExample(british)?.answer, 'colour');
+  assert.equal(getClozeExample(american)?.answer, 'color');
+  const reviewed = applyStudyReview(word, 3, 'standard', Date.now(), 'flashcard');
+  assert.equal(getEnglishStudyWord(reviewed, 'en-GB').srs.repetitions, 1);
+  assert.equal(getEnglishStudyWord(reviewed, 'en-US').srs, reviewed.srs);
+  assert.deepEqual(importEnglishForms(word.englishForms), word.englishForms);
+  const legacyVoices = { en: 'en-GB-SoniaNeural' };
+  assert.equal(getEnglishLocale({ speechVoices: legacyVoices }), 'en-GB');
+  assert.equal(getSpeechVoice(legacyVoices, 'en', 'en-US'), undefined);
+  assert.equal(getSpeechVoice(legacyVoices, 'en', 'en-GB'), legacyVoices.en);
+  assert.equal(getSpeechVoice({ ...legacyVoices, 'en-US': 'en-US-JennyNeural' }, 'en', 'en-US'), 'en-US-JennyNeural');
 });
 
 test('the Chinese vocabulary source retains coverage and context for the courses and dictionary lookup', async () => {
@@ -207,14 +253,14 @@ test('migrating v1 and v4 states preserves SRS progress, custom decks, deletions
     bloomLevel: 2,
     srs: v4Srs,
   };
-  const preV5EnglishWithoutFirst = ENGLISH_WORDS.filter((w) => w.deckId !== 'deck-en-b1-communication').slice(1);
+  const preV5EnglishWithoutFirst = STARTER_ENGLISH_WORDS.filter((w) => w.deckId !== 'deck-en-b1-communication').slice(1);
   const v4Log: StudySessionLog = {
     id: 'v4-legacy-log', timestamp: 20_000, mode: 'quiz', deckId: 'deck-hsk2-work', level: 'legacy',
     wordsReviewed: 5, correctCount: 4, xpEarned: 20, durationSeconds: 45,
   };
   const v4State = {
     version: 4,
-    decks: [...ENGLISH_DECKS.filter((d) => d.id !== 'deck-en-b1-communication')],
+    decks: STARTER_ENGLISH_DECKS.filter((d) => d.id !== 'deck-en-b1-communication'),
     words: [v4Reviewed, ...preV5EnglishWithoutFirst],
     profile: { ...INITIAL_PROFILE, todayWordIds: [v4WordId] },
     logs: [v4Log],
@@ -241,10 +287,10 @@ test('v5 progress is shared by both editions and out-of-course reviews stay in s
   const srs = { ...shared.srs, repetitions: 4, lastReviewedAt: 12_000, nextReviewAt: 25_000 };
   const state = withCurrentSeed({
     version: 5,
-    decks: [oldDeck, ...ENGLISH_DECKS],
+    decks: [oldDeck, ...STARTER_ENGLISH_DECKS],
     words: [
       { ...shared, deckId: oldDeck.id, bloomLevel: 3, srs },
-      { ...outOfCourse, srs }, personal, ...ENGLISH_WORDS.slice(0, -1),
+      { ...outOfCourse, srs }, personal, ...STARTER_ENGLISH_WORDS.slice(0, -1),
     ],
     profile: { ...INITIAL_PROFILE, todayWordIds: [shared.id, outOfCourse.id] },
     settings: { ...INITIAL_SETTINGS, studyLevels: { zh: 'hsk3' } },
@@ -265,4 +311,84 @@ test('v5 progress is shared by both editions and out-of-course reviews stay in s
   assert.equal(state.words.find(({ id }) => id === outOfCourse.id)?.srs, srs);
   assert.deepEqual(state.profile.todayWordIds, [shared.id, outOfCourse.id]);
   assert.equal(state.words.filter(({ language }) => language === 'en').length, ENGLISH_WORDS.length - 1);
+});
+
+test('v6 English saves gain the curriculum without reviving deletions or replacing progress and personal cards', () => {
+  const [reviewed, deleted] = STARTER_ENGLISH_WORDS;
+  const customDeck = { ...STARTER_ENGLISH_DECKS[0], id: 'en-personal', isCustom: true };
+  const custom = makeWord('en-personal-word', customDeck.id, 'text a friend', 'en');
+  const srs = { ...reviewed.srs, repetitions: 3, lastReviewedAt: 12000, nextReviewAt: 25000 };
+  const old = {
+    version: 6,
+    decks: [...CHINESE_DECKS, ...STARTER_ENGLISH_DECKS, customDeck],
+    words: [
+      ...INITIAL_WORDS.filter(({ language }) => language === 'zh'),
+      ...STARTER_ENGLISH_WORDS.filter(({ id }) => id !== reviewed.id && id !== deleted.id),
+      { ...reviewed, srs, bloomLevel: 3 as const, lastSynthesisAt: 11000 }, custom,
+    ],
+    profile: { ...INITIAL_PROFILE, todayWordIds: [reviewed.id] },
+    settings: { ...INITIAL_SETTINGS, studyLevels: { en: 'a2' } },
+    logs: [],
+  };
+  const current = withCurrentSeed(old);
+  assert.ok(hasCurrentSeedDecks(current.decks));
+  assert.equal(current.words.find(({ id }) => id === reviewed.id)?.srs, srs);
+  assert.equal(current.words.find(({ id }) => id === reviewed.id)?.bloomLevel, 3);
+  assert.equal(current.words.find(({ id }) => id === reviewed.id)?.lastSynthesisAt, 11000);
+  assert.ok(!current.words.some(({ id }) => id === deleted.id));
+  assert.ok(current.words.includes(custom) && current.decks.includes(customDeck));
+  assert.deepEqual(current.profile.todayWordIds, [reviewed.id]);
+  assert.equal(current.settings.studyLevels.en, 'a2');
+  assert.ok(getScopedWords(current.words, getScopedDecks(current.decks, 'en', 'b2'), 'en').length);
+  assert.equal(withCurrentSeed(current), current);
+  const stamped = withCurrentSeed({ ...old, version: CURRENT_DATA_VERSION });
+  assert.equal(stamped.words.length, current.words.length);
+  assert.ok(!stamped.words.some(({ id }) => id === deleted.id));
+});
+
+test('a snapshot stamped with the current version before the lessons were installed still loads both courses', () => {
+  const oldDecks = catalogue.filter(({ id }) => id !== 'deck-zh-textbook-supplements');
+  const oldDeckByWordId = new Map(oldDecks.flatMap((deck) => deck.cards.map(({ id }) => [id, deck.id] as const)));
+  const shared = CHINESE_WORDS.find(({ term }) => term === '你')!;
+  const deleted = CHINESE_WORDS.find(({ term }) => term === '好')!;
+  const srs = { ...shared.srs, repetitions: 4, lastReviewedAt: 12_000, nextReviewAt: 25_000 };
+  const words = CHINESE_WORDS.flatMap((word) => {
+    const deckId = oldDeckByWordId.get(word.id);
+    if (!deckId || word.id === deleted.id) return [];
+    return [{ ...word, deckId, srs: word.id === shared.id ? srs : word.srs }];
+  });
+  const repaired = withCurrentSeed({
+    version: CURRENT_DATA_VERSION,
+    decks: oldDecks.map(({ id, name, description, category, level }): VocabDeck => ({
+      id, name, description, category, level, language: 'zh', isCustom: false, createdAt: 1000,
+    })),
+    words,
+    profile: INITIAL_PROFILE,
+    logs: [],
+  });
+
+  for (const [edition, count] of [['hsk20', 181], ['hsk30', 304]] as const) {
+    const decks = getEditionDecks(repaired.decks, 'zh', edition);
+    const scoped = getScopedWords(repaired.words, decks, 'zh');
+    assert.equal(decks.length, 15);
+    assert.equal(scoped.length, count);
+    assert.equal(scoped.find(({ id }) => id === shared.id)?.srs, srs);
+    assert.ok(!scoped.some(({ id }) => id === deleted.id));
+  }
+  assert.equal(withCurrentSeed(repaired), repaired);
+});
+
+test('repairing a saved textbook deck restores its membership and respects deleted supplements', () => {
+  const deleted = CHINESE_WORDS.find(({ term }) => term === '手机号')!;
+  const broken = {
+    version: CURRENT_DATA_VERSION,
+    decks: INITIAL_DECKS.map((deck, index) => index === 0 ? { ...deck, wordIds: undefined } : deck),
+    words: INITIAL_WORDS.filter(({ id }) => id !== deleted.id),
+    profile: INITIAL_PROFILE,
+    logs: [],
+  };
+  const repaired = withCurrentSeed(broken);
+  assert.deepEqual(repaired.decks[0].wordIds, INITIAL_DECKS[0].wordIds);
+  assert.ok(!repaired.words.some(({ id }) => id === deleted.id));
+  assert.equal(withCurrentSeed(repaired), repaired);
 });

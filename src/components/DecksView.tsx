@@ -11,8 +11,9 @@ import {
   Volume2,
   X,
 } from 'lucide-react';
-import type { HskEdition, LanguageCode, VocabDeck, VocabWord } from '../types/vocab';
+import type { DeckWordImport, EnglishLocale, EnglishWordForms, HskEdition, LanguageCode, StudyModeId, VocabDeck, VocabWord } from '../types/vocab';
 import { HSK1_COURSES } from '../../Chinese/hsk1Courses';
+import { ENGLISH_COLLOCATION_CATEGORY } from '../data/englishDecks';
 import { LANGUAGE_LABELS } from '../data/seedVocab';
 import { BLOOM_META, calculateRetentionProbability, formatIntervalVi } from '../utils/srsBloom';
 import { stripTrailingPinyin } from '../utils/studyPlan';
@@ -20,17 +21,8 @@ import { getDeckStudyLevel, getStudyLevels } from '../utils/studyScope';
 import { speakPronunciation } from '../utils/soundEngine';
 import { type ChineseDictEntry, searchChineseDictionary } from '../utils/chineseDict';
 import { compactPhonetic, searchable } from '../utils/vocabSearch';
-
-interface ImportedWord {
-  term: string;
-  phonetic?: string;
-  partOfSpeech?: string;
-  meaning: string;
-  collocation?: string;
-  collocationMeaning?: string;
-  example?: string;
-  translation?: string;
-}
+import { cambridgeLookupUrl, ENGLISH_COLLOCATION_POS, ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishStudyWord } from '../utils/englishStudy';
+import { EnglishVariantDetails } from './EnglishVariantDetails';
 
 const WORDS_PER_PAGE = 40;
 
@@ -60,6 +52,7 @@ interface DecksViewProps {
   decks: VocabDeck[];
   words: VocabWord[];
   language: LanguageCode;
+  englishLocale: EnglishLocale;
   hskEdition: HskEdition;
   levels: ReturnType<typeof getStudyLevels>;
   activeLevel: string;
@@ -71,14 +64,15 @@ interface DecksViewProps {
   onDeleteDeck: (deckId: string) => void;
   onAddWord: (word: Omit<VocabWord, 'id' | 'createdAt' | 'srs'>) => void;
   onDeleteWord: (wordId: string) => void;
-  onStartDeckStudy: (deckId: string) => void;
-  onImportWordsJson: (deckId: string, items: ImportedWord[]) => number;
+  onStartDeckStudy: (deckId: string, mode: StudyModeId) => void;
+  onImportWordsJson: (deckId: string, items: DeckWordImport[]) => number;
 }
 
 export const DecksView: React.FC<DecksViewProps> = ({
   decks,
   words,
   language,
+  englishLocale,
   hskEdition,
   levels,
   activeLevel,
@@ -117,6 +111,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
   // New Word Form State
   const [wordTerm, setWordTerm] = useState('');
   const [wordPhonetic, setWordPhonetic] = useState('');
+  const [alternateForm, setAlternateForm] = useState({ term: '', phonetic: '', sentence: '' });
+  const [wordIsCollocation, setWordIsCollocation] = useState(false);
   const [wordSinoVi, setWordSinoVi] = useState('');
   const [wordPos, setWordPos] = useState('');
   const [wordMeaning, setWordMeaning] = useState('');
@@ -144,6 +140,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
   }, [words, filteredDecks]);
   const activeDeck = filteredDecks.find((d) => d.id === selectedDeckId) ?? null;
   const targetDeck = activeDeck ?? filteredDecks[0] ?? decks[0];
+  const editingEnglish = targetDeck?.language === 'en';
+  const alternateLocale = englishLocale === 'en-GB' ? 'en-US' : 'en-GB';
   const inputExamples = WORD_FORM_EXAMPLES[targetDeck?.language ?? language];
   const zhDeck = targetDeck?.language === 'zh' ? targetDeck : undefined;
   const creationLevels = (deckLang === language ? levels : getStudyLevels(deckLang, decks))
@@ -161,14 +159,24 @@ export const DecksView: React.FC<DecksViewProps> = ({
     const q = searchable(searchQuery);
     if (!q) return base;
     const phoneticQuery = compactPhonetic(q);
+    const exactTerm = (word: VocabWord) => searchable(word.term) === q ||
+      ENGLISH_LOCALES.some((locale) => searchable(word.englishForms?.[locale]?.term ?? '') === q);
     return base.filter(
       (w) =>
         searchable(w.term).includes(q) ||
         (phoneticQuery && compactPhonetic(w.phonetic).includes(phoneticQuery)) ||
         searchable(w.meaning).includes(q) ||
         (w.sinoVietnamese && searchable(w.sinoVietnamese).includes(q)) ||
-        w.collocations.some((c) => searchable(c.phrase).includes(q) || searchable(c.meaning).includes(q)),
-    ).sort((a, b) => Number(searchable(b.term) === q) - Number(searchable(a.term) === q));
+        w.collocations.some((c) => searchable(c.phrase).includes(q) || searchable(c.meaning).includes(q)) ||
+        ENGLISH_LOCALES.some((locale) => {
+          const form = w.englishForms?.[locale];
+          return form && (
+            searchable(form.term ?? '').includes(q) ||
+            (phoneticQuery && compactPhonetic(form.phonetic ?? '').includes(phoneticQuery)) ||
+            form.collocations?.some(({ phrase }) => searchable(phrase).includes(q))
+          );
+        }),
+    ).sort((a, b) => Number(exactTerm(b)) - Number(exactTerm(a)));
   }, [filteredWords, activeDeck, searchQuery]);
 
   const pageCount = Math.max(1, Math.ceil(visibleWords.length / WORDS_PER_PAGE));
@@ -267,13 +275,30 @@ export const DecksView: React.FC<DecksViewProps> = ({
       return;
     }
 
+    const term = wordTerm.trim();
+    const phonetic = wordPhonetic.trim();
+    const englishForms: EnglishWordForms = {};
+    const alternateTerm = alternateForm.term.trim();
+    const alternatePhonetic = alternateForm.phonetic.trim();
+    const alternateSentence = alternateForm.sentence.trim();
+    if (editingEnglish && (alternateTerm || alternatePhonetic || alternateSentence)) {
+      englishForms[englishLocale] = { term, phonetic: phonetic || undefined };
+      englishForms[alternateLocale] = {
+        term: alternateTerm || term,
+        phonetic: alternatePhonetic || undefined,
+        examples: alternateSentence ? [{ sentence: alternateSentence, translation: wordTranslation.trim() }] : undefined,
+      };
+    } else if (editingEnglish && phonetic) {
+      englishForms[englishLocale] = { phonetic };
+    }
     onAddWord({
       deckId: targetDeck.id,
       language: targetDeck.language,
-      term: wordTerm.trim(),
-      phonetic: wordPhonetic.trim(),
+      term,
+      phonetic,
+      ...(Object.keys(englishForms).length > 0 && { englishForms }),
       sinoVietnamese: targetDeck.language === 'zh' ? wordSinoVi.trim() || undefined : undefined,
-      partOfSpeech: wordPos.trim() || 'Từ / cụm từ',
+      partOfSpeech: editingEnglish && wordIsCollocation ? ENGLISH_COLLOCATION_POS : wordPos.trim() || 'Từ / cụm từ',
       meaning: wordMeaning.trim(),
       notes: wordNotes.trim() || undefined,
       collocations: wordCollocation.trim()
@@ -291,6 +316,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
 
     setWordTerm('');
     setWordPhonetic('');
+    setAlternateForm({ term: '', phonetic: '', sentence: '' });
+    setWordIsCollocation(false);
     setWordSinoVi('');
     setWordPos('');
     setWordMeaning('');
@@ -316,6 +343,12 @@ export const DecksView: React.FC<DecksViewProps> = ({
       example: w.examples[0]?.sentence || '',
       examplePhonetic: w.examples[0]?.phonetic || '',
       translation: w.examples[0]?.translation || '',
+      ...(w.language === 'en' && {
+        notes: w.notes,
+        collocations: w.collocations,
+        examples: w.examples,
+        englishForms: w.englishForms,
+      }),
     }));
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -353,6 +386,9 @@ export const DecksView: React.FC<DecksViewProps> = ({
           <h1>Bộ từ vựng</h1>
           <p>{textbook ? (
             <a className="text-button" href={textbook.source} target="_blank" rel="noreferrer">{textbook.book}</a>
+          ) : language === 'en' ? (
+            <>Tiếng Anh · A1–B2 · <a className="text-button" href={import.meta.env.BASE_URL + 'english-sources.txt'}
+              target="_blank" rel="noreferrer">Nguồn học liệu</a></>
           ) : LANGUAGE_LABELS[language].name}</p>
         </div>
 
@@ -460,10 +496,16 @@ export const DecksView: React.FC<DecksViewProps> = ({
                 {activeDeck?.description && <p>{activeDeck.description}</p>}
               </div>
               {activeDeck && (
-                <button type="button" onClick={() => onStartDeckStudy(activeDeck.id)} className="button-primary"
-                  disabled={!deckCounts.get(activeDeck.id)}>
-                  {activeDeck.hskEdition ? 'Học bài này' : 'Học bộ này'}
-                </button>
+                <div className="flex flex-wrap gap-2">
+                  {activeDeck.language === 'en' && activeDeck.category === ENGLISH_COLLOCATION_CATEGORY && !activeDeck.isCustom && (
+                    <button type="button" onClick={() => onStartDeckStudy(activeDeck.id, 'collocation')} className="button-secondary"
+                      disabled={!deckCounts.get(activeDeck.id)}>Luyện collocations</button>
+                  )}
+                  <button type="button" onClick={() => onStartDeckStudy(activeDeck.id, 'flashcard')} className="button-primary"
+                    disabled={!deckCounts.get(activeDeck.id)}>
+                    {activeDeck.hskEdition ? 'Học bài này' : 'Học bộ này'}
+                  </button>
+                </div>
               )}
             </div>
             <div className="deck-content-tools">
@@ -522,7 +564,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
             </div>
           ) : (
             <div className="divide-y" style={{ borderColor: 'var(--border-hairline)' }}>
-              {pageWords.map((w) => {
+              {pageWords.map((storedWord) => {
+                const w = getEnglishStudyWord(storedWord, englishLocale);
                 const retention = w.srs.lastReviewedAt === null ? null : Math.round(calculateRetentionProbability(w) * 100);
                 return (
                   <div
@@ -557,6 +600,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                       </div>
 
                       <div className="text-sm font-medium">{w.meaning}</div>
+                      <EnglishVariantDetails word={w} speechRate={speechRate} />
 
                       {w.radical && (
                         <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
@@ -609,7 +653,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                                     {ex.phonetic}
                                   </div>
                                 )}
-                                <div style={{ color: 'var(--text-muted)' }}>{ex.translation}</div>
+                                {ex.translation && <div style={{ color: 'var(--text-muted)' }}>{ex.translation}</div>}
                               </div>
                             </div>
                           ))}
@@ -621,6 +665,11 @@ export const DecksView: React.FC<DecksViewProps> = ({
                       <div className="text-xs font-mono tabular-nums" style={{ color: 'var(--text-secondary)' }}>
                         {retention === null ? 'Chưa học' : 'Bloom ' + w.bloomLevel + ' (' + BLOOM_META[w.bloomLevel].nameVi + ') · Nhớ ' + retention + '%'}
                       </div>
+                      {w.language === 'en' && (
+                        <a href={cambridgeLookupUrl(w.term)} target="_blank" rel="noreferrer" className="text-button text-xs">
+                          Tra Cambridge<span className="sr-only"> cho {w.term}</span>
+                        </a>
+                      )}
                       <div className="flex items-center gap-2">
                         {w.srs.intervalDays > 0 && (
                           <span className="text-[11px] font-mono tabular-nums" style={{ color: 'var(--text-muted)' }}>
@@ -961,7 +1010,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                 </div>
                 <div>
                   <label htmlFor="add-phonetic" className="block text-xs font-medium mb-1">
-                    {targetDeck?.language === 'zh' ? 'Pinyin' : 'Phiên âm'}
+                    {targetDeck?.language === 'zh' ? 'Pinyin' : editingEnglish ? `Phiên âm (${ENGLISH_LOCALE_LABEL[englishLocale]})` : 'Phiên âm'}
                   </label>
                   <input
                     id="add-phonetic"
@@ -1005,6 +1054,13 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   />
                 </div>
               </div>
+
+              {editingEnglish && (
+                <label className="flex items-center gap-2 text-xs font-medium">
+                  <input type="checkbox" checked={wordIsCollocation} onChange={(event) => setWordIsCollocation(event.target.checked)} />
+                  Đây là một collocation
+                </label>
+              )}
 
               {targetDeck?.language === 'zh' && <div>
                 <label htmlFor="add-sinovi" className="block text-xs font-medium mb-1">
@@ -1110,6 +1166,26 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                 />
               </div>
+
+              {editingEnglish && (
+                <details className="text-xs space-y-2">
+                  <summary className="cursor-pointer font-medium">Thêm biến thể {ENGLISH_LOCALE_LABEL[alternateLocale]}</summary>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <label className="control-field">
+                      <span>Từ hoặc cụm từ ({ENGLISH_LOCALE_LABEL[alternateLocale]})</span>
+                      <input value={alternateForm.term} onChange={(event) => setAlternateForm({ ...alternateForm, term: event.target.value })} />
+                    </label>
+                    <label className="control-field">
+                      <span>Phiên âm ({ENGLISH_LOCALE_LABEL[alternateLocale]})</span>
+                      <input value={alternateForm.phonetic} onChange={(event) => setAlternateForm({ ...alternateForm, phonetic: event.target.value })} />
+                    </label>
+                  </div>
+                  <label className="control-field">
+                    <span>Câu ví dụ ({ENGLISH_LOCALE_LABEL[alternateLocale]})</span>
+                    <input value={alternateForm.sentence} onChange={(event) => setAlternateForm({ ...alternateForm, sentence: event.target.value })} />
+                  </label>
+                </details>
+              )}
 
               {formError && <p className="text-xs text-rose-500">{formError}</p>}
 

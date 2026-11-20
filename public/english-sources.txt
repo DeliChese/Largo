@@ -1,0 +1,65 @@
+Nguồn học liệu tiếng Anh A1–B2 của Largo
+
+Largo chọn 3.600 mục từ theo cấp A1, A2, B1 và B2 của CEFR-J, ưu tiên từ
+thường gặp. CEFR-J tổng hợp ngữ liệu từ nhiều giáo trình tiếng Anh.
+Các nhóm chủ đề và bài học là cách sắp xếp của Largo. Bộ collocations và
+thẻ so sánh Anh-Anh / Anh-Mỹ do Largo biên soạn, với cấp độ gợi ý.
+
+Phân cấp
+The CEFR-J Wordlist Version 1.6. Compiled by Yukio Tono, Tokyo University
+of Foreign Studies. Tra cứu ngày 20/11/2026.
+https://cefr-j.org/download_eng
+© Tono Laboratory, TUFS. Nguồn cho phép sử dụng với ghi công.
+
+Nghĩa, ví dụ và phiên âm
+• Từ điển Anh–Việt thichhoc.com (thichhoc-dict) v0.9.0, CC BY-SA 4.0.
+  Largo trích nghĩa theo từ loại và chọn nghĩa phù hợp với thẻ học.
+  Nguồn gốc gồm Princeton WordNet 3.1, Wiktionary, CMUdict và Dự án Từ
+  điển tiếng Việt Miễn phí của Hồ Ngọc Đức. Bản phát hành có ghi công.
+  https://github.com/thichhoc-org/thichhoc-dict/releases/tag/v0.9.0
+• Skypedia, English–Vietnamese Dictionary, CC BY-SA 4.0.
+  Largo chọn một số câu ví dụ, phiên âm và nghĩa bổ sung. Nguồn gốc gồm
+  MinhQND Dictionary, Wiktionary, vntk/dictionary, Dự án Từ điển tiếng
+  Việt Miễn phí của Hồ Ngọc Đức, OVDP, WikDict và open-dict-data.
+  https://github.com/skypediacode/english-vietnamese-dictionary/blob/main/ATTRIBUTION.md
+• open-dict-data/ipa-dict, en_US, © 2016 dohliam, MIT.
+  Dùng phiên âm Anh-Mỹ đơn nhất ở một số mục.
+  https://github.com/open-dict-data/ipa-dict/blob/master/LICENSE
+• Hermit Dave, FrequencyWords (OpenSubtitles 2018), CC BY-SA 4.0.
+  Dùng tần suất để chọn và sắp từ trong các bài.
+  https://github.com/hermitdave/FrequencyWords/tree/master/content/2018/en
+
+Largo giữ giấy phép CC BY-SA 4.0 cho phần trích và điều chỉnh dữ liệu mở
+trong English/englishVocabulary.json. Câu ví dụ của danh sách từ có thể
+chỉ bằng tiếng Anh. Các mục có dữ liệu phiên âm theo vùng sẽ hiển thị IPA
+tương ứng với biến thể đã chọn.
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Tra cứu thêm
+Cambridge Dictionary để tra cách dùng, phát âm hoặc so sánh Anh-Anh và
+Anh-Mỹ. Trình duyệt mở từ điển khi người học chọn liên kết tra cứu.
+https://dictionary.cambridge.org/pronunciation/
+https://dictionary.cambridge.org/uk/grammar/british-grammar/british-and-american-english
+
+Tái tạo danh sách từ trong repo
+Chạy python English/build_vocabulary.py <thu-muc-du-lieu> với các tệp sau.
+
+cefr-j-1.6.zip
+https://cefr-j.org/data/CEFRJ_wordlist_ver1.6.zip
+SHA-256 c837d2c00ab8954ed8db48e79afd8ef37099570295fec36950dbf9322303a37a
+
+learner-dict.zip
+https://github.com/thichhoc-org/thichhoc-dict/releases/download/v0.9.0/stardict-en-vi.zip
+SHA-256 732a72ad217ca24981014b092e92cdea47362e3d10bd3f2de84ecc3cda0bc75f
+
+english-vietnamese.db
+https://raw.githubusercontent.com/skypediacode/english-vietnamese-dictionary/main/dictionary_en_vi.db
+SHA-256 2b65bea9577c2a4149caa90940c806f321d1c6cfac503ed8bbd9f93e43a0033a
+
+english-frequency.txt
+https://raw.githubusercontent.com/hermitdave/FrequencyWords/master/content/2018/en/en_50k.txt
+SHA-256 5351ff405b1126ef555791dd4d9798a48e3e9a501a9fc481a9da957752cfb458
+
+en_US.txt
+https://raw.githubusercontent.com/open-dict-data/ipa-dict/master/data/en_US.txt
+SHA-256 2af6f154a5c363275f052d1f85acefdef38ed185ca9745aa4314be77f6b70de67
