@@ -24,7 +24,7 @@ import {
   INITIAL_WORDS,
   LANGUAGE_LABELS,
   CURRENT_DATA_VERSION,
-  withEnglishSeed,
+  withCurrentSeed,
 } from './data/seedVocab';
 import { generateSmartReminders, isWordDue, localStudyDate, reviewXp } from './utils/srsBloom';
 import {
@@ -39,7 +39,6 @@ import {
   loadSyncFallbackState,
   saveOfflineState,
   saveProfileImage,
-  type PersistedAppState,
 } from './utils/offlineStorage';
 import { prepareProfileImage, readImageForBackup, type ProfileImageKind, type ProfileImages } from './utils/profileImages';
 import { setPronunciationVoices, soundEngine, stopPronunciation } from './utils/soundEngine';
@@ -67,14 +66,6 @@ interface ActiveSession {
   language: LanguageCode;
   level: string;
   words: VocabWord[];
-}
-
-function upgradeSavedState(state: PersistedAppState | null): PersistedAppState | null {
-  if (!state || state.version >= CURRENT_DATA_VERSION) return state;
-  const upgraded = withEnglishSeed(state);
-  const { profile } = upgraded;
-  if (profile.name !== 'Học viên HSK' || profile.title !== 'Lộ trình Tiếng Trung Khoa học') return upgraded;
-  return { ...upgraded, profile: { ...profile, name: INITIAL_PROFILE.name, title: INITIAL_PROFILE.title } };
 }
 
 function parseRouteFromHash(): { route: AppRoute; analyticsSub: AnalyticsSubRoute } {
@@ -110,7 +101,10 @@ function useImageUrl(image?: Blob) {
 }
 
 export default function App() {
-  const initialFallback = useMemo(() => upgradeSavedState(loadSyncFallbackState()), []);
+  const initialFallback = useMemo(() => {
+    const saved = loadSyncFallbackState();
+    return saved && withCurrentSeed(saved);
+  }, []);
   const [decks, setDecks] = useState<VocabDeck[]>(() => initialFallback?.decks || INITIAL_DECKS);
   const [words, setWords] = useState<VocabWord[]>(() => initialFallback?.words || INITIAL_WORDS);
   const [logs, setLogs] = useState<StudySessionLog[]>(() => initialFallback?.logs || INITIAL_LOGS);
@@ -158,7 +152,7 @@ export default function App() {
     Promise.all([loadOfflineState(), loadProfileImages().catch(() => ({}))])
       .then(([stored, images]) => {
         setProfileImages(images);
-        const saved = upgradeSavedState(stored);
+        const saved = stored && withCurrentSeed(stored);
         if (saved) {
           setDecks(saved.decks);
           setWords(saved.words);
@@ -290,7 +284,7 @@ export default function App() {
       const deck = decksById.get(log.deckId);
       const logLanguage = log.language ?? deck?.language ?? 'zh';
       if (logLanguage !== language) return false;
-      const logLevel = deck ? getDeckStudyLevel(deck) : log.level;
+      const logLevel = log.level && log.level !== 'all' ? log.level : deck ? getDeckStudyLevel(deck) : log.level;
       return level.id === 'all' || level.id === logLevel;
     });
   }, [logs, decks, language, level.id]);

@@ -18,6 +18,7 @@ import { stripTrailingPinyin } from '../utils/studyPlan';
 import { getStudyLevels } from '../utils/studyScope';
 import { speakPronunciation } from '../utils/soundEngine';
 import { type ChineseDictEntry, searchChineseDictionary } from '../utils/chineseDict';
+import { compactPhonetic, searchable } from '../utils/vocabSearch';
 
 interface ImportedWord {
   term: string;
@@ -29,6 +30,8 @@ interface ImportedWord {
   example?: string;
   translation?: string;
 }
+
+const WORDS_PER_PAGE = 40;
 
 const WORD_FORM_EXAMPLES: Partial<Record<LanguageCode, {
   term: string;
@@ -81,6 +84,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
 }) => {
   const [selectedDeckId, setSelectedDeckId] = useState<string>(decks[0]?.id || 'all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
   const [showNewDeckModal, setShowNewDeckModal] = useState(false);
   const [showAddWordModal, setShowAddWordModal] = useState(false);
   const [showZhDictModal, setShowZhDictModal] = useState(false);
@@ -117,19 +121,36 @@ export const DecksView: React.FC<DecksViewProps> = ({
   const currentLevel = getStudyLevels(language, decks).find(({ id }) => id === activeLevel);
   const creationLevels = getStudyLevels(deckLang, decks).filter(({ id }) => id !== 'all' && id !== 'custom');
 
+  const deckCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const { deckId } of words) counts.set(deckId, (counts.get(deckId) ?? 0) + 1);
+    return counts;
+  }, [words]);
+
   const visibleWords = useMemo(() => {
     const base = activeDeck ? words.filter((word) => word.deckId === activeDeck.id) : words;
-    const q = searchQuery.trim().toLowerCase();
+    const q = searchable(searchQuery);
     if (!q) return base;
+    const phoneticQuery = compactPhonetic(q);
     return base.filter(
       (w) =>
-        w.term.toLowerCase().includes(q) ||
-        w.phonetic.toLowerCase().includes(q) ||
-        w.meaning.toLowerCase().includes(q) ||
-        (w.sinoVietnamese && w.sinoVietnamese.toLowerCase().includes(q)) ||
-        w.collocations.some((c) => c.phrase.toLowerCase().includes(q)),
-    );
+        searchable(w.term).includes(q) ||
+        (phoneticQuery && compactPhonetic(w.phonetic).includes(phoneticQuery)) ||
+        searchable(w.meaning).includes(q) ||
+        (w.sinoVietnamese && searchable(w.sinoVietnamese).includes(q)) ||
+        w.collocations.some((c) => searchable(c.phrase).includes(q) || searchable(c.meaning).includes(q)),
+    ).sort((a, b) => Number(searchable(b.term) === q) - Number(searchable(a.term) === q));
   }, [words, activeDeck, searchQuery]);
+
+  const pageCount = Math.max(1, Math.ceil(visibleWords.length / WORDS_PER_PAGE));
+  const currentPage = Math.min(page, pageCount);
+  const pageStart = (currentPage - 1) * WORDS_PER_PAGE;
+  const pageWords = visibleWords.slice(pageStart, pageStart + WORDS_PER_PAGE);
+
+  const selectDeck = (id: string) => {
+    setSelectedDeckId(id);
+    setPage(1);
+  };
 
   const openCreateDeck = () => {
     setFormError(null);
@@ -192,7 +213,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
       level: deckLevel === 'custom' ? undefined : deckLevel,
       category: deckCategory.trim() || 'Cá nhân',
     });
-    setSelectedDeckId(newId);
+    selectDeck(newId);
     setDeckName('');
     setDeckDesc('');
     setFormError(null);
@@ -351,7 +372,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
         >
           <button
             type="button"
-            onClick={() => setSelectedDeckId('all')}
+            onClick={() => selectDeck('all')}
             aria-pressed={!activeDeck}
             className="w-full text-left rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors cursor-pointer flex items-center justify-between"
             style={{
@@ -372,7 +393,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
           ) : (
             <div className="divide-y" style={{ borderColor: 'var(--border-hairline)' }}>
               {decks.map((deck) => {
-                const count = words.filter((w) => w.deckId === deck.id).length;
+                const count = deckCounts.get(deck.id) ?? 0;
                 const active = selectedDeckId === deck.id;
                 return (
                   <div
@@ -382,7 +403,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   >
                     <button
                       type="button"
-                      onClick={() => setSelectedDeckId(deck.id)}
+                      onClick={() => selectDeck(deck.id)}
                       aria-pressed={active}
                       className="flex-1 text-left rounded-xl px-3 py-2 transition-colors cursor-pointer min-w-0"
                       style={{
@@ -400,7 +421,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                         type="button"
                         onClick={() => {
                           onDeleteDeck(deck.id);
-                          if (selectedDeckId === deck.id) setSelectedDeckId('all');
+                          if (selectedDeckId === deck.id) selectDeck('all');
                         }}
                         aria-label={`Xóa bộ từ ${deck.name}`}
                         className="p-2 rounded-lg hover:text-rose-500 cursor-pointer shrink-0"
@@ -433,7 +454,10 @@ export const DecksView: React.FC<DecksViewProps> = ({
                 type="text"
                 aria-label="Tìm trong bộ từ vựng"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setPage(1);
+                }}
                 placeholder={language === 'zh' ? 'Từ vựng, pinyin, âm Hán-Việt hoặc nghĩa…' : 'Từ, cụm từ, phiên âm hoặc nghĩa…'}
                 className="w-full bg-transparent text-xs focus:outline-none"
                 style={{ color: 'var(--text-primary)' }}
@@ -468,13 +492,31 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   type="button"
                   onClick={() => onStartDeckStudy(activeDeck.id)}
                   className="button-primary"
-                  disabled={!words.some((word) => word.deckId === activeDeck.id)}
+                  disabled={!deckCounts.get(activeDeck.id)}
                 >
                   Học bộ này
                 </button>
               )}
             </div>
           </div>
+
+          {pageCount > 1 && (
+            <nav aria-label="Phân trang bộ từ" className="flex flex-wrap items-center justify-between gap-2">
+              <p className="text-xs tabular-nums" style={{ color: 'var(--text-secondary)' }} role="status">
+                {pageStart + 1}–{pageStart + pageWords.length} / {visibleWords.length} thẻ
+              </p>
+              <div className="flex gap-2">
+                <button type="button" className="button-secondary" disabled={currentPage === 1}
+                  onClick={() => setPage(currentPage - 1)}>
+                  Trang trước
+                </button>
+                <button type="button" className="button-secondary" disabled={currentPage === pageCount}
+                  onClick={() => setPage(currentPage + 1)}>
+                  Trang sau
+                </button>
+              </div>
+            </nav>
+          )}
 
           {visibleWords.length === 0 ? (
             <div className="py-12 text-center space-y-3">
@@ -492,7 +534,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
             </div>
           ) : (
             <div className="divide-y" style={{ borderColor: 'var(--border-hairline)' }}>
-              {visibleWords.map((w) => {
+              {pageWords.map((w) => {
                 const retention = w.srs.lastReviewedAt === null ? null : Math.round(calculateRetentionProbability(w) * 100);
                 return (
                   <div
@@ -519,9 +561,11 @@ export const DecksView: React.FC<DecksViewProps> = ({
                             · {w.sinoVietnamese}
                           </span>
                         )}
-                        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                          · {w.partOfSpeech}
-                        </span>
+                        {w.partOfSpeech && (
+                          <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                            · {w.partOfSpeech}
+                          </span>
+                        )}
                       </div>
 
                       <div className="text-sm font-medium">{w.meaning}</div>
@@ -687,9 +731,11 @@ export const DecksView: React.FC<DecksViewProps> = ({
                         <span className="font-mono text-xs" style={{ color: 'var(--text-muted)' }}>
                           {entry.phonetic}
                         </span>
-                        <span className="text-xs font-semibold" style={{ color: 'var(--accent-text)' }}>
-                          · {entry.sinoVietnamese}
-                        </span>
+                        {entry.sinoVietnamese && (
+                          <span className="text-xs font-semibold" style={{ color: 'var(--accent-text)' }}>
+                            · {entry.sinoVietnamese}
+                          </span>
+                        )}
                       </div>
                       <div className="text-sm font-medium">{entry.meaning}</div>
                       {entry.radical && (

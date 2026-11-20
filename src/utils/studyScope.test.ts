@@ -1,15 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ENGLISH_DECKS, ENGLISH_WORDS } from '../data/englishDecks';
-import { HSK1_DECKS, HSK1_WORDS } from '../data/hsk1Deck';
-import { HSK2_DECKS, HSK2_WORDS } from '../data/hsk2Deck';
-import { CURRENT_DATA_VERSION, INITIAL_DECKS, INITIAL_WORDS, withEnglishSeed } from '../data/seedVocab';
+import { HSK1_DECKS, HSK1_WORDS } from '../../Chinese/hsk1Deck';
+import { HSK2_DECKS, HSK2_WORDS } from '../../Chinese/hsk2Deck';
+import catalogue from '../../Chinese/chineseVocabulary.json' with { type: 'json' };
+import { CURRENT_DATA_VERSION, INITIAL_DECKS, INITIAL_PROFILE, INITIAL_WORDS, withCurrentSeed } from '../data/seedVocab';
+import type { StudySessionLog, VocabDeck } from '../types/vocab';
+import { searchChineseDictionary } from './chineseDict';
 import { getClozeExample } from './studyPlan';
 import { getDeckStudyLevel, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './studyScope';
 
 test('language and level selections keep the review library scoped', () => {
   assert.deepEqual(getStudyLanguages(INITIAL_DECKS), ['zh', 'en']);
-  assert.deepEqual(getStudyLevels('zh', INITIAL_DECKS).map(({ id }) => id), ['all', 'hsk1', 'hsk2']);
+  assert.deepEqual(getStudyLevels('zh', INITIAL_DECKS).map(({ id }) => id), ['all', 'hsk1', 'hsk2', 'hsk3', 'everyday', 'legacy']);
   assert.deepEqual(getStudyLevels('en', INITIAL_DECKS).map(({ id }) => id), ['all', 'a1', 'a2', 'b1']);
   const a2Decks = getScopedDecks(INITIAL_DECKS, 'en', 'a2');
   const a2 = getScopedWords(INITIAL_WORDS, a2Decks, 'en');
@@ -37,22 +40,66 @@ test('English seed data has unique IDs, translations, collocations and a usable 
   }
 });
 
-test('adding the English seed preserves existing review schedules and does not restore deleted English cards on later starts', () => {
+test('the merged Chinese library accounts for every selected row and keeps distinct readings and senses', async () => {
+  const cards = catalogue.flatMap<{ hskId?: number; a1000Id?: number }>((topic) => topic.cards);
+  const sourceIds = (ids: Array<number | undefined>) => [...new Set(ids.filter((id) => id !== undefined))].sort((a, b) => a - b);
+  assert.deepEqual(sourceIds(cards.map((card) => card.hskId)), Array.from({ length: 500 }, (_, i) => i + 1));
+  assert.deepEqual(sourceIds(cards.map((card) => card.a1000Id)), Array.from({ length: 1000 }, (_, i) => i + 1));
+  for (const [level, expected] of [['hsk1', 300], ['hsk2', 200], ['everyday', 621]] as const) {
+    const decks = getScopedDecks(INITIAL_DECKS, 'zh', level);
+    assert.equal(getScopedWords(INITIAL_WORDS, decks, 'zh').length, expected);
+  }
+  assert.equal(new Set(INITIAL_WORDS.map(({ id }) => id)).size, INITIAL_WORDS.length);
+  assert.deepEqual(INITIAL_WORDS.filter(({ term }) => term === '过').map(({ phonetic }) => phonetic), ['guo', 'guò']);
+  assert.deepEqual(INITIAL_WORDS.filter(({ term }) => term === '只').map(({ phonetic }) => phonetic), ['zhī', 'zhǐ']);
+  assert.equal(INITIAL_WORDS.filter(({ term }) => term === '点').length, 2);
+  const [entry] = await searchChineseDictionary('saoma');
+  assert.equal(entry?.term, '扫码');
+  assert.deepEqual(entry.collocations, [{ phrase: '扫码支付', meaning: 'quét mã thanh toán' }]);
+});
+
+test('upgrading legacy cards keeps review records, custom words, and intentional deletions', () => {
   const reviewed = {
     ...HSK1_WORDS[0],
+    bloomLevel: 3 as const,
+    lastSynthesisAt: 12_000,
     srs: { ...HSK1_WORDS[0].srs, repetitions: 4, lastReviewedAt: 12_000, nextReviewAt: 25_000 },
+  };
+  const oldDeck = HSK1_DECKS[0];
+  const customDeck: VocabDeck = { ...oldDeck, id: 'custom-deck', isCustom: true };
+  const customWord = { ...HSK1_WORDS[1], id: 'custom-word', deckId: customDeck.id };
+  const wordInOldDeck = { ...customWord, deckId: oldDeck.id, id: 'word-in-old-deck' };
+  const deleted = HSK1_WORDS[1];
+  const log: StudySessionLog = {
+    id: 'past-session', timestamp: 12_000, mode: 'flashcard', deckId: oldDeck.id,
+    wordsReviewed: 1, correctCount: 1, xpEarned: 4, durationSeconds: 20,
   };
   const old = {
     version: 1,
-    decks: [...HSK1_DECKS, ...HSK2_DECKS],
-    words: [reviewed, ...HSK1_WORDS.slice(1), ...HSK2_WORDS],
-    logs: ['existing'],
+    decks: [customDeck, ...HSK1_DECKS, ...HSK2_DECKS],
+    words: [customWord, wordInOldDeck, reviewed, ...HSK1_WORDS.slice(2), ...HSK2_WORDS],
+    profile: { ...INITIAL_PROFILE, xp: 4, todayWordIds: [reviewed.id] },
+    logs: [log],
   };
-  const migrated = withEnglishSeed(old);
+  const migrated = withCurrentSeed(old);
   assert.equal(migrated.version, CURRENT_DATA_VERSION);
-  assert.equal(migrated.words[0], reviewed);
-  assert.equal(migrated.logs, old.logs);
-  assert.equal(migrated.words.length, old.words.length + ENGLISH_WORDS.length);
-  const pruned = { ...migrated, words: migrated.words.filter((word) => word.id !== ENGLISH_WORDS[0].id) };
-  assert.equal(withEnglishSeed(pruned), pruned);
+  const updatedWord = migrated.words.find(({ id }) => id === reviewed.id);
+  assert.equal(updatedWord?.srs, reviewed.srs);
+  assert.equal(updatedWord?.bloomLevel, reviewed.bloomLevel);
+  assert.equal(updatedWord?.lastSynthesisAt, reviewed.lastSynthesisAt);
+  assert.equal(updatedWord?.deckId, 'deck-zh-hsk1-grammar');
+  assert.deepEqual(updatedWord?.examples, reviewed.examples);
+  assert.equal(migrated.profile, old.profile);
+  assert.deepEqual(migrated.logs, [{ ...log, level: 'hsk1' }]);
+  assert.equal(migrated.words.includes(customWord), true);
+  assert.equal(migrated.words.includes(wordInOldDeck), true);
+  assert.equal(migrated.decks.includes(customDeck), true);
+  assert.ok(migrated.decks.some(({ id }) => id === wordInOldDeck.deckId));
+  assert.ok(migrated.words.some(({ term }) => term === '住院'));
+  assert.equal(migrated.words.some(({ id }) => id === deleted.id), false);
+  assert.equal(migrated.words.filter(({ language }) => language === 'en').length, ENGLISH_WORDS.length);
+  const withoutEnglishCard = ENGLISH_WORDS.slice(1);
+  const versionTwo = withCurrentSeed({ ...old, version: 2, decks: [...old.decks, ...ENGLISH_DECKS], words: [...old.words, ...withoutEnglishCard] });
+  assert.deepEqual(versionTwo.words.filter(({ language }) => language === 'en'), withoutEnglishCard);
+  assert.equal(withCurrentSeed(migrated), migrated);
 });

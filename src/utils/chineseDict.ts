@@ -1,5 +1,5 @@
-import { HSK1_WORDS } from '../data/hsk1Deck';
-import { HSK2_WORDS } from '../data/hsk2Deck';
+import { CHINESE_WORDS } from '../../Chinese/chineseDecks';
+import { compactPhonetic, searchable } from './vocabSearch';
 
 export interface ChineseDictEntry {
   term: string;
@@ -12,7 +12,7 @@ export interface ChineseDictEntry {
   collocations: Array<{ phrase: string; meaning: string }>;
   examples: Array<{ sentence: string; translation: string }>;
   synonyms: string[];
-  source: 'hanzii_lexicon' | 'live_lookup';
+  source: 'local' | 'live_lookup';
 }
 
 // Extended built-in offline Chinese-Vietnamese lexicon (Hanzii-style format)
@@ -28,7 +28,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     collocations: [{ phrase: '说声你好', meaning: 'nói lời xin chào' }],
     examples: [{ sentence: '你好，请问去地铁站怎么走？(Nǐ hǎo, qǐngwèn qù dìtiězhàn zěnme zǒu?)', translation: 'Xin chào, xin hỏi đi ra ga tàu điện ngầm thế nào ạ?' }],
     synonyms: ['您好'],
-    source: 'hanzii_lexicon',
+    source: 'local',
   },
   {
     term: '谢谢',
@@ -41,7 +41,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     collocations: [{ phrase: '非常感谢', meaning: 'vô cùng cảm ơn' }],
     examples: [{ sentence: '谢谢你在我忙的时候过来帮忙！(Xièxie nǐ zài wǒ máng de shíhou guòlái bāngmáng!)', translation: 'Cảm ơn bạn đã qua giúp khi tôi đang bận!' }],
     synonyms: ['感谢', '多谢'],
-    source: 'hanzii_lexicon',
+    source: 'local',
   },
   {
     term: '朋友',
@@ -54,7 +54,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     collocations: [{ phrase: '交朋友', meaning: 'kết bạn' }],
     examples: [{ sentence: '周末我和几个好朋友约好去公园散步。(Zhōumò wǒ hé jǐ gè hǎo péngyou yuēhǎo qù gōngyuán sànbù.)', translation: 'Cuối tuần tôi và mấy người bạn thân hẹn nhau đi dạo công viên.' }],
     synonyms: ['伙伴', '知己'],
-    source: 'hanzii_lexicon',
+    source: 'local',
   },
   {
     term: '成功',
@@ -67,7 +67,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     collocations: [{ phrase: '获得成功', meaning: 'giành được thành công' }],
     examples: [{ sentence: '只要方法科学又肯坚持，你一定能成功。(Zhǐyào fāngfǎ kēxué yòu kěn jiānchí, nǐ yídìng néng chénggōng.)', translation: 'Chỉ cần phương pháp khoa học lại chịu kiên trì, bạn nhất định sẽ thành công.' }],
     synonyms: ['胜利', '成就'],
-    source: 'hanzii_lexicon',
+    source: 'local',
   },
   {
     term: '文化',
@@ -80,23 +80,27 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     collocations: [{ phrase: '传统文化', meaning: 'văn hóa truyền thống' }],
     examples: [{ sentence: '我对中国茶文化非常感兴趣。(Wǒ duì Zhōngguó chá wénhuà fēicháng gǎn xìngqù.)', translation: 'Tôi rất có hứng thú với văn hóa trà Trung Hoa.' }],
     synonyms: ['文明'],
-    source: 'hanzii_lexicon',
+    source: 'local',
   },
 ];
 
-const CURRICULUM_ENTRIES: ChineseDictEntry[] = [...HSK1_WORDS, ...HSK2_WORDS].map((w) => ({
-  term: w.term,
-  phonetic: w.phonetic,
-  sinoVietnamese: w.sinoVietnamese || '',
-  radical: w.radical || '',
-  partOfSpeech: w.partOfSpeech,
-  meaning: w.meaning,
-  notes: w.notes,
-  collocations: w.collocations,
-  examples: w.examples,
-  synonyms: w.synonyms,
-  source: 'hanzii_lexicon' as const,
-}));
+const extraEntries = new Map(EXTRA_ZH_LEXICON.map((entry) => [entry.term, entry]));
+const CURRICULUM_ENTRIES: ChineseDictEntry[] = CHINESE_WORDS.map((word) => {
+  const extra = extraEntries.get(word.term);
+  return {
+    term: word.term,
+    phonetic: word.phonetic,
+    sinoVietnamese: word.sinoVietnamese || extra?.sinoVietnamese || '',
+    radical: word.radical || extra?.radical || '',
+    partOfSpeech: word.partOfSpeech || extra?.partOfSpeech || '',
+    meaning: word.meaning,
+    notes: word.examples.length ? word.notes : [extra?.notes, word.notes].filter(Boolean).join(' ') || undefined,
+    collocations: word.collocations.length ? word.collocations : extra?.collocations ?? [],
+    examples: word.examples.length ? word.examples : extra?.examples ?? [],
+    synonyms: word.synonyms.length ? word.synonyms : extra?.synonyms ?? [],
+    source: 'local',
+  };
+});
 
 const existingTerms = new Set(CURRICULUM_ENTRIES.map((e) => e.term));
 const LOCAL_ZH_ENTRIES: ChineseDictEntry[] = [
@@ -108,17 +112,18 @@ export async function searchChineseDictionary(query: string): Promise<ChineseDic
   const q = query.trim();
   if (!q) return LOCAL_ZH_ENTRIES.slice(0, 8);
 
-  const lower = q.toLowerCase();
+  const queryText = searchable(q);
+  const phoneticQuery = compactPhonetic(q);
   const localMatches = LOCAL_ZH_ENTRIES.filter(
     (entry) =>
-      entry.term.includes(q) ||
-      entry.phonetic.toLowerCase().includes(lower) ||
-      entry.sinoVietnamese.toLowerCase().includes(lower) ||
-      entry.meaning.toLowerCase().includes(lower),
+      searchable(entry.term).includes(queryText) ||
+      (phoneticQuery && compactPhonetic(entry.phonetic).includes(phoneticQuery)) ||
+      searchable(entry.sinoVietnamese).includes(queryText) ||
+      searchable(entry.meaning).includes(queryText),
   );
 
   if (localMatches.length > 0) {
-    return localMatches.slice(0, 10);
+    return localMatches.sort((a, b) => Number(b.term === q) - Number(a.term === q)).slice(0, 10);
   }
 
   // Fallback live Chinese-Vietnamese lookup when online

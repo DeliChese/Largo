@@ -14,7 +14,10 @@ export default defineConfig(() => {
       rolldownOptions: {
         output: {
           codeSplitting: {
-            groups: [{ name: 'starter-vocabulary', test: /[\\/]src[\\/]data[\\/](?:hsk[12]Deck|englishDecks)\.ts$/ }],
+            groups: [
+              { name: 'chinese-vocabulary', test: /[\\/]Chinese[\\/]chineseVocabulary\.json$/ },
+              { name: 'starter-vocabulary', test: /(?:[\\/]Chinese[\\/]hsk[12]Deck|[\\/]src[\\/]data[\\/]englishDecks)\.ts$/ },
+            ],
           },
         },
       },

@@ -3,14 +3,11 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Search, Volume2, X } from 'lucide-react';
 import type { VocabWord } from '../types/vocab';
 import { speakPronunciation } from '../utils/soundEngine';
+import { compactPhonetic, searchable } from '../utils/vocabSearch';
 
 interface WordLookupProps {
   words: VocabWord[];
   speechRate: number;
-}
-
-function searchable(text: string): string {
-  return text.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/đ/g, 'd').replace(/\s+/g, ' ').trim();
 }
 
 export function WordLookup({ words, speechRate }: WordLookupProps) {
@@ -24,15 +21,21 @@ export function WordLookup({ words, speechRate }: WordLookupProps) {
   const matches = useMemo(() => {
     if (!q) return [];
     const includesQuery = (text: string) => searchable(text).includes(q);
+    const phoneticQuery = compactPhonetic(q);
     return words.flatMap((word) => {
       const { id, language, term, phonetic, meaning } = word;
+      if (searchable(term) === q) return [{ id, language, term, phonetic, meaning, rank: 0 }];
+
       const phraseMatch = word.collocations.find((item) => searchable(item.phrase) === q);
-      if (!phraseMatch && [term, phonetic, meaning, word.sinoVietnamese ?? ''].some(includesQuery)) {
-        return [{ id, language, term, phonetic, meaning }];
+      if (phraseMatch) return [{ id, language, term: phraseMatch.phrase, phonetic: '', meaning: phraseMatch.meaning, rank: 1 }];
+
+      const phoneticMatch = phoneticQuery && compactPhonetic(phonetic).includes(phoneticQuery);
+      if (phoneticMatch || [term, meaning, word.sinoVietnamese ?? ''].some(includesQuery)) {
+        return [{ id, language, term, phonetic, meaning, rank: 2 }];
       }
-      const phrase = phraseMatch ?? word.collocations.find((item) => includesQuery(item.phrase) || includesQuery(item.meaning));
-      return phrase ? [{ id, language, term: phrase.phrase, phonetic: '', meaning: phrase.meaning }] : [];
-    }).slice(0, 8);
+      const phrase = word.collocations.find((item) => includesQuery(item.phrase) || includesQuery(item.meaning));
+      return phrase ? [{ id, language, term: phrase.phrase, phonetic: '', meaning: phrase.meaning, rank: 3 }] : [];
+    }).sort((a, b) => a.rank - b.rank).slice(0, 8);
   }, [words, q]);
 
   useEffect(() => {

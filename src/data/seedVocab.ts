@@ -6,8 +6,7 @@ import type {
   VocabDeck,
   VocabWord,
 } from '../types/vocab';
-import { HSK1_DECKS, HSK1_WORDS } from './hsk1Deck';
-import { HSK2_DECKS, HSK2_WORDS } from './hsk2Deck';
+import { CHINESE_DECKS, CHINESE_WORDS, LEGACY_CHINESE_LEVELS, mergeChineseSeed } from '../../Chinese/chineseDecks';
 import { ENGLISH_DECKS, ENGLISH_WORDS } from './englishDecks';
 
 export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: string; short: string }> = {
@@ -19,22 +18,48 @@ export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: strin
   es: { name: 'Tiếng Tây Ban Nha', native: 'Español', short: 'ES' },
 };
 
-export const CURRENT_DATA_VERSION = 2;
+const ENGLISH_DATA_VERSION = 2;
+export const CURRENT_DATA_VERSION = 4;
 
-export const INITIAL_DECKS: VocabDeck[] = [...HSK1_DECKS, ...HSK2_DECKS, ...ENGLISH_DECKS];
+export const INITIAL_DECKS: VocabDeck[] = [...CHINESE_DECKS, ...ENGLISH_DECKS];
 
-export const INITIAL_WORDS: VocabWord[] = [...HSK1_WORDS, ...HSK2_WORDS, ...ENGLISH_WORDS];
+export const INITIAL_WORDS: VocabWord[] = [...CHINESE_WORDS, ...ENGLISH_WORDS];
 
-export function withEnglishSeed<T extends { decks: VocabDeck[]; words: VocabWord[]; version: number }>(state: T): T {
+interface SeedState {
+  decks: VocabDeck[];
+  words: VocabWord[];
+  logs: StudySessionLog[];
+  profile: UserProfile;
+  version: number;
+}
+
+export function withCurrentSeed<T extends SeedState>(state: T): T {
   if (state.version >= CURRENT_DATA_VERSION) return state;
 
-  const deckIds = new Set(state.decks.map((deck) => deck.id));
-  const wordIds = new Set(state.words.map((word) => word.id));
+  const chinese = mergeChineseSeed(state.decks, state.words, state.version);
+  const decks = [...chinese.decks];
+  const words = [...chinese.words];
+  let { profile } = state;
+  if (state.version < ENGLISH_DATA_VERSION) {
+    const deckIds = new Set(decks.map(({ id }) => id));
+    const wordIds = new Set(words.map(({ id }) => id));
+    decks.push(...ENGLISH_DECKS.filter(({ id }) => !deckIds.has(id)));
+    words.push(...ENGLISH_WORDS.filter(({ id }) => !wordIds.has(id)));
+    if (profile.name === 'Học viên HSK' && profile.title === 'Lộ trình Tiếng Trung Khoa học') {
+      profile = { ...profile, name: INITIAL_PROFILE.name, title: INITIAL_PROFILE.title };
+    }
+  }
   return {
     ...state,
+    decks,
+    words,
+    profile,
     version: CURRENT_DATA_VERSION,
-    decks: [...state.decks, ...ENGLISH_DECKS.filter((deck) => !deckIds.has(deck.id))],
-    words: [...state.words, ...ENGLISH_WORDS.filter((word) => !wordIds.has(word.id))],
+    logs: state.logs.map((log) => {
+      const oldLevel = LEGACY_CHINESE_LEVELS.get(log.deckId);
+      if (!oldLevel || (log.level && log.level !== 'all')) return log;
+      return { ...log, level: state.version < 3 ? oldLevel : 'legacy' };
+    }),
   };
 }
 

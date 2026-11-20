@@ -186,7 +186,7 @@ function getPrimaryPhrase(word: VocabWord) {
   return word.collocations.find(({ phrase, meaning }) => phrase.trim() && meaning.trim());
 }
 
-function getChoiceCandidates(word: VocabWord, library: VocabWord[], forPhrase: boolean) {
+function getChoiceCandidates(word: VocabWord, library: VocabWord[], forPhrase: boolean, limit = Infinity) {
   const phrase = forPhrase ? getPrimaryPhrase(word) : undefined;
   const label = forPhrase ? phrase?.phrase : word.meaning;
   if (!label?.trim()) return [];
@@ -202,6 +202,7 @@ function getChoiceCandidates(word: VocabWord, library: VocabWord[], forPhrase: b
     if (!otherLabel || !normalized || labels.has(normalized)) continue;
     labels.add(normalized);
     candidates.push({ id: other.id, label: otherLabel });
+    if (candidates.length >= limit) break;
   }
   return candidates;
 }
@@ -231,7 +232,7 @@ export function getPracticeWords(library: VocabWord[], deckId: string, filter: S
     if (filter === 'bloom' && word.bloomLevel !== bloom) return false;
     if (mode === 'cloze') return getClozeExample(word) !== null;
     if (mode === 'quiz' || mode === 'speed' || mode === 'collocation') {
-      return getChoiceCandidates(word, library, mode === 'collocation').length >= 2;
+      return getChoiceCandidates(word, library, mode === 'collocation', 2).length >= 2;
     }
     return true;
   }).sort((a, b) => priority(a) - priority(b) || a.srs.nextReviewAt - b.srs.nextReviewAt);

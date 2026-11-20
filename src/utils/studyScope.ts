@@ -8,7 +8,12 @@ interface StudyLevel {
 const ALL_LEVELS: StudyLevel = { id: 'all', label: 'Tất cả cấp độ' };
 const CUSTOM_LEVEL: StudyLevel = { id: 'custom', label: 'Bộ cá nhân' };
 const BUILTIN_LEVELS: Partial<Record<LanguageCode, StudyLevel[]>> = {
-  zh: [{ id: 'hsk1', label: 'HSK 1' }, { id: 'hsk2', label: 'HSK 2' }],
+  zh: [
+    { id: 'hsk1', label: 'HSK 1' },
+    { id: 'hsk2', label: 'HSK 2' },
+    { id: 'hsk3', label: 'HSK 3' },
+    { id: 'everyday', label: 'Giao tiếp bổ sung' },
+  ],
   en: [{ id: 'a1', label: 'A1' }, { id: 'a2', label: 'A2' }, { id: 'b1', label: 'B1' }],
 };
 
@@ -27,6 +32,7 @@ export function getDeckStudyLevel(deck: VocabDeck): string {
 }
 
 function levelLabel(id: string): string {
+  if (id === 'legacy') return 'Bộ từ trước đây';
   if (/^hsk\d+$/.test(id)) return 'HSK ' + id.slice(3);
   if (/^(?:[abc][12]|n[1-5])$/.test(id)) return id.toUpperCase();
   return id === CUSTOM_LEVEL.id ? CUSTOM_LEVEL.label : id;

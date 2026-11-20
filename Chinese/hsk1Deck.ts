@@ -1,4 +1,4 @@
-import type { VocabDeck, VocabWord } from '../types/vocab';
+import type { VocabDeck, VocabWord } from '../src/types/vocab';
 
 const NOW = Date.now();
 
