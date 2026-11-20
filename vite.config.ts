@@ -16,7 +16,7 @@ export default defineConfig(() => {
           codeSplitting: {
             groups: [
               { name: 'chinese-vocabulary', test: /[\\/]Chinese[\\/]chineseVocabulary\.json$/ },
-              { name: 'starter-vocabulary', test: /(?:[\\/]Chinese[\\/]hsk[12]Deck|[\\/]src[\\/]data[\\/]englishDecks)\.ts$/ },
+              { name: 'starter-vocabulary', test: /[\\/]src[\\/]data[\\/]englishDecks\.ts$/ },
             ],
           },
         },
@@ -134,6 +134,9 @@ export default defineConfig(() => {
       },
     },
     server: {
+      host: '0.0.0.0',
+      port: 3000,
+      allowedHosts: true,
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
       // Do not modify—file watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',

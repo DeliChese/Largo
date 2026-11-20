@@ -61,6 +61,8 @@ interface DecksViewProps {
   language: LanguageCode;
   activeLevel: string;
   speechRate: number;
+  showExamplePhonetic?: boolean;
+  onToggleExamplePhonetic?: () => void;
   onCreateDeck: (deck: Omit<VocabDeck, 'id' | 'createdAt' | 'isCustom'>) => string;
   onDeleteDeck: (deckId: string) => void;
   onAddWord: (word: Omit<VocabWord, 'id' | 'createdAt' | 'srs'>) => void;
@@ -75,6 +77,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
   language,
   activeLevel,
   speechRate,
+  showExamplePhonetic = true,
+  onToggleExamplePhonetic,
   onCreateDeck,
   onDeleteDeck,
   onAddWord,
@@ -278,6 +282,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
       collocation: w.collocations[0]?.phrase || '',
       collocationMeaning: w.collocations[0]?.meaning || '',
       example: w.examples[0]?.sentence || '',
+      examplePhonetic: w.examples[0]?.phonetic || '',
       translation: w.examples[0]?.translation || '',
     }));
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
@@ -465,6 +470,22 @@ export const DecksView: React.FC<DecksViewProps> = ({
             </div>
 
             <div className="flex flex-wrap items-center gap-2 shrink-0">
+              {language === 'zh' && onToggleExamplePhonetic && (
+                <button
+                  type="button"
+                  aria-pressed={showExamplePhonetic}
+                  onClick={onToggleExamplePhonetic}
+                  className="flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium cursor-pointer whitespace-nowrap"
+                  style={{
+                    borderColor: 'var(--border-hairline)',
+                    backgroundColor: showExamplePhonetic ? 'var(--accent-soft)' : 'transparent',
+                    color: showExamplePhonetic ? 'var(--accent-text)' : 'var(--text-secondary)',
+                  }}
+                >
+                  <span>{showExamplePhonetic ? 'Ẩn pinyin ví dụ' : 'Hiện pinyin ví dụ'}</span>
+                </button>
+              )}
+
               <label
                 className={'flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium whitespace-nowrap ' +
                   (activeDeck ? 'cursor-pointer' : 'opacity-50')}
@@ -614,8 +635,13 @@ export const DecksView: React.FC<DecksViewProps> = ({
                               </button>
                               <div className="min-w-0">
                                 <div className="font-medium" lang={w.language} style={{ color: 'var(--text-primary)' }}>
-                                  {ex.sentence}
+                                  {w.language === 'zh' ? stripTrailingPinyin(ex.sentence) : ex.sentence}
                                 </div>
+                                {showExamplePhonetic && ex.phonetic && (
+                                  <div className="font-mono text-[11px]" style={{ color: 'var(--text-secondary)' }}>
+                                    {ex.phonetic}
+                                  </div>
+                                )}
                                 <div style={{ color: 'var(--text-muted)' }}>{ex.translation}</div>
                               </div>
                             </div>
@@ -744,8 +770,15 @@ export const DecksView: React.FC<DecksViewProps> = ({
                         </div>
                       )}
                       {entry.examples[0] && (
-                        <div className="text-xs italic" style={{ color: 'var(--text-secondary)' }}>
-                          {entry.examples[0].sentence}
+                        <div className="space-y-0.5 text-xs">
+                          <div className="italic" style={{ color: 'var(--text-secondary)' }}>
+                            {entry.examples[0].sentence}
+                          </div>
+                          {showExamplePhonetic && entry.examples[0].phonetic && (
+                            <div className="font-mono text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                              {entry.examples[0].phonetic}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

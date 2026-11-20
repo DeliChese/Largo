@@ -461,6 +461,15 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             <span>Bật hiệu ứng âm thanh tương tác</span>
           </label>
         </div>
+
+        <label className="flex items-center gap-2.5 text-xs font-medium cursor-pointer pt-1">
+          <input
+            type="checkbox"
+            checked={settings.showExamplePhonetic ?? true}
+            onChange={(e) => onUpdateSettings({ showExamplePhonetic: e.target.checked })}
+          />
+          <span>Hiển thị pinyin ở câu ví dụ (tiếng Trung)</span>
+        </label>
       </section>
 
       {/* 4. Offline & Data Backup */}

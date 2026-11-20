@@ -6,8 +6,15 @@ import type {
   VocabDeck,
   VocabWord,
 } from '../types/vocab';
-import { CHINESE_DECKS, CHINESE_WORDS, LEGACY_CHINESE_LEVELS, mergeChineseSeed } from '../../Chinese/chineseDecks';
-import { ENGLISH_DECKS, ENGLISH_WORDS } from './englishDecks';
+import {
+  CHINESE_DECKS,
+  CHINESE_WORDS,
+  mergeChineseSeed,
+  migrateChineseDeckId,
+  migrateChineseWordId,
+  resolveMigratedChineseDeckLevel,
+} from '../../Chinese/chineseDecks';
+import { ENGLISH_DECKS, ENGLISH_WORDS, PRE_V5_ENGLISH_WORD_IDS } from './englishDecks';
 
 export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: string; short: string }> = {
   zh: { name: 'Tiếng Trung', native: '中文', short: 'ZH' },
@@ -19,7 +26,7 @@ export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: strin
 };
 
 const ENGLISH_DATA_VERSION = 2;
-export const CURRENT_DATA_VERSION = 4;
+export const CURRENT_DATA_VERSION = 5;
 
 export const INITIAL_DECKS: VocabDeck[] = [...CHINESE_DECKS, ...ENGLISH_DECKS];
 
@@ -30,36 +37,80 @@ interface SeedState {
   words: VocabWord[];
   logs: StudySessionLog[];
   profile: UserProfile;
+  settings?: Partial<AppSettings>;
   version: number;
+}
+
+const ENGLISH_DECK_IDS = new Set(ENGLISH_DECKS.map(({ id }) => id));
+const ENGLISH_WORDS_BY_ID = new Map(ENGLISH_WORDS.map((word) => [word.id, word]));
+
+function mergeEnglishSeed(decks: VocabDeck[], words: VocabWord[], version: number) {
+  const existingDeckIds = new Set(decks.map(({ id }) => id));
+  const missingDecks = ENGLISH_DECKS.filter(({ id }) => !existingDeckIds.has(id));
+  const savedEnglishWords = new Map(words.filter((w) => w.language === 'en').map((w) => [w.id, w]));
+  const customEnglishWords = words.filter((w) => w.language === 'en' && !ENGLISH_WORDS_BY_ID.has(w.id));
+
+  const mergedEnglishWords = ENGLISH_WORDS.flatMap((word) => {
+    const saved = savedEnglishWords.get(word.id);
+    if (!saved) {
+      const existed = version >= ENGLISH_DATA_VERSION && PRE_V5_ENGLISH_WORD_IDS.has(word.id);
+      return existed ? [] : [word];
+    }
+    return [{
+      ...word,
+      createdAt: saved.createdAt,
+      srs: saved.srs,
+      bloomLevel: saved.bloomLevel,
+      lastSynthesisAt: saved.lastSynthesisAt,
+    }];
+  });
+
+  const nonEnglishWords = words.filter((w) => w.language !== 'en');
+  return {
+    decks: [...decks.filter((d) => !ENGLISH_DECK_IDS.has(d.id)), ...ENGLISH_DECKS.filter((d) => existingDeckIds.has(d.id)), ...missingDecks],
+    words: [...nonEnglishWords, ...customEnglishWords, ...mergedEnglishWords],
+  };
 }
 
 export function withCurrentSeed<T extends SeedState>(state: T): T {
   if (state.version >= CURRENT_DATA_VERSION) return state;
 
   const chinese = mergeChineseSeed(state.decks, state.words, state.version);
-  const decks = [...chinese.decks];
-  const words = [...chinese.words];
+  const english = mergeEnglishSeed(chinese.decks, chinese.words, state.version);
+
   let { profile } = state;
-  if (state.version < ENGLISH_DATA_VERSION) {
-    const deckIds = new Set(decks.map(({ id }) => id));
-    const wordIds = new Set(words.map(({ id }) => id));
-    decks.push(...ENGLISH_DECKS.filter(({ id }) => !deckIds.has(id)));
-    words.push(...ENGLISH_WORDS.filter(({ id }) => !wordIds.has(id)));
-    if (profile.name === 'Học viên HSK' && profile.title === 'Lộ trình Tiếng Trung Khoa học') {
-      profile = { ...profile, name: INITIAL_PROFILE.name, title: INITIAL_PROFILE.title };
+  if (state.version < ENGLISH_DATA_VERSION &&
+    profile.name === 'Học viên HSK' &&
+    profile.title === 'Lộ trình Tiếng Trung Khoa học') {
+    profile = { ...profile, name: INITIAL_PROFILE.name, title: INITIAL_PROFILE.title };
+  }
+  if (profile.todayWordIds?.length) {
+    const mappedToday = [...new Set(profile.todayWordIds.map(migrateChineseWordId))];
+    const changed = mappedToday.length !== profile.todayWordIds.length ||
+      mappedToday.some((id, index) => id !== profile.todayWordIds![index]);
+    if (changed) {
+      profile = { ...profile, todayWordIds: mappedToday };
     }
   }
+
+  const logs = state.logs.map((log) => {
+    const nextDeckId = log.deckId === 'all' ? 'all' : migrateChineseDeckId(log.deckId);
+    const resolvedLevel = nextDeckId !== 'all' ? resolveMigratedChineseDeckLevel(log.deckId) : undefined;
+    const nextLevel = log.level === 'legacy' || !log.level || log.level === 'all'
+      ? resolvedLevel ?? log.level
+      : log.level;
+    if (nextDeckId === log.deckId && nextLevel === log.level) return log;
+    return { ...log, deckId: nextDeckId, ...(nextLevel ? { level: nextLevel } : {}) };
+  });
+
   return {
     ...state,
-    decks,
-    words,
+    decks: english.decks,
+    words: english.words,
     profile,
+    logs,
+    ...(state.settings ? { settings: { ...INITIAL_SETTINGS, ...state.settings } } : {}),
     version: CURRENT_DATA_VERSION,
-    logs: state.logs.map((log) => {
-      const oldLevel = LEGACY_CHINESE_LEVELS.get(log.deckId);
-      if (!oldLevel || (log.level && log.level !== 'all')) return log;
-      return { ...log, level: state.version < 3 ? oldLevel : 'legacy' };
-    }),
   };
 }
 
@@ -90,6 +141,7 @@ export const INITIAL_SETTINGS: AppSettings = {
   dailyNewWordLimit: 8,
   speechRate: 1.0,
   autoPlayAudio: false,
+  showExamplePhonetic: true,
   soundEnabled: true,
   soundVolume: 0.45,
   reminderEnabled: true,

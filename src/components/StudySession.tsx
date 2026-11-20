@@ -24,6 +24,7 @@ interface StudySessionProps {
   settings: AppSettings;
   zenMode: boolean;
   onToggleZenMode: () => void;
+  onToggleExamplePhonetic?: () => void;
   onRecordReview: (wordId: string, quality: ReviewQuality, exercise: StudyModeId, answeredAt: number) => void;
   onProgress: (progress: SessionProgress) => void;
   onExit: () => void;
@@ -64,10 +65,16 @@ function suppressComposingEnter(event: ReactKeyboardEvent<HTMLInputElement>) {
   if (event.key === 'Enter' && event.nativeEvent.isComposing) event.preventDefault();
 }
 
-export function StudySession({ mode, sessionWords, allWords, settings, zenMode, onToggleZenMode, onRecordReview, onProgress, onExit, onContinue }: StudySessionProps) {
+export function StudySession({ mode, sessionWords, allWords, settings, zenMode, onToggleZenMode, onToggleExamplePhonetic, onRecordReview, onProgress, onExit, onContinue }: StudySessionProps) {
   const [queue, setQueue] = useState<SessionCard[]>(() => sessionWords.map((word) => ({
     word, exercise: getStudyExercise(word, mode, false), retries: 0,
   })));
+  const [localExamplePhonetic, setLocalExamplePhonetic] = useState(settings.showExamplePhonetic ?? true);
+  const showExamplePhonetic = onToggleExamplePhonetic ? (settings.showExamplePhonetic ?? true) : localExamplePhonetic;
+  const toggleExamplePhonetic = () => {
+    if (onToggleExamplePhonetic) onToggleExamplePhonetic();
+    else setLocalExamplePhonetic((v) => !v);
+  };
   const [index, setIndex] = useState(0);
   const [finished, setFinished] = useState(false);
   const [progress, setProgress] = useState<SessionProgress>(EMPTY_PROGRESS);
@@ -358,11 +365,23 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
         <section className="glass-panel exercise-panel" aria-label={phraseCloze ? 'Điền cụm từ' : STUDY_MODE_LABELS[exerciseMode]}>
           <div className="exercise-top">
             <span className="exercise-status" data-new={isNew}>{status}</span>
-            {(isFlashcard && canSpeakPrompt || isChoices && !isPhrase) && (
-              <button type="button" className="icon-button" onClick={() => speak()} aria-label="Nghe phát âm" title="Nghe phát âm">
-                <Volume2 size={19} aria-hidden="true" />
-              </button>
-            )}
+            <div className="exercise-top-actions">
+              {(firstExample?.phonetic || cloze?.phonetic) && (
+                <button
+                  type="button"
+                  className="text-button example-pinyin-toggle"
+                  aria-pressed={showExamplePhonetic}
+                  onClick={toggleExamplePhonetic}
+                >
+                  {showExamplePhonetic ? 'Ẩn pinyin ví dụ' : 'Hiện pinyin ví dụ'}
+                </button>
+              )}
+              {(isFlashcard && canSpeakPrompt || isChoices && !isPhrase) && (
+                <button type="button" className="icon-button" onClick={() => speak()} aria-label="Nghe phát âm" title="Nghe phát âm">
+                  <Volume2 size={19} aria-hidden="true" />
+                </button>
+              )}
+            </div>
           </div>
 
           {isFlashcard && (
@@ -375,6 +394,9 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
                 </h2>
                 {canSpeakPrompt && word.phonetic && <p className="recall-reading">{word.phonetic}</p>}
                 {flipped && <p className="recall-answer">{word.meaning}</p>}
+                {flipped && (word.partOfSpeech || word.sinoVietnamese) && (
+                  <p className="recall-meta">{[word.partOfSpeech, word.sinoVietnamese].filter(Boolean).join(' · ')}</p>
+                )}
               </div>
 
               {!flipped ? (
@@ -399,6 +421,7 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
                     <div className="example-line">
                       <div>
                         <p lang={language}>{word.language === 'zh' ? stripTrailingPinyin(firstExample.sentence) : firstExample.sentence}</p>
+                        {showExamplePhonetic && firstExample.phonetic && <p className="example-phonetic">{firstExample.phonetic}</p>}
                         <p>{firstExample.translation}</p>
                       </div>
                       <button type="button" className="icon-button" onClick={() => speakExample(firstExample.sentence)} aria-label="Nghe câu ví dụ">
@@ -415,7 +438,11 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
                       .map((item, i) => <p key={i}><strong lang={language}>{item.phrase}</strong> · {item.meaning}</p>)}
                     {word.examples.slice(1).map((item, i) => (
                       <div className="example-line" key={i}>
-                        <div><p lang={language}>{word.language === 'zh' ? stripTrailingPinyin(item.sentence) : item.sentence}</p><p>{item.translation}</p></div>
+                        <div>
+                          <p lang={language}>{word.language === 'zh' ? stripTrailingPinyin(item.sentence) : item.sentence}</p>
+                          {showExamplePhonetic && item.phonetic && <p className="example-phonetic">{item.phonetic}</p>}
+                          <p>{item.translation}</p>
+                        </div>
                         <button className="icon-button" type="button" onClick={() => speakExample(item.sentence)} aria-label={'Nghe ví dụ ' + (i + 2)}><Volume2 size={17} aria-hidden="true" /></button>
                       </div>
                     ))}
@@ -446,7 +473,11 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
               </div>
               {feedback && (
                 <div className="exercise-feedback" data-correct={feedback.correct}>
-                  <div role="status"><strong>{feedback.message}</strong>{mode !== 'speed' && firstExample && <p lang={language}>{firstExample.sentence}</p>}</div>
+                  <div role="status">
+                    <strong>{feedback.message}</strong>
+                    {mode !== 'speed' && firstExample && <p lang={language}>{word.language === 'zh' ? stripTrailingPinyin(firstExample.sentence) : firstExample.sentence}</p>}
+                    {mode !== 'speed' && showExamplePhonetic && firstExample?.phonetic && <p className="example-phonetic">{firstExample.phonetic}</p>}
+                  </div>
                   {mode !== 'speed' && <button type="button" ref={nextButton} className="button-primary" onClick={() => advance()}>Tiếp tục <ArrowRight size={17} aria-hidden="true" /></button>}
                 </div>
               )}
@@ -465,7 +496,9 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
               {isCloze && cloze && (
                 <div className="example-line">
                   <div>
-                    <p lang={language}>{feedback ? cloze.full : cloze.masked}</p><p>{cloze.translation}</p>
+                    <p lang={language}>{feedback ? cloze.full : cloze.masked}</p>
+                    {feedback && showExamplePhonetic && cloze.phonetic && <p className="example-phonetic">{cloze.phonetic}</p>}
+                    <p>{cloze.translation}</p>
                     {phraseCloze && <p>Nghĩa của cụm · {phraseCloze.meaning}</p>}
                   </div>
                   {feedback && (
@@ -501,7 +534,8 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
                   <div className="exercise-feedback" data-correct={feedback.correct}>
                     <div role="status">
                       <strong>{feedback.message}</strong>
-                      {isSynthesis && firstExample && <p lang={language}>Câu mẫu · {firstExample.sentence}</p>}
+                      {isSynthesis && firstExample && <p lang={language}>Câu mẫu · {word.language === 'zh' ? stripTrailingPinyin(firstExample.sentence) : firstExample.sentence}</p>}
+                      {isSynthesis && showExamplePhonetic && firstExample?.phonetic && <p className="example-phonetic">{firstExample.phonetic}</p>}
                       {!isSynthesis && !phraseCloze && word.phonetic && <p>{word.phonetic}</p>}
                     </div>
                   </div>

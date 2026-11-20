@@ -523,7 +523,7 @@ export default function App() {
         language: lang,
         term: item.term.trim(),
         phonetic: trimText(item.phonetic),
-        partOfSpeech: trimText(item.partOfSpeech) || 'n',
+        partOfSpeech: trimText(item.partOfSpeech) || 'Danh từ',
         meaning: item.meaning.trim(),
         collocations: trimText(item.collocation) ? [{ phrase: trimText(item.collocation), meaning: trimText(item.collocationMeaning) }] : [],
         examples: trimText(item.example)
@@ -564,7 +564,7 @@ export default function App() {
       language: targetDeck.language,
       term: cleanTerm,
       phonetic: qaPhonetic.trim(),
-      partOfSpeech: 'n / v',
+      partOfSpeech: 'Danh từ / Động từ',
       meaning: qaMeaning.trim(),
       collocations: qaCollocation.trim()
         ? [{ phrase: qaCollocation.trim(), meaning: qaCollocationMeaning.trim() }]
@@ -778,6 +778,7 @@ export default function App() {
                       settings={settings}
                       zenMode={settings.zenFocusMode}
                       onToggleZenMode={() => setSettings((value) => ({ ...value, zenFocusMode: !value.zenFocusMode }))}
+                      onToggleExamplePhonetic={() => setSettings((value) => ({ ...value, showExamplePhonetic: !(value.showExamplePhonetic ?? true) }))}
                       onRecordReview={handleRecordReview}
                       onProgress={handleSessionProgress}
                       onExit={() => setActiveSession(null)}
@@ -815,6 +816,8 @@ export default function App() {
                       language={language}
                       activeLevel={level.id}
                       speechRate={settings.speechRate}
+                      showExamplePhonetic={settings.showExamplePhonetic ?? true}
+                      onToggleExamplePhonetic={() => setSettings((value) => ({ ...value, showExamplePhonetic: !(value.showExamplePhonetic ?? true) }))}
                       onCreateDeck={handleCreateDeck}
                       onDeleteDeck={handleDeleteDeck}
                       onAddWord={handleAddWord}

@@ -42,6 +42,7 @@ export interface CollocationItem {
 
 export interface ExampleSentence {
   sentence: string;
+  phonetic?: string;
   translation: string;
 }
 
@@ -135,6 +136,7 @@ export interface AppSettings {
   speechRate: number; // 0.7 | 0.85 | 1.0 | 1.15
   speechVoices?: Partial<Record<LanguageCode, string>>;
   autoPlayAudio: boolean;
+  showExamplePhonetic?: boolean;
   soundEnabled: boolean;
   soundVolume: number; // 0 to 1
   reminderEnabled: boolean;

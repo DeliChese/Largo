@@ -10,7 +10,7 @@ export interface ChineseDictEntry {
   meaning: string;
   notes?: string;
   collocations: Array<{ phrase: string; meaning: string }>;
-  examples: Array<{ sentence: string; translation: string }>;
+  examples: Array<{ sentence: string; phonetic?: string; translation: string }>;
   synonyms: string[];
   source: 'local' | 'live_lookup';
 }
@@ -26,7 +26,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     meaning: 'xin chào',
     notes: 'Câu chào phổ biến nhất với bạn bè, người ngang hàng hoặc người mới quen; với người lớn tuổi hoặc cấp trên dùng 您好.',
     collocations: [{ phrase: '说声你好', meaning: 'nói lời xin chào' }],
-    examples: [{ sentence: '你好，请问去地铁站怎么走？(Nǐ hǎo, qǐngwèn qù dìtiězhàn zěnme zǒu?)', translation: 'Xin chào, xin hỏi đi ra ga tàu điện ngầm thế nào ạ?' }],
+    examples: [{ sentence: '你好，请问去地铁站怎么走？', phonetic: 'Nǐ hǎo, qǐngwèn qù dìtiězhàn zěnme zǒu?', translation: 'Xin chào, xin hỏi đi ra ga tàu điện ngầm thế nào ạ?' }],
     synonyms: ['您好'],
     source: 'local',
   },
@@ -39,7 +39,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     meaning: 'cảm ơn',
     notes: 'Chữ 谢 thứ hai đọc thanh nhẹ. Đáp lại lời cảm ơn dùng 不客气 (đừng khách sáo) hoặc 没关系.',
     collocations: [{ phrase: '非常感谢', meaning: 'vô cùng cảm ơn' }],
-    examples: [{ sentence: '谢谢你在我忙的时候过来帮忙！(Xièxie nǐ zài wǒ máng de shíhou guòlái bāngmáng!)', translation: 'Cảm ơn bạn đã qua giúp khi tôi đang bận!' }],
+    examples: [{ sentence: '谢谢你在我忙的时候过来帮忙！', phonetic: 'Xièxie nǐ zài wǒ máng de shíhou guòlái bāngmáng!', translation: 'Cảm ơn bạn đã qua giúp khi tôi đang bận!' }],
     synonyms: ['感谢', '多谢'],
     source: 'local',
   },
@@ -52,7 +52,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     meaning: 'bạn bè, người bạn',
     notes: 'Chữ 友 đọc thanh nhẹ. Ghép phổ biến: 好朋友 (bạn thân), 交朋友 (kết bạn), 老朋友 (bạn cũ).',
     collocations: [{ phrase: '交朋友', meaning: 'kết bạn' }],
-    examples: [{ sentence: '周末我和几个好朋友约好去公园散步。(Zhōumò wǒ hé jǐ gè hǎo péngyou yuēhǎo qù gōngyuán sànbù.)', translation: 'Cuối tuần tôi và mấy người bạn thân hẹn nhau đi dạo công viên.' }],
+    examples: [{ sentence: '周末我和几个好朋友约好去公园散步。', phonetic: 'Zhōumò wǒ hé jǐ gè hǎo péngyou yuēhǎo qù gōngyuán sànbù.', translation: 'Cuối tuần tôi và mấy người bạn thân hẹn nhau đi dạo công viên.' }],
     synonyms: ['伙伴', '知己'],
     source: 'local',
   },
@@ -65,7 +65,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     meaning: 'thành công, đạt kết quả tốt',
     notes: 'Vừa làm động từ (他成功了) vừa làm danh từ (获得成功). Hay đi trong mẫu 只要努力，就会成功.',
     collocations: [{ phrase: '获得成功', meaning: 'giành được thành công' }],
-    examples: [{ sentence: '只要方法科学又肯坚持，你一定能成功。(Zhǐyào fāngfǎ kēxué yòu kěn jiānchí, nǐ yídìng néng chénggōng.)', translation: 'Chỉ cần phương pháp khoa học lại chịu kiên trì, bạn nhất định sẽ thành công.' }],
+    examples: [{ sentence: '只要方法科学又肯坚持，你一定能成功。', phonetic: 'Zhǐyào fāngfǎ kēxué yòu kěn jiānchí, nǐ yídìng néng chénggōng.', translation: 'Chỉ cần phương pháp khoa học lại chịu kiên trì, bạn nhất định sẽ thành công.' }],
     synonyms: ['胜利', '成就'],
     source: 'local',
   },
@@ -78,7 +78,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     meaning: 'văn hóa, trình độ học vấn',
     notes: 'Chỉ văn hóa xã hội hoặc học vấn cá nhân (传统文化 = văn hóa truyền thống, 文化交流 = giao lưu văn hóa).',
     collocations: [{ phrase: '传统文化', meaning: 'văn hóa truyền thống' }],
-    examples: [{ sentence: '我对中国茶文化非常感兴趣。(Wǒ duì Zhōngguó chá wénhuà fēicháng gǎn xìngqù.)', translation: 'Tôi rất có hứng thú với văn hóa trà Trung Hoa.' }],
+    examples: [{ sentence: '我对中国茶文化非常感兴趣。', phonetic: 'Wǒ duì Zhōngguó chá wénhuà fēicháng gǎn xìngqù.', translation: 'Tôi rất có hứng thú với văn hóa trà Trung Hoa.' }],
     synonyms: ['文明'],
     source: 'local',
   },
