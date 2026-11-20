@@ -177,6 +177,7 @@ export interface AppSettings {
   zenFocusMode: boolean;
   srsMode: SRSMode;
   dailyNewWordLimit: number;
+  adaptivePlanner?: boolean;
   studyLevels?: Partial<Record<LanguageCode, string>>;
   hskEdition?: HskEdition;
   englishLocale?: EnglishLocale;

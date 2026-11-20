@@ -10,11 +10,12 @@ import {
   getClozeExample, getCollocationPrompt, getPhraseClozeExample, getStudyChoices,
   getStudyExercise, isScheduledReview, stripTrailingPinyin, STUDY_MODE_LABELS,
 } from '../utils/studyPlan';
-import { soundEngine, speakPronunciation, stopPronunciation } from '../utils/soundEngine';
+import { soundEngine, speakLocalPronunciation, speakPronunciation, stopPronunciation } from '../utils/soundEngine';
 import { getEnglishLocale } from '../utils/englishStudy';
 import { EnglishVariantDetails } from './EnglishVariantDetails';
 import { createLearningAttempt, type LearningAttemptEvent } from '../utils/learningAttempt';
 import { describeMastery, type WordMastery } from '../utils/mastery';
+import { explainPlanItem, type AdaptiveStudyPlan, type PlanItem } from '../utils/adaptivePlanner';
 import {
   EMPTY_PROGRESS, gradeChoice, gradeSelfRating, gradeSentence, gradeText, studyContextId,
   type LocalGrade, type SessionProgress, type StudySessionIdentity,
@@ -24,6 +25,7 @@ interface StudySessionProps {
   mode: StudySessionMode;
   session: StudySessionIdentity;
   sessionWords: VocabWord[];
+  adaptivePlan?: Pick<AdaptiveStudyPlan, 'plannerVersion' | 'items'>;
   allWords: VocabWord[];
   masteryByWord: ReadonlyMap<string, WordMastery>;
   settings: AppSettings;
@@ -39,6 +41,7 @@ interface SessionCard {
   word: VocabWord;
   exercise: ReturnType<typeof getStudyExercise>;
   retries: number;
+  suggestion?: PlanItem;
 }
 
 interface Feedback {
@@ -75,10 +78,15 @@ function suppressComposingEnter(event: ReactKeyboardEvent<HTMLInputElement>) {
   if (event.key === 'Enter' && event.nativeEvent.isComposing) event.preventDefault();
 }
 
-export function StudySession({ mode, session, sessionWords, allWords, masteryByWord, settings, zenMode, onToggleZenMode, onToggleExamplePhonetic, onRecordReview, onExit, onContinue }: StudySessionProps) {
-  const [queue, setQueue] = useState<SessionCard[]>(() => sessionWords.map((word) => ({
-    word, exercise: getStudyExercise(word, mode, false), retries: 0,
-  })));
+export function StudySession({ mode, session, sessionWords, adaptivePlan, allWords, masteryByWord, settings, zenMode, onToggleZenMode, onToggleExamplePhonetic, onRecordReview, onExit, onContinue }: StudySessionProps) {
+  const [queue, setQueue] = useState<SessionCard[]>(() => sessionWords.map((word, index) => {
+    const item = adaptivePlan?.items[index];
+    const suggestion = item?.wordId === word.id ? item : undefined;
+    const exercise = suggestion
+      ? { mode: suggestion.taskType, reverse: suggestion.reverse, phrase: suggestion.phrase }
+      : getStudyExercise(word, mode, false);
+    return { word, exercise, retries: 0, suggestion };
+  }));
   const [localExamplePhonetic, setLocalExamplePhonetic] = useState(settings.showExamplePhonetic ?? true);
   const showExamplePhonetic = onToggleExamplePhonetic ? (settings.showExamplePhonetic ?? true) : localExamplePhonetic;
   const toggleExamplePhonetic = () => {
@@ -105,6 +113,7 @@ export function StudySession({ mode, session, sessionWords, allWords, masteryByW
   const [choice, setChoice] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const [micStatus, setMicStatus] = useState('');
+  const [audioStatus, setAudioStatus] = useState('');
   const gradedCard = useRef(-1);
   const timedAdvance = useRef<number | undefined>(undefined);
   const sessionLibrary = useRef(allWords);
@@ -113,13 +122,14 @@ export function StudySession({ mode, session, sessionWords, allWords, masteryByW
   const nextButton = useRef<HTMLButtonElement>(null);
   const speech = useRef<SpeechRecognizer | null>(null);
 
-  const { word, exercise, retries } = queue[index];
+  const { word, exercise, retries, suggestion } = queue[index];
   const retry = retries > 0;
   const isIntensive = mode === 'intensive';
   const isPlannedSession = mode === 'guided' || isIntensive;
   const exerciseMode = exercise.mode;
   const isFlashcard = exerciseMode === 'flashcard';
   const isDictation = exerciseMode === 'dictation';
+  const offlineDictation = !!suggestion && isDictation;
   const isCloze = exerciseMode === 'cloze';
   const isSynthesis = exerciseMode === 'synthesis';
   const isPhrase = exerciseMode === 'collocation';
@@ -134,13 +144,17 @@ export function StudySession({ mode, session, sessionWords, allWords, masteryByW
     [word, isChoices, isPhrase],
   );
   const language = word.language === 'en' ? getEnglishLocale(settings) : SPEECH_LOCALES[word.language];
+  const voiceLanguage = word.language === 'en' ? getEnglishLocale(settings) : word.language;
   const canSpeakPrompt = !exercise.reverse || flipped;
   const shouldAutoSpeak = isDictation || (settings.autoPlayAudio && (isFlashcard || exerciseMode === 'quiz') && canSpeakPrompt);
 
   useEffect(() => {
-    if (shouldAutoSpeak && !finished) speakPronunciation(word.term, word.language, settings.speechRate);
+    if (shouldAutoSpeak && !finished) {
+      if (offlineDictation) speakLocalPronunciation(word.term, voiceLanguage, settings.speechRate);
+      else speakPronunciation(word.term, word.language, settings.speechRate);
+    }
     return stopPronunciation;
-  }, [index, word, shouldAutoSpeak, settings.speechRate, finished]);
+  }, [index, word, voiceLanguage, offlineDictation, shouldAutoSpeak, settings.speechRate, finished]);
 
   useEffect(() => {
     sessionHeading.current?.focus({ preventScroll: true });
@@ -192,6 +206,7 @@ export function StudySession({ mode, session, sessionWords, allWords, masteryByW
     setPreviewedSentence(undefined);
     setRevisingSentence(false);
     setMicStatus('');
+    setAudioStatus('');
   }
 
   function record(grade: LocalGrade, onSaved: (repeat: boolean) => void) {
@@ -210,6 +225,10 @@ export function StudySession({ mode, session, sessionWords, allWords, masteryByW
       answeredAt: now, isRetry: retry || revisingSentence, scheduledAtStart: scheduled && !isSynthesis,
       hintCount: Number(usedHint), revealedAnswer: flipped || (isSynthesis && usedHint),
       assessmentSource, criteria, quality, outcome, skill, contextId: studyContextId(context),
+      ...(adaptivePlan && { adaptivePlan: {
+        version: adaptivePlan.plannerVersion, plannedItems: adaptivePlan.items.length,
+        weakSkill: suggestion?.reasonCode.startsWith('weak_') ?? false,
+      } }),
     });
     submission.current = async () => {
       if (inFlight.current) return;
@@ -269,7 +288,24 @@ export function StudySession({ mode, session, sessionWords, allWords, masteryByW
   });
 
   function speak(rate = settings.speechRate) {
-    speakPronunciation(word.term, word.language, rate);
+    if (offlineDictation) {
+      const started = speakLocalPronunciation(word.term, voiceLanguage, rate);
+      setAudioStatus(started ? '' : 'Giọng đọc trên thiết bị hiện không khả dụng.');
+    } else {
+      speakPronunciation(word.term, word.language, rate);
+    }
+  }
+
+  function useFlashcardForAudio() {
+    if (submission.current || gradedCard.current >= index) return;
+    stopPronunciation();
+    setQueue((cards) => cards.map((card, position) => position === index
+      ? { ...card, exercise: { mode: 'flashcard', reverse: false }, suggestion: undefined } : card));
+    setTyped('');
+    setHint(false);
+    setUsedHint(false);
+    setAudioStatus('');
+    setPrompt(newPrompt());
   }
 
   function speakExample(sentence: string) {
@@ -399,6 +435,7 @@ export function StudySession({ mode, session, sessionWords, allWords, masteryByW
         <span style={{ width: completed / sessionWords.length * 100 + '%' }} />
       </div>
       <p className="rating-note">Năng lực · {describeMastery(masteryByWord.get(word.id))}</p>
+      {suggestion && <p className="rating-note">{explainPlanItem(suggestion)}</p>}
       {mode === 'speed' && <p className="session-timer"><Timer size={17} aria-hidden="true" /> {secondsLeft} giây</p>}
       {saving && <p role="status">Đang lưu lượt trả lời…</p>}
       {saveError && (
@@ -524,6 +561,9 @@ export function StudySession({ mode, session, sessionWords, allWords, masteryByW
                 <div className="practice-audio">
                   <button type="button" className="button-secondary" onClick={() => speak()}><Volume2 size={17} aria-hidden="true" /> Nghe từ</button>
                   <button type="button" className="button-secondary" onClick={() => speak(0.65)}>Nghe chậm</button>
+                  {offlineDictation && !feedback && <button type="button" className="text-button"
+                    onClick={useFlashcardForAudio} disabled={saving || !!saveError}>Đổi sang thẻ ghi nhớ</button>}
+                  {audioStatus && <p role="status">{audioStatus}</p>}
                 </div>
               )}
               {isCloze && cloze && (

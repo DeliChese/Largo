@@ -13,6 +13,7 @@ interface DashboardViewProps {
   level?: string;
   speechRate: number;
   plan: ReturnType<typeof getDailyStudyPlan>;
+  personalized: boolean;
   now: number;
   onStartDaily: () => void;
   onOpenPhrases: () => void;
@@ -21,7 +22,7 @@ interface DashboardViewProps {
 
 const dateFormat = new Intl.DateTimeFormat('vi-VN', { weekday: 'long', day: 'numeric', month: 'long' });
 
-export function DashboardView({ profile, decks, words, level, speechRate, plan, now, onStartDaily, onOpenPhrases, onNavigate }: DashboardViewProps) {
+export function DashboardView({ profile, decks, words, level, speechRate, plan, personalized, now, onStartDaily, onOpenPhrases, onNavigate }: DashboardViewProps) {
   const progress = getDailyProgress(profile, now);
   const remaining = Math.max(0, profile.dailyGoalWords - progress.studied);
   const goalPercent = Math.min(100, Math.round(progress.studied * 100 / Math.max(profile.dailyGoalWords, 1)));
@@ -40,7 +41,9 @@ export function DashboardView({ profile, decks, words, level, speechRate, plan, 
     : plan.reviewCount ? 'Ôn từ đến hạn'
     : plan.newCount ? 'Học từ mới'
     : words.length ? 'Đã xong kế hoạch' : 'Tạo bộ từ đầu tiên';
-  const description = plan.reviewCount
+  const description = personalized
+    ? 'Dạng bài hôm nay dựa trên những kỹ năng bạn đã luyện gần đây.'
+    : plan.reviewCount
     ? 'Tự nhớ trước khi xem đáp án. Từ bạn quên sẽ xuất hiện lại cuối phiên.'
     : plan.newCount
       ? 'Làm quen từng từ qua mặt chữ, cách đọc và ví dụ. Lịch ôn sẽ tự cập nhật sau mỗi thẻ.'

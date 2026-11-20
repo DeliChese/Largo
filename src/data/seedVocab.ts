@@ -169,6 +169,7 @@ export const INITIAL_SETTINGS: AppSettings = {
   zenFocusMode: false,
   srsMode: 'standard',
   dailyNewWordLimit: 8,
+  adaptivePlanner: false,
   hskEdition: DEFAULT_HSK_EDITION,
   speechRate: 1.0,
   autoPlayAudio: false,

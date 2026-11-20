@@ -27,6 +27,15 @@ Mỗi package 1 PR (hoặc 1–2 PR nếu lớn), không triển khai toàn bộ
 
 **Priority exception**: nếu API chi phí cao hoặc chưa có khoá, A1/A2 có thể dùng mock trong integration, nhưng không công bố AI assessment chạy thực. Nếu chưa thể làm R1, các engine phases vẫn có thể làm độc lập offline.
 
+## Kế hoạch sau E2
+
+1. **A1-01 — Gateway chấm câu mở.** Xây adapter phía máy chủ và mock trước. Kiểm request/response, timeout, giới hạn đầu vào và phản hồi tiếng Việt khi dịch vụ không khả dụng. Giữ key trong biến môi trường máy chủ. [Đặc tả DeepSeek](05-deepseek-ai.md)
+2. **A1-02 → A2 — Kiểm soát chi phí và chất lượng.** Thêm đồng ý gửi câu, hạn mức và số liệu token. So sánh với tập câu Anh/Trung có người chấm, đo tỉ lệ chấm đạt sai, độ trễ và chi phí. Chỉ mở thử nghiệm chấm câu khi đạt các ngưỡng. [Quality gates](06-quality-gates.md)
+3. **R1 — Phát hành PWA.** Thử cập nhật giữa phiên, hai tab và offline. Kiểm tra sao lưu/khôi phục giữa origin trước khi mở URL HTTPS công khai. [Hosting và PWA](07-hosting-pwa.md)
+4. **R2 → D1 — Tài khoản, đồng bộ và từ điển.** Xử lý xung đột giữa thiết bị và thẻ đã xóa trước khi bật đồng bộ. Sau đó tích hợp từ điển theo giấy phép nguồn. [Tài khoản và đồng bộ](08-accounts-sync.md) · [Từ điển](09-dictionary.md)
+
+Trong đợt dùng thử E2, dùng các lượt ôn đến hạn có chấm độc lập để đánh giá hiệu quả trước khi cân nhắc bật mặc định. [Kế hoạch cá nhân hóa](03-adaptive-planner.md)
+
 ## Prompt mẫu giao cho agent
 
 > Thực hiện duy nhất package `[ID]` trong `docs/roadmap/10-work-packages.md`. Đọc `AGENTS.md`, `docs/roadmap/README.md`, các spec liên quan, `docs/agents/project-map.md` và `docs/agents/verification.md`. Bắt đầu bằng `git status --short`; bảo toàn mọi thay đổi dở. Viết tests trước hành vi mới. Không phá SRS/HSK/backup, không ghi secrets. Sau sửa: lint, test liên quan, build, chạy UI nếu có; mô tả dữ liệu migration, rollback, lệnh đã chạy và các vấn đề chưa chứng minh. Nếu chưa đạt gate, giữ feature flag off và không tuyên bố xong.

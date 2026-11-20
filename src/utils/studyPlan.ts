@@ -223,6 +223,10 @@ export function getStudyChoices(word: VocabWord, library: VocabWord[], forPhrase
   return answer ? shuffle([answer, ...shuffle(distractors).slice(0, 3)]) : [];
 }
 
+export function hasStudyChoices(word: VocabWord, library: VocabWord[], forPhrase: boolean) {
+  return getChoiceCandidates(word, library, forPhrase, 3).length >= 3;
+}
+
 export function getCollocationPrompt(word: VocabWord): string | undefined {
   return getPrimaryPhrase(word)?.meaning;
 }

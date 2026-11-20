@@ -2,7 +2,8 @@ import { useMemo, useState } from 'react';
 import { ArrowRight, BookOpen, Check, ChevronDown, ClipboardList, Feather, Layers3, ListChecks, Mic2, TextCursorInput, Timer, Zap } from 'lucide-react';
 import type { BloomLevel, StudyModeId, VocabDeck, VocabWord } from '../types/vocab';
 import { BLOOM_META, isWordDue } from '../utils/srsBloom';
-import { getIntensiveStudyPlan, getPracticeWords, PRACTICE_SESSION_SIZE, type StudyFilter } from '../utils/studyPlan';
+import { getIntensiveStudyPlan, getPracticeWords, PRACTICE_SESSION_SIZE, STUDY_MODE_LABELS, type StudyFilter } from '../utils/studyPlan';
+import { explainPlanItem, type AdaptiveStudyPlan } from '../utils/adaptivePlanner';
 
 interface StudyHubViewProps {
   decks: VocabDeck[];
@@ -11,6 +12,8 @@ interface StudyHubViewProps {
   selectedDeckId: string;
   now: number;
   dailyCount: number;
+  personalized?: AdaptiveStudyPlan;
+  adaptivePlannerEnabled: boolean;
   intensive: ReturnType<typeof getIntensiveStudyPlan>;
   onSelectMode: (mode: StudyModeId) => void;
   onSelectDeck: (id: string) => void;
@@ -35,7 +38,7 @@ const FILTERS = [
   { id: 'bloom', label: 'Theo Bloom cũ' },
 ] as const;
 
-export function StudyHubView({ decks, words, selectedMode, selectedDeckId, now, dailyCount, intensive, onSelectMode, onSelectDeck, onStartDaily, onStartIntensive, onBeginSession }: StudyHubViewProps) {
+export function StudyHubView({ decks, words, selectedMode, selectedDeckId, now, dailyCount, personalized, adaptivePlannerEnabled, intensive, onSelectMode, onSelectDeck, onStartDaily, onStartIntensive, onBeginSession }: StudyHubViewProps) {
   const [filter, setFilter] = useState<StudyFilter>('all');
   const [bloom, setBloom] = useState<BloomLevel>(1);
   const deckWords = useMemo(() => words.filter((word) => selectedDeckId === 'all' || word.deckId === selectedDeckId), [words, selectedDeckId]);
@@ -64,12 +67,32 @@ export function StudyHubView({ decks, words, selectedMode, selectedDeckId, now, 
         <div className="guided-panel-icon"><ClipboardList size={25} aria-hidden="true" /></div>
         <div>
           <h2 id="guided-title">Kế hoạch hôm nay</h2>
-          <p>{dailyCount ? dailyCount + ' từ được chọn theo lịch ôn và giới hạn từ mới.' : 'Bạn đã hoàn thành phần học được đề xuất hôm nay.'}</p>
+          <p>{dailyCount ? personalized
+            ? dailyCount + ' từ với dạng bài theo kỹ năng đã luyện.'
+            : dailyCount + ' từ được chọn theo lịch ôn và giới hạn từ mới.'
+            : 'Bạn đã hoàn thành phần học được đề xuất hôm nay.'}</p>
+          {adaptivePlannerEnabled && dailyCount > 0 && !personalized && (
+            <p>Kế hoạch cá nhân hóa cần kết quả chấm độc lập từ các từ đến hạn.</p>
+          )}
         </div>
         <button type="button" className="button-primary" disabled={!dailyCount} onClick={onStartDaily}>
           Bắt đầu phiên học <ArrowRight size={17} aria-hidden="true" />
         </button>
       </section>
+
+      {personalized && (
+        <details className="glass-panel p-4">
+          <summary className="cursor-pointer font-semibold">Xem kế hoạch cá nhân hóa</summary>
+          <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm">
+            {personalized.items.map((item, index) => (
+              <li key={item.wordId}>
+                <strong>{personalized.words[index].term}</strong> · {STUDY_MODE_LABELS[item.taskType]}
+                <p>{explainPlanItem(item)}</p>
+              </li>
+            ))}
+          </ol>
+        </details>
+      )}
 
       <section className="glass-panel guided-panel intensive-panel" aria-labelledby="intensive-title">
         <div className="guided-panel-icon"><Zap size={24} aria-hidden="true" /></div>

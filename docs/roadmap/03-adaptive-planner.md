@@ -62,3 +62,10 @@ Không dùng `calculateRetentionProbability` cũ làm xác suất hiệu chuẩn
 ## Rollout & quan sát
 
 Shadow planner trên fixtures, so sánh 20 kịch bản với legacy; flag `adaptivePlanner` mặc định off đến khi test xong. Sau bật opt-in, đo retention thực tế qua kỳ ôn tiếp theo, completion, % tập trung vào điểm yếu, sai/lặp/hint và latency lập kế hoạch. Có kill switch trả về `getDailyStudyPlan`.
+
+## Triển khai v1
+
+- Phiên “Kế hoạch hôm nay” lấy thẻ đã đến hạn trước và dùng chung hạn mức từ mới với kế hoạch cũ. Trong nhóm đến hạn, sắp theo số ngày quá hạn, số lần quên, lỗi theo kỹ năng và lần luyện gần nhất. Dành thẻ chờ lâu nhất cho các vị trí 1, 5 và 9 để giảm thời gian chờ. Thứ tự từ mới theo giáo trình.
+- Chọn kỹ năng từ các bài đã chấm độc lập. Điền cụm từ dùng câu có đáp án, trắc nghiệm cần ít nhất hai phương án nhiễu và nghe chép dùng giọng đúng biến thể có sẵn trên thiết bị. Khi dữ liệu kỹ năng còn thiếu, dùng thứ tự và dạng bài của kế hoạch cũ. Phần ôn tăng cường tiếp tục xử lý luyện sớm.
+- **Cài đặt → Dùng thử kế hoạch cá nhân hóa** mặc định tắt. Mục so sánh tính cả hai kế hoạch tại máy, còn phiên chỉ dùng đề xuất khi người học bật tính năng. Mỗi phiên giữ thẻ và dạng bài đã chọn khi bắt đầu.
+- Chỉ số trong Cài đặt lấy từ các lượt đã lưu, gồm phiên có câu trả lời, lượt luyện kỹ năng yếu, lượt sai, gợi ý, làm lại và số lượt đúng khi ôn đến hạn lần sau có chấm độc lập. Mẫu số của lượt ôn sau chỉ tính các câu được chấm độc lập. Độ trễ hiển thị là thời gian tính kế hoạch hiện tại trên thiết bị.

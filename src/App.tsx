@@ -54,7 +54,7 @@ import {
 } from './utils/offlineStorage';
 import { prepareProfileImage, readImageForBackup, type ProfileImageKind, type ProfileImages } from './utils/profileImages';
 import { createBackup, type BackupPreview } from './utils/backup';
-import { setPronunciationVoices, soundEngine, stopPronunciation } from './utils/soundEngine';
+import { hasOfflinePronunciation, setPronunciationVoices, soundEngine, stopPronunciation } from './utils/soundEngine';
 import { clearSpeechClipCache } from './utils/speechClipCache';
 import { useOnlineStatus } from './hooks/useOnlineStatus';
 import { NAV_LABELS, Sidebar } from './components/Sidebar';
@@ -64,6 +64,8 @@ import { StudySession } from './components/StudySession';
 import type { LearningAttemptEvent } from './utils/learningAttempt';
 import { EMPTY_PROGRESS, projectStudyAttempt, type StudySessionIdentity } from './utils/studyAttempt';
 import { buildMasteryProjection } from './utils/mastery';
+import { planAdaptiveSession, type AdaptiveStudyPlan } from './utils/adaptivePlanner';
+import { compareAdaptivePlans } from './utils/plannerMetrics';
 import { WordLookup } from './components/WordLookup';
 import { EMPTY_EXAMPLES, EMPTY_RELATIONS, ExampleFields, RelationFields } from './components/WordFormFields';
 
@@ -78,6 +80,7 @@ const NOTIFICATION_DAY_KEY = 'lexisbloom_reminder_date';
 
 interface ActiveSession extends StudySessionIdentity {
   words: VocabWord[];
+  adaptivePlan?: Pick<AdaptiveStudyPlan, 'plannerVersion' | 'items'>;
 }
 
 function parseRouteFromHash(): { route: AppRoute; analyticsSub: AnalyticsSubRoute } {
@@ -128,6 +131,7 @@ export default function App() {
   const [settings, setSettings] = useState<AppSettings>(() => ({ ...INITIAL_SETTINGS, ...initialFallback?.settings }));
   const [hydrated, setHydrated] = useState(false);
   const [attempts, setAttempts] = useState<LearningAttemptEvent[]>([]);
+  const [browserVoices, setBrowserVoices] = useState<SpeechSynthesisVoice[]>([]);
   const masteryByWord = useMemo(() => buildMasteryProjection(attempts), [attempts]);
   const [writingState, setWritingState] = useState(false);
   const [storageError, setStorageError] = useState('');
@@ -165,6 +169,15 @@ export default function App() {
   const lastReminderDate = useRef('');
 
   const isOnline = useOnlineStatus();
+
+  useEffect(() => {
+    const engine = window.speechSynthesis;
+    if (!engine) return;
+    const updateVoices = () => setBrowserVoices(engine.getVoices());
+    engine.addEventListener('voiceschanged', updateVoices);
+    updateVoices();
+    return () => engine.removeEventListener('voiceschanged', updateVoices);
+  }, []);
 
   // Hydrate from IndexedDB on mount
   useEffect(() => {
@@ -301,6 +314,10 @@ export default function App() {
 
   const language = profile.targetLanguage;
   const englishLocale = getEnglishLocale(settings);
+  const audioLanguages = useMemo(() => new Set(
+    (Object.keys(LANGUAGE_LABELS) as LanguageCode[]).filter((code) =>
+      hasOfflinePronunciation(browserVoices, code === 'en' ? englishLocale : code)),
+  ), [browserVoices, englishLocale]);
   const hskEdition = settings.hskEdition === 'hsk20' ? 'hsk20' : DEFAULT_HSK_EDITION;
   const languages = useMemo(() => [...new Set([...getStudyLanguages(decks), language])], [decks, language]);
   const editionDecks = useMemo(() => getEditionDecks(decks, language, hskEdition), [decks, language, hskEdition]);
@@ -327,8 +344,22 @@ export default function App() {
       return level.id === 'all' || level.id === logLevel;
     });
   }, [logs, decks, language, level.id, hskEdition]);
-  const plan = useMemo(() => getDailyStudyPlan(scopedWords, profile, settings.dailyNewWordLimit, now, words),
+  const legacyPlan = useMemo(() => getDailyStudyPlan(scopedWords, profile, settings.dailyNewWordLimit, now, words),
     [scopedWords, profile, settings.dailyNewWordLimit, now, words]);
+  const adaptivePlanAt = useCallback((timestamp: number) => planAdaptiveSession({
+    words: scopedWords, quotaWords: words, profile, newWordLimit: settings.dailyNewWordLimit, now: timestamp,
+    masteryById: masteryByWord, recentEvents: attempts, audioLanguages,
+  }), [scopedWords, words, profile, settings.dailyNewWordLimit, masteryByWord, attempts, audioLanguages]);
+  const showPlannerComparison = route === 'settings';
+  const plannerPreview = useMemo(() => {
+    if (!hydrated || (!showPlannerComparison && !settings.adaptivePlanner)) return;
+    const start = performance.now();
+    const candidate = adaptivePlanAt(now);
+    return { candidate, durationMs: performance.now() - start };
+  }, [hydrated, showPlannerComparison, settings.adaptivePlanner, adaptivePlanAt, now]);
+  const personalized = settings.adaptivePlanner && plannerPreview?.candidate.strategy === 'adaptive'
+    ? plannerPreview.candidate : undefined;
+  const plan = personalized ?? legacyPlan;
   const intensive = useMemo(() => getIntensiveStudyPlan(scopedWords, now), [scopedWords, now]);
   const reminders = useMemo(
     () => generateSmartReminders(scopedWords, profile, scopedLogs, settings.retentionThreshold, now)
@@ -361,19 +392,30 @@ export default function App() {
     })();
   }, [hydrated, now, settings.reminderHour, settings.reminderEnabled, plan.words.length]);
 
-  const beginSession = (mode: StudySessionMode, deckId: string, pool: VocabWord[]) => {
+  const beginSession = (
+    mode: StudySessionMode, deckId: string, pool: VocabWord[], adaptivePlan?: ActiveSession['adaptivePlan'],
+  ) => {
     if (!hydrated || restoring.current || pool.length === 0) return;
     navigate('study');
     const id = globalThis.crypto?.randomUUID?.() ?? 'study-' + Date.now() + '-' + Math.random().toString(36).slice(2);
     setActiveSession({
       id, mode, deckId, language, level: level.id, hskEdition: language === 'zh' ? hskEdition : undefined,
-      startedAt: Date.now(), words: pool,
+      startedAt: Date.now(), words: pool, adaptivePlan,
     });
   };
 
   const startDailySession = () => {
     const timestamp = Date.now();
     setNow(timestamp);
+    if (settings.adaptivePlanner) {
+      const candidate = adaptivePlanAt(timestamp);
+      if (candidate.strategy === 'adaptive') {
+        beginSession('guided', 'all', candidate.words, { plannerVersion: candidate.plannerVersion, items: candidate.items });
+        return;
+      }
+      beginSession('guided', 'all', candidate.words);
+      return;
+    }
     beginSession('guided', 'all', getDailyStudyPlan(scopedWords, profile, settings.dailyNewWordLimit, timestamp, words).words);
   };
 
@@ -894,7 +936,8 @@ export default function App() {
                 >
                   {route === 'dashboard' && (
                     <DashboardView profile={profile} decks={scopedDecks} words={scopedWords} level={level.id === 'all' ? undefined : level.label}
-                      speechRate={settings.speechRate} plan={plan} now={now} onStartDaily={startDailySession} onNavigate={navigate}
+                      speechRate={settings.speechRate} plan={plan} personalized={!!personalized} now={now}
+                      onStartDaily={startDailySession} onNavigate={navigate}
                       onOpenPhrases={() => { setSelectedMode('collocation'); setSelectedDeckId('all'); navigate('study'); }} />
                   )}
 
@@ -903,6 +946,7 @@ export default function App() {
                       mode={activeSession.mode}
                       session={activeSession}
                       sessionWords={activeSession.words}
+                      adaptivePlan={activeSession.adaptivePlan}
                       allWords={scopedWords}
                       masteryByWord={masteryByWord}
                       settings={settings}
@@ -924,6 +968,8 @@ export default function App() {
                       selectedDeckId={activeDeckId}
                       now={now}
                       dailyCount={plan.words.length}
+                      personalized={personalized}
+                      adaptivePlannerEnabled={!!settings.adaptivePlanner}
                       intensive={intensive}
                       onSelectMode={setSelectedMode}
                       onSelectDeck={setSelectedDeckId}
@@ -986,6 +1032,12 @@ export default function App() {
 
                   {route === 'settings' && (
                     <SettingsView settings={settings} isOnline={isOnline} activeLanguage={language}
+                      plannerPreview={plannerPreview && {
+                        comparison: compareAdaptivePlans(plannerPreview.candidate, legacyPlan),
+                        strategy: plannerPreview.candidate.strategy,
+                        durationMs: plannerPreview.durationMs,
+                      }}
+                      attempts={attempts}
                       onUpdateSettings={(patch) => setSettings((value) => ({ ...value, ...patch }))}
                       backupReady={hydrated} onExportFullBackup={handleExportFullBackup}
                       onRestoreFullBackup={handleRestoreFullBackup} onResetAllData={handleResetAllData} />

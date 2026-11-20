@@ -30,6 +30,11 @@ Các [snapshot mẫu](../../src/utils/fixtures/studySnapshots.ts) dùng mốc th
 
 Kết quả HTTP chứng minh máy chủ đã trả nội dung. Kết quả kiểm thử chứng minh các trường hợp được chạy. Để báo một thao tác đã hoạt động trên web app, ghi URL và hành vi thực tế quan sát được. Khi được giao triển khai, xác định nền tảng và xác minh phiên bản tại URL triển khai trước khi báo hoàn tất.
 
+## Kiểm chứng E2
+
+- `npm test` chạy 20 kịch bản đối chiếu hai kế hoạch và mô phỏng năm phiên với 50 từ quá hạn. Kiểm tra giới hạn thẻ, hạn mức toàn thư viện, thứ tự từ mới, ID chung giữa hai bản HSK, bài khả dụng khi thiếu giọng và kết quả nhất quán với cùng dữ liệu.
+- Dùng hồ sơ mẫu có lượt làm sai bài điền từ. Trong `/#/settings`, xem mục so sánh khi tùy chọn vẫn tắt, bật dùng thử rồi mở `/#/study` để xem lý do chọn bài. Học hai thẻ, đối chiếu lượt đã ghi và thứ tự phiên, rồi quay lại Cài đặt xem chỉ số và xuất v2. Tắt tùy chọn để thử quay về kế hoạch gốc.
+
 
 ## Gates cho roadmap
 

@@ -82,6 +82,23 @@ const LANG_LOCALE_MAP: Record<LanguageCode, string> = {
   es: 'es-ES',
 };
 
+function offlineVoice(voices: readonly SpeechSynthesisVoice[], language: LanguageCode | EnglishLocale) {
+  const locale = language === 'en-GB' || language === 'en-US' ? language : LANG_LOCALE_MAP[language];
+  return voices.find((voice) => voice.localService && voice.lang.toLowerCase() === locale.toLowerCase());
+}
+
+export function hasOfflinePronunciation(voices: readonly SpeechSynthesisVoice[], language: LanguageCode | EnglishLocale): boolean {
+  return Boolean(offlineVoice(voices, language));
+}
+
+function deviceUtterance(text: string, locale: string, rate: number, voice: SpeechSynthesisVoice | null) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = locale;
+  utterance.rate = rate;
+  utterance.voice = voice;
+  return utterance;
+}
+
 let selectedVoices: SpeechVoices = {};
 let selectedEnglishLocale: EnglishLocale | undefined;
 let currentPlayback: {
@@ -102,6 +119,19 @@ export function stopPronunciation() {
   playback?.source?.stop();
   if (typeof window !== 'undefined') window.speechSynthesis?.cancel();
   playback?.onEnd?.();
+}
+
+export function speakLocalPronunciation(text: string, language: LanguageCode | EnglishLocale, rate: number): boolean {
+  if (typeof window === 'undefined' || !window.speechSynthesis || !text.trim()) return false;
+  const voice = offlineVoice(window.speechSynthesis.getVoices(), language);
+  if (!voice) return false;
+  try {
+    stopPronunciation();
+    window.speechSynthesis.speak(deviceUtterance(text, voice.lang, rate, voice));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function speakPronunciation(
@@ -135,13 +165,10 @@ export function speakPronunciation(
       return false;
     }
     try {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = targetLocale;
-      utterance.rate = rate;
       const voices = window.speechSynthesis.getVoices();
       const exactVoice = voices.find((voice) => voice.lang.toLowerCase() === targetLocale.toLowerCase());
       const relatedVoice = language === 'en' ? undefined : voices.find((voice) => voice.lang.toLowerCase().startsWith(language + '-'));
-      utterance.voice = exactVoice ?? relatedVoice ?? null;
+      const utterance = deviceUtterance(text, targetLocale, rate, exactVoice ?? relatedVoice ?? null);
       utterance.onstart = () => { if (currentPlayback === playback) onStart?.(); };
       utterance.onend = finish;
       utterance.onerror = finish;

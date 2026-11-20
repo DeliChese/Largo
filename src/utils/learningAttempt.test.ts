@@ -37,12 +37,23 @@ test('attempt records use a stable ID and discard unknown fields including raw a
 });
 
 test('v2 backup includes attempts, preserves archived attempts for removed words and rejects duplicate or future events', async () => {
-  const event = createLearningAttempt(attemptInput);
+  const event = createLearningAttempt({ ...attemptInput, adaptivePlan: { version: 1, plannedItems: 12, weakSkill: true } });
   const state = newStudySnapshot();
+  state.settings.adaptivePlanner = true;
   state.words = state.words.filter(({ id }) => id !== event.wordId);
   const backup = createBackup(state, {}, new Date(0), [event]);
   const parse = (value: unknown) => previewBackup(new Blob([JSON.stringify(value)]));
-  assert.deepEqual((await parse(backup)).attempts, [event]);
+  const restored = await parse(backup);
+  assert.deepEqual(restored.attempts, [event]);
+  assert.equal(restored.state.settings.adaptivePlanner, true);
   await assert.rejects(parse({ ...backup, attempts: [event, event] }));
   await assert.rejects(parse({ ...backup, attempts: [{ ...event, schemaVersion: 2 }] }));
+});
+
+test('adaptive trace accepts versioned local metadata and rejects invalid guided-session fields', () => {
+  const event = createLearningAttempt(attemptInput);
+  const trace = { version: 1, plannedItems: 12, weakSkill: false };
+  assert.deepEqual(decodeLearningAttempt({ ...event, adaptivePlan: { ...trace, rawAnswer: 'ignore' } })?.adaptivePlan, trace);
+  assert.equal(decodeLearningAttempt({ ...event, adaptivePlan: { ...trace, plannedItems: 0 } }), null);
+  assert.equal(decodeLearningAttempt({ ...event, source: 'manual', adaptivePlan: trace }), null);
 });

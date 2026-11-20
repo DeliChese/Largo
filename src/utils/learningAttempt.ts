@@ -8,6 +8,12 @@ export type EvidenceSkill = 'recognition' | 'listening' | 'context' | 'collocati
 type Criterion = 'pass' | 'fail' | 'uncertain' | 'not_applicable';
 export type AssessmentCriteria = Partial<Record<'meaning' | 'grammar' | 'targetUsage' | 'naturalness' | 'reasoning', Criterion>>;
 
+export interface AdaptivePlanTrace {
+  version: number;
+  plannedItems: number;
+  weakSkill: boolean;
+}
+
 export interface AttemptInput {
   eventId: string;
   sessionId: string;
@@ -29,6 +35,7 @@ export interface AttemptInput {
   skill: EvidenceSkill;
   contextId: string;
   criteria?: AssessmentCriteria;
+  adaptivePlan?: AdaptivePlanTrace;
 }
 
 export interface LearningAttemptEvent extends AttemptInput {
@@ -62,6 +69,14 @@ function includes<T>(values: readonly T[], value: unknown): value is T {
   return values.includes(value as T);
 }
 
+function decodeAdaptivePlan(value: unknown): AdaptivePlanTrace | null {
+  if (!isObject(value)) return null;
+  const { version, plannedItems, weakSkill } = value;
+  if (!count(version) || version < 1 || !count(plannedItems) || plannedItems < 1 || plannedItems > 100 ||
+    typeof weakSkill !== 'boolean') return null;
+  return { version, plannedItems, weakSkill };
+}
+
 export function decodeLearningAttempt(raw: unknown): LearningAttemptEvent | null {
   if (!isObject(raw)) return null;
   const {
@@ -92,10 +107,13 @@ export function decodeLearningAttempt(raw: unknown): LearningAttemptEvent | null
       criteria[key] = value;
     }
   }
+  const adaptivePlan = decodeAdaptivePlan(raw.adaptivePlan);
+  if (raw.adaptivePlan !== undefined && (!adaptivePlan || source !== 'guided')) return null;
   return {
     eventId, sessionId, attemptIndex, wordId, language, ...(hskEdition ? { hskEdition } : {}), taskType, source,
     startedAt, answeredAt, isRetry, scheduledAtStart, hintCount, revealedAnswer, outcome, assessmentSource,
     ...(quality ? { quality } : {}), skill, contextId, ...(criteria ? { criteria } : {}),
+    ...(adaptivePlan ? { adaptivePlan } : {}),
     schemaVersion, createdAt, responseMs: Number(responseMs), promptVersion, rubricVersion,
   };
 }

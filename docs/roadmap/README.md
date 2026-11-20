@@ -1,6 +1,6 @@
 # Largo — kế hoạch phát triển dài hạn (2026+)
 
-> Đọc `AGENTS.md` trước mọi thay đổi. Xem [chạy và kiểm chứng](../agents/verification.md) để biết phạm vi mã và các bước kiểm thử E0–E1.
+> Đọc `AGENTS.md` trước mọi thay đổi. Xem [chạy và kiểm chứng](../agents/verification.md) cho E0–E2 và [kế hoạch sau E2](10-work-packages.md#kế-hoạch-sau-e2) cho các gói tiếp theo.
 > Thứ tự ưu tiên bắt buộc: **Learning Engine → AI hỗ trợ học → phát hành PWA/hosting → tài khoản/đồng bộ → từ điển đa nguồn**.
 > Thực hiện từng work package và hoàn tất acceptance gate, không làm một đợt refactor khổng lồ.
 

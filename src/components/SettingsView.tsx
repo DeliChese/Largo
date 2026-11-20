@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Bell, Check, Download, Moon, RotateCcw, Sun, Upload, Volume2, Wifi } from 'lucide-react';
 import type {
   AppSettings,
@@ -15,11 +15,20 @@ import { ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishLocale, getSpeechVoice
 import { PWAInstallButton } from './PWAInstallButton';
 import { LANGUAGE_LABELS } from '../data/seedVocab';
 import { previewBackup, type BackupPreview } from '../utils/backup';
+import type { LearningAttemptEvent } from '../utils/learningAttempt';
+import type { AdaptiveStudyPlan } from '../utils/adaptivePlanner';
+import { summarizeAdaptiveStudy, type compareAdaptivePlans } from '../utils/plannerMetrics';
 
 interface SettingsViewProps {
   settings: AppSettings;
   isOnline: boolean;
   activeLanguage: LanguageCode;
+  attempts: readonly LearningAttemptEvent[];
+  plannerPreview?: {
+    comparison: ReturnType<typeof compareAdaptivePlans>;
+    strategy: AdaptiveStudyPlan['strategy'];
+    durationMs: number;
+  };
   onUpdateSettings: (patch: Partial<AppSettings>) => void;
   onExportFullBackup: () => Promise<void>;
   onRestoreFullBackup: (backup: BackupPreview) => Promise<void>;
@@ -191,6 +200,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   settings,
   isOnline,
   activeLanguage,
+  attempts,
+  plannerPreview,
   onUpdateSettings,
   onExportFullBackup,
   onRestoreFullBackup,
@@ -205,6 +216,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   const [importStatus, setImportStatus] = useState<'reading' | 'restoring' | 'done'>();
   const [importError, setImportError] = useState('');
   const backupBusy = exporting || importStatus === 'reading' || importStatus === 'restoring';
+  const plannerMetrics = useMemo(() => summarizeAdaptiveStudy(attempts), [attempts]);
 
   async function inspectBackup(file: File) {
     setConfirmReset(false);
@@ -410,6 +422,38 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             ))}
           </select>
           <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Áp dụng cho kế hoạch hôm nay. Các từ đến hạn được xếp trước.</p>
+        </div>
+
+        <div className="space-y-2">
+          <label className="flex items-center gap-2 text-sm font-semibold">
+            <input id="adaptive-planner" type="checkbox" checked={settings.adaptivePlanner ?? false} disabled={!backupReady}
+              onChange={(event) => onUpdateSettings({ adaptivePlanner: event.target.checked })} />
+            Dùng thử kế hoạch cá nhân hóa
+          </label>
+          <p className="text-xs">Largo chọn dạng bài theo kết quả học đã lưu trên thiết bị. Thay đổi áp dụng từ phiên kế tiếp.</p>
+          {plannerPreview && (
+            <details className="rounded-lg border p-3 text-xs" style={{ borderColor: 'var(--border-hairline)' }}>
+              <summary className="cursor-pointer font-semibold">So sánh và theo dõi kế hoạch</summary>
+              <div className="mt-2 space-y-2" data-planner-preview={plannerPreview.strategy}>
+                {plannerPreview.strategy === 'legacy' ? <p>Phạm vi hiện tại dùng thứ tự quen thuộc trong khi chờ thêm kết quả chấm độc lập.</p> : (
+                  <>
+                    <p>Hai kế hoạch chọn chung {plannerPreview.comparison.commonReviews} thẻ ôn. Kế hoạch cá nhân hóa chọn {plannerPreview.comparison.weakSkillExercises} bài theo kỹ năng cần luyện.</p>
+                    <p>Thẻ đến hạn lâu nhất {plannerPreview.comparison.includesOldest ? 'có trong kế hoạch' : 'chưa được xếp trong phiên này'}.</p>
+                  </>
+                )}
+                <p>Lập kế hoạch trên máy này trong {plannerPreview.durationMs.toLocaleString('vi-VN', { maximumFractionDigits: 1 })} ms.</p>
+                {plannerMetrics.sessionsWithAnswers > 0 ? (
+                  <div className="space-y-1">
+                    <p>Đã hoàn thành {plannerMetrics.sessionsCompleted}/{plannerMetrics.sessionsWithAnswers} phiên cá nhân hóa có câu trả lời.</p>
+                    <p>{plannerMetrics.weakSkillAnswers}/{plannerMetrics.answers} lượt đầu luyện kỹ năng cần củng cố. {plannerMetrics.incorrectAnswers} lượt sai, {plannerMetrics.hintedAnswers} lượt có gợi ý và {plannerMetrics.retryAnswers} lượt làm lại.</p>
+                    <p>{plannerMetrics.followUpObserved
+                      ? `Ôn đến hạn lần sau có chấm độc lập · ${plannerMetrics.followUpCorrect}/${plannerMetrics.followUpObserved} lượt đúng.`
+                      : 'Chưa có lượt ôn đến hạn lần sau được chấm độc lập.'}</p>
+                  </div>
+                ) : <p>Chưa có phiên cá nhân hóa đã trả lời trên thiết bị này.</p>}
+              </div>
+            </details>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t pt-4" style={{ borderColor: 'var(--border-hairline)' }}>

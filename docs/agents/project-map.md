@@ -24,6 +24,7 @@
 - `getScopedWords` đọc `VocabDeck.wordIds` theo thứ tự bài, lấy mỗi ID một lần trong phạm vi và đặt `deckId` trên bản dùng cho giao diện. Việc đổi bài hoặc đổi HSK vẫn giữ `VocabWord.id` để lịch ôn và bằng chứng cập nhật đúng thẻ đã lưu. Khi dùng lại một từ ở nhiều bài trong cùng phiên bản, kiểm tra cả danh sách tổng và từng bài.
 - `getDailyStudyPlan` xếp lượt ôn đến hạn trước từ mới. `App.tsx` truyền cả thư viện làm đầu vào tính hạn mức từ mới trong ngày, nên đổi ngôn ngữ hay phiên bản HSK vẫn dùng chung hạn mức. `applyStudyReview` xử lý riêng lượt ôn đúng lịch, luyện sớm và đặt câu.
 - `studyAttempt.ts` chấm bài tại máy và tạo dữ liệu cập nhật SRS, XP và tổng hợp phiên. `mastery.ts` dựng trạng thái Bloom đã xác minh và lỗi cần luyện lại từ các lượt đã lưu.
+- `adaptivePlanner.ts` chọn thẻ và dạng bài cho phiên hằng ngày khi bật dùng thử. `App.tsx` đưa phạm vi học, bằng chứng, đồng hồ và giọng đọc trên thiết bị vào bộ lập kế hoạch. `plannerMetrics.ts` so sánh đề xuất và tổng hợp các lượt đã quan sát.
 - Thẻ tiếng Anh được tạo trong `src/data/englishDecks.ts`. Từ điển tiếng Trung lấy từ danh mục `CHINESE_WORDS`, gồm cả những từ chưa nằm trong lộ trình HSK đang mở. Xem [nguồn và cấu trúc giáo trình](chinese-curriculum.md) khi thay đổi bộ Trung.
 
 ## Dữ liệu đã lưu

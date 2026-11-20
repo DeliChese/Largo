@@ -66,6 +66,17 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - Ngày: 2026-11-20. Gói E1-03.
 - Giao diện thẻ, phiên học và thống kê hiển thị trạng thái đã xác minh hoặc chưa xác minh. Biểu đồ và mốc thành tích cũ mang nhãn Bloom cũ. Mục luyện lại lỗi mở bài phù hợp với thẻ hiện có trong phạm vi học. Hai lỗi độc lập liên tiếp của cùng kỹ năng đánh dấu cần xác minh lại.
 
+## ADR-011 — Kế hoạch hằng ngày theo lịch và kỹ năng
+
+- Ngày: 2026-11-20. Gói E2-01.
+- Planner v1 dùng lịch đến hạn và hạn mức từ mới trước khi xếp theo kỹ năng. Giữ thứ tự từ mới theo giáo trình và dành chỗ cho thẻ chờ lâu nhất. Chuyển sang kế hoạch có sẵn khi thiếu bằng chứng độc lập ở các từ đến hạn. Nghe chép cá nhân hóa dùng giọng trên thiết bị đúng biến thể.
+
+## ADR-012 — Dùng thử theo lựa chọn và theo dõi tại máy
+
+- Ngày: 2026-11-20. Gói E2-02.
+- `adaptivePlanner` mặc định tắt. Cài đặt so sánh hai kế hoạch tại máy. Khi bắt đầu phiên, giữ riêng danh sách thẻ và dạng bài để các lượt vừa ghi chỉ ảnh hưởng phiên sau.
+- Metadata tùy chọn trong lượt trả lời gồm phiên bản planner, số thẻ dự kiến và dấu hiệu luyện kỹ năng yếu. Dùng IndexedDB v4 và backup v2 hiện hành. Tắt tùy chọn trong Cài đặt để các phiên sau trở về kế hoạch gốc.
+
 ## Template ADR mới
 
 - ID/ngày/status:
