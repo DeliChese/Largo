@@ -37,3 +37,8 @@
 Vite phục vụ app khi phát triển. `server/index.mjs` phục vụ `dist/` khi chạy `npm start`. Cả hai dùng `createSpeechRouter` cho `/api/speech/voices` và `/api/speech/synthesize`. Tích hợp Azure đọc `AZURE_SPEECH_KEY` và `AZURE_SPEECH_REGION` ở máy chủ. Khi chưa chọn giọng Azure hoặc tải âm thanh thất bại, `speakPronunciation` dùng giọng trình duyệt nếu có. Với giọng Azure, `speechClipCache.ts` có thể dùng lại đoạn âm thanh từ Cache Storage.
 
 Khi chẩn đoán vấn đề đang chạy, làm theo [hướng dẫn kiểm chứng](verification.md).
+
+
+## Roadmap/đích đến (chưa triển khai)
+
+Đọc `../roadmap/README.md` và `../roadmap/10-work-packages.md`. Để phát triển engine: `../roadmap/01-learning-engine.md`, `../roadmap/02-bloom-evidence.md`, `../roadmap/03-adaptive-planner.md`. Events và migration: `../roadmap/04-events-migrations.md`. DeepSeek gateway: `../roadmap/05-deepseek-ai.md`. Release public: `../roadmap/07-hosting-pwa.md`. Auth/sync: `../roadmap/08-accounts-sync.md`. Dictionary: `../roadmap/09-dictionary.md`. Các module như `aiAssessment.ts`, serverless functions và mastery stores trong roadmap là **đề xuất**, không phải file đang tồn tại.

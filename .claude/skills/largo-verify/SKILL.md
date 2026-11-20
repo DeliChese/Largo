@@ -1,11 +1,12 @@
 ---
 name: largo-verify
-description: Kiểm chứng thay đổi trong Largo hoặc chẩn đoán web app còn hiển thị dữ liệu cũ. Dùng cho kiểm kiểu, build, test, kiểm tra route đang chạy, giao diện hoặc cache PWA.
+description: Kiểm chứng thay đổi Largo qua test, build, trình duyệt, dữ liệu cũ, PWA updates hoặc đánh giá chất lượng/chi phí AI. Dùng khi sửa engine, AI, deploy hoặc xử lý lỗi bản cũ.
 ---
 
-# Kiểm chứng thay đổi của Largo
+# Kiểm chứng Largo
 
-1. Đọc [hướng dẫn chạy và kiểm chứng](../../../docs/agents/verification.md). Chọn bài kiểm thử và mức kiểm chứng theo luồng bị thay đổi.
-2. Với báo cáo chưa thấy tính năng, xác định URL/route người dùng mở và kiểm tra máy chủ tại đó. Khi giao diện đã mới nhưng bộ bài trống, kiểm tra bản lưu và phạm vi theo [skill trạng thái học](../largo-study-state/SKILL.md).
-3. Với thay đổi UI, quan sát thao tác thực tế tại điểm vào của tính năng. Dùng dữ liệu cũ để kiểm tra nâng cấp và dữ liệu mẫu riêng cho thử nghiệm cần trạng thái mới.
-4. Khi báo kết quả, nêu lệnh đã chạy, URL nếu có, thao tác đã quan sát và phần còn thiếu bằng chứng. Trạng thái triển khai cần được xác minh tại đích triển khai tương ứng.
+1. Đọc `../../../docs/agents/verification.md` và `../../../docs/roadmap/06-quality-gates.md`; xác định package, rủi ro, lệnh và gate tương ứng.
+2. Với lỗi UI, xác định URL/route và origin thực. Với dữ liệu trống/khác sau update, đọc `../largo-study-state/SKILL.md`, test fixture legacy trước khi nghĩ đến reset.
+3. Với engine: deterministic test scheduled vs early, retry idempotency, Bloom proof, HSK shared IDs, adaptive fairness, offline fallback. Với AI: mock/test schema, key non-leak, prompt injection, false-pass, token budget, timeout. Với PWA: update giữa phiên, 2 tabs, offline, restore origin.
+4. Kiểm tra mã nguồn vs build `dist/`; thông báo kết quả chỉ khi thực chạy. Có thể không có browser/test runtime: ghi rõ giới hạn thay vì tuyên bố pass.
+5. Báo chính xác lệnh, kết quả, URL, UI thao tác đã quan sát, migration & rollback, phần chưa verify; không đồng nhất HTTP 200 với tính năng đã hoạt động.

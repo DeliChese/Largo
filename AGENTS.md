@@ -1,21 +1,33 @@
-# Largo
+# Largo — hướng dẫn chung cho AI coding agents
 
-Largo là web app học từ và cụm từ bằng tiếng Việt. Ứng dụng dùng React, TypeScript và Vite, có lộ trình HSK theo giáo trình và ôn cách quãng (SRS).
+Largo là PWA học tiếng Anh/Tiếng Trung bằng tiếng Việt trên React + TypeScript + Vite, có HSK 2.0/3.0, ôn cách quãng (SRS), Bloom và lưu offline.
+
+## Lộ trình ưu tiên (đọc trước khi sửa engine)
+
+**[Master roadmap](docs/roadmap/README.md)** → [Work packages theo PR](docs/roadmap/10-work-packages.md) → [Quality gates](docs/roadmap/06-quality-gates.md).
+
+Thứ tự sản phẩm: **Learning Engine / Bloom Evidence / Adaptive Planner → DeepSeek AI assessment → Hosting/PWA → Accounts/Sync → Dictionary**. Roadmap là yêu cầu triển khai, **không** phải thông báo đã có tính năng. Chỉ làm một package tại một thời điểm, có acceptance tests và rollback. Nếu yêu cầu trực tiếp của chủ dự án khác với roadmap, ưu tiên yêu cầu hiện tại và ghi ADR.
 
 ## Trước khi sửa
 
-- Chạy `git status --short` và giữ phần việc đang dang dở của người dùng. Tìm điểm vào thật trong mã, dữ liệu và bài kiểm thử trước khi đặt tên file, tính năng hoặc trường dữ liệu.
-- Khi mô tả kết quả, ghi rõ lệnh đã chạy, giao diện đã quan sát và phần còn thiếu bằng chứng. Với số lượng thẻ, đề cương HSK hoặc mục lục sách, đối chiếu nguồn và phiên bản trước khi khẳng định.
-- Giữ `VocabWord.id` khi đổi nội dung, vị trí bài hoặc giáo trình. Hai lộ trình HSK có thể tham chiếu cùng ID và dùng chung lịch ôn. Khi sửa dữ liệu đã lưu, giữ lịch, Bloom, thẻ cá nhân và các thẻ người dùng đã chủ động xóa.
-- Sửa mã nguồn tạo ra app. `dist/` và `dev-dist/` là đầu ra của Vite/PWA. Lấy tên biến cấu hình từ `.env.example` và giữ giá trị bí mật trong môi trường chạy.
+- Chạy `git status --short`, đọc mã/test liên quan, giữ phần việc đang dở của người dùng; không sửa ngoài phạm vi. Với tài liệu chỉ sửa docs, xác minh link và thực trạng.
+- Giữ `VocabWord.id`, SRS, Bloom legacy, thẻ/bộ cá nhân, lịch sử, `todayWordIds`, ảnh và trạng thái thẻ đã xóa. HSK 2.0/3.0 có thể chia sẻ từ cùng ID, không tạo lịch ôn riêng. Migration phải idempotent và có fixtures.
+- SRS và planner chạy offline; **AI không phải nguồn sự thật tuyệt đối và không được tự nâng Bloom**. Không gọi AI cho việc local có thể làm. Xem [engine](docs/roadmap/01-learning-engine.md), [Bloom](docs/roadmap/02-bloom-evidence.md), [events](docs/roadmap/04-events-migrations.md).
+- Không gửi `DEEPSEEK_API_KEY` hoặc Azure key tới trình duyệt, không đặt trong `VITE_*`, repository hoặc logs. AI gateway chỉ server-side, có quota, schema validation, consent, fallback.
+- Không chuyển origin hay thay schema DB mà thiếu full backup/restore test. Không xóa cache dữ liệu học để “sửa PWA”. `dist/` và `dev-dist/` là đầu ra build; không sửa trực tiếp.
+- Khi báo hoàn tất: lệnh kiểm thử thực sự đã chạy, kết quả, UI/URL đã quan sát, migration & rollback, phần chưa xác minh. Không tự coi docs là code đã triển khai.
 
-## Chọn tài liệu theo công việc
+## Chọn tài liệu và skill
 
-| Công việc | Điểm bắt đầu |
-| --- | --- |
-| Tìm màn hình, luồng học, nguồn dữ liệu hoặc API | [Bản đồ dự án](docs/agents/project-map.md) |
-| Thêm từ, bài hoặc cấp HSK và kiểm chứng nguồn sách | [Skill HSK](.claude/skills/largo-hsk-curriculum/SKILL.md) |
-| Sửa SRS, chuyển phiên bản dữ liệu, khôi phục bộ thẻ bị trống | [Skill trạng thái học](.claude/skills/largo-study-state/SKILL.md) |
-| Chạy kiểm thử, kiểm tra giao diện, chẩn đoán app đang phục vụ bản nào | [Skill kiểm chứng](.claude/skills/largo-verify/SKILL.md) |
+| Công việc | Tài liệu | Skill |
+| --- | --- | --- |
+| Tìm file, luồng học, API | [Bản đồ dự án](docs/agents/project-map.md) | — |
+| Thêm/sửa lộ trình học SRS, rubric Bloom, planner | [Learning Engine](docs/roadmap/01-learning-engine.md), [Bloom](docs/roadmap/02-bloom-evidence.md), [Adaptive Planner](docs/roadmap/03-adaptive-planner.md) | [largo-learning-engine](.claude/skills/largo-learning-engine/SKILL.md) |
+| Lưu events, migrate, restore tiến độ | [Events & migrations](docs/roadmap/04-events-migrations.md) | [largo-study-state](.claude/skills/largo-study-state/SKILL.md) |
+| Tích hợp DeepSeek, token/cost/guardrails | [AI](docs/roadmap/05-deepseek-ai.md) | [largo-ai-gateway](.claude/skills/largo-ai-gateway/SKILL.md) |
+| Triển khai cho người dùng, PWA, sync/tài khoản | [Hosting](docs/roadmap/07-hosting-pwa.md), [Accounts](docs/roadmap/08-accounts-sync.md) | [largo-release](.claude/skills/largo-release/SKILL.md) |
+| Tra từ và giấy phép nguồn | [Dictionary](docs/roadmap/09-dictionary.md) | — |
+| HSK/nguồn giáo trình | [Chinese curriculum](docs/agents/chinese-curriculum.md) | [largo-hsk-curriculum](.claude/skills/largo-hsk-curriculum/SKILL.md) |
+| Test, UI, hiệu lực bản phát hành | [Verification](docs/agents/verification.md) | [largo-verify](.claude/skills/largo-verify/SKILL.md) |
 
-Các đường dẫn skill dùng chung cho người đọc `AGENTS.md`. Với yêu cầu chỉ sửa tài liệu, kiểm tra đường dẫn, lệnh và dữ kiện thay đổi. Với thay đổi mã, chọn các bước kiểm chứng phù hợp trong [hướng dẫn chạy và kiểm tra](docs/agents/verification.md).
+Ghi quyết định dài hạn vào [Architecture Decision Log](docs/roadmap/DECISIONS.md). Đừng thay đổi toàn bộ thuật toán SRS/FSRS, auth hay backend trong cùng một PR khi chưa có phép thử migration.

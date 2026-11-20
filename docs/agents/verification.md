@@ -21,3 +21,8 @@ npm run build
 4. Xác minh lại trên route vừa lỗi. Với `/#/decks`, chọn Tiếng Trung và lần lượt hai HSK, kiểm tra bài đầu/cuối, tìm bộ, đổi chủ đề và mở một bài. Trên màn hình đủ rộng, cuộn hai danh sách riêng và quan sát thanh lọc bên trái. Khi sửa migration, tải lại với dữ liệu cũ và xác nhận thẻ đã ôn giữ lịch/Bloom.
 
 Kết quả HTTP chứng minh máy chủ đã trả nội dung. Kết quả kiểm thử chứng minh các trường hợp được chạy. Để báo một thao tác đã hoạt động trên web app, ghi URL và hành vi thực tế quan sát được. Khi được giao triển khai, xác định nền tảng và xác minh phiên bản tại URL triển khai trước khi báo hoàn tất.
+
+
+## Gates cho roadmap mới (chưa có code mới)
+
+Theo `../roadmap/06-quality-gates.md`: mỗi package ở `../roadmap/10-work-packages.md` phải có unit/integration/fixture tests và migration rollback phù hợp. Engine: retry và SRS idempotency, mastery proof, planner fairness. AI: model mock, JSON schema, quota, prompt injection, no secret in bundle. PWA: tự cập nhật không reload giữa phiên, thử origin khác, iOS/Android, backup restore. Account: offline conflict và RLS. Không báo test pass hay production hoạt động nếu chưa trực tiếp chạy/quan sát.
