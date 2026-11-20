@@ -8,8 +8,10 @@ import type {
   BloomLevel,
   DeckWordImport,
   EnglishLocale,
+  ExampleSentence,
   HskEdition,
   LanguageCode,
+  LexicalRelations,
   ReviewQuality,
   StudyModeId,
   StudySessionMode,
@@ -29,6 +31,7 @@ import {
   LANGUAGE_LABELS,
   CURRENT_DATA_VERSION,
   hasCurrentSeedDecks,
+  isBuiltinWord,
   withCurrentSeed,
 } from './data/seedVocab';
 import { createInitialSRS, generateSmartReminders, isWordDue, localStudyDate, reviewXp } from './utils/srsBloom';
@@ -38,7 +41,7 @@ import {
 } from './utils/studyPlan';
 import { getDeckStudyLevel, getEditionDecks, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './utils/studyScope';
 import { ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishLocale, getEnglishStudyWord } from './utils/englishStudy';
-import { importCollocations, importEnglishForms, importExamples, trimImportText } from './utils/vocabImport';
+import { importCollocations, importEnglishForms, importExamples, importTerms, trimImportText } from './utils/vocabImport';
 import {
   clearOfflineState,
   loadOfflineState,
@@ -56,6 +59,7 @@ import { DashboardView } from './components/DashboardView';
 import { StudyHubView } from './components/StudyHubView';
 import { StudySession, type SessionProgress } from './components/StudySession';
 import { WordLookup } from './components/WordLookup';
+import { EMPTY_EXAMPLES, EMPTY_RELATIONS, ExampleFields, RelationFields } from './components/WordFormFields';
 
 const GamesView = lazy(() => import('./components/GamesView').then(({ GamesView }) => ({ default: GamesView })));
 const DecksView = lazy(() => import('./components/DecksView').then(({ DecksView }) => ({ default: DecksView })));
@@ -143,8 +147,8 @@ export default function App() {
   const [qaMeaning, setQaMeaning] = useState('');
   const [qaCollocation, setQaCollocation] = useState('');
   const [qaCollocationMeaning, setQaCollocationMeaning] = useState('');
-  const [qaExample, setQaExample] = useState('');
-  const [qaExampleTranslation, setQaExampleTranslation] = useState('');
+  const [qaExamples, setQaExamples] = useState<readonly ExampleSentence[]>(EMPTY_EXAMPLES);
+  const [qaRelations, setQaRelations] = useState(EMPTY_RELATIONS);
   const [qaDeckId, setQaDeckId] = useState('');
   const [qaError, setQaError] = useState<string | null>(null);
   const [showReminderPopover, setShowReminderPopover] = useState(false);
@@ -382,6 +386,13 @@ export default function App() {
     setSettings((current) => ({ ...current, hskEdition: edition }));
   };
 
+  const practiceWords = (deckId: string) => {
+    const deck = scopedDecks.find(({ id }) => id === deckId);
+    if (!deck?.wordIds) return scopedWords;
+    const deckWords = getScopedWords(words, [deck], language);
+    return language === 'en' ? deckWords.map((word) => getEnglishStudyWord(word, englishLocale)) : deckWords;
+  };
+
   const changeEnglishLocale = (locale: EnglishLocale) => {
     setActiveSession(null);
     setShowReminderPopover(false);
@@ -397,7 +408,7 @@ export default function App() {
   ) => {
     const timestamp = Date.now();
     setNow(timestamp);
-    const pool = getPracticeWords(scopedWords, deckId, filterType, bloomTarget, mode, timestamp);
+    const pool = getPracticeWords(practiceWords(deckId), deckId, filterType, bloomTarget, mode, timestamp);
     beginSession(mode, deckId, pool.slice(0, PRACTICE_SESSION_SIZE));
   };
 
@@ -443,7 +454,7 @@ export default function App() {
   const restartPractice = () => {
     if (!activeSession || activeSession.mode === 'guided' || activeSession.mode === 'intensive') return;
     const ids = new Set(activeSession.words.map((word) => word.id));
-    const eligible = getPracticeWords(scopedWords, activeSession.deckId, 'all', 1, activeSession.mode, Date.now());
+    const eligible = getPracticeWords(practiceWords(activeSession.deckId), activeSession.deckId, 'all', 1, activeSession.mode, Date.now());
     beginSession(activeSession.mode, activeSession.deckId, eligible.filter((word) => ids.has(word.id)));
   };
 
@@ -523,6 +534,13 @@ export default function App() {
     setWords((prev) => prev.filter((w) => w.id !== wordId));
   };
 
+  const handleUpdateWordRelations = (wordId: string, relations: LexicalRelations) => {
+    setWords((prev) => prev.map((word) => {
+      if (word.id !== wordId) return word;
+      return isBuiltinWord(wordId) ? { ...word, personalRelations: relations } : { ...word, ...relations };
+    }));
+  };
+
   const handleImportWordsJson = (
     deckId: string,
     items: DeckWordImport[],
@@ -540,9 +558,13 @@ export default function App() {
         language: lang,
         term: item.term.trim(),
         phonetic: trimText(item.phonetic),
-        partOfSpeech: trimText(item.partOfSpeech) || 'Danh từ',
+        partOfSpeech: trimText(item.partOfSpeech) || 'Từ / cụm từ',
         meaning: item.meaning.trim(),
         notes: trimText(item.notes) || undefined,
+        ...(lang === 'zh' && {
+          sinoVietnamese: trimText(item.sinoVietnamese) || undefined,
+          radical: trimText(item.radical) || undefined,
+        }),
         collocations: importCollocations(item.collocations) ?? (trimText(item.collocation)
           ? [{ phrase: trimText(item.collocation), meaning: trimText(item.collocationMeaning) }]
           : []),
@@ -550,7 +572,8 @@ export default function App() {
           ? [{ sentence: trimText(item.example), phonetic: trimText(item.examplePhonetic) || undefined, translation: trimText(item.translation) }]
           : []),
         ...(lang === 'en' && { englishForms: importEnglishForms(item.englishForms) }),
-        synonyms: [],
+        synonyms: importTerms(item.synonyms),
+        antonyms: importTerms(item.antonyms),
         bloomLevel: 1 as BloomLevel,
         srs: createInitialSRS(now),
         createdAt: now,
@@ -578,15 +601,14 @@ export default function App() {
       language: targetDeck.language,
       term: cleanTerm,
       phonetic: qaPhonetic.trim(),
-      partOfSpeech: 'Danh từ / Động từ',
+      partOfSpeech: 'Từ / cụm từ',
       meaning: qaMeaning.trim(),
       collocations: qaCollocation.trim()
         ? [{ phrase: qaCollocation.trim(), meaning: qaCollocationMeaning.trim() }]
         : [],
-      examples: qaExample.trim()
-        ? [{ sentence: qaExample.trim(), translation: qaExampleTranslation.trim() }]
-        : [],
-      synonyms: [],
+      examples: importExamples(qaExamples) ?? [],
+      synonyms: importTerms(qaRelations.synonyms),
+      antonyms: importTerms(qaRelations.antonyms),
       bloomLevel: 1,
     });
     setQaTerm('');
@@ -594,8 +616,8 @@ export default function App() {
     setQaMeaning('');
     setQaCollocation('');
     setQaCollocationMeaning('');
-    setQaExample('');
-    setQaExampleTranslation('');
+    setQaExamples(EMPTY_EXAMPLES);
+    setQaRelations(EMPTY_RELATIONS);
     setQaError(null);
     setShowQuickAdd(false);
   };
@@ -669,7 +691,7 @@ export default function App() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="app-shell" data-zen={isZenStudyActive} data-density={settings.uiDensity}>
+      <div className="app-shell" data-route={route} data-zen={isZenStudyActive} data-density={settings.uiDensity}>
         {!isZenStudyActive && (
           <Sidebar
             activeRoute={route}
@@ -776,10 +798,10 @@ export default function App() {
                       )}
                     </AnimatePresence>
                   </div>
-                  <button type="button" className="button-primary header-add" onClick={openQuickAdd}
+                  {route !== 'decks' && <button type="button" className="button-primary header-add" onClick={openQuickAdd}
                     aria-label={scopedDecks.length ? 'Thêm từ' : 'Tạo bộ từ'}>
                     <Plus size={17} aria-hidden="true" /><span>{scopedDecks.length ? 'Thêm từ' : 'Tạo bộ từ'}</span>
-                  </button>
+                  </button>}
                 </div>
               </div>
             </header>
@@ -790,6 +812,7 @@ export default function App() {
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={activeViewKey}
+                  className="app-view"
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
@@ -842,8 +865,8 @@ export default function App() {
                   {route === 'decks' && (
                     <DecksView
                       key={editionKey}
-                      decks={scopedDecks}
-                      words={libraryWords}
+                      decks={editionDecks}
+                      words={words}
                       language={language}
                       englishLocale={englishLocale}
                       hskEdition={hskEdition}
@@ -857,6 +880,7 @@ export default function App() {
                       onDeleteDeck={handleDeleteDeck}
                       onAddWord={handleAddWord}
                       onDeleteWord={handleDeleteWord}
+                      onUpdateWordRelations={handleUpdateWordRelations}
                       onStartDeckStudy={(deckId, mode) => {
                         setSelectedMode(mode);
                         setSelectedDeckId(deckId);
@@ -935,16 +959,8 @@ export default function App() {
                   <input id="qa-col-meaning" required value={qaCollocationMeaning} onChange={(event) => setQaCollocationMeaning(event.target.value)} />
                 </div>
               )}
-              <div className="control-field">
-                <label htmlFor="qa-ex">Câu ví dụ</label>
-                <input id="qa-ex" value={qaExample} onChange={(event) => setQaExample(event.target.value)} />
-              </div>
-              {qaExample.trim() && (
-                <div className="control-field">
-                  <label htmlFor="qa-ex-translation">Nghĩa của câu ví dụ</label>
-                  <input id="qa-ex-translation" value={qaExampleTranslation} onChange={(event) => setQaExampleTranslation(event.target.value)} />
-                </div>
-              )}
+              <ExampleFields values={qaExamples} onChange={setQaExamples} language={language} />
+              <RelationFields value={qaRelations} onChange={setQaRelations} />
               {qaError && <p className="form-error" role="alert">{qaError}</p>}
               <div className="session-actions">
                 <button type="button" className="button-secondary" onClick={() => setShowQuickAdd(false)}>Hủy</button>

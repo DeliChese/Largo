@@ -1,9 +1,22 @@
-Nguồn học liệu tiếng Anh A1–B2 của Largo
+Nguồn học liệu tiếng Anh của Largo
 
 Largo chọn 3.600 mục từ theo cấp A1, A2, B1 và B2 của CEFR-J, ưu tiên từ
 thường gặp. CEFR-J tổng hợp ngữ liệu từ nhiều giáo trình tiếng Anh.
 Các nhóm chủ đề và bài học là cách sắp xếp của Largo. Bộ collocations và
 thẻ so sánh Anh-Anh / Anh-Mỹ do Largo biên soạn, với cấp độ gợi ý.
+
+Cụm động từ
+• + 3000 English Phrasal Verbs, English Speeches, bản PDF người dùng cung cấp.
+  Đối chiếu 3.215 dòng bảng ở trang 3–232 và giữ 3.210 mục theo cụm từ
+  và nghĩa. Các nhóm chủ đề do Largo biên soạn. Câu mẫu lấy từ PDF,
+  nguồn bổ sung bên dưới hoặc được biên soạn theo nghĩa của từng thẻ.
+• Princeton WordNet 3.0 cung cấp một số ví dụ, từ đồng nghĩa và từ trái nghĩa.
+  https://wordnet.princeton.edu/license-and-commercial-use
+• Câu lấy từ Tatoeba giữ liên kết đến câu gốc và người đóng góp khi hiển thị.
+  https://en.wiki.tatoeba.org/articles/show/using-the-tatoeba-corpus
+• Một phần nghĩa và bản dịch ví dụ được tạo với Argos Translate và hiệu đính
+  theo mẫu. Các bản dịch cần được kiểm tra theo ngữ cảnh khi tra cứu thêm.
+  https://www.argosopentech.com/argospm/index/
 
 Phân cấp
 The CEFR-J Wordlist Version 1.6. Compiled by Yukio Tono, Tokyo University
@@ -30,9 +43,9 @@ Nghĩa, ví dụ và phiên âm
   https://github.com/hermitdave/FrequencyWords/tree/master/content/2018/en
 
 Largo giữ giấy phép CC BY-SA 4.0 cho phần trích và điều chỉnh dữ liệu mở
-trong English/englishVocabulary.json. Câu ví dụ của danh sách từ có thể
-chỉ bằng tiếng Anh. Các mục có dữ liệu phiên âm theo vùng sẽ hiển thị IPA
-tương ứng với biến thể đã chọn.
+từ các nguồn có giấy phép này. Câu ví dụ trong danh sách A1–B2 có thể
+chỉ bằng tiếng Anh. Các mục có phiên âm theo vùng sẽ hiển thị IPA của
+biến thể đã chọn.
 https://creativecommons.org/licenses/by-sa/4.0/
 
 Tra cứu thêm

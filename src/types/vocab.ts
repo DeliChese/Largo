@@ -46,6 +46,12 @@ export interface ExampleSentence {
   sentence: string;
   phonetic?: string;
   translation: string;
+  sourceUrl?: string;
+}
+
+export interface LexicalRelations {
+  synonyms: string[];
+  antonyms: string[];
 }
 
 export interface EnglishWordForm {
@@ -69,7 +75,7 @@ export interface SRSState {
   lastIntensiveAt?: number;
 }
 
-export interface VocabWord {
+export interface VocabWord extends LexicalRelations {
   id: string;
   deckId: string;
   term: string;
@@ -82,7 +88,7 @@ export interface VocabWord {
   radical?: string; // Bộ thủ / cấu tạo chữ Hán
   collocations: CollocationItem[];
   examples: ExampleSentence[];
-  synonyms: string[];
+  personalRelations?: LexicalRelations;
   notes?: string;
   bloomLevel: BloomLevel;
   lastSynthesisAt?: number;
@@ -90,12 +96,15 @@ export interface VocabWord {
   createdAt: number;
 }
 
+export type DeckCollection = 'textbook' | 'vocabulary' | 'situations' | 'collocations' | 'regional' | 'phrasal';
+
 export interface VocabDeck {
   id: string;
   name: string;
   description: string;
   language: LanguageCode;
   category: string;
+  collection?: DeckCollection;
   level?: string;
   hskEdition?: HskEdition;
   wordIds?: readonly string[];
@@ -109,6 +118,8 @@ export interface DeckWordImport {
   phonetic?: string;
   partOfSpeech?: string;
   notes?: string;
+  sinoVietnamese?: string;
+  radical?: string;
   collocation?: string;
   collocationMeaning?: string;
   example?: string;
@@ -116,6 +127,8 @@ export interface DeckWordImport {
   translation?: string;
   collocations?: CollocationItem[];
   examples?: ExampleSentence[];
+  synonyms?: string[] | string;
+  antonyms?: string[] | string;
   englishForms?: EnglishWordForms;
 }
 

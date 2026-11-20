@@ -17,6 +17,8 @@ export default defineConfig(() => {
             groups: [
               { name: 'chinese-vocabulary', test: /[\\/]Chinese[\\/]chineseVocabulary\.json$/ },
               { name: 'english-vocabulary', test: /[\\/]src[\\/]data[\\/]englishDecks\.ts$/ },
+              { name: 'english-card-details', test: /[\\/]English[\\/]englishEnrichment\.json$/, priority: 1 },
+              { name: 'english-phrasal-verbs', test: /[\\/]English[\\/]englishPhrasalVerbs\.json$/, priority: 1 },
             ],
           },
         },

@@ -1,14 +1,35 @@
 import englishVocabulary from '../../English/englishVocabulary.json' with { type: 'json' };
 import englishCollocations from '../../English/englishCollocations.json' with { type: 'json' };
 import englishRegional from '../../English/englishRegional.json' with { type: 'json' };
-import type { CollocationItem, EnglishWordForms, ExampleSentence, VocabDeck, VocabWord } from '../types/vocab';
+import englishEnrichment from '../../English/englishEnrichment.json' with { type: 'json' };
+import englishPhrasalVerbs from '../../English/englishPhrasalVerbs.json' with { type: 'json' };
+import type { CollocationItem, DeckCollection, EnglishLocale, EnglishWordForms, ExampleSentence, VocabDeck, VocabWord } from '../types/vocab';
 import { createInitialSRS } from '../utils/srsBloom';
 import { ENGLISH_COLLOCATION_POS } from '../utils/englishStudy';
 
 const NOW = Date.now();
 export const ENGLISH_LEVELS = ['a1', 'a2', 'b1', 'b2'] as const;
-export const ENGLISH_COLLOCATION_CATEGORY = 'Collocations';
-const REGIONAL_CATEGORY = 'Anh-Anh và Anh-Mỹ';
+export const ENGLISH_PHRASAL_LEVEL = 'phrasal';
+const GENERAL_CATEGORY = 'Từ thường dùng';
+
+const VOCABULARY_TOPICS: Record<string, string> = {
+  talk: 'Giao tiếp và thông tin',
+  work: 'Học tập và công việc',
+  people: 'Con người và quan hệ',
+  home: 'Nhà cửa và sinh hoạt',
+  travel: 'Đi lại và vị trí',
+  feelings: 'Cảm xúc và thái độ',
+  health: 'Sức khỏe và cơ thể',
+  money: 'Mua bán và tài chính',
+  conflict: 'Xung đột và cạnh tranh',
+  ideas: 'Suy nghĩ và nhận thức',
+  changes: 'Tác động và thay đổi',
+  activity: 'Hành động và hoạt động',
+  nature: 'Thiên nhiên và môi trường',
+  quantity: 'Thời gian, mức độ và số lượng',
+  qualities: 'Miêu tả và đặc điểm',
+  grammar: 'Cấu trúc và liên kết câu',
+};
 
 interface EnglishCardSeed {
   term: string;
@@ -19,7 +40,19 @@ interface EnglishCardSeed {
   examples: ExampleSentence[];
   notes?: string;
   englishForms?: EnglishWordForms;
+  synonyms?: string[];
+  antonyms?: string[];
 }
+
+interface EnglishEnrichment {
+  topic?: string;
+  examples?: ExampleSentence[];
+  formExamples?: Partial<Record<EnglishLocale, ExampleSentence[]>>;
+  synonyms?: string[];
+  antonyms?: string[];
+}
+
+const enrichment: Record<string, EnglishEnrichment> = englishEnrichment;
 
 interface EnglishVocabularyRow {
   term: string;
@@ -31,6 +64,16 @@ interface EnglishVocabularyRow {
   sentence?: string;
   translation?: string;
 }
+
+interface EnglishVocabularyLesson {
+  id: string;
+  level: string;
+  title: string;
+  category: string;
+  cards: EnglishVocabularyRow[];
+}
+
+const originalVocabulary: EnglishVocabularyLesson[] = englishVocabulary;
 
 interface EnglishTopicSeed {
   id: string;
@@ -682,13 +725,19 @@ export const PRE_V5_ENGLISH_WORD_IDS = new Set(
     .flatMap((topic) => topic.cards.map((card) => buildEnglishWordId(topic.id, card.term))),
 );
 
-function createEnglishDeck({ id, level, title }: { id: string; level: string; title: string }, category: string, description: string): VocabDeck {
+function createEnglishDeck(
+  { id, level, title }: { id: string; level: string; title: string },
+  collection: DeckCollection,
+  category: string,
+  description: string,
+): VocabDeck {
   return {
     id,
     level,
     category,
+    collection,
     description,
-    name: level.toUpperCase() + ' · ' + title,
+    name: level === ENGLISH_PHRASAL_LEVEL ? title : level.toUpperCase() + ' · ' + title,
     language: 'en',
     isCustom: false,
     createdAt: NOW,
@@ -696,12 +745,23 @@ function createEnglishDeck({ id, level, title }: { id: string; level: string; ti
 }
 
 function createEnglishCard(id: string, deckId: string, card: EnglishCardSeed): VocabWord {
+  const extra = enrichment[id];
+  const englishForms = extra?.formExamples ? { ...card.englishForms } : card.englishForms;
+  if (extra?.formExamples && englishForms) {
+    for (const [locale, examples] of Object.entries(extra.formExamples)) {
+      const key = locale as EnglishLocale;
+      englishForms[key] = { ...englishForms[key], examples };
+    }
+  }
   return {
     ...card,
+    englishForms,
     id,
     deckId,
     language: 'en',
-    synonyms: [],
+    examples: extra?.examples ?? card.examples,
+    synonyms: extra?.synonyms ?? card.synonyms ?? [],
+    antonyms: extra?.antonyms ?? card.antonyms ?? [],
     bloomLevel: 1,
     srs: createInitialSRS(NOW),
     createdAt: NOW,
@@ -709,7 +769,7 @@ function createEnglishCard(id: string, deckId: string, card: EnglishCardSeed): V
 }
 
 export const STARTER_ENGLISH_DECKS = ENGLISH_TOPICS.map((topic) =>
-  createEnglishDeck(topic, 'Giao tiếp theo tình huống', topic.description),
+  createEnglishDeck(topic, 'situations', topic.title, topic.description),
 );
 
 export const STARTER_ENGLISH_WORDS = ENGLISH_TOPICS.flatMap((topic) =>
@@ -734,11 +794,41 @@ for (const { level, cards } of englishCollocations) {
   }
 }
 
-const vocabularyDecks = englishVocabulary.map((lesson) =>
-  createEnglishDeck(lesson, lesson.category, 'Từ thường gặp theo cấp độ CEFR-J, có nghĩa tiếng Việt.'),
+function organizeVocabularyLessons(): EnglishVocabularyLesson[] {
+  const thematicLessons: EnglishVocabularyLesson[] = [];
+  for (const level of ENGLISH_LEVELS) {
+    const lessons = originalVocabulary.filter((lesson) => lesson.level === level);
+    thematicLessons.push(...lessons.filter(({ category }) => category !== GENERAL_CATEGORY));
+    const generalLessons = lessons.filter(({ category }) => category === GENERAL_CATEGORY);
+    const groups = new Map<string, EnglishVocabularyRow[]>();
+    for (const card of generalLessons.flatMap(({ cards }) => cards)) {
+      const topic = enrichment[buildEnglishWordId('en-vocab', card.term)]?.topic ?? 'grammar';
+      const group = groups.get(topic);
+      if (group) group.push(card);
+      else groups.set(topic, [card]);
+    }
+    let usedIds = 0;
+    for (const [topic, cards] of groups) {
+      const sections = Math.ceil(cards.length / 36);
+      const category = VOCABULARY_TOPICS[topic];
+      for (let section = 0; section < sections; section++) {
+        const start = Math.floor(section * cards.length / sections);
+        const end = Math.floor((section + 1) * cards.length / sections);
+        const id = generalLessons[usedIds++]?.id ?? `deck-en-vocab-${level}-topic-${topic}-${section + 1}`;
+        const title = sections > 1 ? `${category} · Bộ ${section + 1}` : category;
+        thematicLessons.push({ id, level, title, category, cards: cards.slice(start, end) });
+      }
+    }
+  }
+  return thematicLessons;
+}
+
+const vocabularyLessons = organizeVocabularyLessons();
+const vocabularyDecks = vocabularyLessons.map((lesson) =>
+  createEnglishDeck(lesson, 'vocabulary', lesson.category, 'Từ vựng CEFR-J theo chủ đề.'),
 );
 
-const vocabularyWords = englishVocabulary.flatMap(({ id, level, cards }) => cards.map((card: EnglishVocabularyRow) => {
+const vocabularyWords = vocabularyLessons.flatMap(({ id, level, cards }) => cards.map((card) => {
   const linked = (phrasesByAnchor.get(card.term.toLowerCase()) ?? [])
     .filter((item) => LEVEL_ORDER.indexOf(item.level) <= LEVEL_ORDER.indexOf(level))
     .slice(0, 3)
@@ -769,8 +859,9 @@ const vocabularyWords = englishVocabulary.flatMap(({ id, level, cards }) => card
 
 const collocationDecks = englishCollocations.map((lesson) =>
   createEnglishDeck(
-    { ...lesson, title: 'Collocations · ' + lesson.title },
-    ENGLISH_COLLOCATION_CATEGORY,
+    lesson,
+    'collocations',
+    lesson.title,
     'Luyện cụm từ qua nghĩa tiếng Việt và câu ví dụ song ngữ.',
   ),
 );
@@ -796,8 +887,9 @@ const collocationWords = englishCollocations.flatMap(({ id, cards }) => cards.ma
 
 const regionalDecks = englishRegional.map((lesson) =>
   createEnglishDeck(
-    { ...lesson, title: 'Anh-Anh / Anh-Mỹ · ' + lesson.title },
-    REGIONAL_CATEGORY,
+    lesson,
+    'regional',
+    lesson.title,
     'So sánh cách dùng, chính tả và phát âm Anh-Anh, Anh-Mỹ trong cùng một thẻ.',
   ),
 );
@@ -823,7 +915,31 @@ const regionalWords = englishRegional.flatMap(({ id, cards }) => cards.map((card
 }));
 
 const courseDecks = [...STARTER_ENGLISH_DECKS, ...collocationDecks, ...regionalDecks, ...vocabularyDecks];
-export const ENGLISH_DECKS = ENGLISH_LEVELS.flatMap((level) => courseDecks.filter((deck) => deck.level === level));
+const phrasalDecks = englishPhrasalVerbs.map(({ id, title, topic }) => createEnglishDeck(
+  { id, title, level: ENGLISH_PHRASAL_LEVEL }, 'phrasal', topic, 'Cụm động từ theo ngữ cảnh, có câu mẫu song ngữ.',
+));
+const phrasalWords = englishPhrasalVerbs.flatMap(({ id, cards }) => cards.map((card) => createEnglishCard(card.id, id, {
+  term: card.term,
+  phonetic: '',
+  partOfSpeech: 'Cụm động từ',
+  meaning: card.meaning,
+  collocations: [],
+  examples: card.examples,
+  synonyms: 'synonyms' in card ? card.synonyms : undefined,
+  antonyms: 'antonyms' in card ? card.antonyms : undefined,
+  notes: `${card.gloss} (PDF, trang ${card.page})`,
+})));
+
+// The original lesson membership is used only to tell old deletions from new cards.
+export const ENGLISH_V7_WORD_DECK_IDS = new Map([
+  ...[...STARTER_ENGLISH_WORDS, ...collocationWords, ...regionalWords].map(({ id, deckId }) => [id, deckId] as const),
+  ...originalVocabulary.flatMap((deck) => deck.cards.map(({ term }) => [buildEnglishWordId('en-vocab', term), deck.id] as const)),
+]);
+
+export const ENGLISH_DECKS = [
+  ...ENGLISH_LEVELS.flatMap((level) => courseDecks.filter((deck) => deck.level === level)),
+  ...phrasalDecks,
+];
 const deckOrder = new Map(ENGLISH_DECKS.map(({ id }, index) => [id, index]));
-export const ENGLISH_WORDS = [...STARTER_ENGLISH_WORDS, ...collocationWords, ...regionalWords, ...vocabularyWords]
+export const ENGLISH_WORDS = [...STARTER_ENGLISH_WORDS, ...collocationWords, ...regionalWords, ...vocabularyWords, ...phrasalWords]
   .sort((a, b) => deckOrder.get(a.deckId)! - deckOrder.get(b.deckId)!);

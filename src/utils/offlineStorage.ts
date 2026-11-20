@@ -22,6 +22,7 @@ const DB_VERSION = 3;
 const STORE_NAME = 'app_state';
 const STATE_KEY = 'primary_state_v3';
 const LS_FALLBACK_KEY = 'lexisbloom_state_v3';
+const GZIP_PREFIX = 'gzip:';
 const PROFILE_IMAGE_KEYS = { avatar: 'profile_avatar', cover: 'profile_cover' };
 let lastSaveTime = 0;
 
@@ -43,14 +44,35 @@ function openDB(): Promise<IDBDatabase> {
   });
 }
 
+async function saveLocalFallback(snapshot: PersistedAppState & { savedAt: number }): Promise<void> {
+  let raw = '';
+  try {
+    raw = JSON.stringify(snapshot);
+    localStorage.setItem(LS_FALLBACK_KEY, raw);
+    return;
+  } catch (error) {
+    if (!(error instanceof DOMException) || error.name !== 'QuotaExceededError' || typeof CompressionStream === 'undefined') return;
+  }
+
+  try {
+    const stream = new Blob([raw]).stream().pipeThrough(new CompressionStream('gzip'));
+    const bytes = new Uint8Array(await new Response(stream).arrayBuffer());
+    const chunks: string[] = [];
+    for (let offset = 0; offset < bytes.length; offset += 0x4000) {
+      chunks.push(String.fromCharCode(...bytes.subarray(offset, offset + 0x4000)));
+    }
+    if (snapshot.savedAt === lastSaveTime) {
+      localStorage.setItem(LS_FALLBACK_KEY, GZIP_PREFIX + btoa(chunks.join('')));
+    }
+  } catch {
+    // IndexedDB keeps the full snapshot when localStorage is unavailable.
+  }
+}
+
 export async function saveOfflineState(state: PersistedAppState): Promise<void> {
   lastSaveTime = Math.max(Date.now(), lastSaveTime + 1);
   const snapshot = { ...state, savedAt: lastSaveTime };
-  try {
-    localStorage.setItem(LS_FALLBACK_KEY, JSON.stringify(snapshot));
-  } catch {
-    // Ignore storage quota errors on localStorage
-  }
+  const fallbackWrite = saveLocalFallback(snapshot);
 
   try {
     const db = await openDB();
@@ -59,21 +81,22 @@ export async function saveOfflineState(state: PersistedAppState): Promise<void> 
       const store = tx.objectStore(STORE_NAME);
       const stored = store.get(STATE_KEY);
       stored.onsuccess = () => {
-        if ((stored.result?.savedAt ?? 0) <= snapshot.savedAt) store.put(snapshot, STATE_KEY);
+        if (snapshot.savedAt === lastSaveTime && (stored.result?.savedAt ?? 0) <= snapshot.savedAt) store.put(snapshot, STATE_KEY);
       };
       tx.oncomplete = () => resolve();
       tx.onerror = () => reject(tx.error);
     });
     db.close();
   } catch {
-    // localStorage already saved above
+    // The localStorage fallback can still save the snapshot.
   }
+  await fallbackWrite;
 }
 
 export function loadSyncFallbackState(): PersistedAppState | null {
   try {
     const raw = localStorage.getItem(LS_FALLBACK_KEY);
-    if (!raw) return null;
+    if (!raw || raw.startsWith(GZIP_PREFIX)) return null;
     const state: PersistedAppState = JSON.parse(raw);
     lastSaveTime = Math.max(lastSaveTime, state?.savedAt ?? 0);
     return state;
@@ -82,10 +105,23 @@ export function loadSyncFallbackState(): PersistedAppState | null {
   }
 }
 
+async function loadLocalFallback(): Promise<PersistedAppState | null> {
+  try {
+    const raw = localStorage.getItem(LS_FALLBACK_KEY);
+    if (!raw?.startsWith(GZIP_PREFIX)) return loadSyncFallbackState();
+    const bytes = Uint8Array.from(atob(raw.slice(GZIP_PREFIX.length)), (char) => char.charCodeAt(0));
+    const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+    return JSON.parse(await new Response(stream).text());
+  } catch {
+    return null;
+  }
+}
+
 export async function loadOfflineState(): Promise<PersistedAppState | null> {
+  let result: PersistedAppState | null = null;
   try {
     const db = await openDB();
-    const result = await new Promise<PersistedAppState | null>((resolve, reject) => {
+    result = await new Promise<PersistedAppState | null>((resolve, reject) => {
       const tx = db.transaction(STORE_NAME, 'readonly');
       const store = tx.objectStore(STORE_NAME);
       const req = store.get(STATE_KEY);
@@ -93,14 +129,13 @@ export async function loadOfflineState(): Promise<PersistedAppState | null> {
       req.onerror = () => reject(req.error);
     });
     db.close();
-    const fallback = loadSyncFallbackState();
-    const latest = result && (result.savedAt ?? 0) >= (fallback?.savedAt ?? 0) ? result : fallback;
-    lastSaveTime = Math.max(lastSaveTime, latest?.savedAt ?? 0);
-    return latest;
   } catch {
     // Fall back to localStorage
   }
-  return loadSyncFallbackState();
+  const fallback = await loadLocalFallback();
+  const latest = result && (result.savedAt ?? 0) >= (fallback?.savedAt ?? 0) ? result : fallback;
+  lastSaveTime = Math.max(lastSaveTime, latest?.savedAt ?? 0);
+  return latest;
 }
 
 export async function loadProfileImages(): Promise<ProfileImages> {
@@ -140,6 +175,7 @@ export async function saveProfileImage(kind: ProfileImageKind, image?: Blob): Pr
 }
 
 export async function clearOfflineState(): Promise<void> {
+  lastSaveTime = Math.max(Date.now(), lastSaveTime + 1);
   try {
     localStorage.removeItem(LS_FALLBACK_KEY);
   } catch {

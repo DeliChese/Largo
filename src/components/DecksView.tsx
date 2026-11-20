@@ -1,9 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
   BookOpenCheck,
   Download,
   FolderPlus,
+  LibraryBig,
+  Pencil,
+  Play,
   Plus,
   Search,
   Trash2,
@@ -11,20 +17,37 @@ import {
   Volume2,
   X,
 } from 'lucide-react';
-import type { DeckWordImport, EnglishLocale, EnglishWordForms, HskEdition, LanguageCode, StudyModeId, VocabDeck, VocabWord } from '../types/vocab';
+import type { DeckCollection, DeckWordImport, EnglishLocale, EnglishWordForms, ExampleSentence, HskEdition, LanguageCode, LexicalRelations, StudyModeId, VocabDeck, VocabWord } from '../types/vocab';
 import { HSK1_COURSES } from '../../Chinese/hsk1Courses';
-import { ENGLISH_COLLOCATION_CATEGORY } from '../data/englishDecks';
-import { LANGUAGE_LABELS } from '../data/seedVocab';
+import { isBuiltinWord, LANGUAGE_LABELS } from '../data/seedVocab';
 import { BLOOM_META, calculateRetentionProbability, formatIntervalVi } from '../utils/srsBloom';
-import { stripTrailingPinyin } from '../utils/studyPlan';
-import { getDeckStudyLevel, getStudyLevels } from '../utils/studyScope';
+import { getDeckStudyLevel, getScopedDecks, getScopedWords, getStudyLevels } from '../utils/studyScope';
 import { speakPronunciation } from '../utils/soundEngine';
 import { type ChineseDictEntry, searchChineseDictionary } from '../utils/chineseDict';
 import { compactPhonetic, searchable } from '../utils/vocabSearch';
+import { exportDeckWord, importExamples, importTerms } from '../utils/vocabImport';
 import { cambridgeLookupUrl, ENGLISH_COLLOCATION_POS, ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishStudyWord } from '../utils/englishStudy';
 import { EnglishVariantDetails } from './EnglishVariantDetails';
+import { EMPTY_EXAMPLES, EMPTY_RELATIONS, ExampleFields, RelationFields } from './WordFormFields';
+import { WordRelations } from './WordRelations';
+import { WordExamples } from './WordExamples';
 
-const WORDS_PER_PAGE = 40;
+const WORDS_PER_PAGE = 24;
+const EMPTY_ENGLISH_FORM = { term: '', phonetic: '', examples: EMPTY_EXAMPLES as readonly ExampleSentence[] };
+
+const COLLECTION_LABELS: Record<DeckCollection | 'personal', string> = {
+  textbook: 'Giáo trình',
+  vocabulary: 'Từ theo chủ đề',
+  situations: 'Giao tiếp',
+  phrasal: 'Cụm động từ',
+  collocations: 'Collocations',
+  regional: 'Anh-Anh / Anh-Mỹ',
+  personal: 'Bộ cá nhân',
+};
+
+function deckCollection(deck: VocabDeck) {
+  return deck.isCustom ? 'personal' : deck.collection ?? 'vocabulary';
+}
 
 const WORD_FORM_EXAMPLES: Partial<Record<LanguageCode, {
   term: string;
@@ -64,6 +87,7 @@ interface DecksViewProps {
   onDeleteDeck: (deckId: string) => void;
   onAddWord: (word: Omit<VocabWord, 'id' | 'createdAt' | 'srs'>) => void;
   onDeleteWord: (wordId: string) => void;
+  onUpdateWordRelations: (wordId: string, relations: LexicalRelations) => void;
   onStartDeckStudy: (deckId: string, mode: StudyModeId) => void;
   onImportWordsJson: (deckId: string, items: DeckWordImport[]) => number;
 }
@@ -84,15 +108,20 @@ export const DecksView: React.FC<DecksViewProps> = ({
   onDeleteDeck,
   onAddWord,
   onDeleteWord,
+  onUpdateWordRelations,
   onStartDeckStudy,
   onImportWordsJson,
 }) => {
-  const [selectedDeckId, setSelectedDeckId] = useState(() => decks.find((deck) => deck.hskEdition)?.id ?? decks[0]?.id ?? 'all');
+  const [selectedDeckId, setSelectedDeckId] = useState('');
   const [deckQuery, setDeckQuery] = useState('');
-  const [topicFilter, setTopicFilter] = useState('');
+  const [collection, setCollection] = useState('');
+  const [mobilePanel, setMobilePanel] = useState<'directory' | 'words'>('directory');
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const wordScroll = useRef<HTMLDivElement>(null);
+  const directoryScroll = useRef<HTMLDivElement>(null);
+  const wordsHeading = useRef<HTMLHeadingElement>(null);
+  const deckSearch = useRef<HTMLInputElement>(null);
   const [showNewDeckModal, setShowNewDeckModal] = useState(false);
   const [showAddWordModal, setShowAddWordModal] = useState(false);
   const [showZhDictModal, setShowZhDictModal] = useState(false);
@@ -111,7 +140,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
   // New Word Form State
   const [wordTerm, setWordTerm] = useState('');
   const [wordPhonetic, setWordPhonetic] = useState('');
-  const [alternateForm, setAlternateForm] = useState({ term: '', phonetic: '', sentence: '' });
+  const [alternateForm, setAlternateForm] = useState(EMPTY_ENGLISH_FORM);
   const [wordIsCollocation, setWordIsCollocation] = useState(false);
   const [wordSinoVi, setWordSinoVi] = useState('');
   const [wordPos, setWordPos] = useState('');
@@ -119,27 +148,44 @@ export const DecksView: React.FC<DecksViewProps> = ({
   const [wordNotes, setWordNotes] = useState('');
   const [wordCollocation, setWordCollocation] = useState('');
   const [wordCollocationMeaning, setWordCollocationMeaning] = useState('');
-  const [wordExample, setWordExample] = useState('');
-  const [wordTranslation, setWordTranslation] = useState('');
-  const [wordSynonyms, setWordSynonyms] = useState('');
+  const [wordExamples, setWordExamples] = useState<readonly ExampleSentence[]>(EMPTY_EXAMPLES);
+  const [wordRelations, setWordRelations] = useState(EMPTY_RELATIONS);
+  const [relationWordId, setRelationWordId] = useState<string>();
+  const [relationDraft, setRelationDraft] = useState(EMPTY_RELATIONS);
+  const relationDialog = useRef<HTMLDialogElement>(null);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const topics = useMemo(() => [...new Set(decks.map(({ category }) => category))]
-    .filter(Boolean).sort((a, b) => a.localeCompare(b, 'vi')), [decks]);
-  const topic = topics.includes(topicFilter) ? topicFilter : '';
+  const collections = useMemo(() => {
+    const present = new Set(decks.map(deckCollection));
+    return Object.entries(COLLECTION_LABELS).filter(([id]) => present.has(id as DeckCollection | 'personal'));
+  }, [decks]);
+  const browseLevels = collection
+    ? levels.filter(({ id }) => id === 'all' || decks.some((deck) => deckCollection(deck) === collection && getDeckStudyLevel(deck) === id))
+    : levels;
+  const scopedDecks = useMemo(() => getScopedDecks(decks, language, activeLevel), [decks, language, activeLevel]);
   const filteredDecks = useMemo(() => {
-    const q = searchable(deckQuery);
-    return decks.filter((deck) => {
+    const terms = searchable(deckQuery).split(' ').filter(Boolean);
+    return scopedDecks.filter((deck) => {
       const level = levels.find(({ id }) => id === getDeckStudyLevel(deck))?.label ?? '';
-      return (!topic || deck.category === topic) && (!q || searchable(`${deck.name} ${deck.category} ${deck.description} ${level}`).includes(q));
+      const name = searchable(`${deck.name} ${deck.category} ${deck.description} ${level} ${COLLECTION_LABELS[deckCollection(deck)]}`);
+      return (!collection || deckCollection(deck) === collection) && terms.every((term) => name.includes(term));
     });
-  }, [decks, deckQuery, topic, levels]);
-  const filteredWords = useMemo(() => {
-    const ids = new Set(filteredDecks.map(({ id }) => id));
-    return words.filter(({ deckId }) => ids.has(deckId));
-  }, [words, filteredDecks]);
-  const activeDeck = filteredDecks.find((d) => d.id === selectedDeckId) ?? null;
-  const targetDeck = activeDeck ?? filteredDecks[0] ?? decks[0];
+  }, [scopedDecks, collection, deckQuery, levels]);
+  const topicGroups = useMemo(() => {
+    const topics = new Map<string, VocabDeck[]>();
+    for (const deck of filteredDecks) {
+      const title = deck.category || COLLECTION_LABELS[deckCollection(deck)];
+      const group = topics.get(title);
+      if (group) group.push(deck);
+      else topics.set(title, [deck]);
+    }
+    return [...topics];
+  }, [filteredDecks]);
+  const activeDeck = selectedDeckId === 'all' ? undefined : filteredDecks.find((deck) => deck.id === selectedDeckId) ?? filteredDecks[0];
+  const scopeWords = useMemo(() => getScopedWords(words, filteredDecks, language), [words, filteredDecks, language]);
+  const deckWords = useMemo(() => activeDeck ? getScopedWords(words, [activeDeck], language) : scopeWords,
+    [activeDeck, scopeWords, words, language]);
+  const targetDeck = activeDeck ?? filteredDecks[0] ?? scopedDecks[0];
   const editingEnglish = targetDeck?.language === 'en';
   const alternateLocale = englishLocale === 'en-GB' ? 'en-US' : 'en-GB';
   const inputExamples = WORD_FORM_EXAMPLES[targetDeck?.language ?? language];
@@ -147,25 +193,37 @@ export const DecksView: React.FC<DecksViewProps> = ({
   const creationLevels = (deckLang === language ? levels : getStudyLevels(deckLang, decks))
     .filter(({ id }) => id !== 'all' && id !== 'custom');
   const textbook = language === 'zh' ? HSK1_COURSES[hskEdition] : undefined;
+  const relationWord = relationWordId ? words.find(({ id }) => id === relationWordId) : undefined;
 
   const deckCounts = useMemo(() => {
     const counts = new Map<string, number>();
-    for (const { deckId } of words) counts.set(deckId, (counts.get(deckId) ?? 0) + 1);
+    const byId = new Map<string, string>();
+    for (const word of words) {
+      if (word.language !== language) continue;
+      counts.set(word.deckId, (counts.get(word.deckId) ?? 0) + 1);
+      byId.set(word.id, word.deckId);
+    }
+    for (const deck of decks) {
+      if (!deck.wordIds) continue;
+      const sharedCount = deck.wordIds.filter((id) => byId.has(id) && byId.get(id) !== deck.id).length;
+      counts.set(deck.id, (counts.get(deck.id) ?? 0) + sharedCount);
+    }
     return counts;
-  }, [words]);
+  }, [decks, words, language]);
 
   const visibleWords = useMemo(() => {
-    const base = activeDeck ? filteredWords.filter((word) => word.deckId === activeDeck.id) : filteredWords;
     const q = searchable(searchQuery);
-    if (!q) return base;
+    if (!q) return deckWords;
     const phoneticQuery = compactPhonetic(q);
     const exactTerm = (word: VocabWord) => searchable(word.term) === q ||
       ENGLISH_LOCALES.some((locale) => searchable(word.englishForms?.[locale]?.term ?? '') === q);
-    return base.filter(
+    return deckWords.filter(
       (w) =>
         searchable(w.term).includes(q) ||
         (phoneticQuery && compactPhonetic(w.phonetic).includes(phoneticQuery)) ||
         searchable(w.meaning).includes(q) ||
+        [w.synonyms, w.antonyms, w.personalRelations?.synonyms, w.personalRelations?.antonyms]
+          .some((terms) => terms?.some((term) => searchable(term).includes(q))) ||
         (w.sinoVietnamese && searchable(w.sinoVietnamese).includes(q)) ||
         w.collocations.some((c) => searchable(c.phrase).includes(q) || searchable(c.meaning).includes(q)) ||
         ENGLISH_LOCALES.some((locale) => {
@@ -177,7 +235,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
           );
         }),
     ).sort((a, b) => Number(exactTerm(b)) - Number(exactTerm(a)));
-  }, [filteredWords, activeDeck, searchQuery]);
+  }, [deckWords, searchQuery]);
 
   const pageCount = Math.max(1, Math.ceil(visibleWords.length / WORDS_PER_PAGE));
   const currentPage = Math.min(page, pageCount);
@@ -186,11 +244,49 @@ export const DecksView: React.FC<DecksViewProps> = ({
 
   useEffect(() => {
     if (wordScroll.current) wordScroll.current.scrollTop = 0;
-  }, [activeDeck?.id, activeLevel, currentPage, deckQuery, searchQuery, topic]);
+  }, [activeDeck?.id, activeLevel, collection, currentPage, deckQuery, searchQuery]);
+  useEffect(() => {
+    if (directoryScroll.current) directoryScroll.current.scrollTop = 0;
+  }, [activeLevel, collection, deckQuery]);
 
   const selectDeck = (id: string) => {
     setSelectedDeckId(id);
+    setSearchQuery('');
     setPage(1);
+    setMobilePanel('words');
+    if (window.matchMedia('(max-width: 779px)').matches) {
+      requestAnimationFrame(() => wordsHeading.current?.focus());
+    }
+  };
+
+  const changeCollection = (id: string) => {
+    setCollection(id);
+    if (id && !scopedDecks.some((deck) => deckCollection(deck) === id)) onChangeLevel('all');
+    setSelectedDeckId('');
+    setSearchQuery('');
+    setPage(1);
+    setMobilePanel('directory');
+  };
+
+  const changeLibraryLevel = (id: string) => {
+    if (id === activeLevel) return;
+    if (collection && !decks.some((deck) => deckCollection(deck) === collection && (id === 'all' || getDeckStudyLevel(deck) === id))) {
+      setCollection('');
+    }
+    onChangeLevel(id);
+    setSelectedDeckId('');
+    setSearchQuery('');
+    setPage(1);
+  };
+
+  const openRelationEditor = (word: VocabWord) => {
+    const relations = isBuiltinWord(word.id) ? word.personalRelations : word;
+    setRelationDraft({
+      synonyms: relations?.synonyms?.join(', ') ?? '',
+      antonyms: relations?.antonyms?.join(', ') ?? '',
+    });
+    setRelationWordId(word.id);
+    relationDialog.current?.showModal();
   };
 
   const openCreateDeck = () => {
@@ -236,6 +332,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
       collocations: entry.collocations,
       examples: entry.examples,
       synonyms: entry.synonyms,
+      antonyms: entry.antonyms,
       bloomLevel: 1,
     });
     setImportFeedback(`Đã thêm từ tiếng Trung "${entry.term}" (${entry.phonetic}) vào bộ ${zhDeck.name}.`);
@@ -251,11 +348,11 @@ export const DecksView: React.FC<DecksViewProps> = ({
       name: deckName.trim(),
       description: deckDesc.trim(),
       language: deckLang,
-      level: deckLevel === 'custom' ? undefined : deckLevel,
+      level: deckLevel,
       category: deckCategory.trim() || 'Cá nhân',
     });
     setDeckQuery('');
-    setTopicFilter('');
+    setCollection('personal');
     setSearchQuery('');
     selectDeck(newId);
     setDeckName('');
@@ -280,13 +377,13 @@ export const DecksView: React.FC<DecksViewProps> = ({
     const englishForms: EnglishWordForms = {};
     const alternateTerm = alternateForm.term.trim();
     const alternatePhonetic = alternateForm.phonetic.trim();
-    const alternateSentence = alternateForm.sentence.trim();
-    if (editingEnglish && (alternateTerm || alternatePhonetic || alternateSentence)) {
+    const alternateExamples = importExamples(alternateForm.examples) ?? [];
+    if (editingEnglish && (alternateTerm || alternatePhonetic || alternateExamples.length)) {
       englishForms[englishLocale] = { term, phonetic: phonetic || undefined };
       englishForms[alternateLocale] = {
         term: alternateTerm || term,
         phonetic: alternatePhonetic || undefined,
-        examples: alternateSentence ? [{ sentence: alternateSentence, translation: wordTranslation.trim() }] : undefined,
+        examples: alternateExamples.length ? alternateExamples : undefined,
       };
     } else if (editingEnglish && phonetic) {
       englishForms[englishLocale] = { phonetic };
@@ -304,19 +401,15 @@ export const DecksView: React.FC<DecksViewProps> = ({
       collocations: wordCollocation.trim()
         ? [{ phrase: wordCollocation.trim(), meaning: wordCollocationMeaning.trim() }]
         : [],
-      examples: wordExample.trim()
-        ? [{ sentence: wordExample.trim(), translation: wordTranslation.trim() }]
-        : [],
-      synonyms: wordSynonyms
-        .split(',')
-        .map((s) => s.trim())
-        .filter(Boolean),
+      examples: importExamples(wordExamples) ?? [],
+      synonyms: importTerms(wordRelations.synonyms),
+      antonyms: importTerms(wordRelations.antonyms),
       bloomLevel: 1,
     });
 
     setWordTerm('');
     setWordPhonetic('');
-    setAlternateForm({ term: '', phonetic: '', sentence: '' });
+    setAlternateForm(EMPTY_ENGLISH_FORM);
     setWordIsCollocation(false);
     setWordSinoVi('');
     setWordPos('');
@@ -324,32 +417,14 @@ export const DecksView: React.FC<DecksViewProps> = ({
     setWordNotes('');
     setWordCollocation('');
     setWordCollocationMeaning('');
-    setWordExample('');
-    setWordTranslation('');
-    setWordSynonyms('');
+    setWordExamples(EMPTY_EXAMPLES);
+    setWordRelations(EMPTY_RELATIONS);
     setFormError(null);
     setShowAddWordModal(false);
   };
 
   const handleExportDeck = () => {
-    const payload = visibleWords.map((w) => ({
-      term: w.term,
-      phonetic: w.phonetic,
-      sinoVietnamese: w.sinoVietnamese || '',
-      partOfSpeech: w.partOfSpeech,
-      meaning: w.meaning,
-      collocation: w.collocations[0]?.phrase || '',
-      collocationMeaning: w.collocations[0]?.meaning || '',
-      example: w.examples[0]?.sentence || '',
-      examplePhonetic: w.examples[0]?.phonetic || '',
-      translation: w.examples[0]?.translation || '',
-      ...(w.language === 'en' && {
-        notes: w.notes,
-        collocations: w.collocations,
-        examples: w.examples,
-        englishForms: w.englishForms,
-      }),
-    }));
+    const payload = visibleWords.map(exportDeckWord);
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -380,22 +455,22 @@ export const DecksView: React.FC<DecksViewProps> = ({
   };
 
   return (
-    <div className="deck-library">
+    <div className="deck-library" data-mobile-panel={mobilePanel}>
       <div className="deck-library-heading">
         <div className="page-intro min-w-0">
-          <h1>Bộ từ vựng</h1>
+          <h1>Thư viện từ vựng</h1>
           <p>{textbook ? (
             <a className="text-button" href={textbook.source} target="_blank" rel="noreferrer">{textbook.book}</a>
           ) : language === 'en' ? (
-            <>Tiếng Anh · A1–B2 · <a className="text-button" href={import.meta.env.BASE_URL + 'english-sources.txt'}
+            <>Tiếng Anh · <a className="text-button" href={import.meta.env.BASE_URL + 'english-sources.txt'}
               target="_blank" rel="noreferrer">Nguồn học liệu</a></>
           ) : LANGUAGE_LABELS[language].name}</p>
         </div>
 
-        <div className="flex flex-wrap xl:flex-nowrap items-center gap-2 shrink-0">
+        <div className="deck-library-actions">
           {language === 'zh' && (
-            <button type="button" onClick={handleOpenZhDict} className="button-secondary">
-              <BookOpenCheck className="w-3.5 h-3.5" style={{ color: 'var(--accent-primary)' }} />
+            <button type="button" onClick={handleOpenZhDict} className="button-secondary" aria-label="Từ điển Trung–Việt" title="Từ điển Trung–Việt">
+              <BookOpenCheck size={16} aria-hidden="true" />
               <span>Từ điển Trung–Việt</span>
             </button>
           )}
@@ -403,106 +478,112 @@ export const DecksView: React.FC<DecksViewProps> = ({
           <button
             type="button"
             onClick={openCreateDeck}
-            className="button-secondary"
+            className="button-secondary" aria-label="Tạo bộ từ" title="Tạo bộ từ"
           >
-            <FolderPlus className="w-3.5 h-3.5" />
+            <FolderPlus size={16} aria-hidden="true" />
             <span>Tạo bộ từ</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={openAddWord}
-            className="button-primary"
-            disabled={!targetDeck}
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>Thêm từ vào bộ</span>
           </button>
         </div>
       </div>
 
       {importFeedback && (
-        <div
-          role="status"
-          className="rounded-xl border px-4 py-2.5 text-xs flex items-center justify-between"
-          style={{
-            backgroundColor: 'var(--accent-soft)',
-            borderColor: 'var(--border-hairline)',
-            color: 'var(--accent-text)',
-          }}
-        >
-          <span>{importFeedback}</span>
+        <div className="deck-notice">
+          <p role="status">{importFeedback}</p>
           <button type="button" onClick={() => setImportFeedback(null)} aria-label="Đóng thông báo" className="cursor-pointer">
-            <X className="w-3.5 h-3.5" />
+            <X size={16} aria-hidden="true" />
           </button>
         </div>
       )}
 
+      <div className="deck-browse-controls">
+        {collections.length > 1 && (
+          <div className="deck-filter-bar" role="group" aria-label="Loại bộ từ">
+            <button type="button" className="deck-filter" onClick={() => changeCollection('')} aria-pressed={!collection}>Tất cả bộ</button>
+            {collections.map(([id, label]) => (
+              <button type="button" key={id} className="deck-filter" onClick={() => changeCollection(id)} aria-pressed={collection === id}>{label}</button>
+            ))}
+          </div>
+        )}
+        {browseLevels.length > 2 && (
+          <div className="deck-filter-bar deck-levels" role="group" aria-label="Lọc cấp độ">
+            {browseLevels.map(({ id, label }) => (
+              <button type="button" key={id} className="deck-filter" onClick={() => changeLibraryLevel(id)} aria-pressed={activeLevel === id}>{label}</button>
+            ))}
+          </div>
+        )}
+      </div>
+
       <div className="deck-workspace">
         <aside className="glass-panel deck-directory" aria-label="Danh mục bộ thẻ">
           <div className="deck-directory-controls">
-            <button type="button" className="deck-picker deck-picker-all" onClick={() => selectDeck('all')} aria-pressed={!activeDeck}>
-              <span>Tất cả thẻ trong phạm vi</span>
-              <span className="deck-card-count">{filteredWords.length}</span>
-            </button>
+            <div className="deck-directory-heading">
+              <h2>Chủ đề và bộ thẻ</h2>
+              <span>{filteredDecks.length} bộ</span>
+            </div>
             <label className="deck-search">
               <Search size={16} aria-hidden="true" />
-              <input type="search" aria-label="Tìm bộ từ" placeholder="Tìm bài học hoặc bộ từ…" value={deckQuery}
+              <input ref={deckSearch} type="search" aria-label="Tìm bộ từ hoặc chủ đề" placeholder="Tìm bộ từ hoặc chủ đề…" value={deckQuery}
                 onChange={(event) => { setDeckQuery(event.target.value); setPage(1); }} />
             </label>
-            <div className="deck-filters">
-              <label>
-                <span>Cấp độ</span>
-                <select value={activeLevel} onChange={(event) => { onChangeLevel(event.target.value); selectDeck('all'); }}>
-                  {levels.map(({ id, label }) => <option key={id} value={id}>{label}</option>)}
-                </select>
-              </label>
-              <label>
-                <span>Chủ đề</span>
-                <select value={topic} onChange={(event) => { setTopicFilter(event.target.value); setPage(1); }}>
-                  <option value="">Tất cả chủ đề</option>
-                  {topics.map((category) => <option key={category} value={category}>{category}</option>)}
-                </select>
-              </label>
-            </div>
+            {filteredDecks.length > 0 && (
+              <button type="button" className="deck-picker deck-picker-all" onClick={() => selectDeck('all')} aria-pressed={!activeDeck}>
+                <LibraryBig size={16} aria-hidden="true" />
+                <span>Tất cả thẻ trong phạm vi</span>
+                <span className="deck-card-count">{scopeWords.length.toLocaleString('vi-VN')} thẻ</span>
+              </button>
+            )}
           </div>
 
-          <div className="deck-directory-list" tabIndex={0} role="region" aria-label="Danh sách bài học và bộ từ">
-            {filteredDecks.map((deck) => (
-              <div className="deck-list-item" key={deck.id}>
-                <button type="button" className="deck-picker" onClick={() => selectDeck(deck.id)} aria-pressed={activeDeck?.id === deck.id}>
-                  <span>{deck.name}</span>
-                  <span className="deck-card-count">{deckCounts.get(deck.id) ?? 0} thẻ</span>
-                </button>
-                {deck.isCustom && (
-                  <button type="button" onClick={() => {
-                    onDeleteDeck(deck.id);
-                    if (selectedDeckId === deck.id) selectDeck('all');
-                  }} aria-label={`Xóa bộ từ ${deck.name}`} className="deck-delete">
-                    <Trash2 size={15} aria-hidden="true" />
-                  </button>
-                )}
-              </div>
+          <div ref={directoryScroll} className="deck-directory-list" tabIndex={0} role="region" aria-label="Danh sách bài học và bộ từ">
+            {topicGroups.map(([topic, group]) => (
+              <section className="deck-topic" key={topic}>
+                <h3>{topic}</h3>
+                <ul>
+                  {group.map((deck) => (
+                    <li className="deck-list-item" key={deck.id}>
+                      <button type="button" className="deck-picker" onClick={() => selectDeck(deck.id)} aria-pressed={activeDeck?.id === deck.id}>
+                        <BookOpen size={15} aria-hidden="true" />
+                        <span>{deck.name}</span>
+                        <span className="deck-card-count">{deckCounts.get(deck.id) ?? 0} thẻ</span>
+                      </button>
+                      {deck.isCustom && (
+                        <button type="button" onClick={() => onDeleteDeck(deck.id)} aria-label={`Xóa bộ từ ${deck.name}`} className="deck-delete">
+                          <Trash2 size={15} aria-hidden="true" />
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </section>
             ))}
-            {!filteredDecks.length && <p className="panel-empty">Không có bộ từ phù hợp.</p>}
+            {!filteredDecks.length && <p className="panel-empty">{decks.length ? 'Không có bộ từ phù hợp.' : 'Tạo bộ từ đầu tiên để bắt đầu học.'}</p>}
           </div>
         </aside>
 
         <section className="glass-panel deck-content" aria-labelledby="deck-content-title">
           <div className="deck-content-controls">
+            <button type="button" className="text-button deck-back" onClick={() => {
+              setMobilePanel('directory');
+              requestAnimationFrame(() => deckSearch.current?.focus());
+            }}><ArrowLeft size={16} aria-hidden="true" /> Đổi bộ từ</button>
             <div className="deck-content-heading">
-              <div>
-                <h2 id="deck-content-title">{activeDeck?.name ?? 'Thẻ trong phạm vi'}</h2>
-                {activeDeck?.description && <p>{activeDeck.description}</p>}
+              <div className="deck-title-group">
+                {activeDeck && <p className="deck-topic-label">{activeDeck.category}</p>}
+                <h2 id="deck-content-title" ref={wordsHeading} tabIndex={-1}>{activeDeck?.name ?? 'Thẻ trong phạm vi'}</h2>
+                <p className="deck-description">
+                  {deckWords.length.toLocaleString('vi-VN')} thẻ
+                  {activeDeck?.description && <span> · {activeDeck.description}</span>}
+                </p>
               </div>
               {activeDeck && (
-                <div className="flex flex-wrap gap-2">
-                  {activeDeck.language === 'en' && activeDeck.category === ENGLISH_COLLOCATION_CATEGORY && !activeDeck.isCustom && (
+                <div className="deck-study-actions">
+                  {activeDeck.collection === 'collocations' && !activeDeck.isCustom && (
                     <button type="button" onClick={() => onStartDeckStudy(activeDeck.id, 'collocation')} className="button-secondary"
                       disabled={!deckCounts.get(activeDeck.id)}>Luyện collocations</button>
                   )}
                   <button type="button" onClick={() => onStartDeckStudy(activeDeck.id, 'flashcard')} className="button-primary"
                     disabled={!deckCounts.get(activeDeck.id)}>
+                    <Play size={15} aria-hidden="true" />
                     {activeDeck.hskEdition ? 'Học bài này' : 'Học bộ này'}
                   </button>
                 </div>
@@ -515,186 +596,152 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   onChange={(event) => { setSearchQuery(event.target.value); setPage(1); }}
                   placeholder={language === 'zh' ? 'Từ, pinyin hoặc nghĩa…' : 'Từ, cụm từ hoặc nghĩa…'} />
               </label>
+              {targetDeck && (
+                <button type="button" className="button-secondary" onClick={openAddWord}>
+                  <Plus size={16} aria-hidden="true" /> Thêm từ
+                </button>
+              )}
               {language === 'zh' && onToggleExamplePhonetic && (
                 <button type="button" className="button-secondary" aria-pressed={showExamplePhonetic} onClick={onToggleExamplePhonetic}>
                   {showExamplePhonetic ? 'Ẩn pinyin ví dụ' : 'Hiện pinyin ví dụ'}
                 </button>
               )}
-              <label className={`button-secondary deck-import${activeDeck ? '' : ' opacity-50'}`}
+              <label className={`button-secondary deck-transfer deck-import${activeDeck ? '' : ' opacity-50'}`}
                 title={activeDeck ? 'Nhập vào bộ ' + activeDeck.name : 'Chọn một bộ từ để nhập'}>
-                <Upload size={14} aria-hidden="true" /> Nhập JSON
-                <input type="file" accept=".json" disabled={!activeDeck} onChange={handleImportFile} className="sr-only" />
+                <Upload size={15} aria-hidden="true" /> <span>Nhập JSON</span>
+                <input aria-label="Nhập JSON" type="file" accept=".json" disabled={!activeDeck} onChange={handleImportFile} className="sr-only" />
               </label>
-              <button type="button" className="button-secondary" onClick={handleExportDeck} disabled={!visibleWords.length}>
-                <Download size={14} aria-hidden="true" /> Xuất JSON
+              <button type="button" className="button-secondary deck-transfer" aria-label="Xuất JSON" title="Xuất JSON"
+                onClick={handleExportDeck} disabled={!visibleWords.length}>
+                <Download size={15} aria-hidden="true" /> <span>Xuất JSON</span>
               </button>
             </div>
 
-            {pageCount > 1 && (
-              <nav aria-label="Phân trang bộ từ" className="flex flex-wrap items-center justify-between gap-2">
-                <p className="text-xs tabular-nums" style={{ color: 'var(--text-secondary)' }} role="status">
-                  {pageStart + 1}–{pageStart + pageWords.length} / {visibleWords.length} thẻ
-                </p>
-                <div className="flex gap-2">
-                  <button type="button" className="button-secondary" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>
-                    Trang trước
-                  </button>
-                  <button type="button" className="button-secondary" disabled={currentPage === pageCount} onClick={() => setPage(currentPage + 1)}>
-                    Trang sau
-                  </button>
-                </div>
-              </nav>
-            )}
+
           </div>
 
           <div ref={wordScroll} className="deck-word-list" tabIndex={0} role="region" aria-label="Danh sách thẻ từ vựng">
-          {visibleWords.length === 0 ? (
-            <div className="py-12 text-center space-y-3">
-              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                {!decks.length ? 'Tạo bộ từ để lưu từ và cụm từ bạn muốn học.'
-                  : searchQuery.trim() || !filteredDecks.length ? 'Không có kết quả phù hợp.' : 'Bộ từ này đang trống.'}
-              </p>
-              <button
-                type="button"
-                onClick={targetDeck ? openAddWord : openCreateDeck}
-                className="button-primary"
-              >
-                {targetDeck ? 'Thêm từ' : 'Tạo bộ từ đầu tiên'}
-              </button>
-            </div>
-          ) : (
-            <div className="divide-y" style={{ borderColor: 'var(--border-hairline)' }}>
-              {pageWords.map((storedWord) => {
-                const w = getEnglishStudyWord(storedWord, englishLocale);
-                const retention = w.srs.lastReviewedAt === null ? null : Math.round(calculateRetentionProbability(w) * 100);
-                return (
-                  <div
-                    key={w.id}
-                    className="py-3.5 flex flex-col sm:flex-row sm:items-start justify-between gap-3"
-                    style={{ borderColor: 'var(--border-hairline)' }}
-                  >
-                    <div className="space-y-1 min-w-0">
-                      <div className="flex flex-wrap items-baseline gap-2">
-                        <button
-                          type="button"
-                          onClick={() => speakPronunciation(w.term, w.language, speechRate)}
-                          aria-label={`Phát âm ${w.term}`}
-                          className="inline-flex items-center gap-1.5 font-display text-base font-bold hover:underline cursor-pointer"
-                        >
-                          <span lang={w.language}>{w.term}</span>
-                          <Volume2 className="w-3.5 h-3.5" style={{ color: 'var(--accent-primary)' }} />
-                        </button>
-                        <span className="font-mono text-xs" style={{ color: 'var(--text-muted)' }}>
-                          {w.phonetic}
-                        </span>
-                        {w.sinoVietnamese && (
-                          <span className="text-xs font-semibold" style={{ color: 'var(--accent-text)' }}>
-                            · {w.sinoVietnamese}
+            {visibleWords.length === 0 ? (
+              <div className="deck-empty">
+                <BookOpen size={27} aria-hidden="true" />
+                <p>{searchQuery.trim() || (decks.length && !filteredDecks.length) ? 'Không có kết quả phù hợp.' : 'Bộ từ này đang trống.'}</p>
+              </div>
+            ) : (
+              <div className="deck-word-cards">
+                {pageWords.map((storedWord) => {
+                  const word = getEnglishStudyWord(storedWord, englishLocale);
+                  const pronunciation = word.language === 'en' ? englishLocale : word.language;
+                  const retention = word.srs.lastReviewedAt === null ? null : Math.round(calculateRetentionProbability(word) * 100);
+                  const speak = (sentence: string) => speakPronunciation(sentence, pronunciation, speechRate);
+                  return (
+                    <article className="deck-word-card" key={word.id}>
+                      <header className="deck-word-heading">
+                        <div>
+                          <div className="deck-term">
+                            <h3 lang={pronunciation}>{word.term}</h3>
+                            <button type="button" className="icon-button" onClick={() => speak(word.term)} aria-label={`Phát âm ${word.term}`}>
+                              <Volume2 size={17} aria-hidden="true" />
+                            </button>
+                          </div>
+                          <p className="deck-word-meta">{[word.phonetic, word.sinoVietnamese, word.partOfSpeech].filter(Boolean).join(' · ')}</p>
+                          <p className="deck-word-meaning">{word.meaning}</p>
+                        </div>
+                        <div className="deck-word-actions">
+                          <span className="deck-word-status">
+                            {retention === null ? 'Chưa học' : `Nhớ ${retention}%`}
                           </span>
-                        )}
-                        {w.partOfSpeech && (
-                          <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                            · {w.partOfSpeech}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="text-sm font-medium">{w.meaning}</div>
-                      <EnglishVariantDetails word={w} speechRate={speechRate} />
-
-                      {w.radical && (
-                        <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                          Bộ thủ: {w.radical}
+                          <button type="button" className="deck-word-action" onClick={() => openRelationEditor(word)}
+                            aria-label={`Sửa đồng nghĩa và trái nghĩa của ${word.term}`} title="Sửa đồng nghĩa và trái nghĩa">
+                            <Pencil size={15} aria-hidden="true" />
+                          </button>
+                          <button type="button" className="deck-word-action deck-delete" onClick={() => onDeleteWord(word.id)}
+                            aria-label={`Xóa từ ${word.term}`} title="Xóa thẻ">
+                            <Trash2 size={15} aria-hidden="true" />
+                          </button>
+                        </div>
+                      </header>
+                      <WordRelations word={word} />
+                      {word.examples.length > 0 && (
+                        <div className="deck-usage">
+                          <h4>Ví dụ</h4>
+                          <WordExamples examples={word.examples.slice(0, 2)} language={pronunciation} showPhonetic={showExamplePhonetic} onSpeak={speak} />
                         </div>
                       )}
-
-                      {w.notes && (
-                        <div
-                          className="mt-1 rounded-lg px-2.5 py-1.5 text-xs leading-relaxed"
-                          style={{ backgroundColor: 'var(--bg-subtle)', color: 'var(--text-secondary)' }}
-                        >
-                          <strong style={{ color: 'var(--text-primary)' }}>Cách dùng:</strong> {w.notes}
-                        </div>
+                      {(word.language === 'en' || word.radical || word.notes || word.collocations.length > 0 ||
+                        word.examples.length > 2 || retention !== null) && (
+                        <details className="deck-word-details">
+                          <summary>Chi tiết thẻ</summary>
+                          <EnglishVariantDetails word={word} speechRate={speechRate} />
+                          {word.radical && <p>Bộ thủ · {word.radical}</p>}
+                          {word.notes && <p>{word.notes}</p>}
+                          {word.collocations.length > 0 && (
+                            <p>
+                              Cụm từ · {word.collocations.map(({ phrase, meaning }, index) => (
+                                <span key={index}>{index > 0 && ' · '}<strong lang={word.language}>{phrase}</strong>{meaning && ` (${meaning})`}</span>
+                              ))}
+                            </p>
+                          )}
+                          <WordExamples examples={word.examples.slice(2)} startAt={3} language={pronunciation} showPhonetic={showExamplePhonetic} onSpeak={speak} />
+                          {retention !== null && <p>Bloom {word.bloomLevel} · {BLOOM_META[word.bloomLevel].nameVi}</p>}
+                          {word.srs.intervalDays > 0 && <p>Chu kỳ ôn · {formatIntervalVi(word.srs.intervalDays)}</p>}
+                          {word.language === 'en' && (
+                            <a href={cambridgeLookupUrl(word.term)} target="_blank" rel="noreferrer" className="text-button">
+                              Tra Cambridge<span className="sr-only"> cho {word.term}</span>
+                            </a>
+                          )}
+                        </details>
                       )}
-
-                      {w.collocations.length > 0 && (
-                        <div className="text-xs pt-0.5" style={{ color: 'var(--text-secondary)' }}>
-                          Cụm từ:{' '}
-                          {w.collocations.map((c, idx) => (
-                            <span key={idx}>
-                              {idx > 0 ? ' · ' : ''}
-                              <strong lang={w.language}>{c.phrase}</strong>{c.meaning && ' (' + c.meaning + ')'}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-
-                      {w.examples.length > 0 && (
-                        <div className="space-y-1 pt-0.5">
-                          {w.examples.map((ex, idx) => (
-                            <div key={idx} className="flex items-start gap-2 text-xs">
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  speakPronunciation(w.language === 'zh' ? stripTrailingPinyin(ex.sentence) : ex.sentence, w.language, speechRate)
-                                }
-                                aria-label={`Phát âm ví dụ ${idx + 1} của ${w.term}`}
-                                className="mt-0.5 shrink-0 cursor-pointer hover:opacity-80"
-                                style={{ color: 'var(--accent-primary)' }}
-                              >
-                                <Volume2 className="w-3.5 h-3.5" />
-                              </button>
-                              <div className="min-w-0">
-                                <div className="font-medium" lang={w.language} style={{ color: 'var(--text-primary)' }}>
-                                  {w.language === 'zh' ? stripTrailingPinyin(ex.sentence) : ex.sentence}
-                                </div>
-                                {showExamplePhonetic && ex.phonetic && (
-                                  <div className="font-mono text-[11px]" style={{ color: 'var(--text-secondary)' }}>
-                                    {ex.phonetic}
-                                  </div>
-                                )}
-                                {ex.translation && <div style={{ color: 'var(--text-muted)' }}>{ex.translation}</div>}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0">
-                      <div className="text-xs font-mono tabular-nums" style={{ color: 'var(--text-secondary)' }}>
-                        {retention === null ? 'Chưa học' : 'Bloom ' + w.bloomLevel + ' (' + BLOOM_META[w.bloomLevel].nameVi + ') · Nhớ ' + retention + '%'}
-                      </div>
-                      {w.language === 'en' && (
-                        <a href={cambridgeLookupUrl(w.term)} target="_blank" rel="noreferrer" className="text-button text-xs">
-                          Tra Cambridge<span className="sr-only"> cho {w.term}</span>
-                        </a>
-                      )}
-                      <div className="flex items-center gap-2">
-                        {w.srs.intervalDays > 0 && (
-                          <span className="text-[11px] font-mono tabular-nums" style={{ color: 'var(--text-muted)' }}>
-                            Chu kỳ {formatIntervalVi(w.srs.intervalDays)}
-                          </span>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => onDeleteWord(w.id)}
-                          aria-label={`Xóa từ ${w.term}`}
-                          className="p-1.5 rounded-md hover:text-rose-500 cursor-pointer"
-                          style={{ color: 'var(--text-muted)' }}
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                    </article>
+                  );
+                })}
+              </div>
+            )}
           </div>
+          {!!visibleWords.length && (
+            <nav className="deck-pagination" aria-label="Phân trang bộ từ">
+              <p role="status">{pageStart + 1}–{pageStart + pageWords.length} / {visibleWords.length.toLocaleString('vi-VN')} thẻ</p>
+              {pageCount > 1 && (
+                <div>
+                  <button type="button" className="icon-button" aria-label="Trang trước" disabled={currentPage === 1}
+                    onClick={() => setPage(currentPage - 1)}><ArrowLeft size={16} aria-hidden="true" /></button>
+                  <button type="button" className="icon-button" aria-label="Trang sau" disabled={currentPage === pageCount}
+                    onClick={() => setPage(currentPage + 1)}><ArrowRight size={16} aria-hidden="true" /></button>
+                </div>
+              )}
+            </nav>
+          )}
         </section>
       </div>
+
+      <dialog ref={relationDialog} className="quick-add-dialog" aria-labelledby="edit-relations-title" onClose={() => setRelationWordId(undefined)}>
+        {relationWord && (
+          <div className="quick-add-card glass-panel">
+            <div className="popover-heading">
+              <h2 id="edit-relations-title">Đồng nghĩa và trái nghĩa</h2>
+              <button type="button" className="icon-button" aria-label="Đóng" onClick={() => relationDialog.current?.close()}><X size={18} aria-hidden="true" /></button>
+            </div>
+            <form className="quick-add-form" onSubmit={(event) => {
+              event.preventDefault();
+              onUpdateWordRelations(relationWord.id, {
+                synonyms: importTerms(relationDraft.synonyms),
+                antonyms: importTerms(relationDraft.antonyms),
+              });
+              relationDialog.current?.close();
+            }}>
+              <p><strong lang={relationWord.language}>{relationWord.term}</strong> · {relationWord.meaning}</p>
+              {isBuiltinWord(relationWord.id) && (
+                <>
+                  <WordRelations word={{ ...relationWord, personalRelations: undefined }} />
+                  <h3 className="deck-personal-relations-heading">Từ bạn thêm</h3>
+                </>
+              )}
+              <RelationFields value={relationDraft} onChange={setRelationDraft} />
+              <div className="session-actions"><button type="submit" className="button-primary">Lưu</button></div>
+            </form>
+          </div>
+        )}
+      </dialog>
+
 
       {/* Modal: Chinese-Vietnamese Hanzii-format Dictionary Lookup */}
       <AnimatePresence>
@@ -786,18 +833,9 @@ export const DecksView: React.FC<DecksViewProps> = ({
                           Bộ thủ: {entry.radical}
                         </div>
                       )}
-                      {entry.examples[0] && (
-                        <div className="space-y-0.5 text-xs">
-                          <div className="italic" style={{ color: 'var(--text-secondary)' }}>
-                            {entry.examples[0].sentence}
-                          </div>
-                          {showExamplePhonetic && entry.examples[0].phonetic && (
-                            <div className="font-mono text-[11px]" style={{ color: 'var(--text-muted)' }}>
-                              {entry.examples[0].phonetic}
-                            </div>
-                          )}
-                        </div>
-                      )}
+                      <WordRelations word={{ ...entry, language: 'zh' }} />
+                      <WordExamples examples={entry.examples.slice(0, 2)} language="zh" showPhonetic={showExamplePhonetic}
+                        onSpeak={(sentence) => speakPronunciation(sentence, 'zh', speechRate)} />
                     </div>
 
                     <button
@@ -1123,49 +1161,9 @@ export const DecksView: React.FC<DecksViewProps> = ({
                 </div>
               </div>
 
-              <div>
-                <label htmlFor="add-example" className="block text-xs font-medium mb-1">
-                  Câu ví dụ
-                </label>
-                <input
-                  id="add-example"
-                  type="text"
-                  value={wordExample}
-                  onChange={(e) => setWordExample(e.target.value)}
-                  placeholder={inputExamples?.sentence}
-                  className="w-full rounded-lg border px-3 py-2 text-sm"
-                  style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="add-trans" className="block text-xs font-medium mb-1">
-                  Dịch nghĩa câu ví dụ
-                </label>
-                <input
-                  id="add-trans"
-                  type="text"
-                  value={wordTranslation}
-                  onChange={(e) => setWordTranslation(e.target.value)}
-                  placeholder={inputExamples?.translation}
-                  className="w-full rounded-lg border px-3 py-2 text-sm"
-                  style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="add-syn" className="block text-xs font-medium mb-1">
-                  Từ đồng nghĩa (phân tách bằng dấu phẩy)
-                </label>
-                <input
-                  id="add-syn"
-                  type="text"
-                  value={wordSynonyms}
-                  onChange={(e) => setWordSynonyms(e.target.value)}
-                  className="w-full rounded-lg border px-3 py-2 text-sm"
-                  style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
-                />
-              </div>
+              <ExampleFields values={wordExamples} onChange={setWordExamples}
+                language={targetDeck?.language ?? language} sample={inputExamples} />
+              <RelationFields value={wordRelations} onChange={setWordRelations} />
 
               {editingEnglish && (
                 <details className="text-xs space-y-2">
@@ -1180,10 +1178,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
                       <input value={alternateForm.phonetic} onChange={(event) => setAlternateForm({ ...alternateForm, phonetic: event.target.value })} />
                     </label>
                   </div>
-                  <label className="control-field">
-                    <span>Câu ví dụ ({ENGLISH_LOCALE_LABEL[alternateLocale]})</span>
-                    <input value={alternateForm.sentence} onChange={(event) => setAlternateForm({ ...alternateForm, sentence: event.target.value })} />
-                  </label>
+                  <ExampleFields values={alternateForm.examples}
+                    onChange={(examples) => setAlternateForm({ ...alternateForm, examples })} language="en" />
                 </details>
               )}
 

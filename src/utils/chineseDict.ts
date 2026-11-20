@@ -1,7 +1,8 @@
 import { CHINESE_WORDS } from '../../Chinese/chineseDecks';
+import type { LexicalRelations } from '../types/vocab';
 import { compactPhonetic, searchable } from './vocabSearch';
 
-export interface ChineseDictEntry {
+export interface ChineseDictEntry extends LexicalRelations {
   term: string;
   phonetic: string;
   sinoVietnamese: string;
@@ -11,7 +12,6 @@ export interface ChineseDictEntry {
   notes?: string;
   collocations: Array<{ phrase: string; meaning: string }>;
   examples: Array<{ sentence: string; phonetic?: string; translation: string }>;
-  synonyms: string[];
   source: 'local' | 'live_lookup';
 }
 
@@ -28,6 +28,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     collocations: [{ phrase: '说声你好', meaning: 'nói lời xin chào' }],
     examples: [{ sentence: '你好，请问去地铁站怎么走？', phonetic: 'Nǐ hǎo, qǐngwèn qù dìtiězhàn zěnme zǒu?', translation: 'Xin chào, xin hỏi đi ra ga tàu điện ngầm thế nào ạ?' }],
     synonyms: ['您好'],
+    antonyms: [],
     source: 'local',
   },
   {
@@ -41,6 +42,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     collocations: [{ phrase: '非常感谢', meaning: 'vô cùng cảm ơn' }],
     examples: [{ sentence: '谢谢你在我忙的时候过来帮忙！', phonetic: 'Xièxie nǐ zài wǒ máng de shíhou guòlái bāngmáng!', translation: 'Cảm ơn bạn đã qua giúp khi tôi đang bận!' }],
     synonyms: ['感谢', '多谢'],
+    antonyms: [],
     source: 'local',
   },
   {
@@ -54,6 +56,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     collocations: [{ phrase: '交朋友', meaning: 'kết bạn' }],
     examples: [{ sentence: '周末我和几个好朋友约好去公园散步。', phonetic: 'Zhōumò wǒ hé jǐ gè hǎo péngyou yuēhǎo qù gōngyuán sànbù.', translation: 'Cuối tuần tôi và mấy người bạn thân hẹn nhau đi dạo công viên.' }],
     synonyms: ['伙伴', '知己'],
+    antonyms: ['敌人'],
     source: 'local',
   },
   {
@@ -67,6 +70,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     collocations: [{ phrase: '获得成功', meaning: 'giành được thành công' }],
     examples: [{ sentence: '只要方法科学又肯坚持，你一定能成功。', phonetic: 'Zhǐyào fāngfǎ kēxué yòu kěn jiānchí, nǐ yídìng néng chénggōng.', translation: 'Chỉ cần phương pháp khoa học lại chịu kiên trì, bạn nhất định sẽ thành công.' }],
     synonyms: ['胜利', '成就'],
+    antonyms: ['失败'],
     source: 'local',
   },
   {
@@ -80,6 +84,7 @@ const EXTRA_ZH_LEXICON: ChineseDictEntry[] = [
     collocations: [{ phrase: '传统文化', meaning: 'văn hóa truyền thống' }],
     examples: [{ sentence: '我对中国茶文化非常感兴趣。', phonetic: 'Wǒ duì Zhōngguó chá wénhuà fēicháng gǎn xìngqù.', translation: 'Tôi rất có hứng thú với văn hóa trà Trung Hoa.' }],
     synonyms: ['文明'],
+    antonyms: [],
     source: 'local',
   },
 ];
@@ -98,6 +103,7 @@ const CURRICULUM_ENTRIES: ChineseDictEntry[] = CHINESE_WORDS.map((word) => {
     collocations: word.collocations.length ? word.collocations : extra?.collocations ?? [],
     examples: word.examples.length ? word.examples : extra?.examples ?? [],
     synonyms: word.synonyms.length ? word.synonyms : extra?.synonyms ?? [],
+    antonyms: word.antonyms.length ? word.antonyms : extra?.antonyms ?? [],
     source: 'local',
   };
 });
@@ -150,6 +156,7 @@ export async function searchChineseDictionary(query: string): Promise<ChineseDic
         collocations: [],
         examples: [],
         synonyms: [],
+        antonyms: [],
         source: 'live_lookup',
       },
     ];

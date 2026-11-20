@@ -9,6 +9,7 @@ import type {
 import {
   CHINESE_COURSE_WORDS,
   CHINESE_DECKS,
+  CHINESE_WORDS,
   hasCurrentChineseDecks,
   mergeChineseSeed,
   migrateChineseDeckId,
@@ -16,7 +17,7 @@ import {
   resolveMigratedChineseDeckLevel,
 } from '../../Chinese/chineseDecks';
 import { DEFAULT_HSK_EDITION } from '../../Chinese/hsk1Courses';
-import { ENGLISH_DECKS, ENGLISH_WORDS, PRE_V5_ENGLISH_WORD_IDS, STARTER_ENGLISH_WORDS } from './englishDecks';
+import { ENGLISH_DECKS, ENGLISH_V7_WORD_DECK_IDS, ENGLISH_WORDS, PRE_V5_ENGLISH_WORD_IDS, STARTER_ENGLISH_WORDS } from './englishDecks';
 
 export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: string; short: string }> = {
   zh: { name: 'Tiếng Trung', native: '中文', short: 'ZH' },
@@ -28,9 +29,8 @@ export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: strin
 };
 
 const ENGLISH_DATA_VERSION = 2;
-const CHINESE_CURRICULUM_VERSION = 6;
 const ENGLISH_CURRICULUM_VERSION = 7;
-export const CURRENT_DATA_VERSION = ENGLISH_CURRICULUM_VERSION;
+export const CURRENT_DATA_VERSION = 8;
 
 export const INITIAL_DECKS: VocabDeck[] = [...CHINESE_DECKS, ...ENGLISH_DECKS];
 
@@ -47,13 +47,19 @@ interface SeedState {
 
 const ENGLISH_DECK_IDS = new Set(ENGLISH_DECKS.map(({ id }) => id));
 const ENGLISH_WORDS_BY_ID = new Map(ENGLISH_WORDS.map((word) => [word.id, word]));
+const CHINESE_WORD_IDS = new Set(CHINESE_WORDS.map(({ id }) => id));
 const STARTER_ENGLISH_WORD_IDS = new Set(STARTER_ENGLISH_WORDS.map(({ id }) => id));
+
+export function isBuiltinWord(wordId: string): boolean {
+  return ENGLISH_WORDS_BY_ID.has(wordId) || CHINESE_WORD_IDS.has(wordId);
+}
 
 function hasCurrentEnglishDecks(decks: readonly VocabDeck[]): boolean {
   const byId = new Map(decks.map((deck) => [deck.id, deck]));
   return ENGLISH_DECKS.every((deck) => {
     const saved = byId.get(deck.id);
-    return saved?.language === 'en' && !saved.isCustom && saved.level === deck.level && saved.category === deck.category;
+    return saved?.language === 'en' && !saved.isCustom && saved.level === deck.level &&
+      saved.collection === deck.collection && saved.category === deck.category && saved.name === deck.name;
   });
 }
 
@@ -70,10 +76,11 @@ function mergeEnglishSeed(decks: VocabDeck[], words: VocabWord[], version: numbe
   const mergedEnglishWords = ENGLISH_WORDS.flatMap((word) => {
     const saved = savedEnglishWords.get(word.id);
     if (!saved) {
-      // A missing word in an already installed deck records a deliberate deletion.
-      const existed = existingDeckIds.has(word.deckId) && (
-        version >= ENGLISH_CURRICULUM_VERSION || (version >= ENGLISH_DATA_VERSION && previousIds.has(word.id))
-      );
+      const oldDeckId = ENGLISH_V7_WORD_DECK_IDS.get(word.id);
+      const installedCurrentDeck = version >= CURRENT_DATA_VERSION && existingDeckIds.has(word.deckId);
+      const installedOldDeck = oldDeckId && existingDeckIds.has(oldDeckId) &&
+        (version >= ENGLISH_CURRICULUM_VERSION || (version >= ENGLISH_DATA_VERSION && previousIds.has(word.id)));
+      const existed = installedCurrentDeck || installedOldDeck;
       return existed ? [] : [word];
     }
     return [{
@@ -82,6 +89,7 @@ function mergeEnglishSeed(decks: VocabDeck[], words: VocabWord[], version: numbe
       srs: saved.srs,
       bloomLevel: saved.bloomLevel,
       lastSynthesisAt: saved.lastSynthesisAt,
+      personalRelations: saved.personalRelations,
     }];
   });
 
@@ -93,8 +101,8 @@ function mergeEnglishSeed(decks: VocabDeck[], words: VocabWord[], version: numbe
 
 export function withCurrentSeed<T extends SeedState>(state: T): T {
   if (state.version > CURRENT_DATA_VERSION) return state;
-  const needsChinese = state.version < CHINESE_CURRICULUM_VERSION || !hasCurrentChineseDecks(state.decks);
-  const needsEnglish = state.version < ENGLISH_CURRICULUM_VERSION || !hasCurrentEnglishDecks(state.decks);
+  const needsChinese = state.version < CURRENT_DATA_VERSION || !hasCurrentChineseDecks(state.decks);
+  const needsEnglish = state.version < CURRENT_DATA_VERSION || !hasCurrentEnglishDecks(state.decks);
   if (!needsChinese && !needsEnglish) return state;
 
   const chinese = needsChinese ? mergeChineseSeed(state.decks, state.words, state.version) : state;
@@ -128,7 +136,7 @@ export function withCurrentSeed<T extends SeedState>(state: T): T {
   return {
     ...state,
     decks: library.decks,
-    words: library.words,
+    words: library.words.map((word) => Array.isArray(word.antonyms) ? word : { ...word, antonyms: [] }),
     profile,
     logs,
     ...(state.settings ? { settings: { ...INITIAL_SETTINGS, ...state.settings } } : {}),

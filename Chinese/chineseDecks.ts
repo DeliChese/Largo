@@ -6,6 +6,7 @@ import {
   V4_CHINESE_WORD_IDS,
 } from '../src/data/seedMigration';
 import catalogue from './chineseVocabulary.json' with { type: 'json' };
+import chineseEnrichment from './chineseEnrichment.json' with { type: 'json' };
 import { HSK_EDITIONS, HSK1_COURSES } from './hsk1Courses';
 
 interface CatalogueCard {
@@ -19,6 +20,7 @@ interface CatalogueCard {
   collocations?: CollocationItem[];
   examples?: ExampleSentence[];
   synonyms?: string[];
+  antonyms?: string[];
   notes?: string;
   hskLevel?: number;
   hskId?: number;
@@ -36,6 +38,7 @@ interface CatalogueDeck {
 
 const NOW = Date.now();
 const DECKS_DATA = catalogue as CatalogueDeck[];
+const enrichment: Record<string, Pick<CatalogueCard, 'examples' | 'synonyms' | 'antonyms'>> = chineseEnrichment;
 const SUPPLEMENT_SOURCE = 'deck-zh-textbook-supplements';
 const priorDecks = new Map(DECKS_DATA.map((deck) => [deck.id, deck]));
 const v5WordIds = new Set(DECKS_DATA.filter((deck) => deck.id !== SUPPLEMENT_SOURCE)
@@ -63,6 +66,7 @@ export const CHINESE_DECKS: VocabDeck[] = HSK_EDITIONS.flatMap(({ id: edition })
     name: `Bài ${index + 1} · ${lesson.title}`,
     description: lesson.description,
     category: lesson.topic,
+    collection: 'textbook',
     language: 'zh',
     level: 'hsk1',
     hskEdition: edition,
@@ -88,8 +92,9 @@ export const CHINESE_WORDS: VocabWord[] = DECKS_DATA.flatMap((topic) =>
     sinoVietnamese: card.sinoVietnamese,
     radical: card.radical,
     collocations: card.collocations ?? [],
-    examples: card.examples ?? [],
-    synonyms: card.synonyms ?? [],
+    examples: enrichment[card.id]?.examples ?? card.examples ?? [],
+    synonyms: enrichment[card.id]?.synonyms ?? card.synonyms ?? [],
+    antonyms: enrichment[card.id]?.antonyms ?? card.antonyms ?? [],
     notes: card.notes,
     bloomLevel: 1,
     srs: {
@@ -113,7 +118,7 @@ export function hasCurrentChineseDecks(decks: readonly VocabDeck[]): boolean {
   return CHINESE_DECKS.every((lesson) => {
     const saved = byId.get(lesson.id);
     const expectedIds = lesson.wordIds ?? [];
-    return saved?.language === 'zh' && !saved.isCustom && saved.level === lesson.level &&
+    return saved?.language === 'zh' && !saved.isCustom && saved.level === lesson.level && saved.collection === lesson.collection &&
       saved.hskEdition === lesson.hskEdition && Array.isArray(saved.wordIds) &&
       saved.wordIds.length === expectedIds.length && saved.wordIds.every((id, index) => id === expectedIds[index]);
   });
@@ -199,6 +204,7 @@ export function mergeChineseSeed(decks: VocabDeck[], words: VocabWord[], version
       srs: saved.srs,
       bloomLevel: saved.bloomLevel,
       lastSynthesisAt: saved.lastSynthesisAt,
+      personalRelations: saved.personalRelations,
     }];
   });
 

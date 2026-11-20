@@ -3,6 +3,8 @@ import { motion } from 'motion/react';
 import { ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronDown, Focus, Maximize, Mic, RotateCcw, Timer, Volume2, X } from 'lucide-react';
 import type { FormEvent, KeyboardEvent as ReactKeyboardEvent } from 'react';
 import type { AppSettings, ReviewQuality, StudyModeId, StudySessionMode, VocabWord } from '../types/vocab';
+import { WordExamples } from './WordExamples';
+import { WordRelations } from './WordRelations';
 import { calculateNextSRS, evaluateAnswerMatch, evaluateSynthesisSentence, formatIntervalVi, reviewXp } from '../utils/srsBloom';
 import {
   getClozeExample, getCollocationPrompt, getPhraseClozeExample, getStudyChoices,
@@ -368,7 +370,7 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
           <div className="exercise-top">
             <span className="exercise-status" data-new={isNew}>{status}</span>
             <div className="exercise-top-actions">
-              {(firstExample?.phonetic || cloze?.phonetic) && (
+              {(word.examples.some(({ phonetic }) => phonetic) || cloze?.phonetic) && (
                 <button
                   type="button"
                   className="text-button example-pinyin-toggle"
@@ -420,18 +422,9 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
                       </button>
                     </div>
                   )}
-                  {firstExample && (
-                    <div className="example-line">
-                      <div>
-                        <p lang={language}>{word.language === 'zh' ? stripTrailingPinyin(firstExample.sentence) : firstExample.sentence}</p>
-                        {showExamplePhonetic && firstExample.phonetic && <p className="example-phonetic">{firstExample.phonetic}</p>}
-                        {firstExample.translation && <p>{firstExample.translation}</p>}
-                      </div>
-                      <button type="button" className="icon-button" onClick={() => speakExample(firstExample.sentence)} aria-label="Nghe câu ví dụ">
-                        <Volume2 size={17} aria-hidden="true" />
-                      </button>
-                    </div>
-                  )}
+                  <WordExamples examples={word.examples.slice(0, 2)} language={language} showPhonetic={showExamplePhonetic}
+                    onSpeak={speakExample} />
+                  <WordRelations word={word} />
                   <details className="word-details">
                     <summary>Cách dùng và phát âm <ChevronDown size={15} aria-hidden="true" /></summary>
                     {word.sinoVietnamese && <p>Âm Hán Việt · {word.sinoVietnamese}</p>}
@@ -439,16 +432,8 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
                     {word.notes && <p>{word.notes}</p>}
                     {word.collocations.filter((item) => item !== phraseInUse)
                       .map((item, i) => <p key={i}><strong lang={language}>{item.phrase}</strong> · {item.meaning}</p>)}
-                    {word.examples.slice(1).map((item, i) => (
-                      <div className="example-line" key={i}>
-                        <div>
-                          <p lang={language}>{word.language === 'zh' ? stripTrailingPinyin(item.sentence) : item.sentence}</p>
-                          {showExamplePhonetic && item.phonetic && <p className="example-phonetic">{item.phonetic}</p>}
-                          {item.translation && <p>{item.translation}</p>}
-                        </div>
-                        <button className="icon-button" type="button" onClick={() => speakExample(item.sentence)} aria-label={'Nghe ví dụ ' + (i + 2)}><Volume2 size={17} aria-hidden="true" /></button>
-                      </div>
-                    ))}
+                    <WordExamples examples={word.examples.slice(2)} startAt={3} language={language} showPhonetic={showExamplePhonetic}
+                      onSpeak={speakExample} />
                     <div className="practice-audio">
                       <button type="button" className="button-secondary" onClick={() => speak(0.7)}><Volume2 size={16} aria-hidden="true" /> Nghe chậm</button>
                       <button type="button" className="button-secondary" onClick={practiceSpeech}><Mic size={16} aria-hidden="true" /> Luyện phát âm</button>

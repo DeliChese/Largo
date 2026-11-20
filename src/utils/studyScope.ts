@@ -27,6 +27,7 @@ export function getDeckStudyLevel(deck: VocabDeck): string {
 
 function levelLabel(id: string): string {
   if (id === 'legacy') return 'Bộ từ trước đây';
+  if (id === 'phrasal') return 'Chuyên đề';
   if (/^hsk\d+$/.test(id)) return 'HSK ' + id.slice(3);
   if (/^(?:[abc][12]|n[1-5])$/.test(id)) return id.toUpperCase();
   return id === CUSTOM_LEVEL.id ? CUSTOM_LEVEL.label : id;

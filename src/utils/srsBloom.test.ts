@@ -41,6 +41,7 @@ function makeWord(overrides: Partial<VocabWord> = {}): VocabWord {
       },
     ],
     synonyms: ['adaptable', 'tough'],
+    antonyms: [],
     bloomLevel: 2,
     srs: {
       easeFactor: 2.5,
