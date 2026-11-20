@@ -52,7 +52,7 @@ export const PWAInstallButton: React.FC<{ compact?: boolean }> = ({ compact = fa
                 borderColor: 'var(--border-hairline)',
               }}
             >
-              <h3 className="text-base font-semibold">Cài đặt LexisBloom Offline trên iOS</h3>
+              <h3 className="text-base font-semibold">Cài Largo trên iOS</h3>
               <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                 1. Nhấn nút <strong>Chia sẻ (Share)</strong> trên thanh công cụ Safari.
                 <br />

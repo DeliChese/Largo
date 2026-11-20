@@ -1,205 +1,150 @@
-import React, { useState } from 'react';
-import { Play } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { ArrowRight, BookOpen, Check, ChevronDown, ClipboardList, Feather, Layers3, ListChecks, Mic2, TextCursorInput, Timer, Zap } from 'lucide-react';
 import type { BloomLevel, StudyModeId, VocabDeck, VocabWord } from '../types/vocab';
 import { BLOOM_META, isWordDue } from '../utils/srsBloom';
-import { STUDY_MODE_CARDS } from './DashboardView';
+import { getIntensiveStudyPlan, getPracticeWords, PRACTICE_SESSION_SIZE, type StudyFilter } from '../utils/studyPlan';
 
 interface StudyHubViewProps {
   decks: VocabDeck[];
   words: VocabWord[];
   selectedMode: StudyModeId;
   selectedDeckId: string;
+  now: number;
+  dailyCount: number;
+  intensive: ReturnType<typeof getIntensiveStudyPlan>;
   onSelectMode: (mode: StudyModeId) => void;
-  onSelectDeck: (deckId: string) => void;
-  onBeginSession: (mode: StudyModeId, deckId: string, filterType: 'due' | 'all' | 'bloom', bloomTarget?: BloomLevel) => void;
+  onSelectDeck: (id: string) => void;
+  onStartDaily: () => void;
+  onStartIntensive: () => void;
+  onBeginSession: (mode: StudyModeId, deckId: string, filter: StudyFilter, bloom: BloomLevel) => void;
 }
 
-export const StudyHubView: React.FC<StudyHubViewProps> = ({
-  decks,
-  words,
-  selectedMode,
-  selectedDeckId,
-  onSelectMode,
-  onSelectDeck,
-  onBeginSession,
-}) => {
-  const [queueFilter, setQueueFilter] = useState<'due' | 'all' | 'bloom'>('all');
-  const [bloomTarget, setBloomTarget] = useState<BloomLevel>(1);
+const PRACTICE_MODES = [
+  { id: 'flashcard', label: 'Thẻ ghi nhớ', detail: 'Tự nhắc lại nghĩa và chấm mức độ nhớ.', icon: BookOpen },
+  { id: 'quiz', label: 'Trắc nghiệm', detail: 'Phân biệt các nghĩa gần nhau.', icon: ListChecks },
+  { id: 'dictation', label: 'Nghe & chép', detail: 'Nghe và gõ lại từ vừa nghe.', icon: Mic2 },
+  { id: 'cloze', label: 'Điền vào câu', detail: 'Nhớ lại từ trong ngữ cảnh thật.', icon: TextCursorInput },
+  { id: 'collocation', label: 'Cụm từ', detail: 'Nhận diện những từ thường đi cùng nhau.', icon: Layers3 },
+  { id: 'synthesis', label: 'Đặt câu', detail: 'Dùng từ trong câu do bạn tự viết.', icon: Feather },
+  { id: 'speed', label: 'Ôn nhanh', detail: 'Trả lời trong 60 giây.', icon: Timer },
+] as const;
 
-  const deckWords =
-    selectedDeckId === 'all' ? words : words.filter((w) => w.deckId === selectedDeckId);
-  const dueCount = deckWords.filter((w) => isWordDue(w)).length;
-  const filteredWords =
-    queueFilter === 'due'
-      ? deckWords.filter((w) => isWordDue(w))
-      : queueFilter === 'bloom'
-        ? deckWords.filter((w) => w.bloomLevel === bloomTarget)
-        : deckWords;
+const FILTERS = [
+  { id: 'all', label: 'Tất cả từ' },
+  { id: 'due', label: 'Đến hạn' },
+  { id: 'bloom', label: 'Theo Bloom' },
+] as const;
+
+export function StudyHubView({ decks, words, selectedMode, selectedDeckId, now, dailyCount, intensive, onSelectMode, onSelectDeck, onStartDaily, onStartIntensive, onBeginSession }: StudyHubViewProps) {
+  const [filter, setFilter] = useState<StudyFilter>('all');
+  const [bloom, setBloom] = useState<BloomLevel>(1);
+  const deckWords = useMemo(() => words.filter((word) => selectedDeckId === 'all' || word.deckId === selectedDeckId), [words, selectedDeckId]);
+  const dueCount = deckWords.filter((word) => isWordDue(word, now)).length;
+  const available = useMemo(() => getPracticeWords(words, selectedDeckId, filter, bloom, selectedMode, now),
+    [words, selectedDeckId, filter, bloom, selectedMode, now]);
+  const emptyMessage = !deckWords.length ? 'Bộ từ này đang trống.'
+    : filter === 'due' && !dueCount ? 'Bộ từ này chưa có từ đến hạn.'
+    : filter === 'bloom' && !deckWords.some((word) => word.bloomLevel === bloom) ? 'Chưa có từ ở mức Bloom này.'
+    : 'Chưa đủ dữ liệu cho dạng bài này. Hãy chọn dạng bài hoặc bộ từ khác.';
+  const intensiveDetails = [
+    intensive.reviewCount ? intensive.reviewCount + ' từ đến hạn' : '',
+    intensive.reinforcementCount ? intensive.reinforcementCount + ' từ để củng cố' : '',
+  ].filter(Boolean).join(' · ');
+  const nextRound = intensive.nextAvailableAt === null ? null
+    : new Date(intensive.nextAvailableAt).toLocaleString('vi-VN', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' });
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="font-display text-2xl font-bold tracking-tight">Trung tâm Luyện tập</h1>
-          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
-            Chọn bộ từ vựng, lọc theo tiến độ SRS/Bloom và bắt đầu với 1 trong 7 phương pháp học.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => onBeginSession(selectedMode, selectedDeckId, queueFilter, bloomTarget)}
-          disabled={deckWords.length === 0}
-          className="flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50 cursor-pointer whitespace-nowrap shrink-0"
-          style={{ backgroundColor: 'var(--accent-primary)' }}
-        >
-          <Play className="w-4 h-4" />
-          <span>
-            Bắt đầu ngay ({filteredWords.length > 0 ? filteredWords.length : deckWords.length} từ)
-          </span>
-        </button>
+    <div className="study-hub">
+      <div className="page-intro">
+        <h1>Luyện tập</h1>
+        <p>Học theo lịch ôn hoặc tập trung vào kỹ năng bạn muốn cải thiện.</p>
       </div>
 
-      {/* Filters Row */}
-      <div
-        className="rounded-2xl border p-5 grid grid-cols-1 md:grid-cols-3 gap-4"
-        style={{
-          backgroundColor: 'var(--bg-surface)',
-          borderColor: 'var(--border-hairline)',
-        }}
-      >
+      <section className="glass-panel guided-panel" aria-labelledby="guided-title">
+        <div className="guided-panel-icon"><ClipboardList size={25} aria-hidden="true" /></div>
         <div>
-          <label htmlFor="hub-deck-select" className="block text-xs font-medium mb-1.5" style={{ color: 'var(--text-secondary)' }}>
-            Bộ từ vựng mục tiêu
-          </label>
-          <select
-            id="hub-deck-select"
-            value={selectedDeckId}
-            onChange={(e) => onSelectDeck(e.target.value)}
-            className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none"
-            style={{
-              backgroundColor: 'var(--bg-canvas)',
-              borderColor: 'var(--border-hairline)',
-              color: 'var(--text-primary)',
-            }}
-          >
-            <option value="all">Tất cả bộ từ ({words.length} từ)</option>
-            {decks.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.name} ({words.filter((w) => w.deckId === d.id).length} từ)
-              </option>
-            ))}
-          </select>
+          <h2 id="guided-title">Kế hoạch hôm nay</h2>
+          <p>{dailyCount ? dailyCount + ' từ được chọn theo lịch ôn và giới hạn từ mới.' : 'Bạn đã hoàn thành phần học được đề xuất hôm nay.'}</p>
         </div>
+        <button type="button" className="button-primary" disabled={!dailyCount} onClick={onStartDaily}>
+          Bắt đầu phiên học <ArrowRight size={17} aria-hidden="true" />
+        </button>
+      </section>
 
+      <section className="glass-panel guided-panel intensive-panel" aria-labelledby="intensive-title">
+        <div className="guided-panel-icon"><Zap size={24} aria-hidden="true" /></div>
         <div>
-          <span className="block text-xs font-medium mb-1.5" style={{ color: 'var(--text-secondary)' }}>
-            Bộ lọc hàng đợi SRS
-          </span>
-          <div className="flex items-center gap-1 p-1 rounded-lg" style={{ backgroundColor: 'var(--bg-subtle)' }}>
-            <button
-              type="button"
-              onClick={() => setQueueFilter('all')}
-              className="flex-1 rounded-md py-1.5 text-xs font-medium transition-colors cursor-pointer whitespace-nowrap"
-              style={{
-                backgroundColor: queueFilter === 'all' ? 'var(--bg-surface)' : 'transparent',
-                color: queueFilter === 'all' ? 'var(--text-primary)' : 'var(--text-secondary)',
-              }}
-            >
-              Tất cả ({deckWords.length})
-            </button>
-            <button
-              type="button"
-              onClick={() => setQueueFilter('due')}
-              className="flex-1 rounded-md py-1.5 text-xs font-medium transition-colors cursor-pointer whitespace-nowrap"
-              style={{
-                backgroundColor: queueFilter === 'due' ? 'var(--bg-surface)' : 'transparent',
-                color: queueFilter === 'due' ? 'var(--text-primary)' : 'var(--text-secondary)',
-              }}
-            >
-              Đến hạn ({dueCount})
-            </button>
-            <button
-              type="button"
-              onClick={() => setQueueFilter('bloom')}
-              className="flex-1 rounded-md py-1.5 text-xs font-medium transition-colors cursor-pointer whitespace-nowrap"
-              style={{
-                backgroundColor: queueFilter === 'bloom' ? 'var(--bg-surface)' : 'transparent',
-                color: queueFilter === 'bloom' ? 'var(--text-primary)' : 'var(--text-secondary)',
-              }}
-            >
-              Theo Bloom
-            </button>
+          <h2 id="intensive-title">Ôn tăng cường</h2>
+          <p>{intensiveDetails || (nextRound ? 'Lượt tiếp theo · ' + nextRound : 'Học vài từ để có lượt củng cố sau một quãng nghỉ.')}</p>
+        </div>
+        <button type="button" className="button-secondary" disabled={!intensive.words.length} onClick={onStartIntensive}>
+          Bắt đầu ôn tăng cường <ArrowRight size={17} aria-hidden="true" />
+        </button>
+      </section>
+
+      <section className="glass-panel practice-panel" aria-labelledby="practice-title">
+        <div className="panel-heading">
+          <div>
+            <h2 id="practice-title">Tự chọn bài luyện</h2>
+            <p>Chọn bộ từ, phạm vi và dạng bài.</p>
           </div>
         </div>
 
-        <div>
-          <label htmlFor="hub-bloom-select" className="block text-xs font-medium mb-1.5" style={{ color: 'var(--text-secondary)' }}>
-            Tầng nhận thức Bloom (nếu lọc theo Bloom)
-          </label>
-          <select
-            id="hub-bloom-select"
-            value={bloomTarget}
-            disabled={queueFilter !== 'bloom'}
-            onChange={(e) => setBloomTarget(Number(e.target.value) as BloomLevel)}
-            className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none disabled:opacity-50"
-            style={{
-              backgroundColor: 'var(--bg-canvas)',
-              borderColor: 'var(--border-hairline)',
-              color: 'var(--text-primary)',
-            }}
-          >
-            {([1, 2, 3, 4, 5, 6] as BloomLevel[]).map((lvl) => (
-              <option key={lvl} value={lvl}>
-                Tầng {lvl}: {BLOOM_META[lvl].nameVi} ({BLOOM_META[lvl].nameEn})
-              </option>
-            ))}
-          </select>
+        <div className="practice-options">
+          <div className="control-field">
+            <label htmlFor="practice-deck">Bộ từ</label>
+            <div className="select-wrap">
+              <select id="practice-deck" value={selectedDeckId} onChange={(event) => onSelectDeck(event.target.value)}>
+                <option value="all">Tất cả bộ từ</option>
+                {decks.map((deck) => <option value={deck.id} key={deck.id}>{deck.name}</option>)}
+              </select>
+              <ChevronDown size={16} aria-hidden="true" />
+            </div>
+          </div>
+          <div className="control-field">
+            <span id="practice-filter">Phạm vi</span>
+            <div className="segmented-control" role="group" aria-labelledby="practice-filter">
+              {FILTERS.map(({ id, label }) => (
+                <button key={id} type="button" aria-pressed={filter === id} onClick={() => setFilter(id)}>
+                  {label}{id === 'due' && ' (' + dueCount + ')'}
+                </button>
+              ))}
+            </div>
+          </div>
+          {filter === 'bloom' && (
+            <div className="control-field">
+              <label htmlFor="practice-bloom">Mức Bloom</label>
+              <div className="select-wrap">
+                <select id="practice-bloom" value={bloom} onChange={(event) => setBloom(Number(event.target.value) as BloomLevel)}>
+                  {([1, 2, 3, 4, 5, 6] as const).map((level) => <option key={level} value={level}>{level} · {BLOOM_META[level].nameVi}</option>)}
+                </select>
+                <ChevronDown size={16} aria-hidden="true" />
+              </div>
+            </div>
+          )}
         </div>
-      </div>
 
-      {/* Mode Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {STUDY_MODE_CARDS.map((mode) => {
-          const Icon = mode.icon;
-          const active = selectedMode === mode.id;
-          return (
-            <button
-              key={mode.id}
-              type="button"
-              onClick={() => onSelectMode(mode.id)}
-              onDoubleClick={() => onBeginSession(mode.id, selectedDeckId, queueFilter, bloomTarget)}
-              className="text-left rounded-2xl border p-5 transition-all cursor-pointer flex flex-col justify-between gap-4"
-              style={{
-                backgroundColor: active ? 'var(--accent-soft)' : 'var(--bg-surface)',
-                borderColor: active ? 'var(--accent-primary)' : 'var(--border-hairline)',
-              }}
-            >
-              <div className="flex items-center justify-between">
-                <div
-                  className="flex h-10 w-10 items-center justify-center rounded-xl"
-                  style={{
-                    backgroundColor: active ? 'var(--accent-primary)' : 'var(--bg-subtle)',
-                    color: active ? '#ffffff' : 'var(--accent-text)',
-                  }}
-                >
-                  <Icon className="w-5 h-5" />
-                </div>
-                <span className="text-xs font-medium" style={{ color: active ? 'var(--accent-text)' : 'var(--text-muted)' }}>
-                  {mode.bloomRange}
-                </span>
-              </div>
-
-              <div>
-                <h2 className="font-display text-base font-semibold">{mode.title}</h2>
-                <p className="mt-1 text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                  {mode.subtitle}
-                </p>
-              </div>
+        <div className="mode-grid" role="group" aria-label="Dạng bài">
+          {PRACTICE_MODES.map(({ id, label, detail, icon: Icon }) => (
+            <button type="button" className="mode-card" key={id} aria-pressed={id === selectedMode} onClick={() => onSelectMode(id)}>
+              <span className="metric-icon" data-tone="violet"><Icon size={19} aria-hidden="true" /></span>
+              <span className="mode-label">{label}</span>
+              <span className="mode-detail">{detail}</span>
+              {id === selectedMode && <Check className="mode-check" size={16} aria-hidden="true" />}
             </button>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+
+        <div className="practice-footer">
+          <p aria-live="polite">
+            {available.length ? Math.min(available.length, PRACTICE_SESSION_SIZE) + ' từ trong phiên này' : emptyMessage}
+          </p>
+          <button className="button-primary" type="button" disabled={!available.length}
+            onClick={() => onBeginSession(selectedMode, selectedDeckId, filter, bloom)}>
+            Bắt đầu luyện tập <ArrowRight size={17} aria-hidden="true" />
+          </button>
+        </div>
+      </section>
     </div>
   );
-};
+}

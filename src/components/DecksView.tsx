@@ -14,28 +14,63 @@ import {
 import type { LanguageCode, VocabDeck, VocabWord } from '../types/vocab';
 import { LANGUAGE_LABELS } from '../data/seedVocab';
 import { BLOOM_META, calculateRetentionProbability, formatIntervalVi } from '../utils/srsBloom';
+import { stripTrailingPinyin } from '../utils/studyPlan';
+import { getStudyLevels } from '../utils/studyScope';
 import { speakPronunciation } from '../utils/soundEngine';
 import { type ChineseDictEntry, searchChineseDictionary } from '../utils/chineseDict';
 
-function stripTrailingPinyin(sentence: string): string {
-  return sentence.replace(/\s*\([^)]*\)\s*$/, '').trim();
+interface ImportedWord {
+  term: string;
+  phonetic?: string;
+  partOfSpeech?: string;
+  meaning: string;
+  collocation?: string;
+  collocationMeaning?: string;
+  example?: string;
+  translation?: string;
 }
+
+const WORD_FORM_EXAMPLES: Partial<Record<LanguageCode, {
+  term: string;
+  phonetic: string;
+  meaning: string;
+  notes: string;
+  phrase: string;
+  phraseMeaning: string;
+  sentence: string;
+  translation: string;
+}>> = {
+  zh: {
+    term: '坚持', phonetic: 'jiānchí', meaning: 'kiên trì', notes: 'Đặt trước động từ.',
+    phrase: '坚持学习', phraseMeaning: 'kiên trì học tập', sentence: '她每天坚持练习写汉字。',
+    translation: 'Cô ấy kiên trì luyện viết chữ Hán mỗi ngày.',
+  },
+  en: {
+    term: 'progress', phonetic: '/ˈprɑːɡres/', meaning: 'sự tiến bộ', notes: 'Danh từ này thường được dùng với make.',
+    phrase: 'make progress', phraseMeaning: 'có tiến bộ', sentence: 'We make progress when we practice every day.',
+    translation: 'Chúng ta tiến bộ khi luyện tập mỗi ngày.',
+  },
+};
 
 interface DecksViewProps {
   decks: VocabDeck[];
   words: VocabWord[];
+  language: LanguageCode;
+  activeLevel: string;
   speechRate: number;
   onCreateDeck: (deck: Omit<VocabDeck, 'id' | 'createdAt' | 'isCustom'>) => string;
   onDeleteDeck: (deckId: string) => void;
   onAddWord: (word: Omit<VocabWord, 'id' | 'createdAt' | 'srs'>) => void;
   onDeleteWord: (wordId: string) => void;
   onStartDeckStudy: (deckId: string) => void;
-  onImportWordsJson: (deckId: string, items: Array<{ term: string; phonetic?: string; partOfSpeech?: string; meaning: string; collocation?: string; example?: string; translation?: string }>) => number;
+  onImportWordsJson: (deckId: string, items: ImportedWord[]) => number;
 }
 
 export const DecksView: React.FC<DecksViewProps> = ({
   decks,
   words,
+  language,
+  activeLevel,
   speechRate,
   onCreateDeck,
   onDeleteDeck,
@@ -45,7 +80,6 @@ export const DecksView: React.FC<DecksViewProps> = ({
   onImportWordsJson,
 }) => {
   const [selectedDeckId, setSelectedDeckId] = useState<string>(decks[0]?.id || 'all');
-  const [deckLevelFilter, setDeckLevelFilter] = useState<'all' | 'hsk1' | 'hsk2' | 'custom'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showNewDeckModal, setShowNewDeckModal] = useState(false);
   const [showAddWordModal, setShowAddWordModal] = useState(false);
@@ -58,14 +92,15 @@ export const DecksView: React.FC<DecksViewProps> = ({
   // New Deck Form State
   const [deckName, setDeckName] = useState('');
   const [deckDesc, setDeckDesc] = useState('');
-  const [deckLang, setDeckLang] = useState<LanguageCode>('zh');
+  const [deckLang, setDeckLang] = useState(language);
+  const [deckLevel, setDeckLevel] = useState(activeLevel === 'all' ? 'custom' : activeLevel);
   const [deckCategory, setDeckCategory] = useState('Cá nhân');
 
   // New Word Form State
   const [wordTerm, setWordTerm] = useState('');
   const [wordPhonetic, setWordPhonetic] = useState('');
   const [wordSinoVi, setWordSinoVi] = useState('');
-  const [wordPos, setWordPos] = useState('n / v');
+  const [wordPos, setWordPos] = useState('');
   const [wordMeaning, setWordMeaning] = useState('');
   const [wordNotes, setWordNotes] = useState('');
   const [wordCollocation, setWordCollocation] = useState('');
@@ -75,21 +110,15 @@ export const DecksView: React.FC<DecksViewProps> = ({
   const [wordSynonyms, setWordSynonyms] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
 
-  const filteredDecks = useMemo(() => {
-    if (deckLevelFilter === 'all') return decks;
-    if (deckLevelFilter === 'hsk1') return decks.filter((d) => d.category.startsWith('HSK 1'));
-    if (deckLevelFilter === 'hsk2') return decks.filter((d) => d.category.startsWith('HSK 2'));
-    return decks.filter((d) => d.isCustom);
-  }, [decks, deckLevelFilter]);
-
   const activeDeck = decks.find((d) => d.id === selectedDeckId) || null;
+  const targetDeck = activeDeck ?? decks[0];
+  const inputExamples = WORD_FORM_EXAMPLES[targetDeck?.language ?? language];
+  const zhDeck = activeDeck?.language === 'zh' ? activeDeck : decks.find((deck) => deck.language === 'zh');
+  const currentLevel = getStudyLevels(language, decks).find(({ id }) => id === activeLevel);
+  const creationLevels = getStudyLevels(deckLang, decks).filter(({ id }) => id !== 'all' && id !== 'custom');
 
   const visibleWords = useMemo(() => {
-    const allowedDeckIds = new Set(filteredDecks.map((d) => d.id));
-    const base =
-      selectedDeckId === 'all'
-        ? words.filter((w) => allowedDeckIds.has(w.deckId))
-        : words.filter((w) => w.deckId === selectedDeckId);
+    const base = activeDeck ? words.filter((word) => word.deckId === activeDeck.id) : words;
     const q = searchQuery.trim().toLowerCase();
     if (!q) return base;
     return base.filter(
@@ -100,7 +129,19 @@ export const DecksView: React.FC<DecksViewProps> = ({
         (w.sinoVietnamese && w.sinoVietnamese.toLowerCase().includes(q)) ||
         w.collocations.some((c) => c.phrase.toLowerCase().includes(q)),
     );
-  }, [words, filteredDecks, selectedDeckId, searchQuery]);
+  }, [words, activeDeck, searchQuery]);
+
+  const openCreateDeck = () => {
+    setFormError(null);
+    setDeckLang(language);
+    setDeckLevel(activeLevel === 'all' ? 'custom' : activeLevel);
+    setShowNewDeckModal(true);
+  };
+
+  const openAddWord = () => {
+    setFormError(null);
+    setShowAddWordModal(true);
+  };
 
   const handleOpenZhDict = async () => {
     setShowZhDictModal(true);
@@ -119,10 +160,6 @@ export const DecksView: React.FC<DecksViewProps> = ({
   };
 
   const handleAddFromZhDict = (entry: ChineseDictEntry) => {
-    const zhDeck =
-      (activeDeck?.language === 'zh' ? activeDeck : undefined) ||
-      decks.find((d) => d.language === 'zh') ||
-      decks[0];
     if (!zhDeck) return;
     onAddWord({
       deckId: zhDeck.id,
@@ -150,8 +187,9 @@ export const DecksView: React.FC<DecksViewProps> = ({
     }
     const newId = onCreateDeck({
       name: deckName.trim(),
-      description: deckDesc.trim() || 'Danh sách từ vựng cá nhân tùy chỉnh.',
+      description: deckDesc.trim(),
       language: deckLang,
+      level: deckLevel === 'custom' ? undefined : deckLevel,
       category: deckCategory.trim() || 'Cá nhân',
     });
     setSelectedDeckId(newId);
@@ -167,30 +205,25 @@ export const DecksView: React.FC<DecksViewProps> = ({
       setFormError('Vui lòng nhập đầy đủ Từ vựng và Nghĩa tiếng Việt.');
       return;
     }
-    const targetDeckId = activeDeck ? activeDeck.id : decks[0]?.id;
-    const targetLang = activeDeck ? activeDeck.language : 'zh';
-    if (!targetDeckId) {
+    if (!targetDeck) {
       setFormError('Hãy tạo một bộ từ vựng trước khi thêm từ.');
       return;
     }
 
-    const cleanTerm = wordTerm.trim();
-    const fallbackPhonetic = /[\u4e00-\u9fff]/.test(cleanTerm) ? '' : `/${cleanTerm}/`;
-
     onAddWord({
-      deckId: targetDeckId,
-      language: targetLang,
-      term: cleanTerm,
-      phonetic: wordPhonetic.trim() || fallbackPhonetic,
-      sinoVietnamese: wordSinoVi.trim() || undefined,
-      partOfSpeech: wordPos.trim() || 'n',
+      deckId: targetDeck.id,
+      language: targetDeck.language,
+      term: wordTerm.trim(),
+      phonetic: wordPhonetic.trim(),
+      sinoVietnamese: targetDeck.language === 'zh' ? wordSinoVi.trim() || undefined : undefined,
+      partOfSpeech: wordPos.trim() || 'Từ / cụm từ',
       meaning: wordMeaning.trim(),
       notes: wordNotes.trim() || undefined,
       collocations: wordCollocation.trim()
-        ? [{ phrase: wordCollocation.trim(), meaning: wordCollocationMeaning.trim() || wordMeaning.trim() }]
+        ? [{ phrase: wordCollocation.trim(), meaning: wordCollocationMeaning.trim() }]
         : [],
       examples: wordExample.trim()
-        ? [{ sentence: wordExample.trim(), translation: wordTranslation.trim() || wordMeaning.trim() }]
+        ? [{ sentence: wordExample.trim(), translation: wordTranslation.trim() }]
         : [],
       synonyms: wordSynonyms
         .split(',')
@@ -202,6 +235,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
     setWordTerm('');
     setWordPhonetic('');
     setWordSinoVi('');
+    setWordPos('');
     setWordMeaning('');
     setWordNotes('');
     setWordCollocation('');
@@ -221,6 +255,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
       partOfSpeech: w.partOfSpeech,
       meaning: w.meaning,
       collocation: w.collocations[0]?.phrase || '',
+      collocationMeaning: w.collocations[0]?.meaning || '',
       example: w.examples[0]?.sentence || '',
       translation: w.examples[0]?.translation || '',
     }));
@@ -234,8 +269,9 @@ export const DecksView: React.FC<DecksViewProps> = ({
   };
 
   const handleImportFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const input = e.currentTarget;
+    const file = input.files?.[0];
+    if (!file || !activeDeck) return;
     try {
       const text = await file.text();
       const parsed = JSON.parse(text);
@@ -243,74 +279,56 @@ export const DecksView: React.FC<DecksViewProps> = ({
         setImportFeedback('File JSON cần là một mảng các đối tượng từ vựng.');
         return;
       }
-      const targetDeckId = activeDeck ? activeDeck.id : decks[0]?.id;
-      if (!targetDeckId) return;
-      const count = onImportWordsJson(targetDeckId, parsed);
-      setImportFeedback(`Đã nhập thành công ${count} từ vựng vào bộ hiện tại.`);
+      const count = onImportWordsJson(activeDeck.id, parsed);
+      setImportFeedback(`Đã nhập ${count} từ vựng vào bộ ${activeDeck.name}.`);
     } catch {
       setImportFeedback('Không thể đọc file JSON. Vui lòng kiểm tra định dạng.');
+    } finally {
+      input.value = '';
     }
-    e.target.value = '';
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
-        <div className="min-w-0">
-          <h1 className="font-display text-2xl font-bold tracking-tight">Bộ Từ Vựng HSK 1-2 &amp; Từ Điển Trung-Việt</h1>
-          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
-            Lộ trình 8 chuyên đề HSK 1–2 khoa học kèm cách dùng chi tiết, bộ thủ, Pinyin, Hán-Việt và ví dụ đa ngữ cảnh.
-          </p>
+        <div className="page-intro min-w-0">
+          <h1>Bộ từ vựng</h1>
+          <p>{LANGUAGE_LABELS[language].name}{activeLevel !== 'all' && currentLevel && ' · ' + currentLevel.label} · {decks.length} bộ</p>
         </div>
 
         <div className="flex flex-wrap xl:flex-nowrap items-center gap-2 shrink-0">
-          <button
-            type="button"
-            onClick={handleOpenZhDict}
-            className="flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold cursor-pointer whitespace-nowrap shrink-0"
-            style={{
-              borderColor: 'var(--border-hairline)',
-              backgroundColor: 'var(--bg-surface)',
-            }}
-          >
-            <BookOpenCheck className="w-3.5 h-3.5" style={{ color: 'var(--accent-primary)' }} />
-            <span>Tra từ điển Trung-Việt</span>
-          </button>
+          {language === 'zh' && (
+            <button type="button" onClick={handleOpenZhDict} className="button-secondary">
+              <BookOpenCheck className="w-3.5 h-3.5" style={{ color: 'var(--accent-primary)' }} />
+              <span>Từ điển Trung–Việt</span>
+            </button>
+          )}
 
           <button
             type="button"
-            onClick={() => {
-              setFormError(null);
-              setShowNewDeckModal(true);
-            }}
-            className="flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold cursor-pointer whitespace-nowrap shrink-0"
-            style={{
-              borderColor: 'var(--border-hairline)',
-              backgroundColor: 'var(--bg-surface)',
-            }}
+            onClick={openCreateDeck}
+            className="button-secondary"
           >
             <FolderPlus className="w-3.5 h-3.5" />
-            <span>Tạo bộ từ mới</span>
+            <span>Tạo bộ từ</span>
           </button>
 
           <button
             type="button"
-            onClick={() => {
-              setFormError(null);
-              setShowAddWordModal(true);
-            }}
-            className="flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-semibold text-white cursor-pointer whitespace-nowrap shrink-0"
-            style={{ backgroundColor: 'var(--accent-primary)' }}
+            onClick={openAddWord}
+            className="button-primary"
+            disabled={!decks.length}
           >
             <Plus className="w-3.5 h-3.5" />
-            <span>Thêm từ mới</span>
+            <span>Thêm từ vào bộ</span>
           </button>
         </div>
       </div>
 
       {importFeedback && (
         <div
+          role="status"
           className="rounded-xl border px-4 py-2.5 text-xs flex items-center justify-between"
           style={{
             backgroundColor: 'var(--accent-soft)',
@@ -329,72 +347,31 @@ export const DecksView: React.FC<DecksViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Decks Column */}
         <div
-          className="lg:col-span-4 rounded-2xl border p-4 space-y-3"
-          style={{
-            backgroundColor: 'var(--bg-surface)',
-            borderColor: 'var(--border-hairline)',
-          }}
+          className="glass-panel lg:col-span-4 min-w-0 p-4 space-y-3"
         >
-          {/* Level Filter Segmented Strip */}
-          <div className="grid grid-cols-4 gap-1 rounded-xl p-1" style={{ backgroundColor: 'var(--bg-subtle)' }}>
-            {(
-              [
-                { id: 'all', label: 'Tất cả' },
-                { id: 'hsk1', label: 'HSK 1' },
-                { id: 'hsk2', label: 'HSK 2' },
-                { id: 'custom', label: 'Cá nhân' },
-              ] as const
-            ).map((tab) => {
-              const active = deckLevelFilter === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => {
-                    setDeckLevelFilter(tab.id);
-                    if (tab.id === 'all') return;
-                    const firstMatch =
-                      tab.id === 'hsk1'
-                        ? decks.find((d) => d.category.startsWith('HSK 1'))
-                        : tab.id === 'hsk2'
-                          ? decks.find((d) => d.category.startsWith('HSK 2'))
-                          : decks.find((d) => d.isCustom);
-                    setSelectedDeckId(firstMatch ? firstMatch.id : 'all');
-                  }}
-                  className="rounded-lg py-1.5 text-[11px] font-semibold cursor-pointer transition-colors whitespace-nowrap"
-                  style={{
-                    backgroundColor: active ? 'var(--bg-surface)' : 'transparent',
-                    color: active ? 'var(--accent-text)' : 'var(--text-secondary)',
-                  }}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
-
           <button
             type="button"
             onClick={() => setSelectedDeckId('all')}
+            aria-pressed={!activeDeck}
             className="w-full text-left rounded-xl px-3.5 py-2.5 text-xs font-semibold transition-colors cursor-pointer flex items-center justify-between"
             style={{
-              backgroundColor: selectedDeckId === 'all' ? 'var(--accent-soft)' : 'transparent',
-              color: selectedDeckId === 'all' ? 'var(--accent-text)' : 'var(--text-primary)',
+              backgroundColor: !activeDeck ? 'var(--accent-soft)' : 'transparent',
+              color: !activeDeck ? 'var(--accent-text)' : 'var(--text-primary)',
             }}
           >
-            <span>Tất cả thẻ trong nhóm</span>
+            <span>Tất cả thẻ trong phạm vi</span>
             <span className="font-mono tabular-nums">
-              {words.filter((w) => filteredDecks.some((d) => d.id === w.deckId)).length}
+              {words.length}
             </span>
           </button>
 
-          {filteredDecks.length === 0 ? (
+          {decks.length === 0 ? (
             <p className="px-3 py-4 text-xs text-center" style={{ color: 'var(--text-muted)' }}>
-              Chưa có bộ từ cá nhân nào. Hãy bấm “Tạo bộ từ mới”.
+              Chưa có bộ từ ở cấp độ này.
             </p>
           ) : (
             <div className="divide-y" style={{ borderColor: 'var(--border-hairline)' }}>
-              {filteredDecks.map((deck) => {
+              {decks.map((deck) => {
                 const count = words.filter((w) => w.deckId === deck.id).length;
                 const active = selectedDeckId === deck.id;
                 return (
@@ -406,6 +383,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                     <button
                       type="button"
                       onClick={() => setSelectedDeckId(deck.id)}
+                      aria-pressed={active}
                       className="flex-1 text-left rounded-xl px-3 py-2 transition-colors cursor-pointer min-w-0"
                       style={{
                         backgroundColor: active ? 'var(--accent-soft)' : 'transparent',
@@ -414,7 +392,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                     >
                       <div className="text-xs font-semibold truncate">{deck.name}</div>
                       <div className="text-[11px] mt-0.5 truncate" style={{ color: 'var(--text-muted)' }}>
-                        {deck.category} · {LANGUAGE_LABELS[deck.language].name} · {count} thẻ
+                        {deck.category} · {count} thẻ
                       </div>
                     </button>
                     {deck.isCustom && (
@@ -440,13 +418,9 @@ export const DecksView: React.FC<DecksViewProps> = ({
 
         {/* Words Table / List */}
         <div
-          className="lg:col-span-8 rounded-2xl border p-5 space-y-4"
-          style={{
-            backgroundColor: 'var(--bg-surface)',
-            borderColor: 'var(--border-hairline)',
-          }}
+          className="glass-panel lg:col-span-8 min-w-0 p-4 sm:p-5 space-y-4"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
             <div
               className="flex-1 flex items-center gap-2 rounded-lg border px-3 py-2"
               style={{
@@ -457,27 +431,31 @@ export const DecksView: React.FC<DecksViewProps> = ({
               <Search className="w-4 h-4 shrink-0" style={{ color: 'var(--text-muted)' }} />
               <input
                 type="text"
+                aria-label="Tìm trong bộ từ vựng"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Tìm từ vựng, Pinyin, âm Hán-Việt hoặc nghĩa..."
+                placeholder={language === 'zh' ? 'Từ vựng, pinyin, âm Hán-Việt hoặc nghĩa…' : 'Từ, cụm từ, phiên âm hoặc nghĩa…'}
                 className="w-full bg-transparent text-xs focus:outline-none"
                 style={{ color: 'var(--text-primary)' }}
               />
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
               <label
-                className="flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium cursor-pointer whitespace-nowrap"
+                className={'flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium whitespace-nowrap ' +
+                  (activeDeck ? 'cursor-pointer' : 'opacity-50')}
                 style={{ borderColor: 'var(--border-hairline)' }}
+                title={activeDeck ? 'Nhập vào bộ ' + activeDeck.name : 'Chọn một bộ từ để nhập'}
               >
                 <Upload className="w-3.5 h-3.5" />
                 <span>Nhập JSON</span>
-                <input type="file" accept=".json" onChange={handleImportFile} className="hidden" />
+                <input type="file" accept=".json" disabled={!activeDeck} onChange={handleImportFile} className="sr-only" />
               </label>
 
               <button
                 type="button"
                 onClick={handleExportDeck}
+                disabled={!visibleWords.length}
                 className="flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium cursor-pointer whitespace-nowrap"
                 style={{ borderColor: 'var(--border-hairline)' }}
               >
@@ -489,8 +467,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
                 <button
                   type="button"
                   onClick={() => onStartDeckStudy(activeDeck.id)}
-                  className="rounded-lg px-3.5 py-2 text-xs font-semibold text-white cursor-pointer whitespace-nowrap"
-                  style={{ backgroundColor: 'var(--accent-primary)' }}
+                  className="button-primary"
+                  disabled={!words.some((word) => word.deckId === activeDeck.id)}
                 >
                   Học bộ này
                 </button>
@@ -501,21 +479,21 @@ export const DecksView: React.FC<DecksViewProps> = ({
           {visibleWords.length === 0 ? (
             <div className="py-12 text-center space-y-3">
               <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                Chưa có từ vựng nào khớp với bộ lọc hiện tại.
+                {!decks.length ? 'Tạo bộ từ để lưu từ và cụm từ bạn muốn học.'
+                  : searchQuery.trim() ? 'Không có kết quả phù hợp.' : 'Bộ từ này đang trống.'}
               </p>
               <button
                 type="button"
-                onClick={() => setShowAddWordModal(true)}
-                className="rounded-lg px-4 py-2 text-xs font-semibold text-white cursor-pointer"
-                style={{ backgroundColor: 'var(--accent-primary)' }}
+                onClick={targetDeck ? openAddWord : openCreateDeck}
+                className="button-primary"
               >
-                Thêm từ đầu tiên
+                {targetDeck ? 'Thêm từ' : 'Tạo bộ từ đầu tiên'}
               </button>
             </div>
           ) : (
             <div className="divide-y" style={{ borderColor: 'var(--border-hairline)' }}>
               {visibleWords.map((w) => {
-                const retention = Math.round(calculateRetentionProbability(w) * 100);
+                const retention = w.srs.lastReviewedAt === null ? null : Math.round(calculateRetentionProbability(w) * 100);
                 return (
                   <div
                     key={w.id}
@@ -530,7 +508,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                           aria-label={`Phát âm ${w.term}`}
                           className="inline-flex items-center gap-1.5 font-display text-base font-bold hover:underline cursor-pointer"
                         >
-                          <span>{w.term}</span>
+                          <span lang={w.language}>{w.term}</span>
                           <Volume2 className="w-3.5 h-3.5" style={{ color: 'var(--accent-primary)' }} />
                         </button>
                         <span className="font-mono text-xs" style={{ color: 'var(--text-muted)' }}>
@@ -569,7 +547,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                           {w.collocations.map((c, idx) => (
                             <span key={idx}>
                               {idx > 0 ? ' · ' : ''}
-                              <strong>{c.phrase}</strong> ({c.meaning})
+                              <strong lang={w.language}>{c.phrase}</strong>{c.meaning && ' (' + c.meaning + ')'}
                             </span>
                           ))}
                         </div>
@@ -582,7 +560,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                               <button
                                 type="button"
                                 onClick={() =>
-                                  speakPronunciation(stripTrailingPinyin(ex.sentence), w.language, speechRate)
+                                  speakPronunciation(w.language === 'zh' ? stripTrailingPinyin(ex.sentence) : ex.sentence, w.language, speechRate)
                                 }
                                 aria-label={`Phát âm ví dụ ${idx + 1} của ${w.term}`}
                                 className="mt-0.5 shrink-0 cursor-pointer hover:opacity-80"
@@ -591,7 +569,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                                 <Volume2 className="w-3.5 h-3.5" />
                               </button>
                               <div className="min-w-0">
-                                <div className="font-medium" style={{ color: 'var(--text-primary)' }}>
+                                <div className="font-medium" lang={w.language} style={{ color: 'var(--text-primary)' }}>
                                   {ex.sentence}
                                 </div>
                                 <div style={{ color: 'var(--text-muted)' }}>{ex.translation}</div>
@@ -604,12 +582,14 @@ export const DecksView: React.FC<DecksViewProps> = ({
 
                     <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0">
                       <div className="text-xs font-mono tabular-nums" style={{ color: 'var(--text-secondary)' }}>
-                        Bloom {w.bloomLevel} ({BLOOM_META[w.bloomLevel].nameVi}) · Nhớ {retention}%
+                        {retention === null ? 'Chưa học' : 'Bloom ' + w.bloomLevel + ' (' + BLOOM_META[w.bloomLevel].nameVi + ') · Nhớ ' + retention + '%'}
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[11px] font-mono tabular-nums" style={{ color: 'var(--text-muted)' }}>
-                          Chu kỳ {w.srs.intervalDays > 0 ? formatIntervalVi(w.srs.intervalDays) : 'Chưa học'}
-                        </span>
+                        {w.srs.intervalDays > 0 && (
+                          <span className="text-[11px] font-mono tabular-nums" style={{ color: 'var(--text-muted)' }}>
+                            Chu kỳ {formatIntervalVi(w.srs.intervalDays)}
+                          </span>
+                        )}
                         <button
                           type="button"
                           onClick={() => onDeleteWord(w.id)}
@@ -631,13 +611,13 @@ export const DecksView: React.FC<DecksViewProps> = ({
 
       {/* Modal: Chinese-Vietnamese Hanzii-format Dictionary Lookup */}
       <AnimatePresence>
-        {showZhDictModal && (
+        {language === 'zh' && showZhDictModal && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.16 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto"
+            className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto"
           >
             <motion.div
               role="dialog"
@@ -646,7 +626,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 10 }}
               transition={{ duration: 0.18, ease: 'easeOut' }}
-              className="w-full max-w-2xl rounded-2xl border p-6 space-y-4 shadow-2xl my-8"
+              className="w-full max-w-2xl rounded-2xl border p-6 space-y-4 shadow-2xl my-auto"
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 borderColor: 'var(--border-hairline)',
@@ -654,9 +634,9 @@ export const DecksView: React.FC<DecksViewProps> = ({
             >
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="font-display text-lg font-bold">Tra cứu Từ điển Trung - Việt (Hanzii Format)</h2>
+                <h2 className="font-display text-lg font-bold">Từ điển Trung–Việt</h2>
                 <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>
-                  Tra theo Hán tự, Pinyin, Âm Hán-Việt hoặc tiếng Việt rồi thêm trực tiếp vào bộ Tiếng Trung.
+                  {zhDeck ? 'Lưu từ vào bộ ' + zhDeck.name : 'Tạo một bộ từ tiếng Trung để lưu kết quả tra cứu.'}
                 </p>
               </div>
               <button type="button" onClick={() => setShowZhDictModal(false)} aria-label="Đóng" className="cursor-pointer">
@@ -727,6 +707,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                     <button
                       type="button"
                       onClick={() => handleAddFromZhDict(entry)}
+                      disabled={!zhDeck}
                       className="rounded-lg border px-3 py-1.5 text-xs font-semibold cursor-pointer shrink-0"
                       style={{
                         borderColor: 'var(--border-hairline)',
@@ -752,7 +733,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.16 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto"
           >
             <motion.div
               role="dialog"
@@ -761,7 +742,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 10 }}
               transition={{ duration: 0.18, ease: 'easeOut' }}
-              className="w-full max-w-md rounded-2xl border p-6 space-y-4 shadow-2xl"
+              className="w-full max-w-md rounded-2xl border p-6 space-y-4 shadow-2xl my-auto"
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 borderColor: 'var(--border-hairline)',
@@ -783,7 +764,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   type="text"
                   value={deckName}
                   onChange={(e) => setDeckName(e.target.value)}
-                  placeholder="Ví dụ: IELTS Speaking hoặc HSK 4 Giao tiếp"
+                  placeholder="Giao tiếp hằng ngày"
                   className="w-full rounded-lg border px-3 py-2 text-sm"
                   style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                 />
@@ -797,7 +778,11 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   <select
                     id="new-deck-lang"
                     value={deckLang}
-                    onChange={(e) => setDeckLang(e.target.value as LanguageCode)}
+                    onChange={(e) => {
+                      const selectedLanguage = e.target.value as LanguageCode;
+                      setDeckLang(selectedLanguage);
+                      setDeckLevel(selectedLanguage === language && activeLevel !== 'all' ? activeLevel : 'custom');
+                    }}
                     className="w-full rounded-lg border px-3 py-2 text-sm"
                     style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                   >
@@ -809,18 +794,34 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="new-deck-cat" className="block text-xs font-medium mb-1">
-                    Phân loại
+                  <label htmlFor="new-deck-level" className="block text-xs font-medium mb-1">
+                    Cấp độ
                   </label>
-                  <input
-                    id="new-deck-cat"
-                    type="text"
-                    value={deckCategory}
-                    onChange={(e) => setDeckCategory(e.target.value)}
+                  <select
+                    id="new-deck-level"
+                    value={deckLevel}
+                    onChange={(e) => setDeckLevel(e.target.value)}
                     className="w-full rounded-lg border px-3 py-2 text-sm"
                     style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
-                  />
+                  >
+                    <option value="custom">Chưa phân cấp</option>
+                    {creationLevels.map(({ id, label }) => <option key={id} value={id}>{label}</option>)}
+                  </select>
                 </div>
+              </div>
+
+              <div>
+                <label htmlFor="new-deck-category" className="block text-xs font-medium mb-1">
+                  Nhóm chủ đề
+                </label>
+                <input
+                  id="new-deck-category"
+                  type="text"
+                  value={deckCategory}
+                  onChange={(event) => setDeckCategory(event.target.value)}
+                  className="w-full rounded-lg border px-3 py-2 text-sm"
+                  style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
+                />
               </div>
 
               <div>
@@ -871,7 +872,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.16 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto"
+            className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto"
           >
             <motion.div
               role="dialog"
@@ -880,7 +881,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 10 }}
               transition={{ duration: 0.18, ease: 'easeOut' }}
-              className="w-full max-w-lg rounded-2xl border p-6 space-y-4 shadow-2xl my-8"
+              className="w-full max-w-lg rounded-2xl border p-6 space-y-4 shadow-2xl my-auto"
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 borderColor: 'var(--border-hairline)',
@@ -888,7 +889,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
             >
             <div className="flex items-center justify-between">
               <h2 className="font-display text-lg font-bold">
-                Thêm từ vào: {activeDeck ? activeDeck.name : decks[0]?.name}
+                Thêm từ vào {targetDeck?.name}
               </h2>
               <button type="button" onClick={() => setShowAddWordModal(false)} aria-label="Đóng" className="cursor-pointer">
                 <X className="w-4 h-4" />
@@ -899,28 +900,28 @@ export const DecksView: React.FC<DecksViewProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label htmlFor="add-term" className="block text-xs font-medium mb-1">
-                    Từ vựng (Chữ Hán) *
+                    Từ hoặc cụm từ *
                   </label>
                   <input
                     id="add-term"
                     type="text"
                     value={wordTerm}
                     onChange={(e) => setWordTerm(e.target.value)}
-                    placeholder="Ví dụ: 坚持"
+                    placeholder={inputExamples?.term}
                     className="w-full rounded-lg border px-3 py-2 text-sm"
                     style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                   />
                 </div>
                 <div>
                   <label htmlFor="add-phonetic" className="block text-xs font-medium mb-1">
-                    Phiên âm (Pinyin)
+                    {targetDeck?.language === 'zh' ? 'Pinyin' : 'Phiên âm'}
                   </label>
                   <input
                     id="add-phonetic"
                     type="text"
                     value={wordPhonetic}
                     onChange={(e) => setWordPhonetic(e.target.value)}
-                    placeholder="jiānchí"
+                    placeholder={inputExamples?.phonetic}
                     className="w-full rounded-lg border px-3 py-2 text-sm font-mono"
                     style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                   />
@@ -937,7 +938,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                     type="text"
                     value={wordMeaning}
                     onChange={(e) => setWordMeaning(e.target.value)}
-                    placeholder="kiên trì, giữ vững"
+                    placeholder={inputExamples?.meaning}
                     className="w-full rounded-lg border px-3 py-2 text-sm"
                     style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                   />
@@ -958,7 +959,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                 </div>
               </div>
 
-              <div>
+              {targetDeck?.language === 'zh' && <div>
                 <label htmlFor="add-sinovi" className="block text-xs font-medium mb-1">
                   Âm Hán-Việt
                 </label>
@@ -971,7 +972,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   className="w-full rounded-lg border px-3 py-2 text-sm"
                   style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                 />
-              </div>
+              </div>}
 
               <div>
                 <label htmlFor="add-notes" className="block text-xs font-medium mb-1">
@@ -982,7 +983,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   type="text"
                   value={wordNotes}
                   onChange={(e) => setWordNotes(e.target.value)}
-                  placeholder="Thường đứng trước động từ: 坚持 + V (kiên trì làm gì)."
+                  placeholder={inputExamples?.notes}
                   className="w-full rounded-lg border px-3 py-2 text-sm"
                   style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                 />
@@ -991,14 +992,14 @@ export const DecksView: React.FC<DecksViewProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label htmlFor="add-col" className="block text-xs font-medium mb-1">
-                    Cụm từ đi kèm (Collocation)
+                    Cụm từ đi kèm
                   </label>
                   <input
                     id="add-col"
                     type="text"
                     value={wordCollocation}
                     onChange={(e) => setWordCollocation(e.target.value)}
-                    placeholder="坚持学习"
+                    placeholder={inputExamples?.phrase}
                     className="w-full rounded-lg border px-3 py-2 text-sm"
                     style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                   />
@@ -1012,7 +1013,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                     type="text"
                     value={wordCollocationMeaning}
                     onChange={(e) => setWordCollocationMeaning(e.target.value)}
-                    placeholder="kiên trì học tập"
+                    placeholder={inputExamples?.phraseMeaning}
                     className="w-full rounded-lg border px-3 py-2 text-sm"
                     style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                   />
@@ -1028,7 +1029,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   type="text"
                   value={wordExample}
                   onChange={(e) => setWordExample(e.target.value)}
-                  placeholder="她每天坚持练习写汉字。"
+                  placeholder={inputExamples?.sentence}
                   className="w-full rounded-lg border px-3 py-2 text-sm"
                   style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                 />
@@ -1043,7 +1044,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   type="text"
                   value={wordTranslation}
                   onChange={(e) => setWordTranslation(e.target.value)}
-                  placeholder="Cô ấy mỗi ngày đều kiên trì luyện viết chữ Hán."
+                  placeholder={inputExamples?.translation}
                   className="w-full rounded-lg border px-3 py-2 text-sm"
                   style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                 />
@@ -1058,7 +1059,6 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   type="text"
                   value={wordSynonyms}
                   onChange={(e) => setWordSynonyms(e.target.value)}
-                  placeholder="保持, 持续"
                   className="w-full rounded-lg border px-3 py-2 text-sm"
                   style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                 />

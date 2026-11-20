@@ -7,13 +7,16 @@ import {
   computeBloomDistribution,
   computeForecastDays,
   formatIntervalVi,
+  localStudyDate,
 } from '../utils/srsBloom';
+import { STUDY_MODE_LABELS } from '../utils/studyPlan';
 
 interface AnalyticsViewProps {
   subRoute: AnalyticsSubRoute;
   onChangeSubRoute: (sub: AnalyticsSubRoute) => void;
   words: VocabWord[];
   logs: StudySessionLog[];
+  now: number;
 }
 
 const SUB_ROUTES: Array<{
@@ -21,47 +24,56 @@ const SUB_ROUTES: Array<{
   label: string;
   icon: React.ComponentType<{ className?: string }>;
 }> = [
-  { id: 'overview', label: 'Tổng hợp & Nhiệt độ học', icon: BarChart3 },
-  { id: 'bloom', label: 'Sơ đồ Bloom 6 Tầng', icon: Brain },
-  { id: 'retention', label: 'Đường cong Nhớ & Dự báo SRS', icon: Calendar },
-  { id: 'history', label: 'Nhật ký phiên học', icon: History },
+  { id: 'overview', label: 'Tổng hợp', icon: BarChart3 },
+  { id: 'bloom', label: 'Mức Bloom', icon: Brain },
+  { id: 'retention', label: 'Lịch ôn', icon: Calendar },
+  { id: 'history', label: 'Lịch sử', icon: History },
 ];
+
+const LOG_LABELS: Record<StudySessionLog['mode'], string> = {
+  ...STUDY_MODE_LABELS,
+  game_match: 'Ghép cặp',
+  game_wordfall: 'Thợ săn từ',
+  game_scramble: 'Sắp xếp chữ',
+  game_audioblitz: 'Phản xạ nghe',
+};
 
 export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
   subRoute,
   onChangeSubRoute,
   words,
   logs,
+  now,
 }) => {
-  const bloomDist = computeBloomDistribution(words);
-  const forecast = computeForecastDays(words, 10);
+  const knownWords = words.filter((word) => word.srs.lastReviewedAt !== null);
+  const bloomDist = computeBloomDistribution(knownWords);
+  const forecast = computeForecastDays(words, 10, now);
   const maxForecast = Math.max(1, ...forecast.map((d) => d.count));
 
-  const avgRetention =
-    words.length > 0
-      ? Math.round(
-          (words.reduce((acc, w) => acc + calculateRetentionProbability(w), 0) / words.length) *
-            100,
-        )
-      : 0;
+  const averageRetention = (timestamp: number) => Math.round(
+    knownWords.reduce((sum, word) => sum + calculateRetentionProbability(word, timestamp), 0) * 100 / Math.max(1, knownWords.length),
+  );
+  const avgRetention = averageRetention(now);
 
-  const totalReviewed = logs.reduce((acc, l) => acc + l.wordsReviewed, 0);
-  const totalCorrect = logs.reduce((acc, l) => acc + l.correctCount, 0);
-  const overallAccuracy = totalReviewed > 0 ? Math.round((totalCorrect / totalReviewed) * 100) : 100;
+  const studyLogs = logs.filter((log) => !log.mode.startsWith('game_'));
+  const totalReviewed = studyLogs.reduce((acc, l) => acc + l.wordsReviewed, 0);
+  const totalCorrect = studyLogs.reduce((acc, l) => acc + l.correctCount, 0);
+  const overallAccuracy = totalReviewed > 0 ? Math.round((totalCorrect / totalReviewed) * 100) : null;
 
   // 12-week (84 days) activity heatmap
   const heatmapDays = Array.from({ length: 84 }, (_, idx) => {
-    const d = new Date(Date.now() - (83 - idx) * 24 * 60 * 60 * 1000);
-    const key = d.toISOString().slice(0, 10);
-    const count = logs
-      .filter((l) => new Date(l.timestamp).toISOString().slice(0, 10) === key)
+    const day = new Date(now);
+    day.setDate(day.getDate() + idx - 83);
+    const key = localStudyDate(day.getTime());
+    const count = studyLogs
+      .filter((log) => localStudyDate(log.timestamp) === key)
       .reduce((acc, l) => acc + l.wordsReviewed, 0);
     return { key, count };
   });
 
   // Forgetting curve SVG points (t = 0 to 14 days)
   const curvePoints = Array.from({ length: 15 }, (_, day) => {
-    const retention = Math.round(Math.exp(-day / 6.5) * 100);
+    const retention = averageRetention(now + day * 86_400_000);
     const x = 40 + (day / 14) * 520;
     const y = 180 - (retention / 100) * 145;
     return { day, retention, x, y };
@@ -93,25 +105,15 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="font-display text-2xl font-bold tracking-tight">
-            Router Biểu Đồ &amp; Phân Tích Tiến Trình
-          </h1>
-          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
-            Theo dõi độ sâu nhận thức Bloom, đường cong ghi nhớ Ebbinghaus và tải ôn tập SRS.
-          </p>
-        </div>
+      <div className="page-intro">
+        <h1>Tiến độ học tập</h1>
+        <p>Theo dõi kết quả luyện tập, mức Bloom và lịch ôn sắp tới.</p>
       </div>
 
       {/* Sub-router Navigation Tabs */}
       <nav
         aria-label="Điều hướng biểu đồ phân tích"
-        className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-xl border"
-        style={{
-          backgroundColor: 'var(--bg-surface)',
-          borderColor: 'var(--border-hairline)',
-        }}
+        className="glass-panel flex flex-wrap items-center gap-1.5 p-1.5"
       >
         {SUB_ROUTES.map((tab) => {
           const Icon = tab.icon;
@@ -121,6 +123,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
               key={tab.id}
               type="button"
               onClick={() => onChangeSubRoute(tab.id)}
+              aria-current={active ? 'page' : undefined}
               className="flex items-center gap-2 rounded-lg px-3.5 py-2 text-xs font-semibold transition-colors cursor-pointer whitespace-nowrap"
               style={{
                 backgroundColor: active ? 'var(--accent-soft)' : 'transparent',
@@ -137,41 +140,37 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
       {/* KPI Strip */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div
-          className="rounded-xl border p-4"
-          style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+          className="glass-panel p-4"
         >
           <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            Độ nhớ trung bình
+            Độ nhớ ước tính
           </div>
-          <div className="mt-1 font-display text-2xl font-bold tabular-nums">{avgRetention}%</div>
+          <div className="mt-1 font-display text-2xl font-bold tabular-nums">{knownWords.length ? avgRetention + '%' : '—'}</div>
         </div>
         <div
-          className="rounded-xl border p-4"
-          style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+          className="glass-panel p-4"
         >
           <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            Tổng lượt ôn tích lũy
+            Lượt luyện tập
           </div>
           <div className="mt-1 font-display text-2xl font-bold tabular-nums">{totalReviewed}</div>
         </div>
         <div
-          className="rounded-xl border p-4"
-          style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+          className="glass-panel p-4"
         >
           <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
             Tỉ lệ chính xác
           </div>
-          <div className="mt-1 font-display text-2xl font-bold tabular-nums">{overallAccuracy}%</div>
+          <div className="mt-1 font-display text-2xl font-bold tabular-nums">{overallAccuracy === null ? '—' : overallAccuracy + '%'}</div>
         </div>
         <div
-          className="rounded-xl border p-4"
-          style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+          className="glass-panel p-4"
         >
           <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
             Đạt tầng Bloom 4–6
           </div>
           <div className="mt-1 font-display text-2xl font-bold tabular-nums">
-            {words.filter((w) => w.bloomLevel >= 4).length}/{words.length}
+            {knownWords.filter((w) => w.bloomLevel >= 4).length}
           </div>
         </div>
       </div>
@@ -180,8 +179,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
       {subRoute === 'overview' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <div
-            className="lg:col-span-7 rounded-2xl border p-5 space-y-4"
-            style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+            className="glass-panel lg:col-span-7 p-5 space-y-4"
           >
             <h2 className="font-display text-base font-semibold">Bản đồ nhiệt 12 tuần gần nhất</h2>
             <div className="grid grid-cols-12 gap-1.5">
@@ -208,8 +206,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
           </div>
 
           <div
-            className="lg:col-span-5 rounded-2xl border p-5 space-y-4"
-            style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+            className="glass-panel lg:col-span-5 p-5 space-y-4"
           >
             <h2 className="font-display text-base font-semibold">Dự báo thẻ đến hạn 10 ngày</h2>
             <div className="flex items-end gap-2 h-44 pt-4">
@@ -221,7 +218,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
                   <div
                     className="w-full rounded-t-md transition-all"
                     style={{
-                      height: `${Math.max(8, Math.round((d.count / maxForecast) * 110))}px`,
+                      height: (d.count === 0 ? 3 : Math.max(7, Math.round((d.count / maxForecast) * 110))) + 'px',
                       backgroundColor: d.isToday ? 'var(--accent-primary)' : 'var(--accent-soft)',
                     }}
                   />
@@ -239,11 +236,10 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
       {subRoute === 'bloom' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           <div
-            className="lg:col-span-5 rounded-2xl border p-6 flex flex-col justify-between items-center"
-            style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+            className="glass-panel lg:col-span-5 p-5 sm:p-6 flex flex-col justify-between items-center"
           >
             <h2 className="font-display text-base font-semibold self-start">
-              Biểu đồ Radar 6 Tầng Bloom
+              Phân bố mức Bloom
             </h2>
             <svg viewBox="0 0 360 310" className="w-full max-w-[360px] my-auto">
               {[28, 56, 84].map((r) => (
@@ -283,15 +279,14 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
               ))}
             </svg>
             <p className="text-xs text-center leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-              Luyện thêm chế độ Cụm từ (Bloom 4) và Đặt câu (Bloom 5–6) để cân bằng đều radar nhận thức.
+              Biểu đồ tính trên các từ đã học.
             </p>
           </div>
 
           <div
-            className="lg:col-span-7 rounded-2xl border p-6 space-y-4"
-            style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+            className="glass-panel lg:col-span-7 p-5 sm:p-6 space-y-4"
           >
-            <h2 className="font-display text-base font-semibold">Kim tự tháp Nhận thức Bloom</h2>
+            <h2 className="font-display text-base font-semibold">Kỹ năng theo từng mức</h2>
             <div className="space-y-3">
               {[...bloomDist].reverse().map((item) => {
                 const meta = BLOOM_META[item.level];
@@ -325,13 +320,13 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
       {subRoute === 'retention' && (
         <div className="space-y-6">
           <div
-            className="rounded-2xl border p-6 space-y-4"
-            style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+            className="glass-panel p-5 sm:p-6 space-y-4"
           >
             <h2 className="font-display text-base font-semibold">
-              Đường cong suy giảm trí nhớ Ebbinghaus (14 ngày không ôn lại)
+              Độ nhớ ước tính trong 14 ngày
             </h2>
-            <svg viewBox="0 0 600 210" className="w-full h-52">
+            {knownWords.length === 0 ? <p className="panel-empty">Học vài từ để xem ước tính ghi nhớ.</p> : (
+            <svg viewBox="0 0 600 210" className="w-full h-52" role="img" aria-label="Dự báo độ nhớ nếu không ôn thêm">
               <line x1="40" y1="35" x2="40" y2="180" stroke="currentColor" strokeOpacity="0.2" />
               <line x1="40" y1="180" x2="570" y2="180" stroke="currentColor" strokeOpacity="0.2" />
               <path d={curvePath} fill="none" stroke="var(--accent-primary)" strokeWidth="3" />
@@ -352,26 +347,27 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
                 0%
               </text>
             </svg>
+            )}
           </div>
 
           <div
-            className="rounded-2xl border p-6 space-y-3"
-            style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+            className="glass-panel p-5 sm:p-6 space-y-3"
           >
-            <h2 className="font-display text-base font-semibold">Bảng độ ổn định trí nhớ từng từ</h2>
+            <h2 className="font-display text-base font-semibold">Lượt ôn sắp tới</h2>
+            {knownWords.length === 0 ? <p className="panel-empty">Chưa có từ nào được lên lịch.</p> : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="border-b" style={{ borderColor: 'var(--border-hairline)', color: 'var(--text-muted)' }}>
                     <th className="py-2 pr-4 font-medium">Từ vựng</th>
                     <th className="py-2 pr-4 font-medium">Bloom</th>
-                    <th className="py-2 pr-4 font-medium text-right">Chu kỳ SRS</th>
+                    <th className="py-2 pr-4 font-medium text-right">Lần ôn tiếp theo</th>
                     <th className="py-2 font-medium text-right">Độ nhớ ước tính</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y" style={{ borderColor: 'var(--border-hairline)' }}>
-                  {words.slice(0, 12).map((w) => {
-                    const ret = Math.round(calculateRetentionProbability(w) * 100);
+                  {[...knownWords].sort((a, b) => a.srs.nextReviewAt - b.srs.nextReviewAt).slice(0, 12).map((w) => {
+                    const ret = Math.round(calculateRetentionProbability(w, now) * 100);
                     return (
                       <tr key={w.id} style={{ borderColor: 'var(--border-hairline)' }}>
                         <td className="py-2.5 pr-4 font-semibold">{w.term}</td>
@@ -379,7 +375,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
                           {w.bloomLevel}. {BLOOM_META[w.bloomLevel].nameVi}
                         </td>
                         <td className="py-2.5 pr-4 text-right font-mono tabular-nums">
-                          {formatIntervalVi(w.srs.intervalDays)}
+                          {w.srs.nextReviewAt <= now ? 'Đến hạn' : 'Sau ' + formatIntervalVi((w.srs.nextReviewAt - now) / 86_400_000)}
                         </td>
                         <td className="py-2.5 text-right font-mono tabular-nums font-semibold">
                           {ret}%
@@ -390,6 +386,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
                 </tbody>
               </table>
             </div>
+            )}
           </div>
         </div>
       )}
@@ -397,13 +394,12 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
       {/* SUB-ROUTE: HISTORY */}
       {subRoute === 'history' && (
         <div
-          className="rounded-2xl border p-6 space-y-4"
-          style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+          className="glass-panel p-5 sm:p-6 space-y-4"
         >
           <h2 className="font-display text-base font-semibold">Lịch sử các phiên luyện tập gần đây</h2>
           {logs.length === 0 ? (
             <p className="py-6 text-center text-xs" style={{ color: 'var(--text-muted)' }}>
-              Chưa có phiên luyện tập nào được ghi nhận. Hãy bắt đầu một phiên học hoặc trò chơi để lưu lịch sử thật của bạn!
+              Chưa có phiên luyện tập nào được ghi nhận.
             </p>
           ) : (
             <div className="divide-y" style={{ borderColor: 'var(--border-hairline)' }}>
@@ -416,15 +412,15 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
                     style={{ borderColor: 'var(--border-hairline)' }}
                   >
                     <div>
-                      <div className="font-semibold capitalize">{log.mode.replace('_', ' ')}</div>
+                      <div className="font-semibold">{LOG_LABELS[log.mode] ?? log.mode}</div>
                       <div style={{ color: 'var(--text-muted)' }}>
                         {new Date(log.timestamp).toLocaleString('vi-VN')}
                       </div>
                     </div>
                     <div className="text-right font-mono tabular-nums">
-                      <div>
+                      {!log.mode.startsWith('game_') && <div>
                         {log.correctCount}/{log.wordsReviewed} đúng
-                      </div>
+                      </div>}
                       <div style={{ color: 'var(--accent-text)' }}>+{log.xpEarned} XP</div>
                     </div>
                   </div>

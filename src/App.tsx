@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import { Bell, Menu, Plus, X } from 'lucide-react';
+import { Bell, ChevronDown, Languages, Menu, Moon, Plus, Sun, X } from 'lucide-react';
 import type {
   AnalyticsSubRoute,
   AppRoute,
@@ -9,7 +9,9 @@ import type {
   LanguageCode,
   ReviewQuality,
   StudyModeId,
+  StudySessionMode,
   StudySessionLog,
+  SmartReminder,
   UserProfile,
   VocabDeck,
   VocabWord,
@@ -21,40 +23,59 @@ import {
   INITIAL_SETTINGS,
   INITIAL_WORDS,
   LANGUAGE_LABELS,
+  CURRENT_DATA_VERSION,
+  withEnglishSeed,
 } from './data/seedVocab';
+import { generateSmartReminders, isWordDue, localStudyDate, reviewXp } from './utils/srsBloom';
 import {
-  calculateNextSRS,
-  generateSmartReminders,
-  isWordDue,
-} from './utils/srsBloom';
+  applyStudyReview, getDailyStudyPlan, getIntensiveStudyPlan, getPracticeWords, PRACTICE_SESSION_SIZE, recordStudyActivity,
+  type StudyFilter,
+} from './utils/studyPlan';
+import { getDeckStudyLevel, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './utils/studyScope';
 import {
   clearOfflineState,
   loadOfflineState,
+  loadProfileImages,
   loadSyncFallbackState,
   saveOfflineState,
+  saveProfileImage,
+  type PersistedAppState,
 } from './utils/offlineStorage';
-import { soundEngine } from './utils/soundEngine';
+import { prepareProfileImage, readImageForBackup, type ProfileImageKind, type ProfileImages } from './utils/profileImages';
+import { setPronunciationVoices, soundEngine, stopPronunciation } from './utils/soundEngine';
+import { clearSpeechClipCache } from './utils/speechClipCache';
 import { useOnlineStatus } from './hooks/useOnlineStatus';
-import { Sidebar } from './components/Sidebar';
+import { NAV_LABELS, Sidebar } from './components/Sidebar';
 import { DashboardView } from './components/DashboardView';
 import { StudyHubView } from './components/StudyHubView';
-import { StudySession } from './components/StudySession';
-import { GamesView } from './components/GamesView';
-import { DecksView } from './components/DecksView';
-import { AnalyticsView } from './components/AnalyticsView';
-import { ProfileView } from './components/ProfileView';
-import { SettingsView } from './components/SettingsView';
-import { FloatingQuickMenu } from './components/FloatingQuickMenu';
+import { StudySession, type SessionProgress } from './components/StudySession';
+import { WordLookup } from './components/WordLookup';
 
-const ROUTE_TITLES: Record<AppRoute, string> = {
-  dashboard: 'Tổng quan Tiếng Trung HSK',
-  study: 'Luyện tập 7 chế độ',
-  games: 'Trò chơi từ vựng',
-  decks: 'Bộ từ HSK 1-2 & Cá nhân',
-  analytics: 'Biểu đồ & Bloom',
-  profile: 'Hồ sơ cá nhân',
-  settings: 'Cài đặt & Theme',
-};
+const GamesView = lazy(() => import('./components/GamesView').then(({ GamesView }) => ({ default: GamesView })));
+const DecksView = lazy(() => import('./components/DecksView').then(({ DecksView }) => ({ default: DecksView })));
+const AnalyticsView = lazy(() => import('./components/AnalyticsView').then(({ AnalyticsView }) => ({ default: AnalyticsView })));
+const ProfileView = lazy(() => import('./components/ProfileView').then(({ ProfileView }) => ({ default: ProfileView })));
+const AchievementsView = lazy(() => import('./components/AchievementsView').then(({ AchievementsView }) => ({ default: AchievementsView })));
+const SettingsView = lazy(() => import('./components/SettingsView').then(({ SettingsView }) => ({ default: SettingsView })));
+
+const NOTIFICATION_DAY_KEY = 'lexisbloom_reminder_date';
+
+interface ActiveSession {
+  id: string;
+  mode: StudySessionMode;
+  deckId: string;
+  language: LanguageCode;
+  level: string;
+  words: VocabWord[];
+}
+
+function upgradeSavedState(state: PersistedAppState | null): PersistedAppState | null {
+  if (!state || state.version >= CURRENT_DATA_VERSION) return state;
+  const upgraded = withEnglishSeed(state);
+  const { profile } = upgraded;
+  if (profile.name !== 'Học viên HSK' || profile.title !== 'Lộ trình Tiếng Trung Khoa học') return upgraded;
+  return { ...upgraded, profile: { ...profile, name: INITIAL_PROFILE.name, title: INITIAL_PROFILE.title } };
+}
 
 function parseRouteFromHash(): { route: AppRoute; analyticsSub: AnalyticsSubRoute } {
   if (typeof window === 'undefined') return { route: 'dashboard', analyticsSub: 'overview' };
@@ -68,6 +89,7 @@ function parseRouteFromHash(): { route: AppRoute; analyticsSub: AnalyticsSubRout
     'decks',
     'analytics',
     'profile',
+    'achievements',
     'settings',
   ];
   const route = first && validRoutes.includes(first) ? first : 'dashboard';
@@ -77,26 +99,40 @@ function parseRouteFromHash(): { route: AppRoute; analyticsSub: AnalyticsSubRout
   return { route, analyticsSub };
 }
 
+function useImageUrl(image?: Blob) {
+  const [url, setUrl] = useState<string>();
+  useEffect(() => {
+    const imageUrl = image && URL.createObjectURL(image);
+    setUrl(imageUrl);
+    return () => { if (imageUrl) URL.revokeObjectURL(imageUrl); };
+  }, [image]);
+  return url;
+}
+
 export default function App() {
-  const initialFallback = useMemo(() => loadSyncFallbackState(), []);
+  const initialFallback = useMemo(() => upgradeSavedState(loadSyncFallbackState()), []);
   const [decks, setDecks] = useState<VocabDeck[]>(() => initialFallback?.decks || INITIAL_DECKS);
   const [words, setWords] = useState<VocabWord[]>(() => initialFallback?.words || INITIAL_WORDS);
   const [logs, setLogs] = useState<StudySessionLog[]>(() => initialFallback?.logs || INITIAL_LOGS);
   const [profile, setProfile] = useState<UserProfile>(() => initialFallback?.profile || INITIAL_PROFILE);
-  const [settings, setSettings] = useState<AppSettings>(() => initialFallback?.settings || INITIAL_SETTINGS);
+  const [profileImages, setProfileImages] = useState<ProfileImages>({});
+  const imageWrites = useRef(Promise.resolve());
+  const avatarUrl = useImageUrl(profileImages.avatar);
+  const coverUrl = useImageUrl(profileImages.cover);
+  const [settings, setSettings] = useState<AppSettings>(() => ({ ...INITIAL_SETTINGS, ...initialFallback?.settings }));
   const [hydrated, setHydrated] = useState(false);
+  const [now, setNow] = useState(Date.now);
 
   // Router State
   const initialHash = useMemo(() => parseRouteFromHash(), []);
   const [route, setRoute] = useState<AppRoute>(initialHash.route);
   const [analyticsSub, setAnalyticsSub] = useState<AnalyticsSubRoute>(initialHash.analyticsSub);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Study Session State
   const [selectedMode, setSelectedMode] = useState<StudyModeId>('flashcard');
   const [selectedDeckId, setSelectedDeckId] = useState<string>('all');
-  const [activeSessionWords, setActiveSessionWords] = useState<VocabWord[] | null>(null);
+  const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
 
   // Quick Add Word Modal & Smart Reminder Drawer
   const [showQuickAdd, setShowQuickAdd] = useState(false);
@@ -104,27 +140,71 @@ export default function App() {
   const [qaPhonetic, setQaPhonetic] = useState('');
   const [qaMeaning, setQaMeaning] = useState('');
   const [qaCollocation, setQaCollocation] = useState('');
+  const [qaCollocationMeaning, setQaCollocationMeaning] = useState('');
   const [qaExample, setQaExample] = useState('');
-  const [qaDeckId, setQaDeckId] = useState(decks[0]?.id || 'deck-hsk1-core');
+  const [qaExampleTranslation, setQaExampleTranslation] = useState('');
+  const [qaDeckId, setQaDeckId] = useState('');
   const [qaError, setQaError] = useState<string | null>(null);
   const [showReminderPopover, setShowReminderPopover] = useState(false);
+  const reminderContainer = useRef<HTMLDivElement>(null);
+  const reminderButton = useRef<HTMLButtonElement>(null);
+  const quickAddDialog = useRef<HTMLDialogElement>(null);
+  const lastReminderDate = useRef('');
 
   const isOnline = useOnlineStatus();
 
   // Hydrate from IndexedDB on mount
   useEffect(() => {
-    loadOfflineState()
-      .then((saved) => {
+    Promise.all([loadOfflineState(), loadProfileImages().catch(() => ({}))])
+      .then(([stored, images]) => {
+        setProfileImages(images);
+        const saved = upgradeSavedState(stored);
         if (saved) {
           setDecks(saved.decks);
           setWords(saved.words);
           setLogs(saved.logs);
           setProfile(saved.profile);
-          setSettings(saved.settings);
+          setSettings({ ...INITIAL_SETTINGS, ...saved.settings });
         }
       })
       .finally(() => setHydrated(true));
   }, []);
+
+  useEffect(() => {
+    const refreshClock = () => setNow(Date.now());
+    const timer = window.setInterval(refreshClock, 30_000);
+    window.addEventListener('focus', refreshClock);
+    document.addEventListener('visibilitychange', refreshClock);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener('focus', refreshClock);
+      document.removeEventListener('visibilitychange', refreshClock);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!showReminderPopover) return;
+    const closeOnOutside = (event: PointerEvent) => {
+      if (!reminderContainer.current?.contains(event.target as Node)) setShowReminderPopover(false);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setShowReminderPopover(false);
+      reminderButton.current?.focus();
+    };
+    window.addEventListener('pointerdown', closeOnOutside);
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      window.removeEventListener('pointerdown', closeOnOutside);
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [showReminderPopover]);
+
+  useEffect(() => {
+    const dialog = quickAddDialog.current;
+    if (showQuickAdd && !dialog?.open) dialog?.showModal();
+    else if (!showQuickAdd && dialog?.open) dialog.close();
+  }, [showQuickAdd]);
 
   // Persist to IndexedDB + localStorage whenever state changes
   useEffect(() => {
@@ -135,7 +215,7 @@ export default function App() {
       logs,
       profile,
       settings,
-      version: 1,
+      version: CURRENT_DATA_VERSION,
     });
   }, [decks, words, logs, profile, settings, hydrated]);
 
@@ -156,9 +236,10 @@ export default function App() {
 
   useEffect(() => {
     const root = document.documentElement;
-    if (isDarkActive) root.classList.add('dark');
-    else root.classList.remove('dark');
+    root.classList.toggle('dark', isDarkActive);
     root.setAttribute('data-theme', settings.theme);
+    const themeColor = getComputedStyle(root).getPropertyValue('--bg-canvas').trim();
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColor);
   }, [isDarkActive, settings.theme]);
 
   useEffect(() => {
@@ -166,9 +247,14 @@ export default function App() {
     soundEngine.volume = settings.soundVolume;
   }, [settings.soundEnabled, settings.soundVolume]);
 
+  useEffect(() => {
+    setPronunciationVoices(settings.speechVoices);
+  }, [settings.speechVoices]);
+
   // Hash URL sync
   const navigate = useCallback((nextRoute: AppRoute, sub?: AnalyticsSubRoute) => {
-    setActiveSessionWords(null);
+    setActiveSession(null);
+    setShowReminderPopover(false);
     setRoute(nextRoute);
     if (sub) setAnalyticsSub(sub);
     const nextHash =
@@ -185,119 +271,166 @@ export default function App() {
       const parsed = parseRouteFromHash();
       setRoute(parsed.route);
       setAnalyticsSub(parsed.analyticsSub);
+      setShowReminderPopover(false);
+      if (parsed.route !== 'study') setActiveSession(null);
     };
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
-  // Derived analytics & reminders
-  const dueCount = useMemo(() => words.filter((w) => isWordDue(w)).length, [words]);
+  const language = profile.targetLanguage;
+  const languages = useMemo(() => [...new Set([...getStudyLanguages(decks), language])], [decks, language]);
+  const levels = useMemo(() => getStudyLevels(language, decks), [language, decks]);
+  const level = levels.find((entry) => entry.id === settings.studyLevels?.[language]) ?? levels[0];
+  const scopedDecks = useMemo(() => getScopedDecks(decks, language, level.id), [decks, language, level.id]);
+  const scopedWords = useMemo(() => getScopedWords(words, scopedDecks, language), [words, scopedDecks, language]);
+  const scopedLogs = useMemo(() => {
+    const decksById = new Map(decks.map((deck) => [deck.id, deck]));
+    return logs.filter((log) => {
+      const deck = decksById.get(log.deckId);
+      const logLanguage = log.language ?? deck?.language ?? 'zh';
+      if (logLanguage !== language) return false;
+      const logLevel = deck ? getDeckStudyLevel(deck) : log.level;
+      return level.id === 'all' || level.id === logLevel;
+    });
+  }, [logs, decks, language, level.id]);
+  const plan = useMemo(() => getDailyStudyPlan(scopedWords, profile, settings.dailyNewWordLimit, now, words),
+    [scopedWords, profile, settings.dailyNewWordLimit, now, words]);
+  const intensive = useMemo(() => getIntensiveStudyPlan(scopedWords, now), [scopedWords, now]);
   const reminders = useMemo(
-    () => generateSmartReminders(words, profile, logs, settings.retentionThreshold),
-    [words, profile, logs, settings.retentionThreshold],
+    () => generateSmartReminders(scopedWords, profile, scopedLogs, settings.retentionThreshold, now)
+      .filter((reminder) => reminder.type !== 'streak_protection' || plan.words.length > 0),
+    [scopedWords, profile, scopedLogs, settings.retentionThreshold, now, plan.words.length],
   );
 
-  const handleStartStudyMode = (
-    mode: StudyModeId,
-    deckId: string = 'all',
-    specificWordIds?: string[],
-    forceZen?: boolean,
-  ) => {
-    setSelectedMode(mode);
-    setSelectedDeckId(deckId);
-    if (typeof forceZen === 'boolean') {
-      setSettings((s) => ({ ...s, zenFocusMode: forceZen }));
+  useEffect(() => {
+    if (!hydrated || !settings.reminderEnabled || !plan.words.length ||
+      typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+    const localTime = new Date(now).toTimeString().slice(0, 5);
+    const date = localStudyDate(now);
+    if (localTime < settings.reminderHour || lastReminderDate.current === date) return;
+    lastReminderDate.current = date;
+    try {
+      if (localStorage.getItem(NOTIFICATION_DAY_KEY) === date) return;
+      localStorage.setItem(NOTIFICATION_DAY_KEY, date);
+    } catch {
+      // The timestamp in memory still prevents repeated notices during this visit.
     }
-    let pool = deckId === 'all' ? words : words.filter((w) => w.deckId === deckId);
-    if (specificWordIds && specificWordIds.length > 0) {
-      const targeted = pool.filter((w) => specificWordIds.includes(w.id));
-      if (targeted.length > 0) pool = targeted;
-    }
-    setActiveSessionWords(pool.length > 0 ? pool : words.slice(0, 8));
-    setRoute('study');
+    const options = { body: 'Kế hoạch ôn từ vựng hôm nay đã sẵn sàng.', tag: NOTIFICATION_DAY_KEY, icon: '/pwa-192x192.png' };
+    void (async () => {
+      try {
+        const worker = await navigator.serviceWorker?.getRegistration();
+        if (worker?.active) await worker.showNotification('Largo', options);
+        else new Notification('Largo', options);
+      } catch {
+        // The reminders remain accessible from the toolbar.
+      }
+    })();
+  }, [hydrated, now, settings.reminderHour, settings.reminderEnabled, plan.words.length]);
+
+  const beginSession = (mode: StudySessionMode, deckId: string, pool: VocabWord[]) => {
+    if (!hydrated || pool.length === 0) return;
+    navigate('study');
+    const id = globalThis.crypto?.randomUUID?.() ?? 'study-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+    setActiveSession({ id, mode, deckId, language, level: level.id, words: pool });
+  };
+
+  const startDailySession = () => {
+    const timestamp = Date.now();
+    setNow(timestamp);
+    beginSession('guided', 'all', getDailyStudyPlan(scopedWords, profile, settings.dailyNewWordLimit, timestamp, words).words);
+  };
+
+  const startIntensiveSession = () => {
+    const timestamp = Date.now();
+    setNow(timestamp);
+    beginSession('intensive', 'all', getIntensiveStudyPlan(scopedWords, timestamp).words);
+  };
+
+  const resetScopeSelection = () => {
+    setActiveSession(null);
+    setSelectedDeckId('all');
+    setShowReminderPopover(false);
+  };
+
+  const changeLanguage = (targetLanguage: LanguageCode) => {
+    resetScopeSelection();
+    setProfile((current) => ({ ...current, targetLanguage }));
+  };
+
+  const changeLevel = (nextLevel: string) => {
+    resetScopeSelection();
+    setSettings((current) => ({ ...current, studyLevels: { ...current.studyLevels, [language]: nextLevel } }));
   };
 
   const handleBeginHubSession = (
     mode: StudyModeId,
     deckId: string,
-    filterType: 'due' | 'all' | 'bloom',
-    bloomTarget?: BloomLevel,
+    filterType: StudyFilter = 'all',
+    bloomTarget: BloomLevel = 1,
   ) => {
-    let pool = deckId === 'all' ? words : words.filter((w) => w.deckId === deckId);
-    if (filterType === 'due') {
-      const due = pool.filter((w) => isWordDue(w));
-      if (due.length > 0) pool = due;
-    } else if (filterType === 'bloom' && bloomTarget) {
-      const byBloom = pool.filter((w) => w.bloomLevel === bloomTarget);
-      if (byBloom.length > 0) pool = byBloom;
+    const timestamp = Date.now();
+    setNow(timestamp);
+    const pool = getPracticeWords(scopedWords, deckId, filterType, bloomTarget, mode, timestamp);
+    beginSession(mode, deckId, pool.slice(0, PRACTICE_SESSION_SIZE));
+  };
+
+  const handleReminder = (reminder: SmartReminder) => {
+    setShowReminderPopover(false);
+    if (reminder.type === 'streak_protection' || reminder.type === 'due_queue') {
+      startDailySession();
+      return;
     }
-    setSelectedMode(mode);
-    setActiveSessionWords(pool.slice(0, 15));
-  };
-
-  const handleRecordReview = (wordId: string, quality: ReviewQuality) => {
-    setWords((prev) =>
-      prev.map((w) => {
-        if (w.id !== wordId) return w;
-        const next = calculateNextSRS(w, quality, settings.srsMode);
-        return {
-          ...w,
-          srs: next.srs,
-          bloomLevel: next.bloomLevel,
-        };
-      }),
-    );
-
-    const today = new Date().toISOString().slice(0, 10);
-    setProfile((prev) => {
-      const isNewDay = prev.lastStudyDate !== today;
-      const nextStreak = isNewDay ? prev.streakDays + 1 : Math.max(1, prev.streakDays);
-      return {
-        ...prev,
-        xp: prev.xp + (quality >= 3 ? 12 : 5),
-        todayWordsCount: isNewDay ? 1 : prev.todayWordsCount + 1,
-        lastStudyDate: today,
-        streakDays: nextStreak,
-        longestStreak: Math.max(prev.longestStreak, nextStreak),
-      };
+    const timestamp = Date.now();
+    const matching = new Map(scopedWords.map((word) => [word.id, word]));
+    const pool = reminder.wordIds.flatMap((id) => {
+      const word = matching.get(id);
+      return word ? [word] : [];
     });
+    if (reminder.type === 'urgent_forgetting') {
+      beginSession('guided', 'all', pool.filter((word) => isWordDue(word, timestamp)));
+    } else {
+      const eligible = new Set(getPracticeWords(scopedWords, 'all', 'all', 1, reminder.targetMode, timestamp).map((word) => word.id));
+      beginSession(reminder.targetMode, 'all', pool.filter((word) => eligible.has(word.id)));
+    }
   };
 
-  const handleCompleteSession = (summary: {
-    mode: StudyModeId;
-    wordsReviewed: number;
-    correctCount: number;
-    xpEarned: number;
-    durationSeconds: number;
-  }) => {
-    const newLog: StudySessionLog = {
-      id: `log-${Date.now()}`,
-      timestamp: Date.now(),
-      mode: summary.mode,
-      deckId: selectedDeckId,
-      wordsReviewed: summary.wordsReviewed,
-      correctCount: summary.correctCount,
-      xpEarned: summary.xpEarned,
-      durationSeconds: summary.durationSeconds,
+  const handleRecordReview = (wordId: string, quality: ReviewQuality, exercise: StudyModeId, answeredAt: number) => {
+    setNow(answeredAt);
+    setWords((prev) => prev.map((word) => word.id === wordId
+      ? applyStudyReview(word, quality, settings.srsMode, answeredAt, exercise, activeSession?.mode)
+      : word));
+    setProfile((prev) => recordStudyActivity(prev, answeredAt, reviewXp(quality), wordId));
+  };
+
+  const handleSessionProgress = (progress: SessionProgress) => {
+    if (!activeSession) return;
+    const entry: StudySessionLog = {
+      id: activeSession.id, timestamp: Date.now(), mode: activeSession.mode, deckId: activeSession.deckId,
+      language: activeSession.language, level: activeSession.level, ...progress,
     };
-    setLogs((prev) => [...prev, newLog]);
+    setLogs((prev) => prev.some((log) => log.id === entry.id)
+      ? prev.map((log) => log.id === entry.id ? entry : log)
+      : [...prev, entry]);
   };
 
-  const handleSaveGameResult = (
+  const restartPractice = () => {
+    if (!activeSession || activeSession.mode === 'guided' || activeSession.mode === 'intensive') return;
+    const ids = new Set(activeSession.words.map((word) => word.id));
+    const eligible = getPracticeWords(scopedWords, activeSession.deckId, 'all', 1, activeSession.mode, Date.now());
+    beginSession(activeSession.mode, activeSession.deckId, eligible.filter((word) => ids.has(word.id)));
+  };
+
+  const handleSaveGameResult = useCallback((
     game: 'match' | 'wordfall' | 'scramble' | 'audioblitz',
     score: number,
     xpEarned: number,
   ) => {
-    const today = new Date().toISOString().slice(0, 10);
+    const timestamp = Date.now();
+    setNow(timestamp);
     setProfile((prev) => {
-      const isNewDay = prev.lastStudyDate !== today;
-      const nextStreak = isNewDay ? prev.streakDays + 1 : Math.max(1, prev.streakDays);
       return {
-        ...prev,
-        xp: prev.xp + xpEarned,
-        lastStudyDate: today,
-        streakDays: nextStreak,
-        longestStreak: Math.max(prev.longestStreak, nextStreak),
+        ...recordStudyActivity(prev, timestamp, xpEarned),
         bestMatchScore: game === 'match' ? Math.max(prev.bestMatchScore, score) : prev.bestMatchScore,
         bestWordFallScore:
           game === 'wordfall' ? Math.max(prev.bestWordFallScore, score) : prev.bestWordFallScore,
@@ -317,29 +450,35 @@ export default function App() {
       ...prev,
       {
         id: `log-game-${Date.now()}`,
-        timestamp: Date.now(),
+        timestamp,
         mode: modeMap[game],
         deckId: 'all',
-        wordsReviewed: 6,
-        correctCount: 5,
+        language,
+        level: level.id,
+        wordsReviewed: 0,
+        correctCount: 0,
         xpEarned,
-        durationSeconds: 45,
+        durationSeconds: 0,
       },
     ]);
-  };
+  }, [language, level.id]);
 
   const handleCreateDeck = (deck: Omit<VocabDeck, 'id' | 'createdAt' | 'isCustom'>) => {
     const id = `deck-custom-${Date.now()}`;
-    setDecks((prev) => [
-      { ...deck, id, isCustom: true, createdAt: Date.now() },
-      ...prev,
-    ]);
+    const created = { ...deck, id, isCustom: true, createdAt: Date.now() };
+    setDecks((prev) => [created, ...prev]);
+    const createdLevel = getDeckStudyLevel(created);
+    if (deck.language !== language) changeLanguage(deck.language);
+    if (deck.language !== language || (level.id !== 'all' && createdLevel !== level.id)) {
+      setSettings((current) => ({ ...current, studyLevels: { ...current.studyLevels, [deck.language]: createdLevel } }));
+    }
     return id;
   };
 
   const handleDeleteDeck = (deckId: string) => {
     setDecks((prev) => prev.filter((d) => d.id !== deckId));
     setWords((prev) => prev.filter((w) => w.deckId !== deckId));
+    setSelectedDeckId((id) => id === deckId ? 'all' : id);
   };
 
   const handleAddWord = (word: Omit<VocabWord, 'id' | 'createdAt' | 'srs'>) => {
@@ -372,26 +511,29 @@ export default function App() {
       partOfSpeech?: string;
       meaning: string;
       collocation?: string;
+      collocationMeaning?: string;
       example?: string;
       translation?: string;
     }>,
   ) => {
     const targetDeck = decks.find((d) => d.id === deckId);
-    const lang: LanguageCode = targetDeck?.language || 'zh';
+    if (!targetDeck) return 0;
+    const lang = targetDeck.language;
     const now = Date.now();
+    const trimText = (value: unknown) => typeof value === 'string' ? value.trim() : '';
     const valid = items
-      .filter((i) => i && typeof i.term === 'string' && typeof i.meaning === 'string')
+      .filter((i) => i && typeof i.term === 'string' && i.term.trim() && typeof i.meaning === 'string' && i.meaning.trim())
       .map((item, idx) => ({
         id: `w-imp-${now}-${idx}`,
         deckId,
         language: lang,
         term: item.term.trim(),
-        phonetic: item.phonetic?.trim() || (/[\u4e00-\u9fff]/.test(item.term) ? '' : `/${item.term.trim()}/`),
-        partOfSpeech: item.partOfSpeech?.trim() || 'n',
+        phonetic: trimText(item.phonetic),
+        partOfSpeech: trimText(item.partOfSpeech) || 'n',
         meaning: item.meaning.trim(),
-        collocations: item.collocation ? [{ phrase: item.collocation, meaning: item.meaning }] : [],
-        examples: item.example
-          ? [{ sentence: item.example, translation: item.translation || item.meaning }]
+        collocations: trimText(item.collocation) ? [{ phrase: trimText(item.collocation), meaning: trimText(item.collocationMeaning) }] : [],
+        examples: trimText(item.example)
+          ? [{ sentence: trimText(item.example), translation: trimText(item.translation) }]
           : [],
         synonyms: [],
         bloomLevel: 1 as BloomLevel,
@@ -417,21 +559,24 @@ export default function App() {
       setQaError('Vui lòng nhập đầy đủ từ vựng và nghĩa tiếng Việt.');
       return;
     }
-    const targetDeck = decks.find((d) => d.id === qaDeckId) || decks[0];
+    const targetDeck = scopedDecks.find((d) => d.id === qaDeckId) || scopedDecks[0];
+    if (!targetDeck) {
+      setQaError('Hãy tạo một bộ từ trước khi thêm từ mới.');
+      return;
+    }
     const cleanTerm = qaTerm.trim();
-    const fallbackPhonetic = /[\u4e00-\u9fff]/.test(cleanTerm) ? '' : `/${cleanTerm}/`;
     handleAddWord({
       deckId: targetDeck.id,
       language: targetDeck.language,
       term: cleanTerm,
-      phonetic: qaPhonetic.trim() || fallbackPhonetic,
+      phonetic: qaPhonetic.trim(),
       partOfSpeech: 'n / v',
       meaning: qaMeaning.trim(),
       collocations: qaCollocation.trim()
-        ? [{ phrase: qaCollocation.trim(), meaning: qaMeaning.trim() }]
+        ? [{ phrase: qaCollocation.trim(), meaning: qaCollocationMeaning.trim() }]
         : [],
       examples: qaExample.trim()
-        ? [{ sentence: qaExample.trim(), translation: qaMeaning.trim() }]
+        ? [{ sentence: qaExample.trim(), translation: qaExampleTranslation.trim() }]
         : [],
       synonyms: [],
       bloomLevel: 1,
@@ -440,457 +585,342 @@ export default function App() {
     setQaPhonetic('');
     setQaMeaning('');
     setQaCollocation('');
+    setQaCollocationMeaning('');
     setQaExample('');
+    setQaExampleTranslation('');
     setQaError(null);
     setShowQuickAdd(false);
   };
 
-  const handleExportFullBackup = () => {
-    const payload = { decks, words, logs, profile, settings, exportedAt: new Date().toISOString() };
+  const handleUpdateProfileImage = (kind: ProfileImageKind, file?: File) => {
+    const update = imageWrites.current.then(async () => {
+      const image = file ? await prepareProfileImage(file, kind) : undefined;
+      try {
+        await saveProfileImage(kind, image);
+      } catch {
+        throw new Error('Largo chưa lưu được ảnh trên thiết bị này.');
+      }
+      setProfileImages((current) => ({ ...current, [kind]: image }));
+    });
+    imageWrites.current = update.catch(() => {});
+    return update;
+  };
+
+  const handleExportFullBackup = async () => {
+    await imageWrites.current;
+    const images = await loadProfileImages().catch(() => profileImages);
+    const [avatar, cover] = await Promise.all([readImageForBackup(images.avatar), readImageForBackup(images.cover)]);
+    const payload = {
+      decks, words, logs, profile, settings, version: CURRENT_DATA_VERSION, exportedAt: new Date().toISOString(),
+      ...(avatar || cover ? { profileImages: { avatar, cover } } : {}),
+    };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `lexisbloom-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = 'largo-backup-' + localStudyDate() + '.json';
     a.click();
     URL.revokeObjectURL(url);
   };
 
   const handleResetAllData = async () => {
-    await clearOfflineState();
-    setDecks(INITIAL_DECKS);
-    setWords(INITIAL_WORDS);
-    setLogs(INITIAL_LOGS);
-    setProfile(INITIAL_PROFILE);
-    setSettings(INITIAL_SETTINGS);
+    const reset = imageWrites.current.then(async () => {
+      await Promise.all([clearOfflineState(), clearSpeechClipCache()]);
+      setDecks(INITIAL_DECKS);
+      setWords(INITIAL_WORDS);
+      setLogs(INITIAL_LOGS);
+      setProfile(INITIAL_PROFILE);
+      setProfileImages({});
+      setSettings(INITIAL_SETTINGS);
+      setSelectedDeckId('all');
+    });
+    imageWrites.current = reset.catch(() => {});
+    await reset;
   };
 
-  const isZenStudyActive = route === 'study' && !!activeSessionWords && settings.zenFocusMode;
+  const isZenStudyActive = route === 'study' && !!activeSession && settings.zenFocusMode;
+  const activeViewKey = route === 'study' ? activeSession?.id ?? 'study-hub' : route;
+  const activeDeckId = scopedDecks.some((deck) => deck.id === selectedDeckId) ? selectedDeckId : 'all';
+  const scopeKey = language + '-' + level.id;
 
-  const densityPadding = isZenStudyActive
-    ? 'p-6 sm:p-10 max-w-4xl mx-auto flex flex-col justify-center min-h-screen'
-    : settings.uiDensity === 'compact'
-      ? 'p-4 sm:p-5'
-      : settings.uiDensity === 'zen'
-        ? 'p-6 sm:p-10 max-w-5xl mx-auto'
-        : 'p-5 sm:p-8';
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    return stopPronunciation;
+  }, [activeViewKey, scopeKey]);
 
-  const activeViewKey =
-    route === 'study' ? `${route}-${activeSessionWords ? 'session' : 'hub'}` : route;
+  const openQuickAdd = () => {
+    if (!scopedDecks.length) {
+      navigate('decks');
+      return;
+    }
+    if (!scopedDecks.some((deck) => deck.id === qaDeckId)) setQaDeckId(scopedDecks[0].id);
+    setQaError(null);
+    setShowQuickAdd(true);
+  };
 
   return (
     <MotionConfig reducedMotion="user">
-      <div
-        data-zen={isZenStudyActive ? 'true' : 'false'}
-        className="min-h-screen flex transition-colors duration-200"
-        style={{
-          backgroundColor: 'var(--bg-canvas)',
-          color: 'var(--text-primary)',
-        }}
-      >
+      <div className="app-shell" data-zen={isZenStudyActive} data-density={settings.uiDensity}>
         {!isZenStudyActive && (
           <Sidebar
             activeRoute={route}
-            onNavigate={(r) => navigate(r)}
-            collapsed={sidebarCollapsed}
-            onToggleCollapse={() => setSidebarCollapsed((c) => !c)}
+            onNavigate={navigate}
             mobileOpen={mobileMenuOpen}
             onCloseMobile={() => setMobileMenuOpen(false)}
-            dueCount={dueCount}
+            dueCount={plan.dueCount}
             profile={profile}
-            colorScheme={settings.colorScheme}
-            isDarkActive={isDarkActive}
-            onToggleDark={() =>
-              setSettings((s) => ({
-                ...s,
-                colorScheme: isDarkActive ? 'light' : 'dark',
-              }))
-            }
+            avatarUrl={avatarUrl}
             isOnline={isOnline}
           />
         )}
 
-        <div className="flex-1 flex flex-col min-w-0">
-          {/* macOS-Style Floating Frosted Header (hidden in Zen Focus Mode) */}
+        <div className="app-column" inert={mobileMenuOpen}>
           {!isZenStudyActive && (
-            <header
-              className="sticky top-3.5 z-30 mx-3 sm:mx-6 mt-3.5 h-14 rounded-2xl border px-4 sm:px-5 flex items-center justify-between gap-4 backdrop-blur-xl transition-colors"
-              style={{
-                backgroundColor: 'var(--glass-bg)',
-                borderColor: 'var(--glass-border)',
-                boxShadow: 'var(--glass-shadow)',
-              }}
-            >
-              <div className="flex items-center gap-3 min-w-0">
-                <button
-                  type="button"
-                  onClick={() => setMobileMenuOpen(true)}
-                  aria-label="Mở menu điều hướng"
-                  className="lg:hidden rounded-xl border p-2 cursor-pointer transition-transform active:scale-95"
-                  style={{ borderColor: 'var(--border-hairline)', backgroundColor: 'var(--bg-surface)' }}
-                >
-                  <Menu className="w-4 h-4" />
-                </button>
-                <div className="text-sm font-medium truncate" style={{ color: 'var(--text-secondary)' }}>
-                  LexisBloom <span aria-hidden="true">/</span>{' '}
-                  <span style={{ color: 'var(--text-primary)' }}>{ROUTE_TITLES[route]}</span>
+            <header className="app-header">
+              <div className="header-inner">
+                <div className="header-location">
+                  <button type="button" onClick={() => setMobileMenuOpen(true)} aria-label="Mở menu điều hướng"
+                    aria-expanded={mobileMenuOpen} className="icon-button mobile-menu-trigger">
+                    <Menu size={20} aria-hidden="true" />
+                  </button>
+                  <span className="header-current">{NAV_LABELS[route]}</span>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-2.5 shrink-0 relative">
-                <button
-                  type="button"
-                  onClick={() => setShowReminderPopover((v) => !v)}
-                  aria-label={`Nhắc nhở thông minh (${reminders.length})`}
-                  className="relative flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium cursor-pointer whitespace-nowrap shrink-0 transition-transform active:scale-95"
-                  style={{
-                    borderColor: 'var(--border-hairline)',
-                    backgroundColor: 'var(--bg-surface)',
-                  }}
-                >
-                  <Bell className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Nhắc nhở</span>
-                  {reminders.length > 0 && (
-                    <span className="font-mono tabular-nums font-semibold" style={{ color: 'var(--accent-text)' }}>
-                      ({reminders.length})
-                    </span>
-                  )}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setShowQuickAdd(true)}
-                  className="flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-semibold text-white cursor-pointer whitespace-nowrap shrink-0 transition-transform active:scale-95"
-                  style={{ backgroundColor: 'var(--accent-primary)' }}
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>Thêm từ</span>
-                </button>
-
-                <AnimatePresence>
-                  {showReminderPopover && (
-                    <motion.div
-                      role="dialog"
-                      aria-label="Danh sách nhắc nhở thông minh"
-                      initial={{ opacity: 0, y: -6, scale: 0.97 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -6, scale: 0.97 }}
-                      transition={{ duration: 0.16, ease: 'easeOut' }}
-                      className="absolute right-0 top-12 w-80 max-w-[calc(100vw-2rem)] rounded-2xl border p-4 shadow-xl space-y-3 z-50 backdrop-blur-xl"
-                      style={{
-                        backgroundColor: 'var(--bg-surface)',
-                        borderColor: 'var(--border-hairline)',
-                      }}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-display text-xs font-bold">Nhắc nhở thông minh</span>
-                        <button
-                          type="button"
-                          onClick={() => setShowReminderPopover(false)}
-                          aria-label="Đóng nhắc nhở"
-                          className="cursor-pointer"
-                        >
-                          <X className="w-3.5 h-3.5" />
+                <div className="study-scope" role="group" aria-label="Ngôn ngữ và cấp độ đang học">
+                  {languages.length === 2 ? (
+                    <div className="scope-language-switch" role="group" aria-label="Ngôn ngữ đang học">
+                      {languages.map((code) => (
+                        <button key={code} type="button" aria-pressed={language === code}
+                          onClick={() => { if (language !== code) changeLanguage(code); }}>
+                          {LANGUAGE_LABELS[code].name}
                         </button>
-                      </div>
-                      {reminders.length === 0 ? (
-                        <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                          Không có từ nào sắp quên.
-                        </p>
-                      ) : (
-                        <div className="space-y-2">
-                          {reminders.map((r) => (
-                            <div key={r.id} className="rounded-xl p-2.5 text-xs space-y-1" style={{ backgroundColor: 'var(--bg-subtle)' }}>
-                              <div className="font-semibold">{r.title}</div>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setShowReminderPopover(false);
-                                  handleStartStudyMode(r.targetMode, 'all', r.wordIds);
-                                }}
-                                className="font-semibold hover:underline cursor-pointer"
-                                style={{ color: 'var(--accent-text)' }}
-                              >
-                                {r.actionLabel} →
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </motion.div>
+                      ))}
+                    </div>
+                  ) : (
+                    <label className="scope-field">
+                      <Languages size={16} aria-hidden="true" />
+                      <select aria-label="Ngôn ngữ đang học" value={language} onChange={(event) => changeLanguage(event.target.value as LanguageCode)}>
+                        {languages.map((code) => <option key={code} value={code}>{LANGUAGE_LABELS[code].name}</option>)}
+                      </select>
+                      <ChevronDown size={14} aria-hidden="true" />
+                    </label>
                   )}
-                </AnimatePresence>
+                  <label className="scope-field">
+                    <select aria-label="Cấp độ đang học" value={level.id} onChange={(event) => changeLevel(event.target.value)}>
+                      {levels.map((entry) => <option key={entry.id} value={entry.id}>{entry.label}</option>)}
+                    </select>
+                    <ChevronDown size={14} aria-hidden="true" />
+                  </label>
+                </div>
+                <div className="header-actions">
+                  <WordLookup key={scopeKey} words={scopedWords} speechRate={settings.speechRate} />
+                  <button type="button" className="icon-button" title={isDarkActive ? 'Giao diện sáng' : 'Giao diện tối'}
+                    aria-label={isDarkActive ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối'}
+                    onClick={() => setSettings((value) => ({ ...value, colorScheme: isDarkActive ? 'light' : 'dark' }))}>
+                    {isDarkActive ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+                  </button>
+                  <div className="reminder-wrap" ref={reminderContainer}>
+                    <button type="button" ref={reminderButton} className="icon-button reminder-trigger"
+                      onClick={() => setShowReminderPopover((value) => !value)}
+                      aria-label={'Nhắc nhở (' + reminders.length + ')'} aria-expanded={showReminderPopover} title="Nhắc nhở">
+                      <Bell size={18} aria-hidden="true" />
+                      {reminders.length > 0 && <span className="notification-dot" aria-hidden="true" />}
+                    </button>
+                    <AnimatePresence>
+                      {showReminderPopover && (
+                        <motion.div className="header-popover glass-panel reminder-panel" role="dialog" aria-label="Nhắc nhở"
+                          initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.16 }}>
+                          <div className="popover-heading">
+                            <h2>Nhắc nhở</h2>
+                            <button type="button" className="icon-button" aria-label="Đóng nhắc nhở" onClick={() => {
+                              setShowReminderPopover(false);
+                              reminderButton.current?.focus();
+                            }}><X size={17} aria-hidden="true" /></button>
+                          </div>
+                          {reminders.length ? (
+                            <ul className="reminder-list">
+                              {reminders.map((reminder) => (
+                                <li key={reminder.id}>
+                                  <strong>{reminder.title}</strong>
+                                  <p>{reminder.description}</p>
+                                  <button type="button" className="text-button" onClick={() => handleReminder(reminder)}>{reminder.actionLabel}</button>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : <p className="panel-empty">Bạn đã bắt kịp lịch học.</p>}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                  <button type="button" className="button-primary header-add" onClick={openQuickAdd}
+                    aria-label={scopedDecks.length ? 'Thêm từ' : 'Tạo bộ từ'}>
+                    <Plus size={17} aria-hidden="true" /><span>{scopedDecks.length ? 'Thêm từ' : 'Tạo bộ từ'}</span>
+                  </button>
+                </div>
               </div>
             </header>
           )}
 
-          {/* Main Viewport with Smooth Animated View Transitions */}
-          <main className={`flex-1 w-full max-w-[1360px] mx-auto ${densityPadding} ${isZenStudyActive ? '' : 'pb-24'}`}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeViewKey}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={{ duration: 0.16, ease: 'easeOut' }}
-              >
-                {route === 'dashboard' && (
-                  <DashboardView
-                    profile={profile}
-                    settings={settings}
-                    decks={decks}
-                    words={words}
-                    reminders={reminders}
-                    onStartMode={handleStartStudyMode}
-                    onToggleZenMode={() => setSettings((s) => ({ ...s, zenFocusMode: !s.zenFocusMode }))}
-                    onNavigate={(r) => navigate(r)}
-                    onOpenQuickAdd={() => setShowQuickAdd(true)}
-                  />
-                )}
+          <main className="app-content" data-route={route} aria-busy={!hydrated}>
+            <Suspense fallback={<p className="panel-empty" role="status">Đang tải…</p>}>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={activeViewKey}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.16, ease: 'easeOut' }}
+                >
+                  {route === 'dashboard' && (
+                    <DashboardView profile={profile} decks={scopedDecks} words={scopedWords} level={level.id === 'all' ? undefined : level.label}
+                      speechRate={settings.speechRate} plan={plan} now={now} onStartDaily={startDailySession} onNavigate={navigate}
+                      onOpenPhrases={() => { setSelectedMode('collocation'); setSelectedDeckId('all'); navigate('study'); }} />
+                  )}
 
-                {route === 'study' && activeSessionWords && (
-                  <StudySession
-                    mode={selectedMode}
-                    sessionWords={activeSessionWords}
-                    allWords={words}
-                    settings={settings}
-                    zenMode={settings.zenFocusMode}
-                    onToggleZenMode={() => setSettings((s) => ({ ...s, zenFocusMode: !s.zenFocusMode }))}
-                    onRecordReview={handleRecordReview}
-                    onCompleteSession={handleCompleteSession}
-                    onExit={() => setActiveSessionWords(null)}
-                  />
-                )}
+                  {route === 'study' && (activeSession ? (
+                    <StudySession
+                      mode={activeSession.mode}
+                      sessionWords={activeSession.words}
+                      allWords={scopedWords}
+                      settings={settings}
+                      zenMode={settings.zenFocusMode}
+                      onToggleZenMode={() => setSettings((value) => ({ ...value, zenFocusMode: !value.zenFocusMode }))}
+                      onRecordReview={handleRecordReview}
+                      onProgress={handleSessionProgress}
+                      onExit={() => setActiveSession(null)}
+                      onContinue={activeSession.mode === 'guided' ? (plan.words.length ? startDailySession : undefined)
+                        : activeSession.mode === 'intensive' ? (intensive.words.length ? startIntensiveSession : undefined)
+                        : restartPractice}
+                    />
+                  ) : (
+                    <StudyHubView
+                      key={scopeKey}
+                      decks={scopedDecks}
+                      words={scopedWords}
+                      selectedMode={selectedMode}
+                      selectedDeckId={activeDeckId}
+                      now={now}
+                      dailyCount={plan.words.length}
+                      intensive={intensive}
+                      onSelectMode={setSelectedMode}
+                      onSelectDeck={setSelectedDeckId}
+                      onStartDaily={startDailySession}
+                      onStartIntensive={startIntensiveSession}
+                      onBeginSession={handleBeginHubSession}
+                    />
+                  ))}
 
-                {route === 'study' && !activeSessionWords && (
-                  <StudyHubView
-                    decks={decks}
-                    words={words}
-                    selectedMode={selectedMode}
-                    selectedDeckId={selectedDeckId}
-                    onSelectMode={setSelectedMode}
-                    onSelectDeck={setSelectedDeckId}
-                    onBeginSession={handleBeginHubSession}
-                  />
-                )}
+                  {route === 'games' && (
+                    <GamesView key={scopeKey} words={scopedWords} profile={profile} speechRate={settings.speechRate} onSaveGameResult={handleSaveGameResult} />
+                  )}
 
-                {route === 'games' && (
-                  <GamesView
-                    words={words}
-                    profile={profile}
-                    speechRate={settings.speechRate}
-                    onSaveGameResult={handleSaveGameResult}
-                  />
-                )}
+                  {route === 'decks' && (
+                    <DecksView
+                      key={scopeKey}
+                      decks={scopedDecks}
+                      words={scopedWords}
+                      language={language}
+                      activeLevel={level.id}
+                      speechRate={settings.speechRate}
+                      onCreateDeck={handleCreateDeck}
+                      onDeleteDeck={handleDeleteDeck}
+                      onAddWord={handleAddWord}
+                      onDeleteWord={handleDeleteWord}
+                      onStartDeckStudy={(deckId) => {
+                        setSelectedMode('flashcard');
+                        setSelectedDeckId(deckId);
+                        handleBeginHubSession('flashcard', deckId);
+                      }}
+                      onImportWordsJson={handleImportWordsJson}
+                    />
+                  )}
 
-                {route === 'decks' && (
-                  <DecksView
-                    decks={decks}
-                    words={words}
-                    speechRate={settings.speechRate}
-                    onCreateDeck={handleCreateDeck}
-                    onDeleteDeck={handleDeleteDeck}
-                    onAddWord={handleAddWord}
-                    onDeleteWord={handleDeleteWord}
-                    onStartDeckStudy={(deckId) => handleStartStudyMode('flashcard', deckId)}
-                    onImportWordsJson={handleImportWordsJson}
-                  />
-                )}
+                  {route === 'analytics' && (
+                    <AnalyticsView subRoute={analyticsSub} onChangeSubRoute={(sub) => navigate('analytics', sub)} words={scopedWords} logs={scopedLogs} now={now} />
+                  )}
 
-                {route === 'analytics' && (
-                  <AnalyticsView
-                    subRoute={analyticsSub}
-                    onChangeSubRoute={(sub) => navigate('analytics', sub)}
-                    words={words}
-                    logs={logs}
-                  />
-                )}
+                  {route === 'profile' && (
+                    <ProfileView profile={profile} words={words} logs={logs}
+                      avatarUrl={avatarUrl} coverUrl={coverUrl} imagesReady={hydrated}
+                      onUpdateImage={handleUpdateProfileImage}
+                      onOpenAchievements={() => navigate('achievements')}
+                      onUpdateProfile={(patch) => {
+                        if (patch.targetLanguage && patch.targetLanguage !== language) resetScopeSelection();
+                        setProfile((value) => ({ ...value, ...patch }));
+                      }} />
+                  )}
 
-                {route === 'profile' && (
-                  <ProfileView
-                    profile={profile}
-                    words={words}
-                    logs={logs}
-                    onUpdateProfile={(patch) => setProfile((p) => ({ ...p, ...patch }))}
-                  />
-                )}
+                  {route === 'achievements' && <AchievementsView profile={profile} words={words} />}
 
-                {route === 'settings' && (
-                  <SettingsView
-                    settings={settings}
-                    isOnline={isOnline}
-                    onUpdateSettings={(patch) => setSettings((s) => ({ ...s, ...patch }))}
-                    onExportFullBackup={handleExportFullBackup}
-                    onResetAllData={handleResetAllData}
-                  />
-                )}
-              </motion.div>
-            </AnimatePresence>
+                  {route === 'settings' && (
+                    <SettingsView settings={settings} isOnline={isOnline} activeLanguage={language}
+                      onUpdateSettings={(patch) => setSettings((value) => ({ ...value, ...patch }))}
+                      onExportFullBackup={handleExportFullBackup} onResetAllData={handleResetAllData} />
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </Suspense>
           </main>
         </div>
 
-        {/* Floating Quick Popup Menu (hidden in Zen Focus Mode) */}
-        {!isZenStudyActive && (
-          <FloatingQuickMenu
-            words={words}
-            isDarkActive={isDarkActive}
-            activeTheme={settings.theme}
-            speechRate={settings.speechRate}
-            onToggleDark={() =>
-              setSettings((s) => ({ ...s, colorScheme: isDarkActive ? 'light' : 'dark' }))
-            }
-            onChangeTheme={(theme) => setSettings((s) => ({ ...s, theme }))}
-            onNavigate={(r) => navigate(r)}
-            onLaunchStudyMode={(mode) => handleStartStudyMode(mode)}
-            onOpenQuickAdd={() => setShowQuickAdd(true)}
-          />
-        )}
-
-        {/* Global Quick Add Word Modal */}
-        <AnimatePresence>
-          {showQuickAdd && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.16 }}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
-            >
-              <motion.div
-                role="dialog"
-                aria-label="Thêm nhanh từ vựng mới"
-                initial={{ opacity: 0, scale: 0.96, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.96, y: 10 }}
-                transition={{ duration: 0.18, ease: 'easeOut' }}
-                className="w-full max-w-md rounded-2xl border p-6 space-y-4 shadow-2xl"
-                style={{
-                  backgroundColor: 'var(--bg-surface)',
-                  borderColor: 'var(--border-hairline)',
-                }}
-              >
-                <div className="flex items-center justify-between">
-                  <h2 className="font-display text-lg font-bold">Thêm nhanh từ vựng</h2>
-                  <button type="button" onClick={() => setShowQuickAdd(false)} aria-label="Đóng" className="cursor-pointer">
-                    <X className="w-4 h-4" />
-                  </button>
+        <dialog ref={quickAddDialog} className="quick-add-dialog" aria-modal="true" aria-labelledby="quick-add-title"
+          onClose={() => setShowQuickAdd(false)}
+          onClick={(event) => { if (event.target === event.currentTarget) setShowQuickAdd(false); }}>
+          <div className="quick-add-card glass-panel">
+            <div className="popover-heading">
+              <h2 id="quick-add-title">Thêm từ vựng</h2>
+              <button type="button" className="icon-button" onClick={() => setShowQuickAdd(false)} aria-label="Đóng">
+                <X size={19} aria-hidden="true" />
+              </button>
+            </div>
+            <form className="quick-add-form" onSubmit={handleQuickAddSubmit}>
+              <div className="control-field">
+                <label htmlFor="qa-deck">Bộ từ vựng</label>
+                <select id="qa-deck" value={qaDeckId} onChange={(event) => setQaDeckId(event.target.value)}>
+                  {scopedDecks.map((deck) => <option key={deck.id} value={deck.id}>{deck.name}</option>)}
+                </select>
+              </div>
+              <div className="quick-add-row">
+                <div className="control-field">
+                  <label htmlFor="qa-term">Từ vựng</label>
+                  <input id="qa-term" required value={qaTerm} onChange={(event) => setQaTerm(event.target.value)} />
                 </div>
-                <form onSubmit={handleQuickAddSubmit} className="space-y-3">
-                  <div>
-                    <label htmlFor="qa-deck" className="block text-xs font-medium mb-1">
-                      Bộ từ vựng
-                    </label>
-                    <select
-                      id="qa-deck"
-                      value={qaDeckId}
-                      onChange={(e) => setQaDeckId(e.target.value)}
-                      className="w-full rounded-lg border px-3 py-2 text-sm"
-                      style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
-                    >
-                      {decks.map((d) => (
-                        <option key={d.id} value={d.id}>
-                          {d.name} ({LANGUAGE_LABELS[d.language].short})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="qa-term" className="block text-xs font-medium mb-1">
-                        Từ vựng (Chữ Hán) *
-                      </label>
-                      <input
-                        id="qa-term"
-                        type="text"
-                        value={qaTerm}
-                        onChange={(e) => setQaTerm(e.target.value)}
-                        placeholder="努力"
-                        className="w-full rounded-lg border px-3 py-2 text-sm"
-                        style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="qa-ipa" className="block text-xs font-medium mb-1">
-                        Phiên âm (Pinyin)
-                      </label>
-                      <input
-                        id="qa-ipa"
-                        type="text"
-                        value={qaPhonetic}
-                        onChange={(e) => setQaPhonetic(e.target.value)}
-                        placeholder="nǔlì"
-                        className="w-full rounded-lg border px-3 py-2 text-sm font-mono"
-                        style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor="qa-meaning" className="block text-xs font-medium mb-1">
-                      Nghĩa tiếng Việt *
-                    </label>
-                    <input
-                      id="qa-meaning"
-                      type="text"
-                      value={qaMeaning}
-                      onChange={(e) => setQaMeaning(e.target.value)}
-                      placeholder="nỗ lực, cố gắng"
-                      className="w-full rounded-lg border px-3 py-2 text-sm"
-                      style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="qa-col" className="block text-xs font-medium mb-1">
-                      Cụm từ đi kèm
-                    </label>
-                    <input
-                      id="qa-col"
-                      type="text"
-                      value={qaCollocation}
-                      onChange={(e) => setQaCollocation(e.target.value)}
-                      placeholder="努力学习"
-                      className="w-full rounded-lg border px-3 py-2 text-sm"
-                      style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="qa-ex" className="block text-xs font-medium mb-1">
-                      Câu ví dụ
-                    </label>
-                    <input
-                      id="qa-ex"
-                      type="text"
-                      value={qaExample}
-                      onChange={(e) => setQaExample(e.target.value)}
-                      placeholder="我每天都努力提高汉语水平。"
-                      className="w-full rounded-lg border px-3 py-2 text-sm"
-                      style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
-                    />
-                  </div>
-
-                  {qaError && <p className="text-xs text-rose-500">{qaError}</p>}
-
-                  <div className="flex justify-end gap-2 pt-2">
-                    <button
-                      type="button"
-                      onClick={() => setShowQuickAdd(false)}
-                      className="rounded-lg border px-4 py-2 text-xs font-medium cursor-pointer"
-                      style={{ borderColor: 'var(--border-hairline)' }}
-                    >
-                      Hủy
-                    </button>
-                    <button
-                      type="submit"
-                      className="rounded-lg px-4 py-2 text-xs font-semibold text-white cursor-pointer"
-                      style={{ backgroundColor: 'var(--accent-primary)' }}
-                    >
-                      Lưu từ mới
-                    </button>
-                  </div>
-                </form>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                <div className="control-field">
+                  <label htmlFor="qa-ipa">Phiên âm</label>
+                  <input id="qa-ipa" value={qaPhonetic} onChange={(event) => setQaPhonetic(event.target.value)} />
+                </div>
+              </div>
+              <div className="control-field">
+                <label htmlFor="qa-meaning">Nghĩa tiếng Việt</label>
+                <input id="qa-meaning" required value={qaMeaning} onChange={(event) => setQaMeaning(event.target.value)} />
+              </div>
+              <div className="control-field">
+                <label htmlFor="qa-col">Cụm từ đi kèm</label>
+                <input id="qa-col" value={qaCollocation} onChange={(event) => setQaCollocation(event.target.value)} />
+              </div>
+              {qaCollocation.trim() && (
+                <div className="control-field">
+                  <label htmlFor="qa-col-meaning">Nghĩa của cụm từ</label>
+                  <input id="qa-col-meaning" required value={qaCollocationMeaning} onChange={(event) => setQaCollocationMeaning(event.target.value)} />
+                </div>
+              )}
+              <div className="control-field">
+                <label htmlFor="qa-ex">Câu ví dụ</label>
+                <input id="qa-ex" value={qaExample} onChange={(event) => setQaExample(event.target.value)} />
+              </div>
+              {qaExample.trim() && (
+                <div className="control-field">
+                  <label htmlFor="qa-ex-translation">Nghĩa của câu ví dụ</label>
+                  <input id="qa-ex-translation" value={qaExampleTranslation} onChange={(event) => setQaExampleTranslation(event.target.value)} />
+                </div>
+              )}
+              {qaError && <p className="form-error" role="alert">{qaError}</p>}
+              <div className="session-actions">
+                <button type="button" className="button-secondary" onClick={() => setShowQuickAdd(false)}>Hủy</button>
+                <button type="submit" className="button-primary">Lưu từ</button>
+              </div>
+            </form>
+          </div>
+        </dialog>
       </div>
     </MotionConfig>
   );

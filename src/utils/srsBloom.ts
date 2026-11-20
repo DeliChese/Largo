@@ -11,6 +11,27 @@ import type {
 } from '../types/vocab';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
+const MINUTES_PER_DAY = 24 * 60;
+const BLOOM_EVIDENCE_LIMIT: Record<StudyModeId, BloomLevel> = {
+  flashcard: 2,
+  quiz: 2,
+  speed: 2,
+  dictation: 3,
+  cloze: 4,
+  collocation: 4,
+  synthesis: 6,
+};
+
+export function localStudyDate(now: number = Date.now()): string {
+  const date = new Date(now);
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${date.getFullYear()}-${month}-${day}`;
+}
+
+export function reviewXp(quality: ReviewQuality): number {
+  return quality * 4;
+}
 
 export const BLOOM_META: Record<
   BloomLevel,
@@ -59,8 +80,8 @@ export const SRS_MODE_META: Record<
   { label: string; description: string; intervalMultiplier: number; minEase: number }
 > = {
   standard: {
-    label: 'Tiêu chuẩn SM-2',
-    description: 'Cân bằng tối ưu giữa tần suất ôn tập và khả năng ghi nhớ dài hạn.',
+    label: 'Cân bằng',
+    description: 'Giãn cách lần ôn dựa trên độ khó của từng từ.',
     intervalMultiplier: 1.0,
     minEase: 1.3,
   },
@@ -92,6 +113,7 @@ export function calculateNextSRS(
   quality: ReviewQuality,
   srsMode: SRSMode,
   now: number = Date.now(),
+  exercise?: StudyModeId,
 ): { srs: SRSState; bloomLevel: BloomLevel; xpGain: number } {
   const modeConfig = SRS_MODE_META[srsMode];
   const prev = word.srs;
@@ -113,8 +135,8 @@ export function calculateNextSRS(
   if (quality === 1) {
     // Forgotten
     repetitions = 0;
-    lapses += 1;
-    intervalDays = srsMode === 'cram' ? 0.25 : 0.5; // 6h or 12h
+    if (prev.lastReviewedAt !== null) lapses += 1;
+    intervalDays = (srsMode === 'cram' ? 5 : 10) / MINUTES_PER_DAY;
   } else {
     repetitions += 1;
     if (repetitions === 1) {
@@ -126,13 +148,13 @@ export function calculateNextSRS(
       const qualityMod = quality === 2 ? 0.8 : quality === 4 ? 1.25 : 1.0;
       intervalDays = baseNext * qualityMod;
     }
-    intervalDays = Math.max(0.25, Math.round(intervalDays * modeConfig.intervalMultiplier * 10) / 10);
+    intervalDays = Math.min(365, Math.max(0.25, Math.round(intervalDays * modeConfig.intervalMultiplier * 10) / 10));
   }
 
   // Bloom Taxonomy Progression
   let nextBloom: BloomLevel = word.bloomLevel;
   if (quality === 1) {
-    if (word.bloomLevel > 1) {
+    if (word.bloomLevel > 1 && (!exercise || exercise === 'flashcard')) {
       nextBloom = (word.bloomLevel - 1) as BloomLevel;
     }
   } else if (quality >= 3) {
@@ -140,13 +162,14 @@ export function calculateNextSRS(
       srsMode === 'bloom_mastery'
         ? quality >= 3
         : quality === 4 || (quality === 3 && repetitions >= 2);
-    if (canAdvance && word.bloomLevel < 6) {
+    const evidenceLimit = exercise ? BLOOM_EVIDENCE_LIMIT[exercise] : 6;
+    if (canAdvance && word.bloomLevel < evidenceLimit) {
       nextBloom = (word.bloomLevel + 1) as BloomLevel;
     }
   }
 
   const nextReviewAt = now + Math.round(intervalDays * DAY_MS);
-  const xpGain = quality === 1 ? 4 : quality === 2 ? 8 : quality === 3 ? 12 : 16;
+  const xpGain = reviewXp(quality);
 
   return {
     srs: {
@@ -156,6 +179,7 @@ export function calculateNextSRS(
       lapses,
       nextReviewAt,
       lastReviewedAt: now,
+      firstReviewedAt: prev.firstReviewedAt ?? (prev.lastReviewedAt === null ? now : undefined),
     },
     bloomLevel: nextBloom,
     xpGain,
@@ -167,7 +191,7 @@ export function calculateNextSRS(
  */
 export function calculateRetentionProbability(word: VocabWord, now: number = Date.now()): number {
   const last = word.srs.lastReviewedAt;
-  if (!last) {
+  if (last === null) {
     return 0.5; // Unseen / baseline
   }
   const elapsedDays = Math.max(0, (now - last) / DAY_MS);
@@ -177,7 +201,7 @@ export function calculateRetentionProbability(word: VocabWord, now: number = Dat
 }
 
 export function isWordDue(word: VocabWord, now: number = Date.now()): boolean {
-  return word.srs.nextReviewAt <= now;
+  return word.srs.lastReviewedAt !== null && word.srs.nextReviewAt <= now;
 }
 
 export function recommendStudyModeForWord(word: VocabWord): StudyModeId {
@@ -185,6 +209,9 @@ export function recommendStudyModeForWord(word: VocabWord): StudyModeId {
 }
 
 export function formatIntervalVi(days: number): string {
+  if (days < 1 / 24) {
+    return `${Math.max(1, Math.round(days * MINUTES_PER_DAY))} phút`;
+  }
   if (days < 1) {
     const hours = Math.max(1, Math.round(days * 24));
     return `${hours} giờ`;
@@ -205,10 +232,12 @@ export function generateSmartReminders(
   now: number = Date.now(),
 ): SmartReminder[] {
   const reminders: SmartReminder[] = [];
+  const dueWords = words.filter((word) => isWordDue(word, now))
+    .sort((a, b) => a.srs.nextReviewAt - b.srs.nextReviewAt);
 
   // 1. Urgent forgetting words (retention below threshold and already reviewed at least once)
-  const forgettingWords = words
-    .filter((w) => w.srs.lastReviewedAt !== null && calculateRetentionProbability(w, now) < retentionThreshold)
+  const forgettingWords = dueWords
+    .filter((w) => calculateRetentionProbability(w, now) < retentionThreshold)
     .sort((a, b) => calculateRetentionProbability(a, now) - calculateRetentionProbability(b, now));
 
   if (forgettingWords.length > 0) {
@@ -216,30 +245,29 @@ export function generateSmartReminders(
       id: 'rem-forgetting',
       type: 'urgent_forgetting',
       priority: 'high',
-      title: `${forgettingWords.length} từ đang rơi vào đường cong quên (<${Math.round(retentionThreshold * 100)}%)`,
-      description: 'Ôn tập ngay để khôi phục độ ổn định trí nhớ trước khi mất chuỗi ghi nhớ.',
-      actionLabel: 'Ôn từ sắp quên',
+      title: `${forgettingWords.length} từ cần ưu tiên ôn`,
+      description: `Mức ghi nhớ ước tính dưới ${Math.round(retentionThreshold * 100)}%.`,
+      actionLabel: 'Ôn từ khó',
       targetMode: 'flashcard',
       wordIds: forgettingWords.slice(0, 10).map((w) => w.id),
     });
   }
 
   // 2. Due SRS queue
-  const dueWords = words.filter((w) => isWordDue(w, now));
   if (dueWords.length > 0) {
     reminders.push({
       id: 'rem-due',
       type: 'due_queue',
       priority: dueWords.length >= 8 ? 'high' : 'medium',
-      title: `${dueWords.length} thẻ đến hạn ôn tập SRS hôm nay`,
-      description: 'Hệ thống đã sắp xếp thứ tự ưu tiên theo khoảng lặp SM-2.',
-      actionLabel: 'Bắt đầu phiên SRS',
-      targetMode: 'quiz',
+      title: `${dueWords.length} từ đã đến hạn ôn`,
+      description: 'Các từ đến hạn sớm hơn được xếp trước.',
+      actionLabel: 'Bắt đầu ôn',
+      targetMode: 'flashcard',
       wordIds: dueWords.slice(0, 12).map((w) => w.id),
     });
   }
 
-  // 3. Bloom bottleneck (words stuck at Bloom 1-2 ready to level up to Apply/Analyze)
+  // 3. Suggest contextual practice for familiar words with collocations.
   const readyForBloomUpgrade = words.filter(
     (w) => w.bloomLevel <= 2 && w.srs.repetitions >= 2 && w.collocations.length > 0,
   );
@@ -248,35 +276,33 @@ export function generateSmartReminders(
       id: 'rem-bloom',
       type: 'bloom_advancement',
       priority: 'medium',
-      title: `${readyForBloomUpgrade.length} từ sẵn sàng nâng cấp lên tầng Bloom Vận dụng & Phân tích`,
-      description: 'Thực hành ghép cụm từ và điền ngữ cảnh để tăng độ sâu ghi nhớ.',
-      actionLabel: 'Luyện cụm từ Bloom',
+      title: `${readyForBloomUpgrade.length} từ có cụm từ để luyện`,
+      description: 'Ôn những từ thường đi cùng nhau trong câu.',
+      actionLabel: 'Luyện cụm từ',
       targetMode: 'collocation',
       wordIds: readyForBloomUpgrade.slice(0, 8).map((w) => w.id),
     });
   }
 
-  // 4. Daily Goal / Streak protection
-  const remainingDaily = Math.max(0, profile.dailyGoalWords - profile.todayWordsCount);
-  if (remainingDaily > 0) {
-    const todayStart = new Date(now);
-    todayStart.setHours(0, 0, 0, 0);
-    const hasStudiedToday = logs.some((l) => l.timestamp >= todayStart.getTime());
+  const today = localStudyDate(now);
+  const hasStudiedToday = profile.lastStudyDate === today || logs.some((log) => localStudyDate(log.timestamp) === today);
+  const studiedToday = profile.lastStudyDate === today ? profile.todayWordsCount : 0;
+  const remainingDaily = Math.max(0, profile.dailyGoalWords - studiedToday);
+  const goalWords = dueWords.length > 0 ? dueWords : words.filter((word) => word.srs.lastReviewedAt === null);
+  if (remainingDaily > 0 && goalWords.length > 0) {
     reminders.push({
       id: 'rem-streak',
       type: 'streak_protection',
       priority: hasStudiedToday ? 'low' : 'high',
       title: hasStudiedToday
         ? `Còn ${remainingDaily} từ để hoàn thành mục tiêu hôm nay`
-        : profile.streakDays > 0
-          ? `Giữ chuỗi ${profile.streakDays} ngày học liên tiếp`
-          : 'Khởi động chuỗi học tập ngày đầu tiên',
+        : 'Kế hoạch học hôm nay đã sẵn sàng',
       description: hasStudiedToday
-        ? 'Một phiên ôn tập siêu tốc 60 giây sẽ giúp bạn đạt 100% chỉ tiêu ngày.'
-        : 'Bạn chưa có lượt ôn tập nào hôm nay — hãy hoàn thành tối thiểu 1 phiên ngắn.',
-      actionLabel: 'Ôn siêu tốc 60s',
-      targetMode: 'speed',
-      wordIds: words.slice(0, 10).map((w) => w.id),
+        ? 'Tiếp tục với một phiên học ngắn.'
+        : 'Dành vài phút cho những từ được đề xuất.',
+      actionLabel: 'Mở kế hoạch học',
+      targetMode: 'flashcard',
+      wordIds: goalWords.slice(0, 10).map((w) => w.id),
     });
   }
 
@@ -307,18 +333,16 @@ export function computeForecastDays(
   const startOfToday = new Date(now);
   startOfToday.setHours(0, 0, 0, 0);
   const result: Array<{ dayLabel: string; count: number; isToday: boolean }> = [];
+  const scheduled = words.filter((word) => word.srs.lastReviewedAt !== null);
 
   for (let i = 0; i < days; i++) {
-    const dayStart = startOfToday.getTime() + i * DAY_MS;
-    const dayEnd = dayStart + DAY_MS;
-    const count = words.filter((w) => {
-      if (i === 0) {
-        return w.srs.nextReviewAt <= dayEnd;
-      }
-      return w.srs.nextReviewAt > dayStart && w.srs.nextReviewAt <= dayEnd;
-    }).length;
-
-    const d = new Date(dayStart);
+    const d = new Date(startOfToday);
+    d.setDate(d.getDate() + i);
+    const end = new Date(d);
+    end.setDate(end.getDate() + 1);
+    const count = scheduled.filter(({ srs }) =>
+      srs.nextReviewAt < end.getTime() && (i === 0 || srs.nextReviewAt >= d.getTime()),
+    ).length;
     const dayLabel = i === 0 ? 'Hôm nay' : `${d.getDate()}/${d.getMonth() + 1}`;
     result.push({ dayLabel, count, isToday: i === 0 });
   }
@@ -327,6 +351,7 @@ export function computeForecastDays(
 
 export function normalizeText(input: string): string {
   return input
+    .normalize('NFKC')
     .trim()
     .toLowerCase()
     .replace(/[.,!?;:'"()[\]，。！？、；：“”‘’（）]/g, '')
@@ -356,10 +381,8 @@ export function evaluateSynthesisSentence(
     targetWord.language === 'ja' ||
     /[\u4e00-\u9fff]/.test(cleaned);
 
-  const cjkChars = Array.from(
-    cleaned.replace(/[\s.,!?;:'"()[\]，。！？、；：“”‘’（）]/g, ''),
-  );
-  const spaceWords = cleaned.split(/\s+/).filter(Boolean);
+  const cjkChars = cleaned.match(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/gu) || [];
+  const spaceWords = normalized.split(/\s+/).filter(Boolean);
   const wordCount = isCJK ? cjkChars.length : spaceWords.length;
   const termBase = normalizeText(targetWord.term);
 
@@ -386,7 +409,7 @@ export function evaluateSynthesisSentence(
       hasCollocation,
       wordCount,
       feedback: isCJK
-        ? 'Câu còn quá ngắn (cần tối thiểu 5 chữ Hán để thể hiện ngữ cảnh rõ ràng).'
+        ? 'Hãy thử viết câu có ít nhất 5 ký tự để tạo ngữ cảnh.'
         : 'Câu còn quá ngắn (cần tối thiểu 5 từ để thể hiện ngữ cảnh rõ ràng).',
     };
   }
@@ -406,7 +429,7 @@ export function evaluateSynthesisSentence(
     hasCollocation,
     wordCount,
     feedback: hasCollocation
-      ? 'Xuất sắc! Bạn đã vận dụng chuẩn xác cả từ khóa lẫn cụm từ (collocation) tự nhiên.'
-      : 'Tốt! Câu đúng ngữ cảnh. Thử kết hợp thêm cụm từ gợi ý để đạt mức tự nhiên cao nhất.',
+      ? 'Đã tìm thấy từ khóa và cụm từ gợi ý. Hãy đối chiếu cách dùng với câu mẫu.'
+      : 'Đã tìm thấy từ khóa. Hãy đối chiếu ngữ pháp và cách dùng với câu mẫu.',
   };
 }

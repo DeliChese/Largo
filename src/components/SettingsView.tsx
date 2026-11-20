@@ -1,22 +1,131 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bell, Check, Download, Moon, RotateCcw, Sun, Volume2, Wifi } from 'lucide-react';
 import type {
   AppSettings,
   ColorSchemeMode,
+  LanguageCode,
   SRSMode,
   ThemeId,
   UIDensity,
 } from '../types/vocab';
 import { SRS_MODE_META } from '../utils/srsBloom';
-import { soundEngine, speakPronunciation } from '../utils/soundEngine';
+import { soundEngine, speakPronunciation, stopPronunciation } from '../utils/soundEngine';
 import { PWAInstallButton } from './PWAInstallButton';
+import { LANGUAGE_LABELS } from '../data/seedVocab';
 
 interface SettingsViewProps {
   settings: AppSettings;
   isOnline: boolean;
+  activeLanguage: LanguageCode;
   onUpdateSettings: (patch: Partial<AppSettings>) => void;
-  onExportFullBackup: () => void;
+  onExportFullBackup: () => Promise<void>;
   onResetAllData: () => void;
+}
+
+interface AzureVoice {
+  id: string;
+  locale: string;
+  name: string;
+}
+
+const VOICE_SAMPLES: Record<LanguageCode, string> = {
+  en: 'Could you say that again, please?',
+  zh: '不好意思，请再说一遍。',
+  ja: 'すみません、もう一度お願いします。',
+  fr: 'Pourriez-vous répéter, s’il vous plaît ?',
+  ko: '한 번 더 말씀해 주시겠어요?',
+  es: '¿Podrías repetirlo, por favor?',
+};
+
+function PronunciationSettings({ settings, isOnline, activeLanguage, onUpdateSettings }: Pick<
+  SettingsViewProps, 'settings' | 'isOnline' | 'activeLanguage' | 'onUpdateSettings'
+>) {
+  const [language, setLanguage] = useState(activeLanguage);
+  const [voices, setVoices] = useState<AzureVoice[]>([]);
+  const [catalogStatus, setCatalogStatus] = useState('loading');
+  const [attempt, setAttempt] = useState(0);
+  const [previewMessage, setPreviewMessage] = useState('');
+  const voiceId = settings.speechVoices?.[language] ?? '';
+  const options = voices.filter(({ locale }) => locale.toLowerCase().startsWith(language + '-'));
+
+  useEffect(() => {
+    if (!isOnline) return;
+    const controller = new AbortController();
+    setCatalogStatus('loading');
+    void (async () => {
+      try {
+        const response = await fetch('/api/speech/voices', { signal: controller.signal, cache: 'no-store' });
+        const data = await response.json();
+        if (controller.signal.aborted) return;
+        if (!response.ok || !Array.isArray(data.voices)) {
+          setVoices([]);
+          setCatalogStatus(data.error === 'not_configured' ? 'not_configured' : 'error');
+          return;
+        }
+        const availableVoices: AzureVoice[] = data.voices;
+        setVoices(availableVoices.sort((a, b) => a.locale.localeCompare(b.locale) || a.name.localeCompare(b.name)));
+        setCatalogStatus('ready');
+      } catch {
+        if (!controller.signal.aborted) {
+          setVoices([]);
+          setCatalogStatus('error');
+        }
+      }
+    })();
+    return () => controller.abort();
+  }, [isOnline, attempt]);
+
+  const status = !isOnline ? 'Đang ngoại tuyến. Bạn có thể nghe lại các bản ghi Azure đã lưu.'
+    : catalogStatus === 'not_configured' ? 'Thiết lập khóa và vùng Azure Speech trên máy chủ để tải danh sách giọng.'
+    : catalogStatus === 'error' ? 'Chưa tải được danh sách giọng Azure.'
+    : catalogStatus === 'loading' ? 'Đang tải giọng Azure…'
+    : options.length === 0 ? 'Azure chưa trả về giọng cho ngôn ngữ này.' : '';
+
+  return (
+    <div className="space-y-3">
+      <h3 className="text-sm font-semibold">Giọng đọc theo ngôn ngữ</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_auto] gap-3 items-end">
+        <div className="control-field">
+          <label htmlFor="voice-language">Ngôn ngữ</label>
+          <select id="voice-language" value={language} onChange={(event) => {
+            stopPronunciation();
+            setLanguage(event.target.value as LanguageCode);
+            setPreviewMessage('');
+          }}>
+            {Object.entries(LANGUAGE_LABELS).map(([code, label]) => <option key={code} value={code}>{label.name}</option>)}
+          </select>
+        </div>
+        <div className="control-field">
+          <label htmlFor="pronunciation-voice">Giọng đọc</label>
+          <select id="pronunciation-voice" value={voiceId} onChange={(event) => {
+            stopPronunciation();
+            setPreviewMessage('');
+            const next = { ...settings.speechVoices };
+            if (event.target.value) next[language] = event.target.value;
+            else delete next[language];
+            onUpdateSettings({ speechVoices: next });
+          }}>
+            <option value="">Mặc định của thiết bị</option>
+            {voiceId && !options.some((voice) => voice.id === voiceId) && <option value={voiceId}>{voiceId}</option>}
+            {options.map((voice) => <option key={voice.id} value={voice.id}>{voice.name} · {voice.locale}</option>)}
+          </select>
+        </div>
+        <button type="button" className="button-secondary" onClick={() => {
+          setPreviewMessage('');
+          speakPronunciation(VOICE_SAMPLES[language], language, settings.speechRate, undefined, undefined, () => {
+            setPreviewMessage('Giọng Azure chưa phát được. Largo đang thử giọng của thiết bị.');
+          });
+        }}>
+          <Volume2 size={16} aria-hidden="true" /> Nghe thử
+        </button>
+      </div>
+      <p className="text-xs text-[var(--text-secondary)]">Largo dùng lại bản ghi khi văn bản, giọng và tốc độ giống nhau.</p>
+      {(status || previewMessage) && <p role="status" className="text-xs text-[var(--text-secondary)]">{previewMessage || status}</p>}
+      {isOnline && catalogStatus === 'error' && (
+        <button type="button" className="text-button" onClick={() => setAttempt((value) => value + 1)}>Tải lại danh sách giọng</button>
+      )}
+    </div>
+  );
 }
 
 const THEME_CARDS: Array<{
@@ -29,11 +138,11 @@ const THEME_CARDS: Array<{
 }> = [
   {
     id: 'indigo',
-    name: 'Tri thức Cổ điển',
-    desc: 'Giấy sáng thanh lịch & Xanh Indigo',
-    lightSwatch: '#f8fafc',
-    darkSwatch: '#0b1120',
-    accentSwatch: '#4338ca',
+    name: 'Tím chàm',
+    desc: 'Tím nhạt và kính mờ',
+    lightSwatch: '#f1eff9',
+    darkSwatch: '#151122',
+    accentSwatch: '#6347bd',
   },
   {
     id: 'botanical',
@@ -64,47 +173,48 @@ const THEME_CARDS: Array<{
 export const SettingsView: React.FC<SettingsViewProps> = ({
   settings,
   isOnline,
+  activeLanguage,
   onUpdateSettings,
   onExportFullBackup,
   onResetAllData,
 }) => {
   const [notifStatus, setNotifStatus] = useState<string | null>(null);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [backupError, setBackupError] = useState(false);
 
   const requestNotificationPermission = async () => {
     if (typeof Notification === 'undefined') {
       setNotifStatus('Trình duyệt này không hỗ trợ Web Notification API.');
       return;
     }
-    const res = await Notification.requestPermission();
-    if (res === 'granted') {
-      onUpdateSettings({ reminderEnabled: true });
-      setNotifStatus('Đã cấp quyền thông báo nhắc nhở học tập!');
-      new Notification('LexisBloom', {
-        body: 'Nhắc nhở thông minh SRS & Bloom đã sẵn sàng hoạt động.',
-      });
-    } else {
-      setNotifStatus('Quyền thông báo chưa được cấp. Nhắc nhở vẫn hiển thị trực tiếp trong bảng điều khiển.');
+    try {
+      const res = await Notification.requestPermission();
+      if (res === 'granted') {
+        onUpdateSettings({ reminderEnabled: true });
+        setNotifStatus('Đã bật. Thông báo sẽ đến vào giờ đã chọn khi ứng dụng đang mở.');
+      } else {
+        setNotifStatus('Bạn có thể xem nhắc nhở ngay trong ứng dụng hoặc cấp quyền trong trình duyệt.');
+      }
+    } catch {
+      setNotifStatus('Bạn có thể xem nhắc nhở qua chuông trên thanh công cụ.');
     }
   };
 
   return (
     <div className="max-w-4xl space-y-6">
-      <div>
-        <h1 className="font-display text-2xl font-bold tracking-tight">Cài đặt &amp; Giao diện</h1>
-        <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
-          Tùy biến hệ thống theme, chế độ tối chuyên dụng, thuật toán SRS, phát âm và bộ nhớ ngoại tuyến.
-        </p>
+      <div className="page-intro">
+        <h1>Cài đặt</h1>
+        <p>Điều chỉnh giao diện, nhịp ôn tập và âm thanh.</p>
       </div>
 
       {/* 1. Theme & Dedicated Dark Mode */}
       <section
-        className="rounded-2xl border p-6 space-y-5"
-        style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+        className="glass-panel p-5 sm:p-6 space-y-5"
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 className="font-display text-base font-semibold">Hệ thống Theme &amp; Chế độ Tối chuyên dụng</h2>
+            <h2 className="font-display text-base font-semibold">Giao diện</h2>
             <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>
               Mỗi bảng màu đều được tối ưu tương phản cho cả nền sáng và nền tối ban đêm.
             </p>
@@ -202,13 +312,12 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
       {/* 2. SRS Mode & Smart Reminders */}
       <section
-        className="rounded-2xl border p-6 space-y-5"
-        style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+        className="glass-panel p-5 sm:p-6 space-y-5"
       >
         <div>
-          <h2 className="font-display text-base font-semibold">Chế độ SRS &amp; Nhắc nhở thông minh</h2>
+          <h2 className="font-display text-base font-semibold">Nhịp học và nhắc nhở</h2>
           <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>
-            Chọn thuật toán giãn cách ôn tập và ngưỡng cảnh báo đường cong quên Ebbinghaus.
+            Chọn khoảng cách giữa các lần ôn và giới hạn từ mới trong kế hoạch.
           </p>
         </div>
 
@@ -241,14 +350,28 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           })}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t pt-4" style={{ borderColor: 'var(--border-hairline)' }}>
+        <div className="control-field">
+          <label htmlFor="new-word-limit">Từ mới tối đa mỗi ngày</label>
+          <select className="max-w-48" id="new-word-limit" value={settings.dailyNewWordLimit}
+            onChange={(event) => onUpdateSettings({ dailyNewWordLimit: Number(event.target.value) })}>
+            {[0, 3, 5, 8, 10, 12, 15, 20].map((limit) => (
+              <option key={limit} value={limit}>{limit === 0 ? 'Chỉ ôn từ cũ' : limit + ' từ'}</option>
+            ))}
+          </select>
+          <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Áp dụng cho kế hoạch hôm nay. Các từ đến hạn được xếp trước.</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t pt-4" style={{ borderColor: 'var(--border-hairline)' }}>
           <div>
-            <label htmlFor="reminder-hour" className="block text-xs font-medium mb-1">
-              Giờ nhắc nhở học tập hằng ngày
+            <label className="flex items-center gap-2 text-xs font-semibold mb-2">
+              <input type="checkbox" checked={settings.reminderEnabled}
+                onChange={(event) => onUpdateSettings({ reminderEnabled: event.target.checked })} />
+              Nhắc học khi ứng dụng đang mở
             </label>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <input
                 id="reminder-hour"
+                aria-label="Giờ nhắc học"
                 type="time"
                 value={settings.reminderHour}
                 onChange={(e) => onUpdateSettings({ reminderHour: e.target.value })}
@@ -262,7 +385,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 style={{ borderColor: 'var(--border-hairline)' }}
               >
                 <Bell className="w-3.5 h-3.5" />
-                <span>Bật thông báo trình duyệt</span>
+                <span>Cấp quyền thông báo</span>
               </button>
             </div>
             {notifStatus && (
@@ -292,21 +415,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
       {/* 3. Audio & Pronunciation */}
       <section
-        className="rounded-2xl border p-6 space-y-4"
-        style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+        className="glass-panel p-5 sm:p-6 space-y-4"
       >
-        <div className="flex items-center justify-between">
-          <h2 className="font-display text-base font-semibold">Âm thanh &amp; Phát âm chuẩn</h2>
-          <button
-            type="button"
-            onClick={() => speakPronunciation('Resilient vocabulary learning', 'en', settings.speechRate)}
-            className="flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium cursor-pointer"
-            style={{ borderColor: 'var(--border-hairline)' }}
-          >
-            <Volume2 className="w-3.5 h-3.5" />
-            <span>Nghe thử giọng đọc</span>
-          </button>
-        </div>
+        <h2 className="font-display text-base font-semibold">Âm thanh và phát âm</h2>
+        <PronunciationSettings key={activeLanguage} settings={settings} isOnline={isOnline}
+          activeLanguage={activeLanguage} onUpdateSettings={onUpdateSettings} />
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
@@ -352,8 +465,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
       {/* 4. Offline & Data Backup */}
       <section
-        className="rounded-2xl border p-6 space-y-4"
-        style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+        className="glass-panel p-5 sm:p-6 space-y-4"
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
@@ -373,12 +485,23 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <button
             type="button"
-            onClick={onExportFullBackup}
+            disabled={exporting}
+            onClick={async () => {
+              setBackupError(false);
+              setExporting(true);
+              try {
+                await onExportFullBackup();
+              } catch {
+                setBackupError(true);
+              } finally {
+                setExporting(false);
+              }
+            }}
             className="flex items-center gap-1.5 rounded-lg border px-4 py-2 text-xs font-semibold cursor-pointer"
             style={{ borderColor: 'var(--border-hairline)' }}
           >
             <Download className="w-3.5 h-3.5" />
-            <span>Sao lưu toàn bộ dữ liệu (JSON)</span>
+            <span>{exporting ? 'Đang tạo bản sao lưu…' : 'Sao lưu toàn bộ dữ liệu (JSON)'}</span>
           </button>
 
           {!confirmReset ? (
@@ -414,6 +537,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             </div>
           )}
         </div>
+        {backupError && <p className="form-error" role="alert">Largo chưa tạo được bản sao lưu. Hãy thử lại.</p>}
       </section>
     </div>
   );

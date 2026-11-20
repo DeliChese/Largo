@@ -1,43 +1,54 @@
 @import "tailwindcss";
+@import "./interface.css";
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-display: var(--font-sans);
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
-
-  /* Default Theme: Indigo Editorial (Light) */
-  --bg-canvas: #f4f6fb;
-  --bg-surface: #ffffff;
-  --bg-subtle: #eef2f7;
-  --border-hairline: #e2e8f0;
-  --glass-bg: rgba(255, 255, 255, 0.78);
-  --glass-border: rgba(226, 232, 240, 0.85);
-  --glass-shadow: 0 12px 36px -12px rgba(15, 23, 42, 0.12), 0 2px 8px -2px rgba(15, 23, 42, 0.05);
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --accent-primary: #4338ca;
-  --accent-hover: #3730a3;
-  --accent-soft: #eef2ff;
-  --accent-text: #3730a3;
+  color-scheme: light;
+  --bg-canvas: #f1eff9;
+  --bg-surface: #fefcff;
+  --bg-subtle: #edeaf6;
+  --border-hairline: #e1ddeb;
+  --glass-bg: rgba(255, 253, 255, 0.69);
+  --glass-border: #e1ddeb;
+  --glass-shadow: 0 10px 34px -20px #38305d4a, 0 2px 9px -6px #38305d30;
+  --text-primary: #241d35;
+  --text-secondary: #534a68;
+  --text-muted: #655c76;
+  --accent-primary: #6347bd;
+  --accent-hover: #5238a6;
+  --accent-soft: #eae2fb;
+  --accent-text: #583ca8;
+  --success-text: #13685a;
+  --success-soft: #e1f2ec;
+  --error-text: #a93048;
+  --error-soft: #fdebf0;
+  --warning-text: #855310;
 }
 
 .dark {
-  --bg-canvas: #0b1120;
-  --bg-surface: #111827;
-  --bg-subtle: #1e293b;
-  --border-hairline: #1e293b;
-  --glass-bg: rgba(17, 24, 39, 0.78);
-  --glass-border: rgba(51, 65, 85, 0.55);
-  --glass-shadow: 0 18px 42px -12px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --accent-primary: #6366f1;
-  --accent-hover: #818cf8;
-  --accent-soft: rgba(99, 102, 241, 0.14);
-  --accent-text: #a5b4fc;
+  color-scheme: dark;
+  --bg-canvas: #151122;
+  --bg-surface: #211a31;
+  --bg-subtle: #2b223d;
+  --border-hairline: #39304b;
+  --glass-bg: rgba(32, 25, 49, 0.79);
+  --glass-border: #39304b;
+  --glass-shadow: 0 15px 42px -20px #05020de0, inset 0 1px 0 #ffffff0a;
+  --text-primary: #fbf6ff;
+  --text-secondary: #d8cce7;
+  --text-muted: #b8a9ca;
+  --accent-primary: #7054c9;
+  --accent-hover: #6848c3;
+  --accent-soft: #382850;
+  --accent-text: #d4bdff;
+  --success-text: #9de8cc;
+  --success-soft: #24483f;
+  --error-text: #ffafbf;
+  --error-soft: #532e41;
+  --warning-text: #ffcb83;
 }
 
 /* Theme 2: Botanical Sage */
@@ -68,8 +79,8 @@
   --text-primary: #f0f7f4;
   --text-secondary: #b9d1c6;
   --text-muted: #84a395;
-  --accent-primary: #14b8a6;
-  --accent-hover: #2dd4bf;
+  --accent-primary: #11796f;
+  --accent-hover: #0f7166;
   --accent-soft: rgba(20, 184, 166, 0.14);
   --accent-text: #5eead4;
 }
@@ -102,8 +113,8 @@
   --text-primary: #faf6f0;
   --text-secondary: #d6cbbe;
   --text-muted: #9e8f7e;
-  --accent-primary: #f59e0b;
-  --accent-hover: #fbbf24;
+  --accent-primary: #a5530d;
+  --accent-hover: #954609;
   --accent-soft: rgba(245, 158, 11, 0.14);
   --accent-text: #fcd34d;
 }
@@ -120,7 +131,7 @@
   --text-primary: #09090b;
   --text-secondary: #3f3f46;
   --text-muted: #71717a;
-  --accent-primary: #0284c7;
+  --accent-primary: #056d9f;
   --accent-hover: #0369a1;
   --accent-soft: #e0f2fe;
   --accent-text: #0369a1;
@@ -136,8 +147,8 @@
   --text-primary: #fafafa;
   --text-secondary: #d4d4d8;
   --text-muted: #a1a1aa;
-  --accent-primary: #38bdf8;
-  --accent-hover: #7dd3fc;
+  --accent-primary: #096fac;
+  --accent-hover: #0c6094;
   --accent-soft: rgba(56, 189, 248, 0.14);
   --accent-text: #7dd3fc;
 }
@@ -180,24 +191,6 @@
 
 .text-balance {
   text-wrap: balance;
-}
-
-/* 3D Flashcard Flip */
-.perspective-1200 {
-  perspective: 1200px;
-}
-
-.preserve-3d {
-  transform-style: preserve-3d;
-}
-
-.backface-hidden {
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.rotate-y-180 {
-  transform: rotateY(180deg);
 }
 
 /* Dark mode optical compensation */

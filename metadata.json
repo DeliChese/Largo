@@ -1,6 +1,6 @@
 {
-  "name": "LexisBloom — Học Từ Vựng Ngoại Ngữ SRS & Bloom",
-  "description": "Nền tảng học từ vựng ngoại ngữ đa chế độ với SRS thông minh, sơ đồ Bloom, học theo cụm từ, phát âm chuẩn, game tương tác và hỗ trợ học offline.",
+  "name": "Largo · Học từ và cụm từ",
+  "description": "Học từ vựng tiếng Anh và tiếng Trung theo cấp độ, luyện cụm từ trong câu và ôn cách quãng.",
   "requestFramePermissions": ["microphone"],
   "majorCapabilities": []
 }

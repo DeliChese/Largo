@@ -2,24 +2,48 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
-import {defineConfig} from 'vite';
+import {defineConfig, loadEnv} from 'vite';
 import {VitePWA} from 'vite-plugin-pwa';
+import {createSpeechRouter} from './server/speech.mjs';
+
+const projectRoot = import.meta.dirname;
 
 export default defineConfig(() => {
   return {
+    build: {
+      rolldownOptions: {
+        output: {
+          codeSplitting: {
+            groups: [{ name: 'starter-vocabulary', test: /[\\/]src[\\/]data[\\/](?:hsk[12]Deck|englishDecks)\.ts$/ }],
+          },
+        },
+      },
+    },
     plugins: [
       react(),
       tailwindcss(),
+      {
+        name: 'largo-speech-api',
+        configureServer(server) {
+          const env = loadEnv(server.config.mode, projectRoot, 'AZURE_SPEECH_');
+          server.middlewares.use('/api/speech', createSpeechRouter(env));
+        },
+        configurePreviewServer(server) {
+          const env = loadEnv(server.config.mode, projectRoot, 'AZURE_SPEECH_');
+          server.middlewares.use('/api/speech', createSpeechRouter(env));
+        },
+      },
       VitePWA({
         registerType: 'autoUpdate',
         includeAssets: ['icon.svg', 'apple-touch-icon.png', 'pwa-192x192.png', 'pwa-512x512.png', 'pwa-maskable-512x512.png'],
         manifest: {
           id: '/',
-          name: 'LexisBloom — Học Từ Vựng Ngoại Ngữ',
-          short_name: 'LexisBloom',
-          description: 'Học từ vựng ngoại ngữ đa chế độ với SRS thông minh, sơ đồ Bloom và hỗ trợ offline.',
-          theme_color: '#0F172A',
-          background_color: '#F8FAFC',
+          name: 'Largo · Học từ và cụm từ',
+          short_name: 'Largo',
+          lang: 'vi',
+          description: 'Học từ vựng tiếng Anh và tiếng Trung theo cấp độ, luyện cụm từ trong câu và ôn cách quãng.',
+          theme_color: '#f1eff9',
+          background_color: '#f1eff9',
           display: 'standalone',
           start_url: '/',
           scope: '/',
@@ -92,8 +116,8 @@ export default defineConfig(() => {
           if (error) {
             return;
           }
-          const distDir = path.resolve(__dirname, 'dist');
-          const srcAssets = path.resolve(__dirname, 'src/assets');
+          const distDir = path.resolve(projectRoot, 'dist');
+          const srcAssets = path.resolve(projectRoot, 'src/assets');
           const distAssets = path.resolve(distDir, 'src/assets');
           if (fs.existsSync(distDir) && fs.existsSync(srcAssets)) {
             fs.cpSync(srcAssets, distAssets, {recursive: true, force: true});
@@ -103,7 +127,7 @@ export default defineConfig(() => {
     ],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': projectRoot,
       },
     },
     server: {

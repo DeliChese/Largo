@@ -1,285 +1,130 @@
-import React from 'react';
+import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import {
-  BarChart3,
-  BookOpen,
-  ChevronLeft,
-  ChevronRight,
-  FolderKanban,
-  Gamepad2,
-  LayoutDashboard,
-  Moon,
-  Settings,
-  Sun,
-  User,
-  WifiOff,
-  X,
+  BookOpen, ChartNoAxesColumnIncreasing, Gamepad2, Layers3, LayoutGrid,
+  Settings2, Trophy, UserRound, WifiOff, X,
 } from 'lucide-react';
-import type { AppRoute, ColorSchemeMode, UserProfile } from '../types/vocab';
+import type { AppRoute, UserProfile } from '../types/vocab';
 import { PWAInstallButton } from './PWAInstallButton';
 
 interface SidebarProps {
   activeRoute: AppRoute;
   onNavigate: (route: AppRoute) => void;
-  collapsed: boolean;
-  onToggleCollapse: () => void;
   mobileOpen: boolean;
   onCloseMobile: () => void;
   dueCount: number;
   profile: UserProfile;
-  colorScheme: ColorSchemeMode;
-  isDarkActive: boolean;
-  onToggleDark: () => void;
+  avatarUrl?: string;
   isOnline: boolean;
 }
 
-const NAV_ITEMS: Array<{
-  id: AppRoute;
-  label: string;
-  icon: React.ComponentType<{ className?: string }>;
-}> = [
-  { id: 'dashboard', label: 'Tổng quan', icon: LayoutDashboard },
-  { id: 'study', label: 'Chế độ học (7)', icon: BookOpen },
-  { id: 'games', label: 'Trò chơi từ vựng', icon: Gamepad2 },
-  { id: 'decks', label: 'Bộ từ HSK & Cá nhân', icon: FolderKanban },
-  { id: 'analytics', label: 'Biểu đồ & Bloom', icon: BarChart3 },
-  { id: 'profile', label: 'Hồ sơ học tập', icon: User },
-  { id: 'settings', label: 'Cài đặt & Theme', icon: Settings },
-];
+export const NAV_LABELS: Record<AppRoute, string> = {
+  dashboard: 'Tổng quan',
+  study: 'Luyện tập',
+  decks: 'Bộ từ vựng',
+  games: 'Trò chơi',
+  analytics: 'Tiến độ',
+  profile: 'Hồ sơ',
+  achievements: 'Thành tích',
+  settings: 'Cài đặt',
+};
 
-const SPRING_MACOS = { type: 'spring' as const, stiffness: 360, damping: 34, mass: 0.85 };
+const NAV_GROUPS = [
+  { label: 'Học tập', links: [
+    { route: 'dashboard', icon: LayoutGrid },
+    { route: 'study', icon: BookOpen },
+    { route: 'decks', icon: Layers3 },
+    { route: 'games', icon: Gamepad2 },
+    { route: 'analytics', icon: ChartNoAxesColumnIncreasing },
+  ] },
+  { label: 'Cá nhân', links: [
+    { route: 'profile', icon: UserRound },
+    { route: 'achievements', icon: Trophy },
+    { route: 'settings', icon: Settings2 },
+  ] },
+] as const;
 
-export const Sidebar: React.FC<SidebarProps> = ({
-  activeRoute,
-  onNavigate,
-  collapsed,
-  onToggleCollapse,
-  mobileOpen,
-  onCloseMobile,
-  dueCount,
-  profile,
-  isDarkActive,
-  onToggleDark,
-  isOnline,
-}) => {
-  const handleSelect = (route: AppRoute) => {
+export function Sidebar({ activeRoute, onNavigate, mobileOpen, onCloseMobile, dueCount, profile, avatarUrl, isOnline }: SidebarProps) {
+  const closeButton = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const trigger = document.activeElement as HTMLElement | null;
+    closeButton.current?.focus();
+    return () => trigger?.focus();
+  }, [mobileOpen]);
+
+  const selectRoute = (route: AppRoute) => {
     onNavigate(route);
-    onCloseMobile();
+    if (mobileOpen) onCloseMobile();
   };
 
-  const renderSidebarBody = (isMobileDrawer: boolean) => {
-    const isCompact = !isMobileDrawer && collapsed;
+  function renderNavigation(isMobile: boolean) {
     return (
       <>
-        {/* Brand Header */}
-        <div
-          className={`flex h-16 items-center border-b px-3.5 ${
-            isCompact ? 'justify-center gap-1.5' : 'justify-between'
-          }`}
-          style={{ borderColor: 'var(--glass-border)' }}
-        >
-          <button
-            type="button"
-            onClick={() => handleSelect('dashboard')}
-            className="flex items-center gap-2.5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer min-w-0"
-          >
-            <div
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl font-display text-sm font-bold text-white shadow-sm"
-              style={{ backgroundColor: 'var(--accent-primary)' }}
-            >
-              汉
-            </div>
-            {!isCompact && (
-              <div className="min-w-0">
-                <div className="font-display text-[15px] font-bold tracking-tight whitespace-nowrap truncate leading-tight">
-                  LexisBloom
-                </div>
-                <div className="text-[11px] font-medium truncate" style={{ color: 'var(--text-muted)' }}>
-                  HSK 1 · HSK 2
-                </div>
-              </div>
-            )}
+        <div className="sidebar-brand">
+          <button type="button" className="brand-link" onClick={() => selectRoute('dashboard')} aria-label="Largo, trang tổng quan">
+            <img src="/icon.svg" className="brand-mark" width="39" height="39" alt="" />
+            <span className="brand-title rail-label">Largo</span>
           </button>
-
-          {!isMobileDrawer ? (
-            <button
-              type="button"
-              onClick={onToggleCollapse}
-              aria-label={collapsed ? 'Mở rộng thanh bên' : 'Thu gọn thanh bên'}
-              className="hidden lg:flex h-7 w-7 items-center justify-center rounded-lg border transition-colors hover:opacity-80 cursor-pointer shrink-0"
-              style={{
-                borderColor: 'var(--glass-border)',
-                color: 'var(--text-secondary)',
-                backgroundColor: 'var(--bg-surface)',
-              }}
-            >
-              {collapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={onCloseMobile}
-              aria-label="Đóng thanh điều hướng"
-              className="flex h-8 w-8 items-center justify-center rounded-lg cursor-pointer"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              <X className="w-4 h-4" />
+          {isMobile && (
+            <button type="button" ref={closeButton} className="icon-button" onClick={onCloseMobile} aria-label="Đóng menu">
+              <X size={18} aria-hidden="true" />
             </button>
           )}
         </div>
-
-        {/* Navigation Links */}
-        <nav className="flex-1 overflow-y-auto px-2.5 py-3.5 space-y-1">
-          {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeRoute === item.id;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => handleSelect(item.id)}
-                title={isCompact ? item.label : undefined}
-                aria-current={isActive ? 'page' : undefined}
-                className={`relative w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-medium transition-colors cursor-pointer whitespace-nowrap ${
-                  isCompact ? 'justify-center px-2' : 'justify-between'
-                }`}
-                style={{
-                  color: isActive ? 'var(--accent-text)' : 'var(--text-secondary)',
-                }}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId={isMobileDrawer ? 'macos-nav-pill-mobile' : 'macos-nav-active-pill'}
-                    transition={SPRING_MACOS}
-                    className="absolute inset-0 rounded-xl"
-                    style={{ backgroundColor: 'var(--accent-soft)' }}
-                  />
-                )}
-                <span className="relative z-10 flex items-center gap-3 min-w-0">
-                  <Icon className="w-4 h-4 shrink-0" />
-                  {!isCompact && <span className="truncate">{item.label}</span>}
-                </span>
-                {!isCompact && item.id === 'study' && dueCount > 0 && (
-                  <span
-                    className="relative z-10 text-[11px] font-mono tabular-nums font-semibold"
-                    style={{ color: isActive ? 'var(--accent-text)' : 'var(--text-muted)' }}
-                  >
-                    {dueCount}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+        <nav className="sidebar-nav" aria-label="Điều hướng chính">
+          {NAV_GROUPS.map((group) => (
+            <div key={group.label} className="nav-group">
+              <p className="rail-label">{group.label}</p>
+              {group.links.map(({ route, icon: Icon }) => (
+                <a key={route} href={'#/' + route}
+                  className="nav-link" aria-current={activeRoute === route ? 'page' : undefined}
+                  aria-label={NAV_LABELS[route]}
+                  onClick={(event) => { event.preventDefault(); selectRoute(route); }}>
+                  <Icon size={19} strokeWidth={1.8} aria-hidden="true" />
+                  <span className="rail-label">{NAV_LABELS[route]}</span>
+                  {route === 'study' && dueCount > 0 && <small className="rail-label" aria-hidden="true">{dueCount}</small>}
+                </a>
+              ))}
+            </div>
+          ))}
         </nav>
-
-        {/* Bottom Utility Zone */}
-        <div
-          className="border-t p-3 space-y-2"
-          style={{ borderColor: 'var(--glass-border)' }}
-        >
-          {!isOnline && !isCompact && (
-            <div
-              className="flex items-center gap-2 rounded-xl px-2.5 py-1.5 text-xs font-medium"
-              style={{
-                backgroundColor: 'var(--bg-subtle)',
-                color: 'var(--text-secondary)',
-              }}
-            >
-              <WifiOff className="w-3.5 h-3.5 shrink-0" />
-              <span>Chế độ Offline</span>
-            </div>
-          )}
-
-          {!isCompact && (
-            <div
-              className="flex items-center justify-between rounded-xl px-3 py-2 text-xs"
-              style={{ backgroundColor: 'var(--bg-subtle)' }}
-            >
-              <span className="truncate font-medium" style={{ color: 'var(--text-secondary)' }}>
-                Chuỗi {profile.streakDays} ngày
-              </span>
-              <span className="font-mono tabular-nums font-semibold" style={{ color: 'var(--accent-text)' }}>
-                {profile.xp} XP
-              </span>
-            </div>
-          )}
-
-          <button
-            type="button"
-            onClick={onToggleDark}
-            aria-label={isDarkActive ? 'Chuyển sang giao diện sáng' : 'Chuyển sang chế độ tối'}
-            className={`w-full flex items-center gap-2.5 rounded-xl border px-3 py-2 text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${
-              isCompact ? 'justify-center px-2' : 'justify-between'
-            }`}
-            style={{
-              borderColor: 'var(--glass-border)',
-              color: 'var(--text-primary)',
-              backgroundColor: 'var(--bg-surface)',
-            }}
-          >
-            <span className="flex items-center gap-2">
-              {isDarkActive ? <Sun className="w-3.5 h-3.5 shrink-0" /> : <Moon className="w-3.5 h-3.5 shrink-0" />}
-              {!isCompact && <span>{isDarkActive ? 'Giao diện Sáng' : 'Chế độ Tối'}</span>}
+        <div className="sidebar-footer">
+          {!isOnline && <p className="offline-note"><WifiOff size={15} aria-hidden="true" /><span className="rail-label">Đang học ngoại tuyến</span></p>}
+          <PWAInstallButton compact={!isMobile} />
+          <button type="button" className="sidebar-profile" onClick={() => selectRoute('profile')} aria-label="Mở hồ sơ học tập">
+            <span className="profile-initial" aria-hidden="true">
+              {avatarUrl ? <img src={avatarUrl} alt="" /> : Array.from(profile.name.trim())[0]?.toUpperCase() || 'L'}
             </span>
+              <span className="profile-text rail-label">
+                <strong>{profile.name}</strong>
+                <small>{profile.xp.toLocaleString('vi-VN')} XP</small>
+              </span>
           </button>
-
-          <PWAInstallButton compact={isCompact} />
         </div>
       </>
     );
-  };
+  }
 
   return (
     <>
-      {/* Desktop Floating macOS Sidebar */}
-      <motion.aside
-        aria-label="Thanh điều hướng chính"
-        initial={false}
-        animate={{ width: collapsed ? 82 : 260 }}
-        transition={SPRING_MACOS}
-        className="hidden lg:flex flex-col shrink-0 m-3.5 mr-0 h-[calc(100vh-1.75rem)] sticky top-3.5 rounded-2xl border backdrop-blur-xl overflow-hidden z-30"
-        style={{
-          backgroundColor: 'var(--glass-bg)',
-          borderColor: 'var(--glass-border)',
-          boxShadow: 'var(--glass-shadow)',
-        }}
-      >
-        {renderSidebarBody(false)}
-      </motion.aside>
-
-      {/* Mobile Floating Drawer */}
+      <div className="desktop-sidebar-region">
+        <aside className="desktop-sidebar">{renderNavigation(false)}</aside>
+      </div>
       <AnimatePresence>
         {mobileOpen && (
-          <>
-            <motion.div
-              key="mobile-backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              className="fixed inset-0 z-40 bg-black/35 backdrop-blur-xs lg:hidden"
-              onClick={onCloseMobile}
-              aria-hidden="true"
-            />
-            <motion.aside
-              key="mobile-drawer"
-              aria-label="Thanh điều hướng di động"
-              initial={{ x: -290, opacity: 0.7 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -290, opacity: 0.7 }}
-              transition={SPRING_MACOS}
-              className="fixed inset-y-3 left-3 z-50 w-[268px] flex flex-col rounded-2xl border backdrop-blur-xl overflow-hidden lg:hidden"
-              style={{
-                backgroundColor: 'var(--glass-bg)',
-                borderColor: 'var(--glass-border)',
-                boxShadow: 'var(--glass-shadow)',
-              }}
-            >
-              {renderSidebarBody(true)}
+          <motion.div className="mobile-nav-layer" key="mobile-navigation"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onKeyDown={(event) => { if (event.key === 'Escape') onCloseMobile(); }}>
+            <button type="button" className="mobile-nav-backdrop" onClick={onCloseMobile} tabIndex={-1} aria-label="Đóng menu" />
+            <motion.aside className="mobile-sidebar" role="dialog" aria-modal="true" aria-label="Menu điều hướng"
+              initial={{ x: -24 }} animate={{ x: 0 }} exit={{ x: -24 }} transition={{ duration: 0.18 }}>
+              {renderNavigation(true)}
             </motion.aside>
-          </>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
   );
-};
+}

@@ -1,12 +1,13 @@
 import type { LanguageCode } from '../types/vocab';
+import { loadSpeechClip } from './speechClipCache';
 
 class SoundEngine {
   private ctx: AudioContext | null = null;
   public enabled = true;
   public volume = 0.45;
 
-  private getContext(): AudioContext | null {
-    if (!this.enabled || typeof window === 'undefined') return null;
+  getContext(): AudioContext | null {
+    if (typeof window === 'undefined') return null;
     if (!this.ctx) {
       const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (AudioCtx) {
@@ -20,6 +21,7 @@ class SoundEngine {
   }
 
   private playTone(freq: number, duration: number, type: OscillatorType = 'sine', delay = 0, gainPeak = 0.25) {
+    if (!this.enabled) return;
     const ctx = this.getContext();
     if (!ctx) return;
     const now = ctx.currentTime + delay;
@@ -79,47 +81,95 @@ const LANG_LOCALE_MAP: Record<LanguageCode, string> = {
   es: 'es-ES',
 };
 
+type PronunciationVoices = Partial<Record<LanguageCode, string>>;
+let selectedVoices: PronunciationVoices = {};
+let currentPlayback: {
+  controller: AbortController;
+  source?: AudioBufferSourceNode;
+  onEnd?: () => void;
+} | null = null;
+
+export function setPronunciationVoices(voices: PronunciationVoices = {}) {
+  selectedVoices = voices;
+}
+
+export function stopPronunciation() {
+  const playback = currentPlayback;
+  currentPlayback = null;
+  playback?.controller.abort();
+  playback?.source?.stop();
+  if (typeof window !== 'undefined') window.speechSynthesis?.cancel();
+  playback?.onEnd?.();
+}
+
 export function speakPronunciation(
   text: string,
   language: LanguageCode = 'en',
   rate: number = 1.0,
   onStart?: () => void,
   onEnd?: () => void,
+  onFallback?: () => void,
 ): boolean {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
-    onStart?.();
-    setTimeout(() => onEnd?.(), 600);
-    return false;
-  }
+  if (typeof window === 'undefined' || !text.trim()) return false;
+  stopPronunciation();
+  const playback: NonNullable<typeof currentPlayback> = { controller: new AbortController(), onEnd };
+  currentPlayback = playback;
 
-  try {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    const targetLocale = LANG_LOCALE_MAP[language] || 'en-US';
-    utterance.lang = targetLocale;
-    utterance.rate = rate;
-    utterance.pitch = 1.0;
-
-    const voices = window.speechSynthesis.getVoices();
-    const exactVoice =
-      voices.find((v) => v.lang.toLowerCase() === targetLocale.toLowerCase()) ||
-      voices.find((v) => v.lang.toLowerCase().startsWith(language.toLowerCase()));
-    if (exactVoice) {
-      utterance.voice = exactVoice;
-    }
-
-    utterance.onstart = () => onStart?.();
-    utterance.onend = () => onEnd?.();
-    utterance.onerror = () => onEnd?.();
-
-    onStart?.();
-    window.speechSynthesis.speak(utterance);
-
-    // Fallback timeout in case headless browser doesn't fire onend
-    setTimeout(() => onEnd?.(), Math.max(900, text.length * 90));
-    return true;
-  } catch {
+  const finish = () => {
+    if (currentPlayback !== playback) return;
+    currentPlayback = null;
     onEnd?.();
-    return false;
+  };
+
+  function speakOnDevice() {
+    if (!window.speechSynthesis) {
+      finish();
+      return false;
+    }
+    try {
+      const utterance = new SpeechSynthesisUtterance(text);
+      const targetLocale = LANG_LOCALE_MAP[language] || 'en-US';
+      utterance.lang = targetLocale;
+      utterance.rate = rate;
+      const voices = window.speechSynthesis.getVoices();
+      utterance.voice = voices.find((voice) => voice.lang.toLowerCase() === targetLocale.toLowerCase()) ??
+        voices.find((voice) => voice.lang.toLowerCase().startsWith(language + '-')) ?? null;
+      utterance.onstart = () => { if (currentPlayback === playback) onStart?.(); };
+      utterance.onend = finish;
+      utterance.onerror = finish;
+      window.speechSynthesis.speak(utterance);
+      return true;
+    } catch {
+      finish();
+      return false;
+    }
   }
+
+  const voiceId = selectedVoices[language];
+  if (!voiceId) return speakOnDevice();
+
+  void (async () => {
+    const timeout = window.setTimeout(() => playback.controller.abort(), 15_000);
+    try {
+      const context = soundEngine.getContext();
+      if (!context) throw new Error('Audio playback unavailable');
+      const buffer = await loadSpeechClip(context, { text, language, rate, voiceId }, playback.controller.signal);
+      if (currentPlayback !== playback) return;
+      if (context.state !== 'running') throw new Error('Audio playback blocked');
+      const source = context.createBufferSource();
+      source.buffer = buffer;
+      source.onended = finish;
+      source.connect(context.destination);
+      source.start();
+      playback.source = source;
+      onStart?.();
+    } catch {
+      if (currentPlayback !== playback) return;
+      onFallback?.();
+      speakOnDevice();
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  })();
+  return true;
 }

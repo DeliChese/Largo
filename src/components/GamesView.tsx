@@ -5,6 +5,7 @@ import {
   Check,
   Gamepad2,
   Headphones,
+  Layers,
   Play,
   RotateCcw,
   Shuffle,
@@ -393,138 +394,136 @@ export const GamesView: React.FC<GamesViewProps> = ({
   if (activeGame === 'hub') {
     return (
       <div className="space-y-6">
-        <div>
-          <h1 className="font-display text-2xl font-bold tracking-tight">Trò chơi Học Từ Vựng (4 Game)</h1>
-          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
-            Rèn phản xạ ngữ nghĩa, ghép Hán tự/chữ cái, nghe phát âm và tốc độ gõ từ chính kho từ của bạn.
-          </p>
+        <div className="page-intro">
+          <h1>Trò chơi từ vựng</h1>
+          <p>Luyện nghe, nhận diện nghĩa và sắp xếp chữ bằng các từ trong kho của bạn.</p>
         </div>
 
+        {words.length === 0 ? (
+          <section className="glass-panel p-5 sm:p-6 space-y-3" aria-labelledby="games-empty-title">
+            <h2 id="games-empty-title" className="font-display text-xl font-bold">Chưa có từ để chơi</h2>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Thêm từ vào bộ hiện tại hoặc chọn cấp độ có sẵn từ vựng.</p>
+            <a className="button-secondary" href="#/decks">Mở bộ từ vựng</a>
+          </section>
+        ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <motion.div
             whileHover={{ y: -2 }}
             transition={{ duration: 0.16 }}
-            className="rounded-2xl border p-6 flex flex-col justify-between gap-6"
-            style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+            className="glass-panel p-5 sm:p-6 flex flex-col justify-between gap-5"
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
-                  Phản xạ thị giác &amp; Âm thanh
+                  <Layers className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span className="font-mono text-xs tabular-nums" style={{ color: 'var(--accent-text)' }}>
                   Kỷ lục: {profile.bestMatchScore} điểm
                 </span>
               </div>
-              <h2 className="font-display text-xl font-bold">1. Ghép Cặp Tia Chớp</h2>
+              <h2 className="font-display text-xl font-bold">Ghép cặp</h2>
               <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                Nối nhanh chữ Hán HSK với nghĩa tiếng Việt tương ứng, kích hoạt combo và phát âm chuẩn.
+                Ghép từ với nghĩa tiếng Việt tương ứng.
               </p>
             </div>
             <button
               type="button"
               onClick={startMatchGame}
-              className="flex items-center justify-center gap-2 rounded-xl py-2.5 px-4 text-sm font-semibold text-white cursor-pointer whitespace-nowrap shrink-0"
-              style={{ backgroundColor: 'var(--accent-primary)' }}
+              className="button-primary self-start"
             >
               <Play className="w-4 h-4" />
-              <span>Chơi Ghép Cặp</span>
+              <span>Chơi ghép cặp</span>
             </button>
           </motion.div>
 
           <motion.div
             whileHover={{ y: -2 }}
             transition={{ duration: 0.16 }}
-            className="rounded-2xl border p-6 flex flex-col justify-between gap-6"
-            style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+            className="glass-panel p-5 sm:p-6 flex flex-col justify-between gap-5"
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
-                  Arcade Tốc độ &amp; Chính tả
+                  <Gamepad2 className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span className="font-mono text-xs tabular-nums" style={{ color: 'var(--accent-text)' }}>
                   Kỷ lục: {profile.bestWordFallScore} điểm
                 </span>
               </div>
-              <h2 className="font-display text-xl font-bold">2. Thợ Săn Từ Vựng (Word Fall)</h2>
+              <h2 className="font-display text-xl font-bold">Thợ săn từ</h2>
               <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                Gõ hoặc chọn nhanh từ Hán tự đang rơi trên Canvas trước khi chạm vạch đáy.
+                Gõ hoặc chọn từ đang rơi trước khi chạm đáy.
               </p>
             </div>
             <button
               type="button"
               onClick={startWordFall}
-              className="flex items-center justify-center gap-2 rounded-xl py-2.5 px-4 text-sm font-semibold text-white cursor-pointer whitespace-nowrap shrink-0"
-              style={{ backgroundColor: 'var(--accent-primary)' }}
+              className="button-primary self-start"
             >
               <Gamepad2 className="w-4 h-4" />
-              <span>Chơi Thợ Săn Từ</span>
+              <span>Chơi thợ săn từ</span>
             </button>
           </motion.div>
 
           <motion.div
             whileHover={{ y: -2 }}
             transition={{ duration: 0.16 }}
-            className="rounded-2xl border p-6 flex flex-col justify-between gap-6"
-            style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+            className="glass-panel p-5 sm:p-6 flex flex-col justify-between gap-5"
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
-                  Ghép Hán tự chuẩn thứ tự
+                  <Shuffle className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span className="font-mono text-xs tabular-nums" style={{ color: 'var(--accent-text)' }}>
                   Kỷ lục: {profile.bestScrambleScore} điểm
                 </span>
               </div>
-              <h2 className="font-display text-xl font-bold">3. Sắp Xếp Chữ &amp; Hán Tự</h2>
+              <h2 className="font-display text-xl font-bold">Sắp xếp chữ</h2>
               <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                Ghép lại các chữ Hán đa âm tiết bị xáo trộn dựa trên nghĩa, Pinyin, Hán-Việt và gợi ý âm thanh.
+                Dựa vào nghĩa và phiên âm để đặt các chữ về đúng thứ tự.
               </p>
             </div>
             <button
               type="button"
               onClick={startScrambleGame}
-              className="flex items-center justify-center gap-2 rounded-xl py-2.5 px-4 text-sm font-semibold text-white cursor-pointer whitespace-nowrap shrink-0"
-              style={{ backgroundColor: 'var(--accent-primary)' }}
+              className="button-primary self-start"
             >
               <Shuffle className="w-4 h-4" />
-              <span>Chơi Sắp Xếp Chữ</span>
+              <span>Chơi sắp xếp chữ</span>
             </button>
           </motion.div>
 
           <motion.div
             whileHover={{ y: -2 }}
             transition={{ duration: 0.16 }}
-            className="rounded-2xl border p-6 flex flex-col justify-between gap-6"
-            style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-hairline)' }}
+            className="glass-panel p-5 sm:p-6 flex flex-col justify-between gap-5"
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
-                  Nghe hiểu phản xạ 45 giây
+                  <Headphones className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <span className="font-mono text-xs tabular-nums" style={{ color: 'var(--accent-text)' }}>
                   Kỷ lục: {profile.bestAudioBlitzScore} điểm
                 </span>
               </div>
-              <h2 className="font-display text-xl font-bold">4. Phản Xạ Âm Thanh (Audio Blitz)</h2>
+              <h2 className="font-display text-xl font-bold">Phản xạ nghe</h2>
               <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                Nghe giọng đọc bản xứ và chọn đúng từ + nghĩa tương ứng trong 45 giây để nhân điểm Combo.
+                Nghe và nhận diện từ đúng trong 45 giây.
               </p>
             </div>
             <button
               type="button"
               onClick={startAudioBlitz}
-              className="flex items-center justify-center gap-2 rounded-xl py-2.5 px-4 text-sm font-semibold text-white cursor-pointer whitespace-nowrap shrink-0"
-              style={{ backgroundColor: 'var(--accent-primary)' }}
+              className="button-primary self-start"
             >
               <Headphones className="w-4 h-4" />
-              <span>Chơi Phản Xạ Nghe</span>
+              <span>Chơi phản xạ nghe</span>
             </button>
           </motion.div>
         </div>
+        )}
       </div>
     );
   }

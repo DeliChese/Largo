@@ -13,6 +13,8 @@ export type StudyModeId =
   | 'synthesis'
   | 'speed';
 
+export type StudySessionMode = StudyModeId | 'guided' | 'intensive';
+
 export type ReviewQuality = 1 | 2 | 3 | 4; // 1: Again (Quên), 2: Hard (Khó), 3: Good (Tốt), 4: Easy (Dễ)
 
 export type ThemeId = 'indigo' | 'botanical' | 'amber' | 'midnight';
@@ -28,6 +30,7 @@ export type AppRoute =
   | 'decks'
   | 'analytics'
   | 'profile'
+  | 'achievements'
   | 'settings';
 
 export type AnalyticsSubRoute = 'overview' | 'bloom' | 'retention' | 'history';
@@ -49,6 +52,8 @@ export interface SRSState {
   lapses: number;
   nextReviewAt: number; // epoch ms
   lastReviewedAt: number | null; // epoch ms
+  firstReviewedAt?: number;
+  lastIntensiveAt?: number;
 }
 
 export interface VocabWord {
@@ -66,6 +71,7 @@ export interface VocabWord {
   synonyms: string[];
   notes?: string;
   bloomLevel: BloomLevel;
+  lastSynthesisAt?: number;
   srs: SRSState;
   createdAt: number;
 }
@@ -76,6 +82,7 @@ export interface VocabDeck {
   description: string;
   language: LanguageCode;
   category: string;
+  level?: string;
   isCustom: boolean;
   createdAt: number;
 }
@@ -84,12 +91,14 @@ export interface StudySessionLog {
   id: string;
   timestamp: number;
   mode:
-    | StudyModeId
+    | StudySessionMode
     | 'game_match'
     | 'game_wordfall'
     | 'game_scramble'
     | 'game_audioblitz';
   deckId: string | 'all';
+  language?: LanguageCode;
+  level?: string;
   wordsReviewed: number;
   correctCount: number;
   xpEarned: number;
@@ -108,6 +117,7 @@ export interface UserProfile {
   lastStudyDate: string; // YYYY-MM-DD or ''
   dailyGoalWords: number;
   todayWordsCount: number;
+  todayWordIds?: string[];
   bestMatchScore: number;
   bestWordFallScore: number;
   bestScrambleScore: number;
@@ -120,7 +130,10 @@ export interface AppSettings {
   uiDensity: UIDensity;
   zenFocusMode: boolean;
   srsMode: SRSMode;
+  dailyNewWordLimit: number;
+  studyLevels?: Partial<Record<LanguageCode, string>>;
   speechRate: number; // 0.7 | 0.85 | 1.0 | 1.15
+  speechVoices?: Partial<Record<LanguageCode, string>>;
   autoPlayAudio: boolean;
   soundEnabled: boolean;
   soundVolume: number; // 0 to 1
