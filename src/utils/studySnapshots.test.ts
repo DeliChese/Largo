@@ -158,12 +158,12 @@ test('the local fallback round-trips JSON and gzip snapshots and ignores damaged
   assert.equal(fallback.get(key), 'gzip:invalid');
 });
 
-test('baseline reproduces how repeated keywords can raise legacy Bloom without moving SRS', () => {
+test('the legacy keyword check can match repeated words without raising Bloom or moving SRS', () => {
   const word = reviewedStudySnapshot().words.find(({ id }) => id === REGIONAL_CARD);
   assert.ok(word);
   const grade = evaluateSynthesisSentence('color color color color color', word);
   assert.equal(grade.passed, true);
   const reviewed = applyStudyReview(word, 3, 'standard', SNAPSHOT_TIME, 'synthesis');
-  assert.equal(reviewed.bloomLevel, 5);
+  assert.equal(reviewed.bloomLevel, word.bloomLevel);
   assert.equal(reviewed.srs, word.srs);
 });

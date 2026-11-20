@@ -74,13 +74,12 @@ const SAMPLE_PROFILE: UserProfile = {
   bestAudioBlitzScore: 0,
 };
 
-test('calculateNextSRS advances interval and Bloom level on Good/Easy review', () => {
+test('calculateNextSRS advances the interval on Good/Easy review', () => {
   const word = makeWord({ bloomLevel: 2 });
   const resStandard = calculateNextSRS(word, 4, 'standard', NOW);
-  assert.equal(resStandard.srs.repetitions, 2);
-  assert.ok(resStandard.srs.intervalDays >= 4);
-  assert.equal(resStandard.bloomLevel, 3);
-  assert.ok(resStandard.srs.nextReviewAt > NOW);
+  assert.equal(resStandard.repetitions, 2);
+  assert.ok(resStandard.intervalDays >= 4);
+  assert.ok(resStandard.nextReviewAt > NOW);
 });
 
 test('calculateNextSRS cram mode produces shorter intervals than relaxed mode', () => {
@@ -96,16 +95,15 @@ test('calculateNextSRS cram mode produces shorter intervals than relaxed mode', 
   });
   const cram = calculateNextSRS(word, 3, 'cram', NOW);
   const relaxed = calculateNextSRS(word, 3, 'relaxed', NOW);
-  assert.ok(cram.srs.intervalDays < relaxed.srs.intervalDays);
+  assert.ok(cram.intervalDays < relaxed.intervalDays);
 });
 
-test('calculateNextSRS resets repetitions and decrements Bloom on lapse (quality=1)', () => {
+test('calculateNextSRS resets repetitions on lapse (quality=1)', () => {
   const word = makeWord({ bloomLevel: 4 });
   const res = calculateNextSRS(word, 1, 'standard', NOW);
-  assert.equal(res.srs.repetitions, 0);
-  assert.equal(res.srs.lapses, 1);
-  assert.equal(res.bloomLevel, 3);
-  assert.ok(res.srs.intervalDays <= 1);
+  assert.equal(res.repetitions, 0);
+  assert.equal(res.lapses, 1);
+  assert.ok(res.intervalDays <= 1);
 });
 
 test('calculateRetentionProbability decays over time since last review', () => {
@@ -249,10 +247,7 @@ test('an early extra practice leaves existing schedules intact and lapses return
   assert.equal(introduced.srs.firstReviewedAt, NOW);
   assert.equal(introduced.srs.lapses, 0);
   assert.equal(applyStudyReview(word, 4, 'standard', NOW, 'quiz').bloomLevel, 3);
-  const applied = applyStudyReview(future, 3, 'standard', NOW, 'synthesis');
-  assert.equal(applied.bloomLevel, 4);
-  assert.deepEqual(applied.srs, future.srs);
-  assert.equal(applyStudyReview(applied, 3, 'standard', NOW, 'synthesis'), applied);
+  assert.equal(applyStudyReview(future, 3, 'standard', NOW, 'synthesis'), future);
 });
 
 test('a new local day resets progress, preserves a consecutive streak and counts words once', () => {

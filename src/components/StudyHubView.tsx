@@ -32,7 +32,7 @@ const PRACTICE_MODES = [
 const FILTERS = [
   { id: 'all', label: 'Tất cả từ' },
   { id: 'due', label: 'Đến hạn' },
-  { id: 'bloom', label: 'Theo Bloom' },
+  { id: 'bloom', label: 'Theo Bloom cũ' },
 ] as const;
 
 export function StudyHubView({ decks, words, selectedMode, selectedDeckId, now, dailyCount, intensive, onSelectMode, onSelectDeck, onStartDaily, onStartIntensive, onBeginSession }: StudyHubViewProps) {
@@ -44,7 +44,7 @@ export function StudyHubView({ decks, words, selectedMode, selectedDeckId, now, 
     [words, selectedDeckId, filter, bloom, selectedMode, now]);
   const emptyMessage = !deckWords.length ? 'Bộ từ này đang trống.'
     : filter === 'due' && !dueCount ? 'Bộ từ này chưa có từ đến hạn.'
-    : filter === 'bloom' && !deckWords.some((word) => word.bloomLevel === bloom) ? 'Chưa có từ ở mức Bloom này.'
+    : filter === 'bloom' && !deckWords.some((word) => word.bloomLevel === bloom) ? 'Chưa có từ ở mức Bloom cũ này.'
     : 'Chưa đủ dữ liệu cho dạng bài này. Hãy chọn dạng bài hoặc bộ từ khác.';
   const intensiveDetails = [
     intensive.reviewCount ? intensive.reviewCount + ' từ đến hạn' : '',
@@ -113,7 +113,7 @@ export function StudyHubView({ decks, words, selectedMode, selectedDeckId, now, 
           </div>
           {filter === 'bloom' && (
             <div className="control-field">
-              <label htmlFor="practice-bloom">Mức Bloom</label>
+              <label htmlFor="practice-bloom">Mức Bloom cũ</label>
               <div className="select-wrap">
                 <select id="practice-bloom" value={bloom} onChange={(event) => setBloom(Number(event.target.value) as BloomLevel)}>
                   {([1, 2, 3, 4, 5, 6] as const).map((level) => <option key={level} value={level}>{level} · {BLOOM_META[level].nameVi}</option>)}

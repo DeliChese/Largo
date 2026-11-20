@@ -13,7 +13,13 @@ npm run build
 
 `npm run dev` chạy Vite, mặc định cổng `3000`. Dùng URL Vite thực sự in ra. `npm run lint` kiểm kiểu TypeScript. `npm test` chạy các test SRS/Bloom, phạm vi học, snapshot và Azure giả lập. Lệnh dùng bộ phân giải import trong `.chinese-work/register.mjs` cho các test TypeScript. [CI](../../.github/workflows/verify.yml) chạy kiểm kiểu, test và build. Sau khi build, `npm run preview` xem bản Vite đã build hoặc `npm start` chạy Express phục vụ `dist/` và API phát âm.
 
-Các [snapshot mẫu](../../src/utils/fixtures/studySnapshots.ts) dùng mốc thời gian cố định và hồ sơ giả lập. Bộ kiểm thử tái hiện dữ liệu mới cài, HSK hai phiên bản, Anh–Anh/Anh–Mỹ, bộ/thẻ cá nhân, thẻ đã xóa, lịch sử, avatar trong backup đời cũ, bản lưu gzip và giáo trình thiếu bài. Ca lặp từ khóa ghi nhận hành vi Bloom legacy để đối chiếu khi triển khai rubric mới.
+Các [snapshot mẫu](../../src/utils/fixtures/studySnapshots.ts) dùng mốc thời gian cố định và hồ sơ giả lập. Bộ kiểm thử bao gồm dữ liệu mới cài, HSK hai phiên bản, Anh–Anh/Anh–Mỹ, bộ/thẻ cá nhân, thẻ đã xóa, lịch sử, avatar, bản lưu gzip và giáo trình thiếu bài. Các bài thử engine kiểm tra backup v2, mã lượt bị trùng, lịch ôn và XP sau lượt thử lại, chấm chưa xác minh cho câu mở và rubric Bloom.
+
+## Kiểm chứng E0–E1 trên trình duyệt
+
+1. Dùng origin thử nghiệm với snapshot mẫu. Ở `/#/settings`, chọn backup JSON đời cũ, xem số lượng bộ/thẻ/phiên/ảnh rồi hủy để kiểm tra bản lưu đang dùng. Lặp lại với file lỗi và kiểm tra thông báo. Nhập lại file hợp lệ, chọn thay thế và xuất backup v2. Tải lại `/#/profile` để kiểm tra avatar và đối chiếu SRS, Bloom cũ, lịch sử, thẻ đã xóa và tùy chọn học.
+2. Dùng origin thử nghiệm chứa IndexedDB v3. Tải phiên bản mới rồi đọc snapshot và ảnh. Ghi đồng thời một lượt từ hai kết nối và kiểm tra chỉ có một sự kiện, một lần áp dụng tiến độ. Tạo lỗi ghi trong transaction khôi phục để kiểm tra snapshot, ảnh và ledger cũ được giữ.
+3. Ở `/#/study`, trả lời sai một lần, thử gửi lặp và làm thẻ củng cố cuối phiên. Kiểm tra lượt thử lại có sự kiện riêng, SRS/XP/tổng hợp chỉ nhận lượt đầu. Thử một đáp án có gợi ý và một câu lặp từ khóa, rồi tải lại. Ở `/#/analytics/bloom`, kiểm tra mức đã xác minh, Bloom cũ và mục luyện lỗi.
 
 ## Lỗi web app chưa hiện tính năng
 

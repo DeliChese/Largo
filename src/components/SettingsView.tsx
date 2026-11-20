@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Bell, Check, Download, Moon, RotateCcw, Sun, Volume2, Wifi } from 'lucide-react';
+import { Bell, Check, Download, Moon, RotateCcw, Sun, Upload, Volume2, Wifi } from 'lucide-react';
 import type {
   AppSettings,
   ColorSchemeMode,
@@ -14,6 +14,7 @@ import { soundEngine, speakPronunciation, stopPronunciation } from '../utils/sou
 import { ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishLocale, getSpeechVoice } from '../utils/englishStudy';
 import { PWAInstallButton } from './PWAInstallButton';
 import { LANGUAGE_LABELS } from '../data/seedVocab';
+import { previewBackup, type BackupPreview } from '../utils/backup';
 
 interface SettingsViewProps {
   settings: AppSettings;
@@ -21,7 +22,9 @@ interface SettingsViewProps {
   activeLanguage: LanguageCode;
   onUpdateSettings: (patch: Partial<AppSettings>) => void;
   onExportFullBackup: () => Promise<void>;
-  onResetAllData: () => void;
+  onRestoreFullBackup: (backup: BackupPreview) => Promise<void>;
+  backupReady: boolean;
+  onResetAllData: () => Promise<void>;
 }
 
 interface AzureVoice {
@@ -190,12 +193,46 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   activeLanguage,
   onUpdateSettings,
   onExportFullBackup,
+  onRestoreFullBackup,
+  backupReady,
   onResetAllData,
 }) => {
   const [notifStatus, setNotifStatus] = useState<string | null>(null);
   const [confirmReset, setConfirmReset] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [backupError, setBackupError] = useState(false);
+  const [preview, setPreview] = useState<BackupPreview>();
+  const [importStatus, setImportStatus] = useState<'reading' | 'restoring' | 'done'>();
+  const [importError, setImportError] = useState('');
+  const backupBusy = exporting || importStatus === 'reading' || importStatus === 'restoring';
+
+  async function inspectBackup(file: File) {
+    setConfirmReset(false);
+    setPreview(undefined);
+    setImportError('');
+    setImportStatus('reading');
+    try {
+      setPreview(await previewBackup(file));
+    } catch (error) {
+      setImportError(error instanceof Error ? error.message : 'Largo chưa đọc được tệp sao lưu.');
+    } finally {
+      setImportStatus(undefined);
+    }
+  }
+
+  async function restoreBackup() {
+    if (!preview) return;
+    setImportError('');
+    setImportStatus('restoring');
+    try {
+      await onRestoreFullBackup(preview);
+      setPreview(undefined);
+      setImportStatus('done');
+    } catch {
+      setImportError('Largo chưa lưu được bản sao lưu. Dữ liệu hiện tại vẫn được giữ.');
+      setImportStatus(undefined);
+    }
+  }
 
   const requestNotificationPermission = async () => {
     if (typeof Notification === 'undefined') {
@@ -508,7 +545,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <button
             type="button"
-            disabled={exporting}
+            disabled={!backupReady || backupBusy}
             onClick={async () => {
               setBackupError(false);
               setExporting(true);
@@ -527,9 +564,21 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             <span>{exporting ? 'Đang tạo bản sao lưu…' : 'Sao lưu toàn bộ dữ liệu (JSON)'}</span>
           </button>
 
+          <label className="flex items-center gap-2 text-xs font-semibold">
+            <Upload className="w-3.5 h-3.5" aria-hidden="true" />
+            Khôi phục từ bản sao lưu JSON
+            <input type="file" accept=".json,application/json" disabled={!backupReady || backupBusy}
+              onChange={(event) => {
+                const file = event.currentTarget.files?.[0];
+                event.currentTarget.value = '';
+                if (file) void inspectBackup(file);
+              }} />
+          </label>
+
           {!confirmReset ? (
             <button
               type="button"
+              disabled={!backupReady || backupBusy || !!preview}
               onClick={() => setConfirmReset(true)}
               className="flex items-center gap-1.5 rounded-lg border px-4 py-2 text-xs font-medium text-rose-600 dark:text-rose-400 cursor-pointer"
               style={{ borderColor: 'var(--border-hairline)' }}
@@ -541,9 +590,17 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => {
-                  onResetAllData();
+                onClick={async () => {
                   setConfirmReset(false);
+                  setImportError('');
+                  setImportStatus('restoring');
+                  try {
+                    await onResetAllData();
+                  } catch {
+                    setImportError('Largo chưa đặt lại được dữ liệu.');
+                  } finally {
+                    setImportStatus(undefined);
+                  }
                 }}
                 className="rounded-lg bg-rose-600 px-3.5 py-2 text-xs font-semibold text-white cursor-pointer"
               >
@@ -560,6 +617,24 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             </div>
           )}
         </div>
+        {preview && (
+          <div className="space-y-2 rounded-lg border p-3 text-sm" style={{ borderColor: 'var(--border-hairline)' }}>
+            <h3 className="font-semibold">Xem trước bản sao lưu</h3>
+            <p>{preview.summary.decks} bộ · {preview.summary.words} thẻ · {preview.summary.logs} phiên · {preview.summary.attempts} lượt trả lời · {preview.summary.images} ảnh</p>
+            <p>Khôi phục sẽ thay thế dữ liệu học và ảnh hồ sơ trên trình duyệt này bằng dữ liệu trong tệp.</p>
+            <div className="flex flex-wrap gap-2">
+              <button type="button" className="button-primary" disabled={backupBusy} onClick={() => void restoreBackup()}>
+                Thay thế bằng bản sao lưu
+              </button>
+              <button type="button" className="button-secondary" disabled={backupBusy}
+                onClick={() => { setPreview(undefined); setImportError(''); }}>Hủy</button>
+            </div>
+          </div>
+        )}
+        {importStatus === 'reading' && <p role="status">Đang kiểm tra tệp…</p>}
+        {importStatus === 'restoring' && <p role="status">Đang khôi phục dữ liệu…</p>}
+        {importStatus === 'done' && <p role="status">Đã khôi phục dữ liệu từ bản sao lưu.</p>}
+        {importError && <p className="form-error" role="alert">{importError}</p>}
         {backupError && <p className="form-error" role="alert">Largo chưa tạo được bản sao lưu. Hãy thử lại.</p>}
       </section>
     </div>

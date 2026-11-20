@@ -1,6 +1,6 @@
 import React from 'react';
 import { BarChart3, Brain, Calendar, History } from 'lucide-react';
-import type { AnalyticsSubRoute, StudySessionLog, VocabWord } from '../types/vocab';
+import type { AnalyticsSubRoute, StudyModeId, StudySessionLog, VocabWord } from '../types/vocab';
 import {
   BLOOM_META,
   calculateRetentionProbability,
@@ -10,6 +10,7 @@ import {
   localStudyDate,
 } from '../utils/srsBloom';
 import { STUDY_MODE_LABELS } from '../utils/studyPlan';
+import { describeMastery, getMistakeReview, type WordMastery } from '../utils/mastery';
 
 interface AnalyticsViewProps {
   subRoute: AnalyticsSubRoute;
@@ -17,6 +18,8 @@ interface AnalyticsViewProps {
   words: VocabWord[];
   logs: StudySessionLog[];
   now: number;
+  masteryByWord: ReadonlyMap<string, WordMastery>;
+  onReviewMistake: (wordId: string, mode: StudyModeId) => void;
 }
 
 const SUB_ROUTES: Array<{
@@ -44,9 +47,13 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
   words,
   logs,
   now,
+  masteryByWord,
+  onReviewMistake,
 }) => {
   const knownWords = words.filter((word) => word.srs.lastReviewedAt !== null);
   const bloomDist = computeBloomDistribution(knownWords);
+  const verified = words.filter(({ id }) => masteryByWord.get(id)?.verifiedBloomLevel);
+  const mistakes = subRoute === 'bloom' ? getMistakeReview(words, masteryByWord) : [];
   const forecast = computeForecastDays(words, 10, now);
   const maxForecast = Math.max(1, ...forecast.map((d) => d.count));
 
@@ -167,10 +174,10 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
           className="glass-panel p-4"
         >
           <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            Đạt tầng Bloom 4–6
+            Từ có Bloom đã xác minh
           </div>
           <div className="mt-1 font-display text-2xl font-bold tabular-nums">
-            {knownWords.filter((w) => w.bloomLevel >= 4).length}
+            {verified.length}
           </div>
         </div>
       </div>
@@ -235,11 +242,42 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
       {/* SUB-ROUTE: BLOOM TAXONOMY */}
       {subRoute === 'bloom' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <section className="glass-panel lg:col-span-5 p-5 space-y-3">
+            <h2 className="font-display text-base font-semibold">Năng lực đã xác minh</h2>
+            {verified.length === 0 ? <p className="panel-empty">Chưa xác minh. Hãy luyện các bài có đáp án qua nhiều phiên.</p> : (
+              <ul className="space-y-2 text-sm">
+                {verified.slice(0, 12).map(({ id, term }) => (
+                  <li key={id} className="flex flex-wrap justify-between gap-x-3">
+                    <strong>{term}</strong><span>{describeMastery(masteryByWord.get(id))}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {verified.length > 12 && <p className="text-xs">Hiển thị 12 trong {verified.length} từ đã xác minh.</p>}
+            <p className="text-xs">Các bài hiện có xác minh đến tầng 3.</p>
+          </section>
+          <section className="glass-panel lg:col-span-7 p-5 space-y-3">
+            <h2 className="font-display text-base font-semibold">Luyện lại lỗi gần đây</h2>
+            {mistakes.length === 0 ? <p className="panel-empty">Chưa có lỗi ở lượt trả lời độc lập gần nhất.</p> : (
+              <ul className="space-y-2">
+                {mistakes.slice(0, 10).map(({ word, taskType, recentFailures }) => (
+                  <li key={word.id} className="flex items-center justify-between gap-3 text-sm">
+                    <div>
+                      <strong>{word.term}</strong> <span>· {STUDY_MODE_LABELS[taskType]}</span>
+                      {recentFailures >= 2 && <p className="text-xs">Cần xác minh lại kỹ năng</p>}
+                    </div>
+                    <button type="button" className="button-secondary" onClick={() => onReviewMistake(word.id, taskType)}
+                      aria-label={`Luyện lại ${word.term}`}>Luyện lại</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
           <div
             className="glass-panel lg:col-span-5 p-5 sm:p-6 flex flex-col justify-between items-center"
           >
             <h2 className="font-display text-base font-semibold self-start">
-              Phân bố mức Bloom
+              Phân bố Bloom cũ
             </h2>
             <svg viewBox="0 0 360 310" className="w-full max-w-[360px] my-auto">
               {[28, 56, 84].map((r) => (
@@ -279,14 +317,14 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
               ))}
             </svg>
             <p className="text-xs text-center leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-              Biểu đồ tính trên các từ đã học.
+              Chỉ số lịch sử của các từ từng ôn.
             </p>
           </div>
 
           <div
             className="glass-panel lg:col-span-7 p-5 sm:p-6 space-y-4"
           >
-            <h2 className="font-display text-base font-semibold">Kỹ năng theo từng mức</h2>
+            <h2 className="font-display text-base font-semibold">Chi tiết các mức Bloom cũ</h2>
             <div className="space-y-3">
               {[...bloomDist].reverse().map((item) => {
                 const meta = BLOOM_META[item.level];
@@ -360,7 +398,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
                 <thead>
                   <tr className="border-b" style={{ borderColor: 'var(--border-hairline)', color: 'var(--text-muted)' }}>
                     <th className="py-2 pr-4 font-medium">Từ vựng</th>
-                    <th className="py-2 pr-4 font-medium">Bloom</th>
+                    <th className="py-2 pr-4 font-medium">Năng lực</th>
                     <th className="py-2 pr-4 font-medium text-right">Lần ôn tiếp theo</th>
                     <th className="py-2 font-medium text-right">Độ nhớ ước tính</th>
                   </tr>
@@ -372,7 +410,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
                       <tr key={w.id} style={{ borderColor: 'var(--border-hairline)' }}>
                         <td className="py-2.5 pr-4 font-semibold">{w.term}</td>
                         <td className="py-2.5 pr-4" style={{ color: 'var(--text-secondary)' }}>
-                          {w.bloomLevel}. {BLOOM_META[w.bloomLevel].nameVi}
+                          {describeMastery(masteryByWord.get(w.id))}
                         </td>
                         <td className="py-2.5 pr-4 text-right font-mono tabular-nums">
                           {w.srs.nextReviewAt <= now ? 'Đến hạn' : 'Sau ' + formatIntervalVi((w.srs.nextReviewAt - now) / 86_400_000)}

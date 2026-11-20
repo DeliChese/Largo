@@ -12,7 +12,6 @@ import type {
   HskEdition,
   LanguageCode,
   LexicalRelations,
-  ReviewQuality,
   StudyModeId,
   StudySessionMode,
   StudySessionLog,
@@ -34,30 +33,37 @@ import {
   isBuiltinWord,
   withCurrentSeed,
 } from './data/seedVocab';
-import { createInitialSRS, generateSmartReminders, isWordDue, localStudyDate, reviewXp } from './utils/srsBloom';
+import { createInitialSRS, generateSmartReminders, isWordDue, localStudyDate } from './utils/srsBloom';
 import {
-  applyStudyReview, getDailyStudyPlan, getIntensiveStudyPlan, getPracticeWords, PRACTICE_SESSION_SIZE, recordStudyActivity,
+  getDailyStudyPlan, getIntensiveStudyPlan, getPracticeWords, PRACTICE_SESSION_SIZE, recordStudyActivity,
   type StudyFilter,
 } from './utils/studyPlan';
 import { getDeckStudyLevel, getEditionDecks, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './utils/studyScope';
 import { ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishLocale, getEnglishStudyWord } from './utils/englishStudy';
 import { importCollocations, importEnglishForms, importExamples, importTerms, trimImportText } from './utils/vocabImport';
 import {
-  clearOfflineState,
+  commitLearningAttempt,
   loadOfflineState,
-  loadProfileImages,
   loadSyncFallbackState,
+  loadStoredStudyData,
+  resetOfflineState,
+  restoreOfflineState,
   saveOfflineState,
   saveProfileImage,
+  type PersistedAppState,
 } from './utils/offlineStorage';
 import { prepareProfileImage, readImageForBackup, type ProfileImageKind, type ProfileImages } from './utils/profileImages';
+import { createBackup, type BackupPreview } from './utils/backup';
 import { setPronunciationVoices, soundEngine, stopPronunciation } from './utils/soundEngine';
 import { clearSpeechClipCache } from './utils/speechClipCache';
 import { useOnlineStatus } from './hooks/useOnlineStatus';
 import { NAV_LABELS, Sidebar } from './components/Sidebar';
 import { DashboardView } from './components/DashboardView';
 import { StudyHubView } from './components/StudyHubView';
-import { StudySession, type SessionProgress } from './components/StudySession';
+import { StudySession } from './components/StudySession';
+import type { LearningAttemptEvent } from './utils/learningAttempt';
+import { EMPTY_PROGRESS, projectStudyAttempt, type StudySessionIdentity } from './utils/studyAttempt';
+import { buildMasteryProjection } from './utils/mastery';
 import { WordLookup } from './components/WordLookup';
 import { EMPTY_EXAMPLES, EMPTY_RELATIONS, ExampleFields, RelationFields } from './components/WordFormFields';
 
@@ -70,13 +76,7 @@ const SettingsView = lazy(() => import('./components/SettingsView').then(({ Sett
 
 const NOTIFICATION_DAY_KEY = 'lexisbloom_reminder_date';
 
-interface ActiveSession {
-  id: string;
-  mode: StudySessionMode;
-  deckId: string;
-  language: LanguageCode;
-  level: string;
-  hskEdition?: HskEdition;
+interface ActiveSession extends StudySessionIdentity {
   words: VocabWord[];
 }
 
@@ -127,6 +127,13 @@ export default function App() {
   const coverUrl = useImageUrl(profileImages.cover);
   const [settings, setSettings] = useState<AppSettings>(() => ({ ...INITIAL_SETTINGS, ...initialFallback?.settings }));
   const [hydrated, setHydrated] = useState(false);
+  const [attempts, setAttempts] = useState<LearningAttemptEvent[]>([]);
+  const masteryByWord = useMemo(() => buildMasteryProjection(attempts), [attempts]);
+  const [writingState, setWritingState] = useState(false);
+  const [storageError, setStorageError] = useState('');
+  const [futureState, setFutureState] = useState(() => (initialFallback?.version ?? 0) > CURRENT_DATA_VERSION);
+  const restoring = useRef(false);
+  const recordedState = useRef<PersistedAppState | undefined>(undefined);
   const [now, setNow] = useState(Date.now);
 
   // Router State
@@ -161,16 +168,20 @@ export default function App() {
 
   // Hydrate from IndexedDB on mount
   useEffect(() => {
-    Promise.all([loadOfflineState(), loadProfileImages().catch(() => ({}))])
-      .then(([stored, images]) => {
-        setProfileImages(images);
+    Promise.all([loadOfflineState(), loadStoredStudyData().catch(() => undefined)])
+      .then(([stored, data]) => {
+        setProfileImages(data?.images ?? {});
+        setAttempts(data?.attempts ?? []);
         const saved = stored && withCurrentSeed(stored);
+        setFutureState((saved?.version ?? 0) > CURRENT_DATA_VERSION || !!data?.hasFutureAttempts);
         if (saved) {
+          const restoredSettings = { ...INITIAL_SETTINGS, ...saved.settings };
+          if (saved === stored) recordedState.current = { ...saved, settings: restoredSettings };
           setDecks(saved.decks);
           setWords(saved.words);
           setLogs(saved.logs);
           setProfile(saved.profile);
-          setSettings({ ...INITIAL_SETTINGS, ...saved.settings });
+          setSettings(restoredSettings);
         }
       })
       .finally(() => setHydrated(true));
@@ -214,7 +225,10 @@ export default function App() {
 
   // Persist to IndexedDB + localStorage whenever state changes
   useEffect(() => {
-    if (!hydrated || !hasCurrentSeedDecks(decks)) return;
+    if (!hydrated || futureState || restoring.current || !hasCurrentSeedDecks(decks)) return;
+    const recorded = recordedState.current;
+    if (recorded?.decks === decks && recorded.words === words && recorded.logs === logs &&
+      recorded.profile === profile && recorded.settings === settings) return;
     saveOfflineState({
       decks,
       words,
@@ -222,8 +236,9 @@ export default function App() {
       profile,
       settings,
       version: CURRENT_DATA_VERSION,
-    });
-  }, [decks, words, logs, profile, settings, hydrated]);
+    }).then(() => setStorageError(''), (error: unknown) =>
+      setStorageError(error instanceof Error ? error.message : 'Largo chưa lưu được dữ liệu.'));
+  }, [decks, words, logs, profile, settings, hydrated, futureState]);
 
   // Sync theme, dark mode, and sound engine
   const [systemDark, setSystemDark] = useState(() =>
@@ -347,10 +362,13 @@ export default function App() {
   }, [hydrated, now, settings.reminderHour, settings.reminderEnabled, plan.words.length]);
 
   const beginSession = (mode: StudySessionMode, deckId: string, pool: VocabWord[]) => {
-    if (!hydrated || pool.length === 0) return;
+    if (!hydrated || restoring.current || pool.length === 0) return;
     navigate('study');
     const id = globalThis.crypto?.randomUUID?.() ?? 'study-' + Date.now() + '-' + Math.random().toString(36).slice(2);
-    setActiveSession({ id, mode, deckId, language, level: level.id, hskEdition: language === 'zh' ? hskEdition : undefined, words: pool });
+    setActiveSession({
+      id, mode, deckId, language, level: level.id, hskEdition: language === 'zh' ? hskEdition : undefined,
+      startedAt: Date.now(), words: pool,
+    });
   };
 
   const startDailySession = () => {
@@ -412,6 +430,15 @@ export default function App() {
     beginSession(mode, deckId, pool.slice(0, PRACTICE_SESSION_SIZE));
   };
 
+  const handleReviewMistake = (wordId: string, mode: StudyModeId) => {
+    const word = scopedWords.find(({ id }) => id === wordId);
+    if (!word) return;
+    const supported = mode !== 'dictation' || typeof window.speechSynthesis !== 'undefined';
+    const eligible = supported && getPracticeWords(scopedWords, 'all', 'all', 1, mode, Date.now())
+      .some(({ id }) => id === wordId);
+    beginSession(eligible ? mode : 'flashcard', word.deckId, [word]);
+  };
+
   const handleReminder = (reminder: SmartReminder) => {
     setShowReminderPopover(false);
     if (reminder.type === 'streak_protection' || reminder.type === 'due_queue') {
@@ -432,23 +459,29 @@ export default function App() {
     }
   };
 
-  const handleRecordReview = (wordId: string, quality: ReviewQuality, exercise: StudyModeId, answeredAt: number) => {
-    setNow(answeredAt);
-    setWords((prev) => prev.map((word) => word.id === wordId
-      ? applyStudyReview(word, quality, settings.srsMode, answeredAt, exercise, activeSession?.mode)
-      : word));
-    setProfile((prev) => recordStudyActivity(prev, answeredAt, reviewXp(quality), wordId));
-  };
-
-  const handleSessionProgress = (progress: SessionProgress) => {
-    if (!activeSession) return;
-    const entry: StudySessionLog = {
-      id: activeSession.id, timestamp: Date.now(), mode: activeSession.mode, deckId: activeSession.deckId,
-      language: activeSession.language, level: activeSession.level, hskEdition: activeSession.hskEdition, ...progress,
-    };
-    setLogs((prev) => prev.some((log) => log.id === entry.id)
-      ? prev.map((log) => log.id === entry.id ? entry : log)
-      : [...prev, entry]);
+  const handleRecordReview = async (attempt: LearningAttemptEvent) => {
+    if (!activeSession || restoring.current) throw new Error('Phiên học chưa sẵn sàng để lưu.');
+    restoring.current = true;
+    setWritingState(true);
+    try {
+      const { state, inserted, retained } = await commitLearningAttempt(
+        attempt, { decks, words, logs, profile, settings, version: CURRENT_DATA_VERSION },
+        (previous, event) => projectStudyAttempt(previous, event, activeSession),
+      );
+      recordedState.current = state;
+      setDecks(state.decks);
+      setWords(state.words);
+      setLogs(state.logs);
+      setProfile(state.profile);
+      setSettings(state.settings);
+      if (inserted && retained) setAttempts((events) => [...events, attempt]);
+      setNow(attempt.answeredAt);
+      setStorageError('');
+      return { progress: state.logs.find(({ id }) => id === attempt.sessionId) ?? EMPTY_PROGRESS, retained };
+    } finally {
+      restoring.current = false;
+      setWritingState(false);
+    }
   };
 
   const restartPractice = () => {
@@ -638,12 +671,12 @@ export default function App() {
 
   const handleExportFullBackup = async () => {
     await imageWrites.current;
-    const images = await loadProfileImages().catch(() => profileImages);
+    const stored = await loadStoredStudyData();
+    if (stored?.hasFutureAttempts) throw new Error('Bản lưu chứa lượt trả lời của phiên bản mới hơn.');
+    const images = stored?.images ?? profileImages;
     const [avatar, cover] = await Promise.all([readImageForBackup(images.avatar), readImageForBackup(images.cover)]);
-    const payload = {
-      decks, words, logs, profile, settings, version: CURRENT_DATA_VERSION, exportedAt: new Date().toISOString(),
-      ...(avatar || cover ? { profileImages: { avatar, cover } } : {}),
-    };
+    const state = stored?.state ?? { decks, words, logs, profile, settings, version: CURRENT_DATA_VERSION };
+    const payload = createBackup(state, { avatar, cover }, new Date(), stored?.attempts);
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -653,19 +686,55 @@ export default function App() {
     URL.revokeObjectURL(url);
   };
 
-  const handleResetAllData = async () => {
-    const reset = imageWrites.current.then(async () => {
-      await Promise.all([clearOfflineState(), clearSpeechClipCache()]);
-      setDecks(INITIAL_DECKS);
-      setWords(INITIAL_WORDS);
-      setLogs(INITIAL_LOGS);
-      setProfile(INITIAL_PROFILE);
-      setProfileImages({});
-      setSettings(INITIAL_SETTINGS);
+  const handleRestoreFullBackup = async ({ state, images, attempts }: BackupPreview) => {
+    if (!hydrated || futureState || restoring.current) throw new Error('Dữ liệu chưa sẵn sàng để khôi phục.');
+    restoring.current = true;
+    setWritingState(true);
+    try {
+      await imageWrites.current;
+      await restoreOfflineState(state, images, attempts);
+      recordedState.current = state;
+      setActiveSession(null);
       setSelectedDeckId('all');
-    });
-    imageWrites.current = reset.catch(() => {});
-    await reset;
+      setDecks(state.decks);
+      setWords(state.words);
+      setLogs(state.logs);
+      setProfile(state.profile);
+      setSettings(state.settings);
+      setProfileImages(images);
+      setAttempts(attempts);
+      setStorageError('');
+    } finally {
+      restoring.current = false;
+      setWritingState(false);
+    }
+  };
+
+  const handleResetAllData = async () => {
+    if (!hydrated || futureState || restoring.current) throw new Error('Dữ liệu chưa sẵn sàng.');
+    restoring.current = true;
+    setWritingState(true);
+    const fresh = { decks: INITIAL_DECKS, words: INITIAL_WORDS, logs: INITIAL_LOGS,
+      profile: INITIAL_PROFILE, settings: INITIAL_SETTINGS, version: CURRENT_DATA_VERSION };
+    try {
+      await imageWrites.current;
+      await resetOfflineState(fresh);
+      await clearSpeechClipCache().catch(() => {});
+      recordedState.current = fresh;
+      setDecks(fresh.decks);
+      setWords(fresh.words);
+      setLogs(fresh.logs);
+      setProfile(fresh.profile);
+      setProfileImages({});
+      setAttempts([]);
+      setSettings(fresh.settings);
+      setSelectedDeckId('all');
+      setActiveSession(null);
+      setStorageError('');
+    } finally {
+      restoring.current = false;
+      setWritingState(false);
+    }
   };
 
   const isZenStudyActive = route === 'study' && !!activeSession && settings.zenFocusMode;
@@ -689,13 +758,17 @@ export default function App() {
     setShowQuickAdd(true);
   };
 
+  if (futureState) {
+    return <main className="p-6" role="status">Dữ liệu học thuộc phiên bản Largo mới hơn. Hãy mở lại phiên bản đã lưu dữ liệu.</main>;
+  }
+
   return (
     <MotionConfig reducedMotion="user">
       <div className="app-shell" data-route={route} data-zen={isZenStudyActive} data-density={settings.uiDensity}>
         {!isZenStudyActive && (
           <Sidebar
             activeRoute={route}
-            onNavigate={navigate}
+            onNavigate={(next) => { if (!restoring.current) navigate(next); }}
             mobileOpen={mobileMenuOpen}
             onCloseMobile={() => setMobileMenuOpen(false)}
             dueCount={plan.dueCount}
@@ -707,7 +780,7 @@ export default function App() {
 
         <div className="app-column" inert={mobileMenuOpen}>
           {!isZenStudyActive && (
-            <header className="app-header">
+            <header className="app-header" inert={writingState}>
               <div className="header-inner">
                 <div className="header-location">
                   <button type="button" onClick={() => setMobileMenuOpen(true)} aria-label="Mở menu điều hướng"
@@ -808,6 +881,7 @@ export default function App() {
           )}
 
           <main className="app-content" data-route={route} aria-busy={!hydrated}>
+            {storageError && <p className="form-error" role="alert">{storageError}</p>}
             <Suspense fallback={<p className="panel-empty" role="status">Đang tải…</p>}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
@@ -827,14 +901,15 @@ export default function App() {
                   {route === 'study' && (activeSession ? (
                     <StudySession
                       mode={activeSession.mode}
+                      session={activeSession}
                       sessionWords={activeSession.words}
                       allWords={scopedWords}
+                      masteryByWord={masteryByWord}
                       settings={settings}
                       zenMode={settings.zenFocusMode}
                       onToggleZenMode={() => setSettings((value) => ({ ...value, zenFocusMode: !value.zenFocusMode }))}
                       onToggleExamplePhonetic={() => setSettings((value) => ({ ...value, showExamplePhonetic: !(value.showExamplePhonetic ?? true) }))}
                       onRecordReview={handleRecordReview}
-                      onProgress={handleSessionProgress}
                       onExit={() => setActiveSession(null)}
                       onContinue={activeSession.mode === 'guided' ? (plan.words.length ? startDailySession : undefined)
                         : activeSession.mode === 'intensive' ? (intensive.words.length ? startIntensiveSession : undefined)
@@ -867,6 +942,7 @@ export default function App() {
                       key={editionKey}
                       decks={editionDecks}
                       words={words}
+                      masteryByWord={masteryByWord}
                       language={language}
                       englishLocale={englishLocale}
                       hskEdition={hskEdition}
@@ -891,7 +967,8 @@ export default function App() {
                   )}
 
                   {route === 'analytics' && (
-                    <AnalyticsView subRoute={analyticsSub} onChangeSubRoute={(sub) => navigate('analytics', sub)} words={scopedWords} logs={scopedLogs} now={now} />
+                    <AnalyticsView subRoute={analyticsSub} onChangeSubRoute={(sub) => navigate('analytics', sub)}
+                      words={scopedWords} logs={scopedLogs} now={now} masteryByWord={masteryByWord} onReviewMistake={handleReviewMistake} />
                   )}
 
                   {route === 'profile' && (
@@ -910,7 +987,8 @@ export default function App() {
                   {route === 'settings' && (
                     <SettingsView settings={settings} isOnline={isOnline} activeLanguage={language}
                       onUpdateSettings={(patch) => setSettings((value) => ({ ...value, ...patch }))}
-                      onExportFullBackup={handleExportFullBackup} onResetAllData={handleResetAllData} />
+                      backupReady={hydrated} onExportFullBackup={handleExportFullBackup}
+                      onRestoreFullBackup={handleRestoreFullBackup} onResetAllData={handleResetAllData} />
                   )}
                 </motion.div>
               </AnimatePresence>

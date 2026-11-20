@@ -12,7 +12,7 @@ const formatNumber = new Intl.NumberFormat('vi-VN');
 export function AchievementsView({ profile, words }: AchievementsViewProps) {
   const milestones = [
     { title: 'Khởi đầu bền bỉ', detail: 'Học trong 7 ngày liên tiếp.', progress: profile.longestStreak, goal: 7, unit: 'ngày', icon: Flame, tone: 'peach' },
-    { title: 'Dùng từ trong ngữ cảnh', detail: 'Đưa 3 từ lên mức Bloom 5 hoặc 6.', progress: words.filter((word) => word.bloomLevel >= 5).length, goal: 3, unit: 'từ', icon: BookOpenCheck, tone: 'mint' },
+    { title: 'Mốc Bloom cũ', detail: 'Mốc lịch sử cho 3 từ từng ở tầng 5 hoặc 6.', progress: words.filter((word) => word.bloomLevel >= 5).length, goal: 3, unit: 'từ', icon: BookOpenCheck, tone: 'mint' },
     { title: 'Tích lũy kinh nghiệm', detail: 'Tích lũy 1.000 XP qua các hoạt động học.', progress: profile.xp, goal: 1_000, unit: 'XP', icon: Sparkles, tone: 'violet' },
     { title: 'Ghép cặp nhanh', detail: 'Đạt 500 điểm trong một lượt Ghép cặp.', progress: profile.bestMatchScore, goal: 500, unit: 'điểm', icon: Gamepad2, tone: 'violet' },
   ];

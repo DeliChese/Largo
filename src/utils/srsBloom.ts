@@ -12,15 +12,6 @@ import type {
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const MINUTES_PER_DAY = 24 * 60;
-const BLOOM_EVIDENCE_LIMIT: Record<StudyModeId, BloomLevel> = {
-  flashcard: 2,
-  quiz: 2,
-  speed: 2,
-  dictation: 3,
-  cloze: 4,
-  collocation: 4,
-  synthesis: 6,
-};
 
 export function createInitialSRS(now: number): SRSState {
   return {
@@ -109,23 +100,22 @@ export const SRS_MODE_META: Record<
     minEase: 1.4,
   },
   bloom_mastery: {
-    label: 'Chuyên sâu Bloom',
-    description: 'Ưu tiên mở khóa đủ 6 tầng nhận thức Bloom song song với SRS.',
+    label: 'Ôn chuyên sâu',
+    description: 'Áp dụng khoảng ôn của chế độ chuyên sâu.',
     intervalMultiplier: 0.9,
     minEase: 1.35,
   },
 };
 
 /**
- * Computes next SRS state & updated Bloom level using SM-2 + SRS Mode + Bloom rules.
+ * Computes the next review schedule using the selected SM-2 settings.
  */
 export function calculateNextSRS(
   word: VocabWord,
   quality: ReviewQuality,
   srsMode: SRSMode,
   now: number = Date.now(),
-  exercise?: StudyModeId,
-): { srs: SRSState; bloomLevel: BloomLevel; xpGain: number } {
+): SRSState {
   const modeConfig = SRS_MODE_META[srsMode];
   const prev = word.srs;
 
@@ -162,38 +152,15 @@ export function calculateNextSRS(
     intervalDays = Math.min(365, Math.max(0.25, Math.round(intervalDays * modeConfig.intervalMultiplier * 10) / 10));
   }
 
-  // Bloom Taxonomy Progression
-  let nextBloom: BloomLevel = word.bloomLevel;
-  if (quality === 1) {
-    if (word.bloomLevel > 1 && (!exercise || exercise === 'flashcard')) {
-      nextBloom = (word.bloomLevel - 1) as BloomLevel;
-    }
-  } else if (quality >= 3) {
-    const canAdvance =
-      srsMode === 'bloom_mastery'
-        ? quality >= 3
-        : quality === 4 || (quality === 3 && repetitions >= 2);
-    const evidenceLimit = exercise ? BLOOM_EVIDENCE_LIMIT[exercise] : 6;
-    if (canAdvance && word.bloomLevel < evidenceLimit) {
-      nextBloom = (word.bloomLevel + 1) as BloomLevel;
-    }
-  }
-
   const nextReviewAt = now + Math.round(intervalDays * DAY_MS);
-  const xpGain = reviewXp(quality);
-
   return {
-    srs: {
-      easeFactor,
-      intervalDays,
-      repetitions,
-      lapses,
-      nextReviewAt,
-      lastReviewedAt: now,
-      firstReviewedAt: prev.firstReviewedAt ?? (prev.lastReviewedAt === null ? now : undefined),
-    },
-    bloomLevel: nextBloom,
-    xpGain,
+    easeFactor,
+    intervalDays,
+    repetitions,
+    lapses,
+    nextReviewAt,
+    lastReviewedAt: now,
+    firstReviewedAt: prev.firstReviewedAt ?? (prev.lastReviewedAt === null ? now : undefined),
   };
 }
 

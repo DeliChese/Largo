@@ -122,22 +122,17 @@ export function isScheduledReview(word: VocabWord, now: number): boolean {
 
 export function applyStudyReview(
   word: VocabWord, quality: ReviewQuality, srsMode: SRSMode, now: number,
-  exercise: StudyModeId, sessionMode?: StudySessionMode,
+  exercise: StudyModeId, sessionMode?: StudySessionMode, scheduled = isScheduledReview(word, now),
 ): VocabWord {
-  if (exercise === 'synthesis') {
-    if (quality < 3 || word.bloomLevel < 3 || word.bloomLevel === 6) return word;
-    if (word.lastSynthesisAt !== undefined && localStudyDate(word.lastSynthesisAt) === localStudyDate(now)) return word;
-    return { ...word, bloomLevel: (word.bloomLevel + 1) as BloomLevel, lastSynthesisAt: now };
-  }
-  if (!isScheduledReview(word, now)) {
+  if (exercise === 'synthesis') return word;
+  if (!scheduled) {
     if (sessionMode !== 'intensive') return word;
     const opensAt = getReinforcementTime(word, now);
     return opensAt !== null && opensAt <= now
       ? { ...word, srs: { ...word.srs, lastIntensiveAt: now } }
       : word;
   }
-  const { srs, bloomLevel } = calculateNextSRS(word, quality, srsMode, now, exercise);
-  return { ...word, srs, bloomLevel };
+  return { ...word, srs: calculateNextSRS(word, quality, srsMode, now) };
 }
 
 export function stripTrailingPinyin(sentence: string): string {
@@ -153,31 +148,35 @@ function matchExpression(expression: string, language: VocabWord['language']) {
   return new RegExp(pattern, 'giu');
 }
 
-function findClozeExample(word: VocabWord, expression: string) {
+function findClozeExample(word: VocabWord, expression: string, offset = 0) {
   const matcher = matchExpression(expression, word.language);
   if (!matcher) return null;
+  const matches: (VocabWord['examples'][number] & { full: string; masked: string; answer: string })[] = [];
   for (const example of word.examples) {
     const full = word.language === 'zh' ? stripTrailingPinyin(example.sentence) : example.sentence;
     const masked = full.replace(matcher, '＿＿＿');
-    if (masked !== full) return { ...example, full, masked, answer: expression.trim() };
+    if (masked === full) continue;
+    const candidate = { ...example, full, masked, answer: expression.trim() };
+    if (!offset) return candidate;
+    matches.push(candidate);
   }
-  return null;
+  return matches[offset % matches.length] ?? null;
 }
 
-export function getClozeExample(word: VocabWord) {
-  return findClozeExample(word, word.term);
+export function getClozeExample(word: VocabWord, offset = 0) {
+  return findClozeExample(word, word.term, offset);
 }
 
-export function getPhraseClozeExample(word: VocabWord) {
+export function getPhraseClozeExample(word: VocabWord, offset = 0) {
   const headword = matchExpression(word.term, word.language);
   if (!headword) return null;
   for (const { phrase, meaning } of word.collocations) {
     if (!meaning.trim() || normalizeText(phrase) === normalizeText(word.term) || !phrase.match(headword)) continue;
-    const example = findClozeExample(word, phrase);
+    const example = findClozeExample(word, phrase, offset);
     if (example) return { ...example, meaning };
   }
   if (/\s/u.test(word.term.trim())) {
-    const example = getClozeExample(word);
+    const example = getClozeExample(word, offset);
     if (example) return { ...example, meaning: word.meaning };
   }
   return null;

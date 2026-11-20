@@ -2,10 +2,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronDown, Focus, Maximize, Mic, RotateCcw, Timer, Volume2, X } from 'lucide-react';
 import type { FormEvent, KeyboardEvent as ReactKeyboardEvent } from 'react';
-import type { AppSettings, ReviewQuality, StudyModeId, StudySessionMode, VocabWord } from '../types/vocab';
+import type { AppSettings, ReviewQuality, StudySessionMode, VocabWord } from '../types/vocab';
 import { WordExamples } from './WordExamples';
 import { WordRelations } from './WordRelations';
-import { calculateNextSRS, evaluateAnswerMatch, evaluateSynthesisSentence, formatIntervalVi, reviewXp } from '../utils/srsBloom';
+import { calculateNextSRS, evaluateAnswerMatch, formatIntervalVi } from '../utils/srsBloom';
 import {
   getClozeExample, getCollocationPrompt, getPhraseClozeExample, getStudyChoices,
   getStudyExercise, isScheduledReview, stripTrailingPinyin, STUDY_MODE_LABELS,
@@ -13,24 +13,24 @@ import {
 import { soundEngine, speakPronunciation, stopPronunciation } from '../utils/soundEngine';
 import { getEnglishLocale } from '../utils/englishStudy';
 import { EnglishVariantDetails } from './EnglishVariantDetails';
-
-export interface SessionProgress {
-  wordsReviewed: number;
-  correctCount: number;
-  xpEarned: number;
-  durationSeconds: number;
-}
+import { createLearningAttempt, type LearningAttemptEvent } from '../utils/learningAttempt';
+import { describeMastery, type WordMastery } from '../utils/mastery';
+import {
+  EMPTY_PROGRESS, gradeChoice, gradeSelfRating, gradeSentence, gradeText, studyContextId,
+  type LocalGrade, type SessionProgress, type StudySessionIdentity,
+} from '../utils/studyAttempt';
 
 interface StudySessionProps {
   mode: StudySessionMode;
+  session: StudySessionIdentity;
   sessionWords: VocabWord[];
   allWords: VocabWord[];
+  masteryByWord: ReadonlyMap<string, WordMastery>;
   settings: AppSettings;
   zenMode: boolean;
   onToggleZenMode: () => void;
   onToggleExamplePhonetic?: () => void;
-  onRecordReview: (wordId: string, quality: ReviewQuality, exercise: StudyModeId, answeredAt: number) => void;
-  onProgress: (progress: SessionProgress) => void;
+  onRecordReview: (attempt: LearningAttemptEvent) => Promise<{ progress: SessionProgress; retained: boolean }>;
   onExit: () => void;
   onContinue?: () => void;
 }
@@ -55,7 +55,13 @@ const RATINGS: { value: ReviewQuality; label: string; tone: string }[] = [
 
 const SPEECH_LOCALES = { zh: 'zh-CN', ja: 'ja-JP', fr: 'fr-FR', ko: 'ko-KR', es: 'es-ES' };
 const SPEED_DURATION = 60_000;
-const EMPTY_PROGRESS: SessionProgress = { wordsReviewed: 0, correctCount: 0, xpEarned: 0, durationSeconds: 0 };
+
+function newPrompt() {
+  return {
+    startedAt: Date.now(),
+    eventId: globalThis.crypto?.randomUUID?.() ?? 'attempt-' + Date.now() + '-' + Math.random().toString(36).slice(2),
+  };
+}
 
 type SpeechRecognizer = {
   lang: string;
@@ -69,7 +75,7 @@ function suppressComposingEnter(event: ReactKeyboardEvent<HTMLInputElement>) {
   if (event.key === 'Enter' && event.nativeEvent.isComposing) event.preventDefault();
 }
 
-export function StudySession({ mode, sessionWords, allWords, settings, zenMode, onToggleZenMode, onToggleExamplePhonetic, onRecordReview, onProgress, onExit, onContinue }: StudySessionProps) {
+export function StudySession({ mode, session, sessionWords, allWords, masteryByWord, settings, zenMode, onToggleZenMode, onToggleExamplePhonetic, onRecordReview, onExit, onContinue }: StudySessionProps) {
   const [queue, setQueue] = useState<SessionCard[]>(() => sessionWords.map((word) => ({
     word, exercise: getStudyExercise(word, mode, false), retries: 0,
   })));
@@ -82,6 +88,15 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
   const [index, setIndex] = useState(0);
   const [finished, setFinished] = useState(false);
   const [progress, setProgress] = useState<SessionProgress>(EMPTY_PROGRESS);
+  const [prompt, setPrompt] = useState(newPrompt);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
+  const [ledgerUnavailable, setLedgerUnavailable] = useState(false);
+  const [previewedSentence, setPreviewedSentence] = useState<LocalGrade>();
+  const [revisingSentence, setRevisingSentence] = useState(false);
+  const submission = useRef<(() => Promise<void>) | undefined>(undefined);
+  const inFlight = useRef(false);
+  const attemptIndex = useRef(0);
   const [secondsLeft, setSecondsLeft] = useState(60);
   const [flipped, setFlipped] = useState(false);
   const [typed, setTyped] = useState('');
@@ -90,7 +105,6 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
   const [choice, setChoice] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const [micStatus, setMicStatus] = useState('');
-  const startedAt = useRef(Date.now());
   const gradedCard = useRef(-1);
   const timedAdvance = useRef<number | undefined>(undefined);
   const sessionLibrary = useRef(allWords);
@@ -110,9 +124,11 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
   const isSynthesis = exerciseMode === 'synthesis';
   const isPhrase = exerciseMode === 'collocation';
   const isChoices = exerciseMode === 'quiz' || exerciseMode === 'speed' || isPhrase;
-  const phraseCloze = useMemo(() => exercise.phrase ? getPhraseClozeExample(word) : null, [word, exercise.phrase]);
-  const cloze = useMemo(() => isCloze ? phraseCloze ?? getClozeExample(word) : null, [word, isCloze, phraseCloze]);
+  const exampleOffset = Number.parseInt(studyContextId(session.id), 36);
+  const phraseCloze = useMemo(() => exercise.phrase ? getPhraseClozeExample(word, exampleOffset) : null, [word, exercise.phrase, exampleOffset]);
+  const cloze = useMemo(() => isCloze ? phraseCloze ?? getClozeExample(word, exampleOffset) : null, [word, isCloze, phraseCloze, exampleOffset]);
   const expectedAnswer = cloze?.answer ?? word.term;
+  const scheduled = !retry && isScheduledReview(word, prompt.startedAt);
   const choices = useMemo(
     () => isChoices ? getStudyChoices(word, sessionLibrary.current, isPhrase) : [],
     [word, isChoices, isPhrase],
@@ -149,13 +165,13 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
   useEffect(() => {
     if (mode !== 'speed' || finished) return;
     const clock = () => {
-      const remaining = Math.max(0, startedAt.current + SPEED_DURATION - Date.now());
+      const remaining = Math.max(0, session.startedAt + SPEED_DURATION - Date.now());
       setSecondsLeft(Math.ceil(remaining / 1000));
-      if (remaining === 0) setFinished(true);
+      if (remaining === 0 && !submission.current) setFinished(true);
     };
     const timer = window.setInterval(clock, 200);
     return () => window.clearInterval(timer);
-  }, [mode, finished]);
+  }, [mode, finished, session.startedAt]);
 
   useEffect(() => () => window.clearTimeout(timedAdvance.current), []);
 
@@ -166,42 +182,63 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
       return;
     }
     setIndex(index + 1);
+    setPrompt(newPrompt());
     setFlipped(false);
     setTyped('');
     setHint(false);
     setUsedHint(false);
     setChoice(null);
     setFeedback(null);
+    setPreviewedSentence(undefined);
+    setRevisingSentence(false);
     setMicStatus('');
   }
 
-  function record(quality: ReviewQuality, correct: boolean): boolean {
-    const now = Date.now();
-    if (finished || gradedCard.current >= index || (mode === 'speed' && now - startedAt.current >= SPEED_DURATION)) return false;
-    gradedCard.current = index;
-    if (correct) soundEngine.playCorrect();
-    else soundEngine.playIncorrect();
-    if (!retry) {
-      const updated = {
-        wordsReviewed: progress.wordsReviewed + 1,
-        correctCount: progress.correctCount + Number(correct),
-        xpEarned: progress.xpEarned + reviewXp(quality),
-        durationSeconds: Math.max(1, Math.round((now - startedAt.current) / 1000)),
-      };
-      setProgress(updated);
-      onRecordReview(word.id, quality, exerciseMode, now);
-      onProgress(updated);
-    }
-
+  function record(grade: LocalGrade, onSaved: (repeat: boolean) => void) {
+    const now = Math.max(Date.now(), prompt.startedAt);
+    if (finished || submission.current || gradedCard.current >= index || (mode === 'speed' && now - session.startedAt >= SPEED_DURATION)) return;
+    const { outcome, quality, assessmentSource, criteria } = grade;
     const retryLimit = isIntensive && index + 1 < queue.length ? 2 : 1;
-    const needsRetry = !correct || (isIntensive && !retry && quality === 2);
+    const needsRetry = outcome === 'incorrect' || (isIntensive && !retry && quality === 2);
     const repeat = needsRetry && mode !== 'speed' && !isSynthesis && retries < retryLimit;
-    if (repeat) {
-      const recovery = getStudyExercise(word, exerciseMode, true);
-      const nextExercise = exercise.phrase ? exercise : { ...recovery, reverse: recovery.reverse || exercise.reverse };
-      setQueue((cards) => [...cards, { word, exercise: nextExercise, retries: retries + 1 }]);
-    }
-    return repeat;
+    const skill = isSynthesis ? 'production' : isDictation ? 'listening' : phraseCloze || isPhrase ? 'collocation'
+      : isCloze ? 'context' : 'recognition';
+    const context = cloze?.masked ?? (isPhrase ? getCollocationPrompt(word) : undefined) ?? exerciseMode;
+    const event = createLearningAttempt({
+      ...prompt, sessionId: session.id, attemptIndex: attemptIndex.current, wordId: word.id, language: word.language,
+      hskEdition: session.hskEdition, taskType: exerciseMode, source: mode === 'guided' || isIntensive ? mode : 'manual',
+      answeredAt: now, isRetry: retry || revisingSentence, scheduledAtStart: scheduled && !isSynthesis,
+      hintCount: Number(usedHint), revealedAnswer: flipped || (isSynthesis && usedHint),
+      assessmentSource, criteria, quality, outcome, skill, contextId: studyContextId(context),
+    });
+    submission.current = async () => {
+      if (inFlight.current) return;
+      inFlight.current = true;
+      setSaving(true);
+      setSaveError('');
+      try {
+        const saved = await onRecordReview(event);
+        submission.current = undefined;
+        attemptIndex.current += 1;
+        gradedCard.current = index;
+        setProgress(saved.progress);
+        if (!saved.retained) setLedgerUnavailable(true);
+        if (outcome === 'correct') soundEngine.playCorrect();
+        if (outcome === 'incorrect') soundEngine.playIncorrect();
+        if (repeat) {
+          const recovery = getStudyExercise(word, exerciseMode, true);
+          const nextExercise = exercise.phrase ? exercise : { ...recovery, reverse: recovery.reverse || exercise.reverse };
+          setQueue((cards) => [...cards, { word, exercise: nextExercise, retries: retries + 1 }]);
+        }
+        onSaved(repeat);
+      } catch (error) {
+        setSaveError(error instanceof Error ? error.message : 'Largo chưa lưu được lượt trả lời.');
+      } finally {
+        inFlight.current = false;
+        setSaving(false);
+      }
+    };
+    void submission.current();
   }
 
   function reveal() {
@@ -210,9 +247,8 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
   }
 
   function rate(quality: ReviewQuality) {
-    if (gradedCard.current >= index) return;
-    const extraRetry = record(quality, quality >= 2);
-    advance(extraRetry);
+    if (!flipped) return;
+    record(gradeSelfRating(quality), advance);
   }
 
   useEffect(() => {
@@ -271,15 +307,13 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
   }
 
   function choose(answer: string) {
-    if (choice || gradedCard.current >= index) return;
-    const correct = answer === word.id;
-    setChoice(answer);
-    setFeedback({
-      correct,
-      message: correct ? 'Chính xác' : 'Đáp án đúng là ' + (isPhrase ? choices.find(({ id }) => id === word.id)?.label : word.meaning),
+    if (choice) return;
+    const grade = gradeChoice(answer, word.id, choices.find(({ id }) => id === word.id)?.label ?? word.meaning);
+    record(grade, () => {
+      setChoice(answer);
+      setFeedback({ correct: grade.outcome === 'correct', message: grade.message });
+      if (mode === 'speed') timedAdvance.current = window.setTimeout(() => advance(), 420);
     });
-    record(correct ? 3 : 1, correct);
-    if (mode === 'speed') timedAdvance.current = window.setTimeout(() => advance(), 420);
   }
 
   function checkText(event: FormEvent) {
@@ -290,23 +324,22 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
     }
     if (!typed.trim()) return;
     if (isSynthesis) {
-      const result = evaluateSynthesisSentence(typed, word);
-      setFeedback({ correct: result.passed, message: result.feedback });
+      const grade = gradeSentence(typed, word);
+      record(grade, () => setPreviewedSentence(grade));
       return;
     }
-    const correct = evaluateAnswerMatch(typed, expectedAnswer);
-    setFeedback({ correct, message: correct ? 'Chính xác' : 'Đáp án đúng là ' + expectedAnswer });
-    record(correct ? usedHint ? 2 : 3 : 1, correct);
+    const grade = gradeText(typed, expectedAnswer, usedHint);
+    record(grade, () => setFeedback({ correct: grade.outcome === 'correct', message: grade.message }));
   }
 
-  function finishSentence(applied: boolean) {
-    if (gradedCard.current >= index || !feedback) return;
-    const correct = applied && feedback.correct;
-    record(correct ? 3 : 2, correct);
-    advance();
+  function reviseSentence() {
+    setUsedHint(true);
+    setRevisingSentence(true);
+    setPreviewedSentence(undefined);
+    setPrompt(newPrompt());
+    gradedCard.current = index - 1;
   }
 
-  const scheduled = !retry && isScheduledReview(word, Date.now());
   const isNew = !retry && word.srs.lastReviewedAt === null;
   const accuracy = progress.wordsReviewed ? Math.round(progress.correctCount * 100 / progress.wordsReviewed) : 0;
   const label = STUDY_MODE_LABELS[mode];
@@ -323,12 +356,14 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
       <div className="glass-panel session-summary" tabIndex={-1} ref={sessionHeading}>
         <span className="summary-mark"><CheckCircle2 size={30} aria-hidden="true" /></span>
         <h1>{mode === 'speed' && secondsLeft === 0 ? 'Hết giờ' : 'Hoàn thành phiên học'}</h1>
-        <p>{progress.wordsReviewed ? 'Kết quả của lượt trả lời đầu tiên.' : 'Phiên này chưa có câu trả lời.'}</p>
-        <div className="summary-metrics">
+        <p>{mode === 'synthesis' ? 'Bạn đã luyện đặt câu và đối chiếu với câu mẫu.'
+          : progress.wordsReviewed ? 'Kết quả của lượt trả lời đầu tiên.' : 'Phiên này chưa có câu trả lời.'}</p>
+        {mode !== 'synthesis' && <div className="summary-metrics">
           <div><strong>{progress.wordsReviewed}</strong><span>Từ đã luyện</span></div>
           <div><strong>{accuracy}%</strong><span>Nhớ đúng</span></div>
           <div><strong>+{progress.xpEarned}</strong><span>XP</span></div>
-        </div>
+        </div>}
+        {ledgerUnavailable && <p>Lịch ôn đã lưu trên thiết bị. Trình duyệt chưa lưu được lịch sử từng lượt.</p>}
         {reinforced > 0 && <p>Bạn đã gặp lại {reinforced} từ hoặc cụm từ cần củng cố ở cuối phiên.</p>}
         <div className="session-actions">
           <button type="button" className={onContinue ? 'button-secondary' : 'button-primary'} onClick={onExit}>
@@ -348,14 +383,14 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
   return (
     <div className="study-session">
       <div className="session-toolbar">
-        <button type="button" className="button-secondary" onClick={onExit} aria-label="Thoát phiên">
+        <button type="button" className="button-secondary" onClick={onExit} aria-label="Thoát phiên" disabled={saving}>
           <ArrowLeft size={17} aria-hidden="true" /> <span>Thoát phiên</span>
         </button>
         <div className="session-meta" tabIndex={-1} ref={sessionHeading}>
           <span>{label}</span>
           <strong>{retry ? 'Ôn lại ' + (index - sessionWords.length + 1) + '/' + (queue.length - sessionWords.length) : 'Thẻ ' + (index + 1) + '/' + sessionWords.length}</strong>
         </div>
-        <button type="button" className="icon-button" onClick={onToggleZenMode} aria-pressed={zenMode}
+        <button type="button" className="icon-button" onClick={onToggleZenMode} aria-pressed={zenMode} disabled={saving}
           aria-label={zenMode ? 'Thoát chế độ tập trung' : 'Bật chế độ tập trung'} title={zenMode ? 'Thoát chế độ tập trung' : 'Chế độ tập trung'}>
           {zenMode ? <Focus size={19} aria-hidden="true" /> : <Maximize size={18} aria-hidden="true" />}
         </button>
@@ -363,7 +398,15 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
       <div className="session-progress" role="progressbar" aria-label="Tiến độ phiên học" aria-valuemin={0} aria-valuemax={sessionWords.length} aria-valuenow={completed}>
         <span style={{ width: completed / sessionWords.length * 100 + '%' }} />
       </div>
+      <p className="rating-note">Năng lực · {describeMastery(masteryByWord.get(word.id))}</p>
       {mode === 'speed' && <p className="session-timer"><Timer size={17} aria-hidden="true" /> {secondsLeft} giây</p>}
+      {saving && <p role="status">Đang lưu lượt trả lời…</p>}
+      {saveError && (
+        <div className="form-error" role="alert">
+          <p>{saveError}</p>
+          <button type="button" className="button-secondary" onClick={() => void submission.current?.()}>Thử lưu lại</button>
+        </div>
+      )}
 
       <motion.div key={index} initial={{ opacity: 0, y: 7 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
         <section className="glass-panel exercise-panel" aria-label={phraseCloze ? 'Điền cụm từ' : STUDY_MODE_LABELS[exerciseMode]}>
@@ -453,7 +496,8 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
               <div className="choice-grid">
                 {choices.map(({ id, label: answer }) => (
                   <button type="button" key={id} className="choice-button" disabled={choice !== null}
-                    data-result={choice ? id === word.id ? 'correct' : choice === id ? 'incorrect' : undefined : undefined} onClick={() => choose(id)}>
+                    data-result={choice ? id === word.id ? 'correct' : choice === id ? 'incorrect' : undefined : undefined}
+                    aria-disabled={saving || !!saveError || undefined} onClick={() => choose(id)}>
                     <span lang={isPhrase ? language : 'vi'}>{answer}</span>
                     {choice && (id === word.id ? <Check size={18} aria-label="Đáp án đúng" /> : choice === id ? <X size={18} aria-label="Đáp án sai" /> : null)}
                   </button>
@@ -506,9 +550,9 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
               <form onSubmit={checkText} className="answer-form">
                 <label htmlFor="study-response">{isSynthesis ? 'Câu của bạn' : 'Câu trả lời'}</label>
                 {isSynthesis ? (
-                  <textarea id="study-response" rows={3} value={typed} readOnly={!!feedback} onChange={(event) => setTyped(event.target.value)} />
+                  <textarea id="study-response" rows={3} value={typed} readOnly={!!previewedSentence || saving || !!saveError} onChange={(event) => setTyped(event.target.value)} />
                 ) : (
-                  <input id="study-response" type="text" value={typed} readOnly={!!feedback} autoComplete="off" spellCheck={false}
+                  <input id="study-response" type="text" value={typed} readOnly={!!feedback || saving || !!saveError} autoComplete="off" spellCheck={false}
                     onChange={(event) => setTyped(event.target.value)} onKeyDown={suppressComposingEnter} />
                 )}
                 {!isSynthesis && !feedback && (
@@ -519,24 +563,25 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
                     {hint && <span>Chữ đầu · {Array.from(expectedAnswer)[0]} {isDictation && ' · ' + word.meaning}</span>}
                   </div>
                 )}
-                {feedback && (
-                  <div className="exercise-feedback" data-correct={feedback.correct}>
+                {(previewedSentence || feedback) && (
+                  <div className="exercise-feedback" data-correct={feedback?.correct}>
                     <div role="status">
-                      <strong>{feedback.message}</strong>
+                      <strong>{previewedSentence?.message ?? feedback?.message}</strong>
                       {isSynthesis && firstExample && <p lang={language}>Câu mẫu · {word.language === 'zh' ? stripTrailingPinyin(firstExample.sentence) : firstExample.sentence}</p>}
                       {isSynthesis && showExamplePhonetic && firstExample?.phonetic && <p className="example-phonetic">{firstExample.phonetic}</p>}
                       {!isSynthesis && !phraseCloze && word.phonetic && <p>{word.phonetic}</p>}
                     </div>
                   </div>
                 )}
-                {isSynthesis && feedback ? (
+                {isSynthesis && previewedSentence ? (
                   <div className="session-actions">
-                    <button type="button" className="button-secondary" onClick={() => finishSentence(false)}>Cần luyện thêm</button>
-                    {feedback.correct && <button type="button" ref={nextButton} className="button-primary" onClick={() => finishSentence(true)}>Mình dùng được từ này</button>}
-                    {!feedback.correct && <button type="button" ref={nextButton} className="button-primary" onClick={() => setFeedback(null)}>Sửa câu</button>}
+                    <button type="button" className="button-secondary" disabled={saving || !!saveError}
+                      onClick={reviseSentence}>Sửa câu</button>
+                    <button type="button" ref={nextButton} className="button-primary" disabled={saving || !!saveError}
+                      onClick={() => advance()}>Tiếp tục</button>
                   </div>
                 ) : (
-                  <button type="submit" ref={nextButton} className="button-primary answer-submit" disabled={!typed.trim()}>
+                  <button type="submit" ref={nextButton} className="button-primary answer-submit" disabled={!typed.trim() || saving || !!saveError}>
                     {feedback ? 'Tiếp tục' : isSynthesis ? 'Kiểm tra từ khóa' : 'Kiểm tra đáp án'} <ArrowRight size={17} aria-hidden="true" />
                   </button>
                 )}
@@ -551,9 +596,9 @@ export function StudySession({ mode, sessionWords, allWords, settings, zenMode, 
           <p>Bạn nhớ từ này đến mức nào?</p>
           <div className="rating-grid">
             {RATINGS.map(({ value, label: rating, tone }) => (
-              <button type="button" className="glass-panel rating-button" key={value} data-tone={tone} onClick={() => rate(value)}>
+              <button type="button" className="glass-panel rating-button" key={value} data-tone={tone} onClick={() => rate(value)} disabled={saving || !!saveError}>
                 <span><kbd>{value}</kbd> {value === 1 && isNew ? 'Chưa biết' : rating}</span>
-                {scheduled && <small>{formatIntervalVi(calculateNextSRS(word, value, settings.srsMode).srs.intervalDays)}</small>}
+                {scheduled && <small>{formatIntervalVi(calculateNextSRS(word, value, settings.srsMode).intervalDays)}</small>}
               </button>
             ))}
           </div>

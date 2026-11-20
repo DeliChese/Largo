@@ -31,6 +31,7 @@ import { EnglishVariantDetails } from './EnglishVariantDetails';
 import { EMPTY_EXAMPLES, EMPTY_RELATIONS, ExampleFields, RelationFields } from './WordFormFields';
 import { WordRelations } from './WordRelations';
 import { WordExamples } from './WordExamples';
+import { describeMastery, type WordMastery } from '../utils/mastery';
 
 const WORDS_PER_PAGE = 24;
 const EMPTY_ENGLISH_FORM = { term: '', phonetic: '', examples: EMPTY_EXAMPLES as readonly ExampleSentence[] };
@@ -74,6 +75,7 @@ const WORD_FORM_EXAMPLES: Partial<Record<LanguageCode, {
 interface DecksViewProps {
   decks: VocabDeck[];
   words: VocabWord[];
+  masteryByWord: ReadonlyMap<string, WordMastery>;
   language: LanguageCode;
   englishLocale: EnglishLocale;
   hskEdition: HskEdition;
@@ -95,6 +97,7 @@ interface DecksViewProps {
 export const DecksView: React.FC<DecksViewProps> = ({
   decks,
   words,
+  masteryByWord,
   language,
   englishLocale,
   hskEdition,
@@ -648,7 +651,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                         </div>
                         <div className="deck-word-actions">
                           <span className="deck-word-status">
-                            {retention === null ? 'Chưa học' : `Nhớ ${retention}%`}
+                            {retention === null ? 'Chưa có lịch ôn' : `Ước tính nhớ ${retention}%`}
                           </span>
                           <button type="button" className="deck-word-action" onClick={() => openRelationEditor(word)}
                             aria-label={`Sửa đồng nghĩa và trái nghĩa của ${word.term}`} title="Sửa đồng nghĩa và trái nghĩa">
@@ -660,6 +663,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
                           </button>
                         </div>
                       </header>
+                      <p className="deck-word-meta">Năng lực · {describeMastery(masteryByWord.get(word.id))}</p>
+                      {retention !== null && <p className="deck-word-meta">Ôn tiếp · {new Date(word.srs.nextReviewAt).toLocaleDateString('vi-VN')}</p>}
                       <WordRelations word={word} />
                       {word.examples.length > 0 && (
                         <div className="deck-usage">
@@ -682,7 +687,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                             </p>
                           )}
                           <WordExamples examples={word.examples.slice(2)} startAt={3} language={pronunciation} showPhonetic={showExamplePhonetic} onSpeak={speak} />
-                          {retention !== null && <p>Bloom {word.bloomLevel} · {BLOOM_META[word.bloomLevel].nameVi}</p>}
+                          {retention !== null && <p>Bloom cũ · Tầng {word.bloomLevel} · {BLOOM_META[word.bloomLevel].nameVi}</p>}
                           {word.srs.intervalDays > 0 && <p>Chu kỳ ôn · {formatIntervalVi(word.srs.intervalDays)}</p>}
                           {word.language === 'en' && (
                             <a href={cambridgeLookupUrl(word.term)} target="_blank" rel="noreferrer" className="text-button">
