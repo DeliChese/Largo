@@ -30,7 +30,7 @@
 
 ~~~bash
 npm run lint
-node --import ./.chinese-work/register.mjs --test --test-isolation=none src/utils/studyScope.test.ts src/utils/srsBloom.test.ts server/speech.test.mjs
+npm test
 npm run build
 ~~~
 

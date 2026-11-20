@@ -7,11 +7,13 @@ Chạy từ thư mục gốc. Repo dùng `bun.lock` để ghim phụ thuộc. N�
 ```text
 npm run dev
 npm run lint
-node --import ./.chinese-work/register.mjs --test --test-isolation=none src/utils/studyScope.test.ts src/utils/srsBloom.test.ts server/speech.test.mjs
+npm test
 npm run build
 ```
 
-`npm run dev` chạy Vite, mặc định cổng `3000`. Dùng URL Vite thực sự in ra. `npm run lint` kiểm kiểu TypeScript. Lệnh `node --test` dùng bộ phân giải import trong `.chinese-work/register.mjs` cho các test TypeScript. `server/speech.test.mjs` dùng Azure giả lập. Sau khi build, `npm run preview` xem bản Vite đã build hoặc `npm start` chạy Express phục vụ `dist/` và API phát âm.
+`npm run dev` chạy Vite, mặc định cổng `3000`. Dùng URL Vite thực sự in ra. `npm run lint` kiểm kiểu TypeScript. `npm test` chạy các test SRS/Bloom, phạm vi học, snapshot và Azure giả lập. Lệnh dùng bộ phân giải import trong `.chinese-work/register.mjs` cho các test TypeScript. [CI](../../.github/workflows/verify.yml) chạy kiểm kiểu, test và build. Sau khi build, `npm run preview` xem bản Vite đã build hoặc `npm start` chạy Express phục vụ `dist/` và API phát âm.
+
+Các [snapshot mẫu](../../src/utils/fixtures/studySnapshots.ts) dùng mốc thời gian cố định và hồ sơ giả lập. Bộ kiểm thử tái hiện dữ liệu mới cài, HSK hai phiên bản, Anh–Anh/Anh–Mỹ, bộ/thẻ cá nhân, thẻ đã xóa, lịch sử, avatar trong backup đời cũ, bản lưu gzip và giáo trình thiếu bài. Ca lặp từ khóa ghi nhận hành vi Bloom legacy để đối chiếu khi triển khai rubric mới.
 
 ## Lỗi web app chưa hiện tính năng
 
@@ -23,6 +25,6 @@ npm run build
 Kết quả HTTP chứng minh máy chủ đã trả nội dung. Kết quả kiểm thử chứng minh các trường hợp được chạy. Để báo một thao tác đã hoạt động trên web app, ghi URL và hành vi thực tế quan sát được. Khi được giao triển khai, xác định nền tảng và xác minh phiên bản tại URL triển khai trước khi báo hoàn tất.
 
 
-## Gates cho roadmap mới (chưa có code mới)
+## Gates cho roadmap
 
 Theo `../roadmap/06-quality-gates.md`: mỗi package ở `../roadmap/10-work-packages.md` phải có unit/integration/fixture tests và migration rollback phù hợp. Engine: retry và SRS idempotency, mastery proof, planner fairness. AI: model mock, JSON schema, quota, prompt injection, no secret in bundle. PWA: tự cập nhật không reload giữa phiên, thử origin khác, iOS/Android, backup restore. Account: offline conflict và RLS. Không báo test pass hay production hoạt động nếu chưa trực tiếp chạy/quan sát.

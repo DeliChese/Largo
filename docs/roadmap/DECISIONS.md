@@ -31,6 +31,13 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - Hệ quả: nhà cung cấp hosting/auth có thể thay; cần tombstones và event IDs.
 - Rollback: hoạt động guest offline độc lập.
 
+## ADR-005 — Snapshot mẫu tái lập cho E0-01
+
+- Ngày: 2026-11-20. Trạng thái: Accepted.
+- Quyết định: Dùng snapshot tạo từ danh mục có sẵn với mốc thời gian cố định và hồ sơ giả lập. Fixture giữ cùng ID giữa hai bản HSK và hai cách viết Anh–Anh/Anh–Mỹ. Thẻ xóa được mô hình hóa bằng việc vắng mặt trong danh sách thẻ đã lưu.
+- Kiểm thử: `npm test` dùng chung cho local và CI. Fixture backup đời cũ dùng làm đầu vào cho kiểm thử nhập ở E0-02.
+- Rollback: Hoàn tác fixture, test và cấu hình CI. Schema và dữ liệu runtime giữ nguyên.
+
 ## Template ADR mới
 
 - ID/ngày/status:
