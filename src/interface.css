@@ -728,6 +728,8 @@
 .answer-form { display: grid; gap: 9px; }
 .answer-form :is(input, textarea) { font-size: 1rem; }
 .answer-form textarea { resize: vertical; }
+.sentence-ai { display: grid; justify-items: start; gap: 8px; margin-top: 14px; }
+.sentence-ai > div > p { color: var(--text-secondary); font-size: 0.8rem; }
 .answer-hint { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; color: var(--text-secondary); font-size: 0.82rem; }
 .answer-submit { justify-self: end; }
 .session-summary { display: grid; justify-items: center; gap: 14px; max-width: 620px; margin: 35px auto 0; padding: clamp(20px, 4vw, 40px); text-align: center; }

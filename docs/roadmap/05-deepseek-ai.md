@@ -4,19 +4,37 @@
 
 AI **không** lập lịch SRS, không cho XP, không tự quyết định Bloom verified, không chạy mỗi lần render và không cần thiết để học offline. AI chỉ làm **ngữ nghĩa và phản hồi đối với đáp án mở**, hoặc tạo/bổ sung bài tập thiếu dữ liệu sau khi được xác thực.
 
-## Contract backend (đề xuất, chưa tồn tại)
+## Bản dùng thử tại máy
+
+- Nguồn miễn phí `sums001/Deepseek-API` là bridge không chính thức dựa trên tài khoản DeepSeek Chat. Mã nguồn cục bộ ở `.local/deepseek-api` (không commit), cố định tại `f8c1397d00e9893e5fec29dd2eb1acaba6b27f57`. Môi trường Python ở `.local/deepseek-api/.venv`. Đăng nhập lần đầu cần chủ tài khoản tự hoàn thành trong trình duyệt do bridge mở.
+- Để chạy bridge trên Windows, mở PowerShell tại thư mục gốc rồi chạy `cd .local/deepseek-api`, `./.venv/Scripts/python.exe -m deepseek.auth` để đăng nhập một lần, sau đó `$env:SERVER_INTERACTIVE_LOGIN='0'` và `./.venv/Scripts/python.exe app.py`. Giữ bridge nghe ở `127.0.0.1:8000`. Kiểm tra `http://127.0.0.1:8000/healthz`; sau đó khởi động lại Largo.
+- Largo dùng `DEEPSEEK_PROVIDER=community_local`, `DEEPSEEK_BASE_URL=http://127.0.0.1:8000/v1` và `DEEPSEEK_AI_ENABLED=true` trong `.env` cục bộ. Gateway chỉ kết nối tới địa chỉ loopback này. Bridge nhận `deepseek-chat`, `thinking=false` và `search=false`.
+- Bridge không áp dụng `max_tokens` hay `response_format` và tự ước lượng usage. Largo kiểm JSON/độ dài phản hồi, bỏ qua usage ước lượng, áp dụng timeout 45 giây và hạn mức lượt gọi. Chất lượng chấm thực tế cần gold set trước khi dùng làm bằng chứng Bloom. Bridge cần phiên đăng nhập cá nhân và có thể ngừng hoạt động nếu DeepSeek thay đổi web app. Xem [README và giới hạn của tác giả](https://github.com/sums001/Deepseek-API#notes--limitations).
+- Trong bài **Tự đặt câu** tiếng Anh hoặc tiếng Trung, nút **Nhận góp ý AI** gửi câu, từ và nghĩa đích cho DeepSeek sau khi người học bấm. Flashcard, trắc nghiệm, điền từ, nghe chép, nút **Kiểm tra từ khóa** và planner tiếp tục chấm tại máy. Câu trống, chỉ lặp từ khóa, quá dài hoặc trùng câu mẫu được xử lý tại trình duyệt.
+- Chế độ API chính thức dùng `DEEPSEEK_PROVIDER=official`, `DEEPSEEK_AI_ENABLED=true` và `DEEPSEEK_API_KEY` trong môi trường máy chủ (file `.env` cục bộ). `DEEPSEEK_MODEL` mặc định là `deepseek-flash`; `DEEPSEEK_BASE_URL` chỉ nhận origin HTTPS chính thức của DeepSeek, có thể kèm `/v1`.
+- Mỗi lượt được gửi tối đa một yêu cầu. API chính thức đặt trần 160 token đầu ra. Cả hai nguồn giới hạn dữ liệu động ở 1.200 byte. Trình duyệt dùng lại 24 kết quả gần nhất trên thẻ đang mở. Máy chủ giữ mã yêu cầu, dấu băm và kết quả trong RAM tối đa 24 giờ để gộp yêu cầu trùng. Timeout, lỗi provider hoặc JSON sai đều giữ bài tập local khả dụng.
+- Bật `DEEPSEEK_LOCAL_UNLIMITED=true` cùng `DEEPSEEK_PROVIDER=community_local` để bỏ hạn mức lượt/phút, ngày và tháng cho HTTP loopback trực tiếp trên máy chạy Largo. Chế độ này mặc định tắt trong `.env.example` và đang được bật trong cấu hình test cá nhân. Truy cập qua LAN hoặc header proxy nhận 403. Hai yêu cầu đồng thời, timeout và tạm dừng sau lỗi liên tiếp vẫn áp dụng. Cache máy chủ giữ tối đa 512 mã yêu cầu trong 24 giờ, loại kết quả đã hoàn thành cũ nhất khi đầy.
+- Bản bridge cục bộ có sửa `server/ratelimit.py` để `RATE_LIMIT_PER_MINUTE=0` bỏ quota cho kết nối loopback trực tiếp và trả 403 cho kết nối khác hoặc header proxy. File `.local/deepseek-api/.env` đặt giá trị này cùng `HOST=127.0.0.1`. Nếu tải lại bridge từ upstream, cần áp dụng lại thay đổi này. Việc dùng miễn phí vẫn phụ thuộc vào phiên tài khoản, khả năng hoạt động của bridge và giới hạn phía DeepSeek.
+- Khi tắt chế độ unlimited hoặc dùng API chính thức, hạn mức mỗi tiến trình là 6 lượt/phút, 20 lượt/ngày và 150 lượt/tháng (mốc ngày/tháng UTC). Mỗi lượt đã gửi đều tính quota, kể cả khi timeout. Bộ đếm đặt lại khi khởi động lại tiến trình. Đặt `DEEPSEEK_AI_LOG_USAGE=true` để lấy trạng thái và độ trễ, cùng số token nếu dùng API chính thức, mà không ghi nội dung câu hay key. Rollback quota bằng `DEEPSEEK_LOCAL_UNLIMITED=false`, `RATE_LIMIT_PER_MINUTE=30` trong môi trường tương ứng rồi khởi động lại hai server.
+- Góp ý hiển thị trong bài tập hiện tại. Ledger, XP, lịch SRS và Bloom dùng pipeline hiện tại. Chấm thật trên gold set có người gắn nhãn và quota bền vững theo danh tính là điều kiện trước mở rộng. Tắt bằng `DEEPSEEK_AI_ENABLED=false` rồi khởi động lại máy chủ.
+
+## Contract backend của bản thử
 
 Endpoint: POST /api/ai/assess (serverless gateway hoặc Express adapter), không gọi trực tiếp từ client.
 
 Request tối thiểu:
 ~~~json
-{"requestId":"uuid","task":"sentence_usage","language":"zh","term":"提高","targetMeaning":"nâng cao","prompt":"Viết câu sử dụng 提高","answer":"...","rubricVersion":1}
+{"requestId":"uuid-v4","consent":true,"task":"sentence_usage","language":"zh","term":"提高","targetMeaning":"nâng cao","answer":"我每天练习，希望提高中文水平。","rubricVersion":1}
 ~~~
 Response chuẩn hóa, có kiểm schema runtime:
 ~~~json
-{"requestId":"uuid","status":"passed","criteria":{"targetUsage":"pass","grammar":"pass","meaning":"pass","naturalness":"pass"},"feedbackCode":"ok","feedbackVi":"Dùng từ phù hợp.","assessor":"deepseek","rubricVersion":1,"usage":{"inputTokens":0,"outputTokens":0}}
+{"requestId":"uuid-v4","status":"passed","criteria":{"targetUsage":"pass","grammar":"pass","meaning":"pass","naturalness":"pass"},"feedbackVi":"Dùng từ phù hợp.","assessor":"deepseek","rubricVersion":1,"usage":{"inputTokens":192,"cacheHitTokens":64,"outputTokens":52}}
 ~~~
 status thuộc passed|failed|uncertain|unavailable. **Không tin output thô của model**, validate đủ fields, enum, độ dài, escape HTML, không render Markdown/HTML từ output. Nếu model nghi ngờ, timeout, JSON lỗi hoặc quota hết thì status uncertain/unavailable, không công nhận Bloom cấp cao.
+
+Phản hồi lỗi có dạng `{"status":"unavailable","reason":"quota"}`. Máy chủ suy ra trạng thái từ bốn tiêu chí thay vì nhận kết luận do mô hình tự gán. Số token trong ví dụ là dữ liệu giả lập, không phải phép đo của model thật.
+
+Các mục dưới đây là tiêu chí cho những đợt mở rộng sau bản dùng thử.
 
 ## Model adapter và cấu hình
 

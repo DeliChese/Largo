@@ -5,6 +5,7 @@ import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 import {VitePWA} from 'vite-plugin-pwa';
 import {createSpeechRouter} from './server/speech.mjs';
+import {createSentenceAssessmentRouter} from './server/sentenceAssessment.mjs';
 
 const projectRoot = import.meta.dirname;
 
@@ -36,6 +37,17 @@ export default defineConfig(() => {
         configurePreviewServer(server) {
           const env = loadEnv(server.config.mode, projectRoot, 'AZURE_SPEECH_');
           server.middlewares.use('/api/speech', createSpeechRouter(env));
+        },
+      },
+      {
+        name: 'largo-sentence-assessment-api',
+        configureServer(server) {
+          const env = loadEnv(server.config.mode, projectRoot, 'DEEPSEEK_');
+          server.middlewares.use('/api/ai', createSentenceAssessmentRouter(env));
+        },
+        configurePreviewServer(server) {
+          const env = loadEnv(server.config.mode, projectRoot, 'DEEPSEEK_');
+          server.middlewares.use('/api/ai', createSentenceAssessmentRouter(env));
         },
       },
       VitePWA({

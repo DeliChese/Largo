@@ -77,6 +77,27 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - `adaptivePlanner` mặc định tắt. Cài đặt so sánh hai kế hoạch tại máy. Khi bắt đầu phiên, giữ riêng danh sách thẻ và dạng bài để các lượt vừa ghi chỉ ảnh hưởng phiên sau.
 - Metadata tùy chọn trong lượt trả lời gồm phiên bản planner, số thẻ dự kiến và dấu hiệu luyện kỹ năng yếu. Dùng IndexedDB v4 và backup v2 hiện hành. Tắt tùy chọn trong Cài đặt để các phiên sau trở về kế hoạch gốc.
 
+## ADR-013 — Góp ý câu mở theo yêu cầu người học
+
+- Ngày: 2026-11-20. Gói thử nghiệm AI cho Bloom theo yêu cầu chủ dự án.
+- Triển khai một luồng thử tại máy gồm nút nhận góp ý, gateway DeepSeek và hạn mức theo tiến trình. Lựa chọn này gom phần tối thiểu của A1-01, A1-02 và A2-01 để thử luồng từ giao diện tới gateway. Giữ nguyên các gate trước khi phát hành công khai hoặc dùng AI làm bằng chứng Bloom.
+- DeepSeek chỉ nhận câu tiếng Anh hoặc Trung được người học chọn gửi, cùng từ và nghĩa đích. Gửi một lượt JSON ngắn ở chế độ không thinking, kiểm schema và không tự gửi lại. Giữ kết quả tạm thời trong bộ nhớ của thẻ và máy chủ. Góp ý không tham gia ledger hoặc phép chiếu Bloom.
+- Giữ định dạng backup và cơ sở dữ liệu hiện hành. Rollback bằng `DEEPSEEK_AI_ENABLED=false` và khởi động lại. Trước khi mở rộng, cần đo chất lượng trên gold set và hạn mức bền vững theo danh tính.
+
+## ADR-014 — Bridge DeepSeek Chat cục bộ cho bản dùng thử
+
+- Ngày: 2026-11-21. Yêu cầu trực tiếp của chủ dự án: dùng nguồn miễn phí `sums001/Deepseek-API` cho góp ý Bloom.
+- Quyết định: giữ API chính thức làm một lựa chọn cấu hình; thêm `community_local` kết nối HTTP tới `127.0.0.1:8000/v1`. Cài mã nguồn bridge vào thư mục `.local/` bị Git bỏ qua. Không chuyển khóa hay phiên đăng nhập vào Vite hoặc browser của Largo.
+- Bridge dùng tài khoản DeepSeek Chat cá nhân, giao thức web không chính thức, ước lượng token và bỏ qua trần token trong request. Gateway giới hạn input, quota, timeout, JSON đầu ra và không tính số token ước lượng là usage thật. Góp ý từ bridge không nâng Bloom đã xác minh.
+- Không đổi schema, backup, SRS hay ID thẻ. Rollback bằng `DEEPSEEK_AI_ENABLED=false` và khởi động lại Largo. Chất lượng chấm, phiên đăng nhập và khả năng duy trì bridge cần kiểm tra riêng trước khi phát hành rộng.
+
+## ADR-015 — Bỏ quota cho thử nghiệm cá nhân qua loopback
+
+- Ngày: 2026-11-21. Chủ dự án chọn local không giới hạn lượt để test, tiếp tục chặn LAN.
+- `DEEPSEEK_LOCAL_UNLIMITED=true` chỉ bỏ quota phút/ngày/tháng khi dùng `community_local` và vượt qua kiểm tra loopback trực tiếp hiện hành. Giới hạn đồng thời, kiểm schema, timeout và tạm dừng sau lỗi vẫn áp dụng. Cache idempotency tối đa 512 kết quả, thời hạn tối đa 24 giờ.
+- Bridge cài tại `.local/deepseek-api` được sửa để `RATE_LIMIT_PER_MINUTE=0` cho phép loopback trực tiếp và chặn các kết nối khác. Lựa chọn này phục vụ thử nghiệm trên máy cá nhân. Giới hạn từ DeepSeek và tuổi thọ phiên đăng nhập phụ thuộc upstream.
+- Schema dữ liệu học giữ nguyên. Rollback bằng `DEEPSEEK_LOCAL_UNLIMITED=false`, `RATE_LIMIT_PER_MINUTE=30` và khởi động lại hai server.
+
 ## Template ADR mới
 
 - ID/ngày/status:

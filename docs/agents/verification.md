@@ -11,7 +11,7 @@ npm test
 npm run build
 ```
 
-`npm run dev` chạy Vite, mặc định cổng `3000`. Dùng URL Vite thực sự in ra. `npm run lint` kiểm kiểu TypeScript. `npm test` chạy các test SRS/Bloom, phạm vi học, snapshot và Azure giả lập. Lệnh dùng bộ phân giải import trong `.chinese-work/register.mjs` cho các test TypeScript. [CI](../../.github/workflows/verify.yml) chạy kiểm kiểu, test và build. Sau khi build, `npm run preview` xem bản Vite đã build hoặc `npm start` chạy Express phục vụ `dist/` và API phát âm.
+`npm run dev` chạy Vite, mặc định cổng `3000`. Dùng URL Vite thực sự in ra. `npm run lint` kiểm kiểu TypeScript. `npm test` chạy các test SRS/Bloom, phạm vi học, snapshot và các API Azure/DeepSeek giả lập. Lệnh dùng bộ phân giải import trong `.chinese-work/register.mjs` cho các test TypeScript. [CI](../../.github/workflows/verify.yml) chạy kiểm kiểu, test và build. Sau khi build, `npm run preview` xem bản Vite đã build hoặc `npm start` chạy Express phục vụ `dist/` và các API.
 
 Các [snapshot mẫu](../../src/utils/fixtures/studySnapshots.ts) dùng mốc thời gian cố định và hồ sơ giả lập. Bộ kiểm thử bao gồm dữ liệu mới cài, HSK hai phiên bản, Anh–Anh/Anh–Mỹ, bộ/thẻ cá nhân, thẻ đã xóa, lịch sử, avatar, bản lưu gzip và giáo trình thiếu bài. Các bài thử engine kiểm tra backup v2, mã lượt bị trùng, lịch ôn và XP sau lượt thử lại, chấm chưa xác minh cho câu mở và rubric Bloom.
 
@@ -35,6 +35,13 @@ Kết quả HTTP chứng minh máy chủ đã trả nội dung. Kết quả ki�
 - `npm test` chạy 20 kịch bản đối chiếu hai kế hoạch và mô phỏng năm phiên với 50 từ quá hạn. Kiểm tra giới hạn thẻ, hạn mức toàn thư viện, thứ tự từ mới, ID chung giữa hai bản HSK, bài khả dụng khi thiếu giọng và kết quả nhất quán với cùng dữ liệu.
 - Dùng hồ sơ mẫu có lượt làm sai bài điền từ. Trong `/#/settings`, xem mục so sánh khi tùy chọn vẫn tắt, bật dùng thử rồi mở `/#/study` để xem lý do chọn bài. Học hai thẻ, đối chiếu lượt đã ghi và thứ tự phiên, rồi quay lại Cài đặt xem chỉ số và xuất v2. Tắt tùy chọn để thử quay về kế hoạch gốc.
 
+
+## Kiểm chứng góp ý AI
+
+- `node --test --test-isolation=none server/sentenceAssessment.test.mjs` dùng provider giả lập để kiểm tra giới hạn đầu vào, đồng ý gửi, request trùng, quota, timeout, định dạng JSON và tiêu chí chấm. Bộ thử không cần key.
+- Với nguồn miễn phí, kiểm tra bridge tại `http://127.0.0.1:8000/healthz` và danh sách `/v1/models`, rồi thử `/api/ai/assess` qua Largo. Nếu chưa đăng nhập DeepSeek Chat, bridge trả `login_required` và Largo trả `unavailable`. Chỉ sau khi chủ tài khoản đăng nhập mới chạy được phép thử chất lượng với model thật.
+- Test gateway dùng 520 lượt giả lập trong cùng thời điểm khi bật `DEEPSEEK_LOCAL_UNLIMITED`, kiểm cache cũ bị loại, cache mới dùng lại, header proxy/LAN bị chặn và API chính thức còn quota. Bản bridge cục bộ kiểm bằng FastAPI TestClient với 200 request loopback và các request LAN/header proxy.
+- Trong **Tự đặt câu**, thử nhập một câu hoàn chỉnh rồi dùng **Kiểm tra từ khóa**. Quan sát tab Network để kiểm tra chỉ nút **Nhận góp ý AI** gửi POST tới `/api/ai/assess`. Thử một câu chỉ có từ khóa, một câu trùng ví dụ, trạng thái offline và gateway đang tắt. Đối chiếu lịch SRS, XP và Bloom trước và sau khi nhận góp ý.
 
 ## Gates cho roadmap
 

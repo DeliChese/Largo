@@ -5,6 +5,8 @@ import type { FormEvent, KeyboardEvent as ReactKeyboardEvent } from 'react';
 import type { AppSettings, ReviewQuality, StudySessionMode, VocabWord } from '../types/vocab';
 import { WordExamples } from './WordExamples';
 import { WordRelations } from './WordRelations';
+import { SentenceAiFeedback } from './SentenceAiFeedback';
+import { isSentenceAssessmentLanguage } from '../utils/sentenceAssessment.mjs';
 import { calculateNextSRS, evaluateAnswerMatch, formatIntervalVi } from '../utils/srsBloom';
 import {
   getClozeExample, getCollocationPrompt, getPhraseClozeExample, getStudyChoices,
@@ -58,6 +60,7 @@ const RATINGS: { value: ReviewQuality; label: string; tone: string }[] = [
 
 const SPEECH_LOCALES = { zh: 'zh-CN', ja: 'ja-JP', fr: 'fr-FR', ko: 'ko-KR', es: 'es-ES' };
 const SPEED_DURATION = 60_000;
+const AI_PILOT_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]']);
 
 function newPrompt() {
   return {
@@ -626,6 +629,8 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
                   </button>
                 )}
               </form>
+              {isSynthesis && isSentenceAssessmentLanguage(word.language) && window.location.protocol === 'http:' &&
+                AI_PILOT_HOSTS.has(window.location.hostname) && <SentenceAiFeedback key={index} word={word} answer={typed} />}
             </div>
           )}
         </section>
