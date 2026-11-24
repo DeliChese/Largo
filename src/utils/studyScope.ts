@@ -1,4 +1,5 @@
 import type { HskEdition, LanguageCode, VocabDeck, VocabWord } from '../types/vocab';
+import { DEFAULT_HSK_EDITION } from '../../Chinese/hsk1Courses';
 
 interface StudyLevel {
   id: string;
@@ -53,6 +54,12 @@ export function getEditionDecks(decks: readonly VocabDeck[], language: LanguageC
   return decks.filter((deck) => deck.language === language && (language !== 'zh' || deck.isCustom || deck.hskEdition === edition));
 }
 
+export function getCurriculumDecks(decks: readonly VocabDeck[], language: LanguageCode): VocabDeck[] {
+  const preferred = getEditionDecks(decks, language, DEFAULT_HSK_EDITION);
+  if (language !== 'zh') return preferred;
+  return [...preferred, ...decks.filter((deck) => deck.language === 'zh' && !deck.isCustom && deck.hskEdition === 'hsk20')];
+}
+
 export function getScopedWords(words: readonly VocabWord[], scopedDecks: readonly VocabDeck[], language: LanguageCode): VocabWord[] {
   const deckIds = new Set(scopedDecks.map((deck) => deck.id));
   const directWords = words.filter((word) => word.language === language && deckIds.has(word.deckId));
@@ -60,10 +67,11 @@ export function getScopedWords(words: readonly VocabWord[], scopedDecks: readonl
 
   // Lesson membership is a view of the same cards. Reviews are saved against the shared word ID.
   const byId = new Map(words.filter((word) => word.language === language).map((word) => [word.id, word]));
+  const directIds = new Set(directWords.map((word) => word.id));
   const assigned = new Set<string>();
   const lessons = scopedDecks.flatMap((deck) => (deck.wordIds ?? []).flatMap((id) => {
     const word = byId.get(id);
-    if (!word || assigned.has(id)) return [];
+    if (!word || assigned.has(id) || (deck.isCustom && word.deckId !== deck.id && directIds.has(id))) return [];
     assigned.add(id);
     return [{ ...word, deckId: deck.id }];
   }));

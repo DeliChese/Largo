@@ -1,22 +1,19 @@
-import type { AppSettings, EnglishLocale, LanguageCode, SpeechVoices, VocabWord } from '../types/vocab';
+import type { EnglishLocale, LanguageCode, SpeechVoices, VocabWord } from '../types/vocab';
 
 export const ENGLISH_LOCALES = ['en-GB', 'en-US'] as const;
+export const DEFAULT_ENGLISH_LOCALE: EnglishLocale = 'en-US';
 export const ENGLISH_COLLOCATION_POS = 'Collocation';
 export const ENGLISH_LOCALE_LABEL: Record<EnglishLocale, string> = {
-  'en-GB': 'Anh-Anh',
-  'en-US': 'Anh-Mỹ',
+  'en-GB': 'Anh–Anh',
+  'en-US': 'Anh–Mỹ',
 };
 
-export function getEnglishLocale({ englishLocale, speechVoices }: Pick<AppSettings, 'englishLocale' | 'speechVoices'>): EnglishLocale {
-  if (englishLocale === 'en-GB' || englishLocale === 'en-US') return englishLocale;
-  return speechVoices?.en?.startsWith('en-GB-') ? 'en-GB' : 'en-US';
-}
-
-export function getSpeechVoice(voices: SpeechVoices | undefined, language: LanguageCode, englishLocale?: EnglishLocale) {
+export function getSpeechVoice(voices: SpeechVoices | undefined, language: LanguageCode, locale = DEFAULT_ENGLISH_LOCALE) {
   if (language !== 'en') return voices?.[language];
-  const locale = getEnglishLocale({ englishLocale, speechVoices: voices });
+  const voice = voices?.[locale];
+  if (voice?.startsWith(locale + '-')) return voice;
   const legacy = voices?.en;
-  return voices?.[locale] ?? (legacy?.startsWith(locale + '-') || !englishLocale ? legacy : undefined);
+  return legacy?.startsWith(locale + '-') ? legacy : undefined;
 }
 
 export function getEnglishStudyWord(word: VocabWord, locale: EnglishLocale): VocabWord {

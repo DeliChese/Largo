@@ -98,6 +98,7 @@ KNOWN_SENSES = {
     "cut": ("cắt, chặt", "Please cut the bread into slices.", "Hãy cắt bánh mì thành từng lát."),
     "day": ("ngày, ban ngày", "We spent the day at the beach.", "Chúng tôi dành cả ngày ở bãi biển."),
     "do": ("làm, thực hiện", "I do my homework after dinner.", "Tôi làm bài tập về nhà sau bữa tối."),
+    "did": ("dạng quá khứ của do, dùng cả làm trợ động từ", "Did you call me yesterday?", "Hôm qua bạn có gọi cho tôi không?"),
     "feel": ("cảm thấy", "I feel better today.", "Hôm nay tôi thấy khỏe hơn."),
     "fine": ("khỏe; ổn", "I'm fine, thanks.", "Tôi khỏe, cảm ơn bạn."),
     "first": ("đầu tiên, trước hết", "Write your name on the first page.", "Hãy viết tên bạn lên trang đầu tiên."),
@@ -132,6 +133,23 @@ KNOWN_SENSES = {
     "tan": ("làn da rám nắng", "I got a tan after a week by the sea.", "Da tôi rám nắng sau một tuần ở biển."),
     "progress": ("sự tiến bộ, tiến triển", "We made steady progress this month.", "Tháng này chúng tôi tiến bộ đều đặn."),
     "trip": ("chuyến đi", "We are planning a short trip to the coast.", "Chúng tôi đang lên kế hoạch cho chuyến đi ngắn ra bờ biển."),
+    "soup": ("súp, món canh", "We made tomato soup for lunch.", "Chúng tôi nấu súp cà chua cho bữa trưa."),
+    "pen": ("bút mực, bút bi", "Could I borrow a pen to sign this form?", "Tôi mượn một cây bút để ký vào mẫu này được không?"),
+    "where": ("ở đâu; đi đâu (hỏi nơi chốn hoặc đích đến)", "Where are you going after work?", "Tan làm bạn đi đâu?"),
+    "brave": ("dũng cảm, can đảm", "It was brave of her to speak up.", "Cô ấy rất can đảm khi lên tiếng."),
+    "virus": ("vi-rút gây bệnh; mã độc máy tính", "A virus can spread quickly in a crowded classroom.", "Vi-rút có thể lây nhanh trong lớp học đông người."),
+    "robot": ("rô-bốt, máy tự động có thể lập trình", "A robot sorts the parcels by size.", "Một rô-bốt phân loại bưu kiện theo kích cỡ."),
+    "arrogant": ("kiêu ngạo, tự cao", "He sounded arrogant when he dismissed our ideas.", "Anh ta tỏ ra kiêu ngạo khi gạt đi các ý kiến của chúng tôi."),
+}
+CONCISE_MEANINGS = {
+    "toilet": "nhà vệ sinh; bồn cầu",
+    "ten": "mười (10)",
+    "village": "làng, thôn",
+    "soldier": "người lính, quân nhân",
+    "extremely": "cực kỳ, hết sức",
+    "inch": "inch, đơn vị chiều dài bằng 2,54 cm",
+    "underwear": "đồ lót",
+    "whiskey": "rượu whisky",
 }
 SENSE_PARTS_OF_SPEECH = {
     "a": "determiner", "an": "determiner", "the": "determiner",
@@ -284,6 +302,8 @@ def make_card(entry, database, glosses, ipa):
             card["sentence"] = example
     else:
         return None
+    if term in CONCISE_MEANINGS:
+        card["meaning"] = CONCISE_MEANINGS[term]
     card.update(pronunciations(database, word_id, ipa.get(term.lower())))
     return card
 

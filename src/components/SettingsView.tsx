@@ -11,7 +11,7 @@ import type {
 } from '../types/vocab';
 import { SRS_MODE_META } from '../utils/srsBloom';
 import { soundEngine, speakPronunciation, stopPronunciation } from '../utils/soundEngine';
-import { ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishLocale, getSpeechVoice } from '../utils/englishStudy';
+import { ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getSpeechVoice } from '../utils/englishStudy';
 import { PWAInstallButton } from './PWAInstallButton';
 import { LANGUAGE_LABELS } from '../data/seedVocab';
 import { previewBackup, type BackupPreview } from '../utils/backup';
@@ -54,20 +54,11 @@ const VOICE_SAMPLES: Record<LanguageCode, string> = {
 function PronunciationSettings({ settings, isOnline, activeLanguage, onUpdateSettings }: Pick<
   SettingsViewProps, 'settings' | 'isOnline' | 'activeLanguage' | 'onUpdateSettings'
 >) {
-  const [voiceLanguage, setVoiceLanguage] = useState<LanguageCode | EnglishLocale>(() =>
-    activeLanguage === 'en' ? getEnglishLocale(settings) : activeLanguage,
-  );
+  const [language, setLanguage] = useState<LanguageCode>(activeLanguage);
   const [voices, setVoices] = useState<AzureVoice[]>([]);
   const [catalogStatus, setCatalogStatus] = useState('loading');
   const [attempt, setAttempt] = useState(0);
   const [previewMessage, setPreviewMessage] = useState('');
-  const englishLocale = voiceLanguage === 'en-GB' || voiceLanguage === 'en-US' ? voiceLanguage : undefined;
-  const language = voiceLanguage === 'en-GB' || voiceLanguage === 'en-US' ? 'en' : voiceLanguage;
-  const voiceId = getSpeechVoice(settings.speechVoices, language, englishLocale) ?? '';
-  const options = voices.filter(({ locale }) => englishLocale
-    ? locale.toLowerCase() === englishLocale.toLowerCase()
-    : locale.toLowerCase().startsWith(language + '-'),
-  );
 
   useEffect(() => {
     if (!isOnline) return;
@@ -99,52 +90,61 @@ function PronunciationSettings({ settings, isOnline, activeLanguage, onUpdateSet
   const status = !isOnline ? 'Đang ngoại tuyến. Bạn có thể nghe lại các bản ghi Azure đã lưu.'
     : catalogStatus === 'not_configured' ? 'Thiết lập khóa và vùng Azure Speech trên máy chủ để tải danh sách giọng.'
     : catalogStatus === 'error' ? 'Chưa tải được danh sách giọng Azure.'
-    : catalogStatus === 'loading' ? 'Đang tải giọng Azure…'
-    : options.length === 0 ? 'Azure chưa trả về giọng cho ngôn ngữ này.' : '';
+    : catalogStatus === 'loading' ? 'Đang tải giọng Azure…' : '';
+
+  const voiceSlots: readonly (LanguageCode | EnglishLocale)[] = language === 'en' ? ENGLISH_LOCALES : [language];
 
   return (
     <div className="space-y-3">
       <h3 className="text-sm font-semibold">Giọng đọc theo ngôn ngữ</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_auto] gap-3 items-end">
         <div className="control-field">
           <label htmlFor="voice-language">Ngôn ngữ</label>
-          <select id="voice-language" value={voiceLanguage} onChange={(event) => {
+          <select id="voice-language" value={language} onChange={(event) => {
             stopPronunciation();
-            setVoiceLanguage(event.target.value as LanguageCode | EnglishLocale);
+            setLanguage(event.target.value as LanguageCode);
             setPreviewMessage('');
           }}>
-            {Object.entries(LANGUAGE_LABELS).flatMap(([code, label]) => code === 'en'
-              ? ENGLISH_LOCALES.map((locale) => <option key={locale} value={locale}>{ENGLISH_LOCALE_LABEL[locale]}</option>)
-              : <option key={code} value={code}>{label.name}</option>)}
+            {Object.entries(LANGUAGE_LABELS).map(([code, label]) => <option key={code} value={code}>{label.name}</option>)}
           </select>
         </div>
-        <div className="control-field">
-          <label htmlFor="pronunciation-voice">Giọng đọc</label>
-          <select id="pronunciation-voice" value={voiceId} onChange={(event) => {
-            stopPronunciation();
-            setPreviewMessage('');
-            const next = { ...settings.speechVoices };
-            if (event.target.value) next[voiceLanguage] = event.target.value;
-            else {
-              delete next[voiceLanguage];
-              if (englishLocale && next.en?.startsWith(englishLocale + '-')) delete next.en;
-            }
-            onUpdateSettings({ speechVoices: next });
-          }}>
-            <option value="">Mặc định của thiết bị</option>
-            {voiceId && !options.some((voice) => voice.id === voiceId) && <option value={voiceId}>{voiceId}</option>}
-            {options.map((voice) => <option key={voice.id} value={voice.id}>{voice.name} · {voice.locale}</option>)}
-          </select>
-        </div>
-        <button type="button" className="button-secondary" onClick={() => {
-          setPreviewMessage('');
-          speakPronunciation(VOICE_SAMPLES[language], voiceLanguage, settings.speechRate, undefined, undefined, () => {
-            setPreviewMessage('Giọng Azure chưa phát được. Largo đang thử giọng của thiết bị.');
-          });
-        }}>
-          <Volume2 size={16} aria-hidden="true" /> Nghe thử
-        </button>
-      </div>
+      {voiceSlots.map((slot) => {
+        const englishLocale: EnglishLocale | undefined = slot === 'en-GB' || slot === 'en-US' ? slot : undefined;
+        const label = englishLocale ? ENGLISH_LOCALE_LABEL[englishLocale] : 'Giọng đọc';
+        const voiceId = getSpeechVoice(settings.speechVoices, language, englishLocale) ?? '';
+        const options = voices.filter(({ locale }) => englishLocale
+          ? locale.toLowerCase() === englishLocale.toLowerCase()
+          : locale.toLowerCase().startsWith(language + '-'));
+        return (
+          <div key={slot} className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto] gap-3 items-end">
+            <div className="control-field">
+              <label htmlFor={`pronunciation-voice-${slot}`}>{label}</label>
+              <select id={`pronunciation-voice-${slot}`} value={voiceId} onChange={(event) => {
+                stopPronunciation();
+                setPreviewMessage('');
+                const next = { ...settings.speechVoices };
+                if (event.target.value) next[slot] = event.target.value;
+                else {
+                  delete next[slot];
+                  if (englishLocale && next.en?.startsWith(englishLocale + '-')) delete next.en;
+                }
+                onUpdateSettings({ speechVoices: next });
+              }}>
+                <option value="">{englishLocale ? 'Tự động' : 'Mặc định của thiết bị'}</option>
+                {voiceId && !options.some((voice) => voice.id === voiceId) && <option value={voiceId}>{voiceId}</option>}
+                {options.map((voice) => <option key={voice.id} value={voice.id}>{voice.name} · {voice.locale}</option>)}
+              </select>
+            </div>
+            <button type="button" className="button-secondary" onClick={() => {
+              setPreviewMessage('');
+              speakPronunciation(VOICE_SAMPLES[language], slot, settings.speechRate,
+                () => setPreviewMessage(''), undefined, undefined,
+                () => setPreviewMessage(englishLocale ? `Chưa phát được giọng ${label}.` : 'Chưa phát được giọng đọc.'));
+            }}>
+              <Volume2 size={16} aria-hidden="true" /> {englishLocale ? `Nghe thử ${label}` : 'Nghe thử'}
+            </button>
+          </div>
+        );
+      })}
       <p className="text-xs text-[var(--text-secondary)]">Largo dùng lại bản ghi khi văn bản, giọng và tốc độ giống nhau.</p>
       {(status || previewMessage) && <p role="status" className="text-xs text-[var(--text-secondary)]">{previewMessage || status}</p>}
       {isOnline && catalogStatus === 'error' && (

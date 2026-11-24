@@ -915,6 +915,9 @@ const regionalWords = englishRegional.flatMap(({ id, cards }) => cards.map((card
 }));
 
 const courseDecks = [...STARTER_ENGLISH_DECKS, ...collocationDecks, ...regionalDecks, ...vocabularyDecks];
+export const ENGLISH_PHRASAL_PREVIOUS_DECK_IDS = new Map(englishPhrasalVerbs.flatMap(({ cards }) =>
+  cards.map(({ id, previousDeckId }) => [id, previousDeckId] as const),
+));
 const phrasalDecks = englishPhrasalVerbs.map(({ id, title, topic }) => createEnglishDeck(
   { id, title, level: ENGLISH_PHRASAL_LEVEL }, 'phrasal', topic, 'Cụm động từ theo ngữ cảnh, có câu mẫu song ngữ.',
 ));
@@ -925,9 +928,7 @@ const phrasalWords = englishPhrasalVerbs.flatMap(({ id, cards }) => cards.map((c
   meaning: card.meaning,
   collocations: [],
   examples: card.examples,
-  synonyms: 'synonyms' in card ? card.synonyms : undefined,
-  antonyms: 'antonyms' in card ? card.antonyms : undefined,
-  notes: `${card.gloss} (PDF, trang ${card.page})`,
+  notes: card.notes,
 })));
 
 // The original lesson membership is used only to tell old deletions from new cards.

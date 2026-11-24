@@ -10,6 +10,7 @@ import {
   RotateCcw,
   Shuffle,
   Sparkles,
+  Swords,
   Timer,
   Volume2,
   X,
@@ -17,11 +18,20 @@ import {
 import type { UserProfile, VocabWord } from '../types/vocab';
 import { evaluateAnswerMatch } from '../utils/srsBloom';
 import { soundEngine, speakPronunciation } from '../utils/soundEngine';
+import { EnglishPronunciation } from './EnglishVariantDetails';
+import { WordChainGame } from './WordChainGame';
+import type { ChainEntry, ChainLanguage } from '../utils/wordChain';
 
 interface GamesViewProps {
   words: VocabWord[];
   profile: UserProfile;
   speechRate: number;
+  arena?: {
+    language: ChainLanguage;
+    words: VocabWord[];
+    savedTerms: ReadonlySet<string>;
+    onSaveWord: (entry: ChainEntry) => void;
+  };
   onSaveGameResult: (
     game: 'match' | 'wordfall' | 'scramble' | 'audioblitz',
     score: number,
@@ -29,7 +39,7 @@ interface GamesViewProps {
   ) => void;
 }
 
-type ActiveGame = 'hub' | 'match' | 'wordfall' | 'scramble' | 'audioblitz';
+type ActiveGame = 'hub' | 'match' | 'wordfall' | 'scramble' | 'audioblitz' | 'wordchain';
 
 interface MatchTile {
   uid: string;
@@ -51,6 +61,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
   words,
   profile,
   speechRate,
+  arena,
   onSaveGameResult,
 }) => {
   const [activeGame, setActiveGame] = useState<ActiveGame>('hub');
@@ -391,6 +402,10 @@ export const GamesView: React.FC<GamesViewProps> = ({
     return [current, ...others].sort((a, b) => ((a.id.charCodeAt(0) + abIdx) % 7) - ((b.id.charCodeAt(0) + abIdx) % 7));
   }, [abQueue, abIdx, words]);
 
+  if (activeGame === 'wordchain' && arena) {
+    return <WordChainGame {...arena} onBack={() => setActiveGame('hub')} />;
+  }
+
   if (activeGame === 'hub') {
     return (
       <div className="space-y-6">
@@ -398,6 +413,20 @@ export const GamesView: React.FC<GamesViewProps> = ({
           <h1>Trò chơi từ vựng</h1>
           <p>Luyện nghe, nhận diện nghĩa và sắp xếp chữ bằng các từ trong kho của bạn.</p>
         </div>
+
+        {arena && (
+          <section className="glass-panel flex flex-wrap items-center justify-between gap-4 p-5 sm:p-6">
+            <div className="space-y-2">
+              <h2 className="font-display text-xl font-bold">Đấu trường nối từ</h2>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                Đấu với bot bằng chữ cuối của từ trước. Lưu từ hay gặp trong ván vào bộ cá nhân.
+              </p>
+            </div>
+            <button type="button" onClick={() => setActiveGame('wordchain')} className="button-primary">
+              <Swords size={17} aria-hidden="true" /> Vào đấu trường
+            </button>
+          </section>
+        )}
 
         {words.length === 0 ? (
           <section className="glass-panel p-5 sm:p-6 space-y-3" aria-labelledby="games-empty-title">
@@ -781,7 +810,11 @@ export const GamesView: React.FC<GamesViewProps> = ({
               <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
                 Nghe âm thanh và chọn từ vựng tương ứng
               </div>
-              <button
+              {current.language === 'en' ? (
+                <div className="flex justify-center">
+                  <EnglishPronunciation key={current.id} text={current.term} speechRate={speechRate} label="từ cần nghe" />
+                </div>
+              ) : <button
                 type="button"
                 onClick={() => speakPronunciation(current.term, current.language, speechRate)}
                 className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white cursor-pointer"
@@ -789,7 +822,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
               >
                 <Volume2 className="w-4 h-4" />
                 <span>Phát lại âm thanh</span>
-              </button>
+              </button>}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">

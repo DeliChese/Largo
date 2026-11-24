@@ -17,8 +17,9 @@ import {
   Volume2,
   X,
 } from 'lucide-react';
-import type { DeckCollection, DeckWordImport, EnglishLocale, EnglishWordForms, ExampleSentence, HskEdition, LanguageCode, LexicalRelations, StudyModeId, VocabDeck, VocabWord } from '../types/vocab';
+import type { DeckCollection, DeckWordImport, EnglishWordForms, ExampleSentence, HskEdition, LanguageCode, LexicalRelations, StudyModeId, VocabDeck, VocabWord } from '../types/vocab';
 import { CHINESE_LESSON_LABELS, HSK_COURSES } from '../../Chinese/chineseDecks';
+import { HSK_EDITIONS } from '../../Chinese/hsk1Courses';
 import { isBuiltinWord, LANGUAGE_LABELS } from '../data/seedVocab';
 import { BLOOM_META, calculateRetentionProbability, formatIntervalVi } from '../utils/srsBloom';
 import { getDeckStudyLevel, getScopedDecks, getScopedWords, getStudyLevels } from '../utils/studyScope';
@@ -26,7 +27,7 @@ import { speakPronunciation } from '../utils/soundEngine';
 import { type ChineseDictEntry, searchChineseDictionary } from '../utils/chineseDict';
 import { compactPhonetic, searchable } from '../utils/vocabSearch';
 import { exportDeckWord, importExamples, importTerms } from '../utils/vocabImport';
-import { cambridgeLookupUrl, ENGLISH_COLLOCATION_POS, ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishStudyWord } from '../utils/englishStudy';
+import { cambridgeLookupUrl, DEFAULT_ENGLISH_LOCALE, ENGLISH_COLLOCATION_POS, ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishStudyWord } from '../utils/englishStudy';
 import { EnglishVariantDetails } from './EnglishVariantDetails';
 import { EMPTY_EXAMPLES, EMPTY_RELATIONS, ExampleFields, RelationFields } from './WordFormFields';
 import { WordRelations } from './WordRelations';
@@ -77,8 +78,8 @@ interface DecksViewProps {
   words: VocabWord[];
   masteryByWord: ReadonlyMap<string, WordMastery>;
   language: LanguageCode;
-  englishLocale: EnglishLocale;
   hskEdition: HskEdition;
+  onChangeHskEdition: (edition: HskEdition) => void;
   levels: ReturnType<typeof getStudyLevels>;
   activeLevel: string;
   onChangeLevel: (level: string) => void;
@@ -88,7 +89,7 @@ interface DecksViewProps {
   onCreateDeck: (deck: Omit<VocabDeck, 'id' | 'createdAt' | 'isCustom'>) => string;
   onDeleteDeck: (deckId: string) => void;
   onAddWord: (word: Omit<VocabWord, 'id' | 'createdAt' | 'srs'>) => void;
-  onDeleteWord: (wordId: string) => void;
+  onDeleteWord: (wordId: string, deckId?: string) => void;
   onUpdateWordRelations: (wordId: string, relations: LexicalRelations) => void;
   onStartDeckStudy: (deckId: string, mode: StudyModeId) => void;
   onImportWordsJson: (deckId: string, items: DeckWordImport[]) => number;
@@ -99,8 +100,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
   words,
   masteryByWord,
   language,
-  englishLocale,
   hskEdition,
+  onChangeHskEdition,
   levels,
   activeLevel,
   onChangeLevel,
@@ -190,7 +191,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
     [activeDeck, scopeWords, words, language]);
   const targetDeck = activeDeck ?? filteredDecks[0] ?? scopedDecks[0];
   const editingEnglish = targetDeck?.language === 'en';
-  const alternateLocale = englishLocale === 'en-GB' ? 'en-US' : 'en-GB';
+  const englishLocale = DEFAULT_ENGLISH_LOCALE;
+  const alternateLocale = 'en-GB';
   const inputExamples = WORD_FORM_EXAMPLES[targetDeck?.language ?? language];
   const zhDeck = targetDeck?.language === 'zh' ? targetDeck : undefined;
   const creationLevels = (deckLang === language ? levels : getStudyLevels(deckLang, decks))
@@ -482,6 +484,18 @@ export const DecksView: React.FC<DecksViewProps> = ({
 
         <div className="deck-library-actions">
           {language === 'zh' && (
+            <label className="control-field">
+              <span>Giáo trình</span>
+              <select aria-label="Giáo trình" value={hskEdition} onChange={(event) => {
+                setSelectedDeckId('');
+                setPage(1);
+                onChangeHskEdition(event.target.value as HskEdition);
+              }}>
+                {HSK_EDITIONS.map(({ id, label }) => <option key={id} value={id}>{label}</option>)}
+              </select>
+            </label>
+          )}
+          {language === 'zh' && (
             <button type="button" onClick={handleOpenZhDict} className="button-secondary" aria-label="Từ điển Trung–Việt" title="Từ điển Trung–Việt">
               <BookOpenCheck size={16} aria-hidden="true" />
               <span>Từ điển Trung–Việt</span>
@@ -660,9 +674,9 @@ export const DecksView: React.FC<DecksViewProps> = ({
                         <div>
                           <div className="deck-term">
                             <h3 lang={pronunciation}>{lessonLabels?.get(word.id) ?? word.term}</h3>
-                            <button type="button" className="icon-button" onClick={() => speak(word.term)} aria-label={`Phát âm ${word.term}`}>
+                            {word.language !== 'en' && <button type="button" className="icon-button" onClick={() => speak(word.term)} aria-label={`Phát âm ${word.term}`}>
                               <Volume2 size={17} aria-hidden="true" />
-                            </button>
+                            </button>}
                           </div>
                           <p className="deck-word-meta">{[word.phonetic, word.sinoVietnamese, word.partOfSpeech].filter(Boolean).join(' · ')}</p>
                           <p className="deck-word-meaning">{word.meaning}</p>
@@ -675,26 +689,26 @@ export const DecksView: React.FC<DecksViewProps> = ({
                             aria-label={`Sửa đồng nghĩa và trái nghĩa của ${word.term}`} title="Sửa đồng nghĩa và trái nghĩa">
                             <Pencil size={15} aria-hidden="true" />
                           </button>
-                          <button type="button" className="deck-word-action deck-delete" onClick={() => onDeleteWord(word.id)}
+                          <button type="button" className="deck-word-action deck-delete" onClick={() => onDeleteWord(word.id, activeDeck?.id)}
                             aria-label={`Xóa từ ${word.term}`} title="Xóa thẻ">
                             <Trash2 size={15} aria-hidden="true" />
                           </button>
                         </div>
                       </header>
+                      <EnglishVariantDetails word={storedWord} speechRate={speechRate} />
                       <p className="deck-word-meta">Năng lực · {describeMastery(masteryByWord.get(word.id))}</p>
                       {retention !== null && <p className="deck-word-meta">Ôn tiếp · {new Date(word.srs.nextReviewAt).toLocaleDateString('vi-VN')}</p>}
                       <WordRelations word={word} />
                       {word.examples.length > 0 && (
                         <div className="deck-usage">
                           <h4>Ví dụ</h4>
-                          <WordExamples examples={word.examples.slice(0, 2)} language={pronunciation} showPhonetic={showExamplePhonetic} onSpeak={speak} />
+                          <WordExamples examples={word.examples.slice(0, 2)} language={pronunciation} showPhonetic={showExamplePhonetic} onSpeak={speak} speechRate={speechRate} />
                         </div>
                       )}
                       {(word.language === 'en' || word.radical || word.notes || word.collocations.length > 0 ||
                         word.examples.length > 2 || retention !== null) && (
                         <details className="deck-word-details">
                           <summary>Chi tiết thẻ</summary>
-                          <EnglishVariantDetails word={word} speechRate={speechRate} />
                           {word.radical && <p>Bộ thủ · {word.radical}</p>}
                           {word.notes && <p>{word.notes}</p>}
                           {word.collocations.length > 0 && (
@@ -704,7 +718,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                               ))}
                             </p>
                           )}
-                          <WordExamples examples={word.examples.slice(2)} startAt={3} language={pronunciation} showPhonetic={showExamplePhonetic} onSpeak={speak} />
+                          <WordExamples examples={word.examples.slice(2)} startAt={3} language={pronunciation} showPhonetic={showExamplePhonetic} onSpeak={speak} speechRate={speechRate} />
                           {retention !== null && <p>Bloom cũ · Tầng {word.bloomLevel} · {BLOOM_META[word.bloomLevel].nameVi}</p>}
                           {word.srs.intervalDays > 0 && <p>Chu kỳ ôn · {formatIntervalVi(word.srs.intervalDays)}</p>}
                           {word.language === 'en' && (

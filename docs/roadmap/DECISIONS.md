@@ -111,6 +111,27 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - Chủ đề chỉ sắp xếp danh mục. Số bài và thứ tự thẻ vẫn lấy từ giáo trình của từng phiên bản. [Quy chuẩn học liệu](../agents/language-curriculum.md) áp dụng khi thêm ngôn ngữ.
 - Bản lưu v9 tự làm mới metadata của bộ tiếng Trung theo seed. Giữ ID bộ, ID thẻ, thời điểm tạo, tiến độ, bộ cá nhân và trạng thái thẻ đã xóa. Khi cần rollback cách đặt tên hoặc nhóm, phục hồi metadata trước đó trong seed và giữ bước phát hiện metadata cũ.
 
+## ADR-018 — Thay thế học liệu cụm động từ trước khi phát hành
+
+- Ngày 2026-11-24. Theo yêu cầu của chủ dự án, rút bộ cụm động từ lấy từ PDF và hai PDF HSK không được ứng dụng tham chiếu. English Speeches yêu cầu đồng ý bằng văn bản để phân phối lại tài liệu. [Điều khoản English Speeches](https://englishspeecheschannel.com/terms-and-conditions/)
+- Seed v10 phát hành 33 thẻ biên soạn mới. Mỗi thẻ giữ ID của đúng nghĩa tương ứng để nhận lại SRS, Bloom cũ và quan hệ từ cá nhân. Thẻ vắng trong bài cũ đã cài được xem là đã xóa. Các thẻ rút khỏi danh mục chỉ còn trong dữ liệu cá nhân đã lưu. Nếu bài bị rút có thẻ tự thêm, bài đó chuyển thành bộ cá nhân cho các thẻ này. Backup, IndexedDB và origin dùng định dạng và địa chỉ hiện hành.
+- Cập nhật nghĩa và ví dụ Anh–Trung theo ID hiện có. API Azure Speech chỉ nhận kết nối loopback trực tiếp với Host hợp lệ, kiểm tra Origin khi tổng hợp giọng nói và chặn header chuyển tiếp. Bản truy cập từ xa dùng giọng có sẵn trên thiết bị.
+- Rollback bằng bản mã đọc được seed v10 và giữ nguyên ID, tiến độ cùng dữ liệu rút khỏi danh mục. Khôi phục về bản v9 cần bản sao lưu cá nhân trước cập nhật. Khi phát hành, giữ học liệu PDF đã rút ngoài gói build. Các commit hoặc bản phát hành cũ cần được xử lý riêng trước khi công khai.
+
+## ADR-019 — Phạm vi ôn tiếng Trung và hai giọng tiếng Anh
+
+- Ngày 2026-11-24. Phạm vi ôn tiếng Trung lấy thẻ của cả hai giáo trình. Thẻ chung dùng cùng ID và ưu tiên bài HSK 3.0 khi ôn chung. Thư viện mở HSK 3.0 mặc định và cho xem danh sách bài theo từng giáo trình.
+- Tiếng Anh dùng một phạm vi học chung. Các nút Anh–Anh và Anh–Mỹ chọn giọng riêng cho từng lần phát. Giọng Azure đã chọn ở settings cũ vẫn dùng cho biến thể tương ứng. Chế độ tự động ưu tiên giọng trình duyệt cùng biến thể rồi dùng giọng Azure dự phòng nếu khả dụng.
+- Các trường cũ trong bản sao lưu tiếp tục đọc được để tương thích. Thay đổi chỉ ở phạm vi học và phát âm. Khi rollback, mã cũ có thể tiếp tục dùng tùy chọn phiên bản và biến thể đã lưu.
+
+## ADR-020 — Đấu trường nối từ dùng kho Largo trước
+
+- Ngày 2026-11-24. Chủ dự án yêu cầu thêm mode đấu nối từ hoặc cụm từ với bot, có độ khó và thao tác lưu từ của bot.
+- Trận đấu dùng kho tiếng Anh hoặc tiếng Trung đang có trên máy. Độ khó quyết định số giây mỗi lượt, thời gian bot phản hồi và số nước tiếp theo mà bot ưu tiên để lại cho người chơi. Trận đấu tính số lượt nối đúng và kết quả thắng thua tại chỗ.
+- Người chơi có thể bật DeepSeek cho ván hiện tại. Khi bot cạn từ phù hợp, gateway loopback nhận ký tự đầu, ngôn ngữ và chế độ. Mỗi ván tối đa hai yêu cầu. API chính thức tắt thinking và giới hạn 64 token đầu ra. Community bridge có thể bỏ qua trần token nhưng vẫn chịu giới hạn lượt gọi và timeout của Largo. Kết quả hợp lệ được lưu đệm theo ký tự, ngôn ngữ và chế độ trong tối đa 24 giờ.
+- Bộ cá nhân Đấu trường nối từ tham chiếu ID của thẻ đã có để dùng chung lịch ôn. Cụm từ chưa có thẻ hoặc mục do DeepSeek tạo chỉ trở thành thẻ mới sau khi người chơi bấm lưu. Bản sao lưu và cơ sở dữ liệu dùng định dạng hiện hành.
+- Tắt DeepSeek phía máy chủ bằng `DEEPSEEK_AI_ENABLED=false` và khởi động lại Largo. Khi rút mode chơi, giữ hỗ trợ bộ cá nhân tham chiếu thẻ để người dùng tiếp tục quản lý các mục đã lưu.
+
 ## Template ADR mới
 
 - ID/ngày/status:

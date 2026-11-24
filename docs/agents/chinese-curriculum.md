@@ -14,6 +14,8 @@ Danh mục HSK dùng [quy chuẩn học liệu đa ngôn ngữ](language-curricu
 
 `CHINESE_WORDS` chứa toàn bộ danh mục để tra cứu và nhận dữ liệu cũ. `CHINESE_COURSE_WORDS` chứa phần trong giáo trình và được đưa vào `INITIAL_WORDS` cho người học mới. `hskId` là số mục từ nguồn, còn `VocabWord.id` là định danh thẻ mà tiến độ SRS dùng. `a1000Id` ghi nguồn A1000 của mục từ tương ứng.
 
+Một số ví dụ bổ sung từ Tatoeba dùng CC BY 2.0 France. Mỗi câu có liên kết tới bản gốc để tra người đóng góp. Viết pinyin theo từ và bỏ dấu thanh ở âm nhẹ, theo quy tắc chính tả pinyin. [Hướng dẫn ghi công Tatoeba](https://en.wiki.tatoeba.org/articles/show/using-the-tatoeba-corpus) · [GB/T 16159–2012](https://www.moe.gov.cn/ewebeditor/uploadfile/2015/01/13/20150113091717604.pdf)
+
 ## Phạm vi đã đối chiếu
 
 Hai phiên bản `hsk20` và `hsk30` đều có cấp `hsk1` và `hsk3`. Mặc định app chọn phiên bản `hsk30`.

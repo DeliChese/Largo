@@ -105,17 +105,6 @@ def identify(cards_by_term, selector):
     return options[0]
 
 
-def default_note(word, phrase, meaning):
-    before, _, after = phrase.partition(word)
-    if before and not after:
-        return f'Trong cụm {phrase}, từ này đứng sau {before}.'
-    if after and not before:
-        return f'Kết hợp với {after} như trong {phrase} (“{meaning}”).'
-    if before and after:
-        return f'Trong cụm {phrase}, dùng từ này sau {before} và trước {after}.'
-    return f'Dùng trọn cụm {phrase} khi muốn nói “{meaning}”.'
-
-
 def enrich(cards):
     lookup = defaultdict(list)
     for card in cards:
@@ -139,15 +128,15 @@ def enrich(cards):
                         word = card['term']
                         assert word in phrase, (word, phrase)
                         card.setdefault('_topic', path.stem.split('-')[0])
-                        if card.get('examples') and card.get('collocations') and card.get('notes'):
+                        if card.get('examples') and card.get('collocations'):
                             continue
                         example = {'sentence': sentence, 'translation': translation}
                         collocation = {'phrase': phrase, 'meaning': meaning}
                         rest = [x for x in card.get('collocations', []) if x['phrase'] != phrase]
                         card['collocations'] = [collocation, *rest]
                         card['examples'] = [example]
-                        note = note or default_note(word, phrase, meaning)
-                        card['notes'] = ' '.join(dict.fromkeys(filter(None, (card.get('notes'), note))))
+                        if note:
+                            card['notes'] = ' '.join(dict.fromkeys(filter(None, (card.get('notes'), note))))
                         total += 1
             except Exception as error:
                 raise ValueError(f'{path.name}:{number}: {error}') from error
@@ -155,7 +144,7 @@ def enrich(cards):
 
 
 def finish(topics, cards):
-    assert all(c.get(field) for c in cards for field in ('notes', 'examples', 'collocations', '_topic'))
+    assert all(c.get(field) for c in cards for field in ('examples', 'collocations', '_topic'))
     assert {c.get('hskId') for c in cards if c.get('hskId')} == set(range(1, 1001))
     assert {c.get('a1000Id') for c in cards if c.get('a1000Id')} == set(range(1, 1001))
     assert len({c['id'] for c in cards}) == len(cards)
@@ -188,7 +177,7 @@ if __name__ == '__main__':
     missing = defaultdict(list)
     variants = Counter(c['term'] for c in cards)
     for card in cards:
-        if not all(card.get(field) for field in ('notes', 'examples', 'collocations', '_topic')):
+        if not all(card.get(field) for field in ('examples', 'collocations', '_topic')):
             word = card['term']
             if variants[word] > 1:
                 word += '@' + (str(card['hskId']) if card.get('hskId') else reading(card['phonetic']))

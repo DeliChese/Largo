@@ -2,7 +2,7 @@
 
 ## Lệnh trong repo
 
-Chạy từ thư mục gốc. Repo dùng `bun.lock` để ghim phụ thuộc. Nếu cần cài lại từ lockfile, dùng `bun install --frozen-lockfile` ở môi trường có Bun. Các lệnh kiểm kiểu, kiểm thử và build đã được xác minh với Node `25.8.0` và npm `11.11.0`.
+Chạy từ thư mục gốc với Node 24 trở lên và npm 10 trở lên. Dùng `bun install --frozen-lockfile` để cài theo `bun.lock`. CI kiểm tra thêm `npm install` từ checkout sạch. Các lệnh kiểm kiểu, kiểm thử và build dùng Node `25.8.0` trong CI.
 
 ```text
 npm run dev

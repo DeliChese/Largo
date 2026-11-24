@@ -1,5 +1,5 @@
 import type { EnglishLocale, LanguageCode, SpeechVoices } from '../types/vocab';
-import { getEnglishLocale, getSpeechVoice } from './englishStudy';
+import { DEFAULT_ENGLISH_LOCALE, getSpeechVoice } from './englishStudy';
 import { loadSpeechClip } from './speechClipCache';
 
 class SoundEngine {
@@ -74,7 +74,7 @@ class SoundEngine {
 export const soundEngine = new SoundEngine();
 
 const LANG_LOCALE_MAP: Record<LanguageCode, string> = {
-  en: 'en-US',
+  en: DEFAULT_ENGLISH_LOCALE,
   zh: 'zh-CN',
   ja: 'ja-JP',
   fr: 'fr-FR',
@@ -82,9 +82,15 @@ const LANG_LOCALE_MAP: Record<LanguageCode, string> = {
   es: 'es-ES',
 };
 
+const DEFAULT_AZURE_ENGLISH_VOICES: Record<EnglishLocale, string> = {
+  'en-GB': 'en-GB-SoniaNeural',
+  'en-US': 'en-US-JennyNeural',
+};
+
 function offlineVoice(voices: readonly SpeechSynthesisVoice[], language: LanguageCode | EnglishLocale) {
   const locale = language === 'en-GB' || language === 'en-US' ? language : LANG_LOCALE_MAP[language];
-  return voices.find((voice) => voice.localService && voice.lang.toLowerCase() === locale.toLowerCase());
+  const exact = voices.find((voice) => voice.localService && voice.lang.toLowerCase() === locale.toLowerCase());
+  return exact ?? (language === 'en' ? voices.find((voice) => voice.localService && voice.lang.toLowerCase() === 'en-gb') : undefined);
 }
 
 export function hasOfflinePronunciation(voices: readonly SpeechSynthesisVoice[], language: LanguageCode | EnglishLocale): boolean {
@@ -100,16 +106,14 @@ function deviceUtterance(text: string, locale: string, rate: number, voice: Spee
 }
 
 let selectedVoices: SpeechVoices = {};
-let selectedEnglishLocale: EnglishLocale | undefined;
 let currentPlayback: {
   controller: AbortController;
   source?: AudioBufferSourceNode;
   onEnd?: () => void;
 } | null = null;
 
-export function setPronunciationVoices(voices: SpeechVoices = {}, englishLocale?: EnglishLocale) {
+export function setPronunciationVoices(voices: SpeechVoices = {}) {
   selectedVoices = voices;
-  selectedEnglishLocale = englishLocale;
 }
 
 export function stopPronunciation() {
@@ -141,14 +145,13 @@ export function speakPronunciation(
   onStart?: () => void,
   onEnd?: () => void,
   onFallback?: () => void,
+  onUnavailable?: () => void,
 ): boolean {
   if (typeof window === 'undefined' || !text.trim()) return false;
   const explicitLocale = voiceLanguage === 'en-GB' || voiceLanguage === 'en-US' ? voiceLanguage : undefined;
   const language = voiceLanguage === 'en-GB' || voiceLanguage === 'en-US' ? 'en' : voiceLanguage;
-  const englishLocale = explicitLocale ?? selectedEnglishLocale;
-  const targetLocale = language === 'en'
-    ? getEnglishLocale({ englishLocale, speechVoices: selectedVoices })
-    : LANG_LOCALE_MAP[language];
+  const englishLocale = explicitLocale ?? DEFAULT_ENGLISH_LOCALE;
+  const targetLocale = explicitLocale ?? LANG_LOCALE_MAP[language];
   stopPronunciation();
   const playback: NonNullable<typeof currentPlayback> = { controller: new AbortController(), onEnd };
   currentPlayback = playback;
@@ -159,31 +162,34 @@ export function speakPronunciation(
     onEnd?.();
   };
 
-  function speakOnDevice() {
-    if (!window.speechSynthesis) {
-      finish();
-      return false;
-    }
+  function unavailable() {
+    if (currentPlayback !== playback) return;
+    onUnavailable?.();
+    finish();
+  }
+
+  function speakOnDevice(onError: () => void): boolean {
+    const synthesis = window.speechSynthesis;
+    if (!synthesis) return false;
     try {
-      const voices = window.speechSynthesis.getVoices();
-      const exactVoice = voices.find((voice) => voice.lang.toLowerCase() === targetLocale.toLowerCase());
-      const relatedVoice = language === 'en' ? undefined : voices.find((voice) => voice.lang.toLowerCase().startsWith(language + '-'));
-      const utterance = deviceUtterance(text, targetLocale, rate, exactVoice ?? relatedVoice ?? null);
+      const voices = synthesis.getVoices();
+      const exactVoice = offlineVoice(voices, language === 'en' ? englishLocale : language) ??
+        voices.find((voice) => voice.lang.toLowerCase() === targetLocale.toLowerCase());
+      const relatedVoice = explicitLocale ? undefined : voices.find((voice) => voice.lang.toLowerCase().startsWith(language + '-'));
+      const voice = exactVoice ?? relatedVoice;
+      if (language === 'en' && !voice) return false;
+      const utterance = deviceUtterance(text, voice?.lang ?? targetLocale, rate, voice ?? null);
       utterance.onstart = () => { if (currentPlayback === playback) onStart?.(); };
       utterance.onend = finish;
-      utterance.onerror = finish;
-      window.speechSynthesis.speak(utterance);
+      utterance.onerror = () => { if (currentPlayback === playback) onError(); };
+      synthesis.speak(utterance);
       return true;
     } catch {
-      finish();
       return false;
     }
   }
 
-  const voiceId = getSpeechVoice(selectedVoices, language, englishLocale);
-  if (!voiceId) return speakOnDevice();
-
-  void (async () => {
+  async function speakFromAzure(voiceId: string, onError: () => void) {
     const timeout = window.setTimeout(() => playback.controller.abort(), 15_000);
     try {
       const context = soundEngine.getContext();
@@ -200,11 +206,26 @@ export function speakPronunciation(
       onStart?.();
     } catch {
       if (currentPlayback !== playback) return;
-      onFallback?.();
-      speakOnDevice();
+      onError();
     } finally {
       window.clearTimeout(timeout);
     }
-  })();
-  return true;
+  }
+
+  const voiceId = getSpeechVoice(selectedVoices, language, englishLocale);
+  if (voiceId) {
+    void speakFromAzure(voiceId, () => {
+      onFallback?.();
+      if (!speakOnDevice(unavailable)) unavailable();
+    });
+    return true;
+  }
+  if (language === 'en') {
+    const tryAzure = () => { void speakFromAzure(DEFAULT_AZURE_ENGLISH_VOICES[englishLocale], unavailable); };
+    if (!speakOnDevice(tryAzure)) tryAzure();
+    return true;
+  }
+  if (speakOnDevice(unavailable)) return true;
+  unavailable();
+  return false;
 }

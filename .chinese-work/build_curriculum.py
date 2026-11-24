@@ -297,18 +297,10 @@ EDITORIAL_NOTE_RE = re.compile(
 )
 
 
-def clean_notes_text(raw: str, collocations: list[dict], examples: list[dict]) -> str:
+def clean_notes_text(raw: str) -> str:
     text = EDITORIAL_NOTE_RE.sub('', raw or '')
     text = re.sub(r'(?:\s*[,;.]\s*){2,}', '. ', text)
     text = re.sub(r'\s{2,}', ' ', text).lstrip(' ,;:.').rstrip(' ,;:')
-    if not text:
-        if collocations:
-            c0 = collocations[0]
-            meaning = f' ({c0["meaning"]})' if c0.get('meaning') else ''
-            text = f'Thường dùng trong cụm {c0["phrase"]}{meaning}'
-        elif examples:
-            ex0 = examples[0]
-            text = f'Ví dụ quen gặp: {ex0["sentence"]} ({ex0["translation"]})'
     if text and text[0].islower() and not re.match(r'^[a-zāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜü]+\s*=', text):
         text = text[0].upper() + text[1:]
     if text and text[-1] not in '.!?…”':
@@ -657,7 +649,7 @@ def main():
                 'collocations': card['collocations'],
                 'examples': clean_examples,
                 'synonyms': card.get('synonyms', starter_by_id.get(old_id, {}).get('synonyms', [])),
-                'notes': clean_notes_text(card.get('notes', ''), card['collocations'], clean_examples),
+                'notes': clean_notes_text(card.get('notes', '')),
             }
             if 'hskLevel' in card:
                 clean_card['hskLevel'] = card['hskLevel']
@@ -673,7 +665,6 @@ def main():
             assert clean_card['examples'] and all(e.get('phonetic') and e.get('translation') for e in clean_card['examples']), (
                 f'Incomplete example on {new_id} {clean_card["term"]}'
             )
-            assert clean_card['notes'], f'Empty notes on {new_id} {clean_card["term"]}'
             assert not EDITORIAL_NOTE_RE.search(clean_card['notes']), (
                 f'Editorial artifact left in notes on {new_id}: {clean_card["notes"]}'
             )

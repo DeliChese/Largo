@@ -2,22 +2,13 @@ import { createHash } from 'node:crypto';
 import express from 'express';
 import { parseSentenceFeedback, sentenceAssessmentInput, SENTENCE_RUBRIC_VERSION, SENTENCE_TASK } from '../src/utils/sentenceAssessment.mjs';
 import { createDeepSeekAssessor } from './deepseek.mjs';
+import { isLocalRequest } from './localRequest.mjs';
 
 const MINUTE = 60_000;
 const REQUEST_ID_TTL = 24 * 60 * MINUTE;
 const MAX_REQUEST_ENTRIES = 512;
 const REQUEST_LIMITS = { minute: 6, day: 20, month: 150, concurrent: 2 };
 const UUID_V4 = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;
-const LOCAL_PEERS = new Set(['127.0.0.1', '::1', '::ffff:127.0.0.1']);
-const FORWARDED_HEADERS = ['forwarded', 'x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto'];
-
-function isLocalRequest(req) {
-  const { origin, host } = req.headers;
-  const port = req.socket.localPort;
-  const localHost = /^(localhost|127\.0\.0\.1|\[::1\])(?::(\d+))?$/i.exec(host ?? '');
-  return LOCAL_PEERS.has(req.socket.remoteAddress) && !!localHost && Number(localHost[2] ?? 80) === port &&
-    origin === 'http://' + host && !FORWARDED_HEADERS.some((name) => req.headers[name] !== undefined);
-}
 
 function validateRequest(body) {
   if (!body || typeof body !== 'object' || Object.keys(body).length !== 8 ||

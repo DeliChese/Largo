@@ -1,4 +1,6 @@
 import express from 'express';
+import { config as loadDotenv } from 'dotenv';
+import { isLocalRequest } from './localRequest.mjs';
 
 const VOICE_CACHE_MS = 6 * 60 * 60 * 1000;
 const REQUEST_WINDOW_MS = 60 * 1000;
@@ -9,6 +11,15 @@ const SUPPORTED_LANGUAGES = new Set(['en', 'zh', 'ja', 'fr', 'ko', 'es']);
 
 const escapeXml = (text) => text.replace(/[<>&"']/g, (character) =>
   ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;' })[character]);
+
+export function loadSpeechEnvironment(files, env = process.env) {
+  const values = {};
+  loadDotenv({ path: files, processEnv: values, override: true, quiet: true });
+  return {
+    AZURE_SPEECH_KEY: env.AZURE_SPEECH_KEY ?? values.AZURE_SPEECH_KEY,
+    AZURE_SPEECH_REGION: env.AZURE_SPEECH_REGION ?? values.AZURE_SPEECH_REGION,
+  };
+}
 
 export function createSpeechRouter(env) {
   const router = express();
@@ -22,8 +33,12 @@ export function createSpeechRouter(env) {
   const audioCache = new Map();
   const pendingAudio = new Map();
 
-  router.use((_req, res, next) => {
+  router.use((req, res, next) => {
     res.set('Cache-Control', 'no-store');
+    if (!isLocalRequest(req, { allowMissingOrigin: req.method === 'GET' })) {
+      res.status(403).json({ error: 'forbidden' });
+      return;
+    }
     if (!key || !region || !/^[a-z0-9]{2,32}$/.test(region)) {
       res.status(503).json({ error: 'not_configured' });
       return;

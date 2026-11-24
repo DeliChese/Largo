@@ -4,11 +4,11 @@ import { Search, Volume2, X } from 'lucide-react';
 import type { EnglishLocale, VocabWord } from '../types/vocab';
 import { speakPronunciation } from '../utils/soundEngine';
 import { compactPhonetic, searchable } from '../utils/vocabSearch';
-import { ENGLISH_LOCALE_LABEL, getEnglishStudyWord } from '../utils/englishStudy';
+import { DEFAULT_ENGLISH_LOCALE, ENGLISH_LOCALE_LABEL, getEnglishStudyWord } from '../utils/englishStudy';
+import { EnglishPronunciation, EnglishVariantDetails } from './EnglishVariantDetails';
 
 interface WordLookupProps {
   words: VocabWord[];
-  englishLocale: EnglishLocale;
   speechRate: number;
 }
 
@@ -22,10 +22,11 @@ interface LookupMatch {
   partOfSpeech?: string;
   topCollocation?: VocabWord['collocations'][number];
   englishLocale?: EnglishLocale;
+  sourceWord?: VocabWord;
   rank: number;
 }
 
-export function WordLookup({ words, englishLocale, speechRate }: WordLookupProps) {
+export function WordLookup({ words, speechRate }: WordLookupProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const container = useRef<HTMLDivElement>(null);
@@ -37,16 +38,17 @@ export function WordLookup({ words, englishLocale, speechRate }: WordLookupProps
     if (!q) return [];
     const includesQuery = (text: string) => searchable(text).includes(q);
     const phoneticQuery = compactPhonetic(q);
-    const alternateLocale = englishLocale === 'en-GB' ? 'en-US' : 'en-GB';
+    const alternateLocale = 'en-GB';
     return words.flatMap<LookupMatch>((storedWord) => {
-      const word = getEnglishStudyWord(storedWord, englishLocale);
+      const word = getEnglishStudyWord(storedWord, DEFAULT_ENGLISH_LOCALE);
       const { id, language, term, phonetic, meaning, sinoVietnamese, partOfSpeech, collocations } = word;
       const topCollocation = collocations[0];
-      if (searchable(term) === q) return [{ id, language, term, phonetic, meaning, sinoVietnamese, partOfSpeech, topCollocation, rank: 0 }];
+      const match = { id, language, term, phonetic, meaning, sinoVietnamese, partOfSpeech, topCollocation, sourceWord: storedWord };
+      if (searchable(term) === q) return [{ ...match, rank: 0 }];
 
       const alternate = storedWord.englishForms && getEnglishStudyWord(storedWord, alternateLocale);
       if (alternate && searchable(alternate.term) === q) {
-        return [{ ...alternate, englishLocale: alternateLocale, topCollocation: alternate.collocations[0], rank: 0 }];
+        return [{ ...alternate, englishLocale: alternateLocale, topCollocation: alternate.collocations[0], sourceWord: storedWord, rank: 0 }];
       }
       const exactPhrase = collocations.find((item) => searchable(item.phrase) === q);
       const alternatePhrase = alternate?.collocations.find((item) => searchable(item.phrase) === q);
@@ -60,16 +62,16 @@ export function WordLookup({ words, englishLocale, speechRate }: WordLookupProps
 
       const phoneticMatch = phoneticQuery && compactPhonetic(phonetic).includes(phoneticQuery);
       if (phoneticMatch || [term, meaning, sinoVietnamese ?? ''].some(includesQuery)) {
-        return [{ id, language, term, phonetic, meaning, sinoVietnamese, partOfSpeech, topCollocation, rank: 2 }];
+        return [{ ...match, rank: 2 }];
       }
       if (alternate && (includesQuery(alternate.term) ||
         (phoneticQuery && compactPhonetic(alternate.phonetic).includes(phoneticQuery)))) {
-        return [{ ...alternate, englishLocale: alternateLocale, topCollocation: alternate.collocations[0], rank: 2 }];
+        return [{ ...alternate, englishLocale: alternateLocale, topCollocation: alternate.collocations[0], sourceWord: storedWord, rank: 2 }];
       }
       const phrase = collocations.find((item) => includesQuery(item.phrase) || includesQuery(item.meaning));
       return phrase ? [{ id, language, term: phrase.phrase, phonetic: '', meaning: phrase.meaning, partOfSpeech: 'Cụm từ', rank: 3 }] : [];
     }).sort((a, b) => a.rank - b.rank).slice(0, 8);
-  }, [words, q, englishLocale]);
+  }, [words, q]);
 
   useEffect(() => {
     if (open) input.current?.focus();
@@ -135,9 +137,13 @@ export function WordLookup({ words, englishLocale, speechRate }: WordLookupProps
                         </p>
                       )}
                     </div>
-                    <button type="button" className="icon-button" onClick={() => speakPronunciation(word.term, word.englishLocale ?? word.language, speechRate)} aria-label={'Nghe ' + word.term}>
+                    {word.language === 'en' ? word.sourceWord
+                      ? <EnglishVariantDetails word={word.sourceWord} speechRate={speechRate} />
+                      : <EnglishPronunciation text={word.term} speechRate={speechRate} /> : (
+                      <button type="button" className="icon-button" onClick={() => speakPronunciation(word.term, word.language, speechRate)} aria-label={'Nghe ' + word.term}>
                       <Volume2 size={17} aria-hidden="true" />
-                    </button>
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>

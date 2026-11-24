@@ -6,17 +6,10 @@ Các nhóm chủ đề và bài học là cách sắp xếp của Largo. Bộ co
 thẻ so sánh Anh-Anh / Anh-Mỹ do Largo biên soạn, với cấp độ gợi ý.
 
 Cụm động từ
-• + 3000 English Phrasal Verbs, English Speeches, bản PDF người dùng cung cấp.
-  Đối chiếu 3.215 dòng bảng ở trang 3–232 và giữ 3.210 mục theo cụm từ
-  và nghĩa. Các nhóm chủ đề do Largo biên soạn. Câu mẫu lấy từ PDF,
-  nguồn bổ sung bên dưới hoặc được biên soạn theo nghĩa của từng thẻ.
-• Princeton WordNet 3.0 cung cấp một số ví dụ, từ đồng nghĩa và từ trái nghĩa.
-  https://wordnet.princeton.edu/license-and-commercial-use
-• Câu lấy từ Tatoeba giữ liên kết đến câu gốc và người đóng góp khi hiển thị.
-  https://en.wiki.tatoeba.org/articles/show/using-the-tatoeba-corpus
-• Một phần nghĩa và bản dịch ví dụ được tạo với Argos Translate và hiệu đính
-  theo mẫu. Các bản dịch cần được kiểm tra theo ngữ cảnh khi tra cứu thêm.
-  https://www.argosopentech.com/argospm/index/
+• 33 nghĩa do Largo biên soạn theo bốn chủ đề, với hai câu ví dụ Anh–Việt
+  cho mỗi nghĩa. Ghi công Largo khi dùng lại ví dụ, bản dịch hoặc ghi chú
+  của bộ này theo CC BY-SA 4.0.
+  https://creativecommons.org/licenses/by-sa/4.0/
 
 Phân cấp
 The CEFR-J Wordlist Version 1.6. Compiled by Yukio Tono, Tokyo University
@@ -25,6 +18,9 @@ https://cefr-j.org/download_eng
 © Tono Laboratory, TUFS. Nguồn cho phép sử dụng với ghi công.
 
 Nghĩa, ví dụ và phiên âm
+• Một số câu ví dụ từ Tatoeba, CC BY 2.0 France. Liên kết trên câu mở
+  câu gốc và thông tin người đóng góp.
+  https://en.wiki.tatoeba.org/articles/show/using-the-tatoeba-corpus
 • Từ điển Anh–Việt thichhoc.com (thichhoc-dict) v0.9.0, CC BY-SA 4.0.
   Largo trích nghĩa theo từ loại và chọn nghĩa phù hợp với thẻ học.
   Nguồn gốc gồm Princeton WordNet 3.1, Wiktionary, CMUdict và Dự án Từ

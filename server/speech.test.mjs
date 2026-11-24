@@ -1,7 +1,24 @@
 import assert from 'node:assert/strict';
+import { mkdtemp, rmdir, unlink, writeFile } from 'node:fs/promises';
+import { request } from 'node:http';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import test from 'node:test';
 import express from 'express';
-import { createSpeechRouter } from './speech.mjs';
+import { createSpeechRouter, loadSpeechEnvironment } from './speech.mjs';
+
+test('Speech configuration reads a UTF-8 BOM and honors mode files and process overrides', async (t) => {
+  const folder = await mkdtemp(join(tmpdir(), 'largo-speech-'));
+  const files = ['.env', '.env.local', '.env.development'].map((name) => join(folder, name));
+  t.after(async () => {
+    await Promise.allSettled(files.map((file) => unlink(file)));
+    await rmdir(folder);
+  });
+  await writeFile(files[0], '\ufeffAZURE_SPEECH_KEY=test-key\nAZURE_SPEECH_REGION=westus\n');
+  await writeFile(files[2], 'AZURE_SPEECH_REGION=eastus\n');
+  assert.deepEqual(loadSpeechEnvironment(files, {}), { AZURE_SPEECH_KEY: 'test-key', AZURE_SPEECH_REGION: 'eastus' });
+  assert.deepEqual(loadSpeechEnvironment(files, { AZURE_SPEECH_KEY: '' }), { AZURE_SPEECH_KEY: '', AZURE_SPEECH_REGION: 'eastus' });
+});
 
 test('Azure synthesizes once for simultaneous requests for an identical clip', { timeout: 5000 }, async (t) => {
   const httpFetch = globalThis.fetch;
@@ -49,7 +66,7 @@ test('Azure synthesizes once for simultaneous requests for an identical clip', {
   const url = 'http://127.0.0.1:' + server.address().port + '/speech/synthesize';
   const speak = (overrides = {}) => httpFetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', Origin: new URL(url).origin },
     body: JSON.stringify({ text: 'Hello & welcome', voiceId, language: 'en', rate: 1, ...overrides }),
   });
   const first = speak();
@@ -75,4 +92,46 @@ test('Azure synthesizes once for simultaneous requests for an identical clip', {
   assert.equal(requests.length, 3);
   assert.match(requests[1], /rate="-15%"/);
   assert.ok(requests[2].includes(alternateVoice));
+});
+
+test('Azure routes require a direct local request before contacting Azure', async (t) => {
+  const httpFetch = globalThis.fetch;
+  const upstream = t.mock.method(globalThis, 'fetch', async () => Response.json([]));
+  const app = express();
+  app.use(createSpeechRouter({ AZURE_SPEECH_KEY: 'test-key', AZURE_SPEECH_REGION: 'southeastasia' }));
+  const server = await new Promise((resolve) => {
+    const listener = app.listen(0, '127.0.0.1', () => resolve(listener));
+  });
+  t.after(() => server.close());
+  const origin = 'http://127.0.0.1:' + server.address().port;
+
+  for (const [path, init] of [
+    ['/voices', { headers: { Host: 'example.com' } }],
+    ['/voices', { headers: { 'X-Forwarded-For': '127.0.0.1' } }],
+    ['/voices', { headers: { 'Sec-Fetch-Site': 'same-site' } }],
+    ['/voices', { headers: { Origin: 'https://example.com' } }],
+    ['/synthesize', { method: 'POST' }],
+    ['/synthesize', { method: 'POST', headers: { Origin: origin, Forwarded: 'for=127.0.0.1' } }],
+  ]) {
+    const response = await new Promise((resolve, reject) => {
+      const incoming = request(origin + path, init, async (res) => {
+        try {
+          res.setEncoding('utf8');
+          let body = '';
+          for await (const chunk of res) body += chunk;
+          resolve({ status: res.statusCode, body: JSON.parse(body) });
+        } catch (error) {
+          reject(error);
+        }
+      });
+      incoming.on('error', reject).end();
+    });
+    assert.equal(response.status, 403, JSON.stringify(init));
+    assert.deepEqual(response.body, { error: 'forbidden' });
+  }
+  assert.equal(upstream.mock.callCount(), 0);
+  const response = await httpFetch(origin + '/voices');
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { voices: [] });
+  assert.equal(upstream.mock.callCount(), 1);
 });

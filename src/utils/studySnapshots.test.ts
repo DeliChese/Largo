@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { CURRENT_DATA_VERSION, hasCurrentSeedDecks, withCurrentSeed } from '../data/seedVocab';
 import type { HskEdition } from '../types/vocab';
-import { getEnglishLocale, getEnglishStudyWord } from './englishStudy';
+import { ENGLISH_LOCALES, getEnglishStudyWord } from './englishStudy';
 import {
   DELETED_HSK_CARD, FIXTURE_AVATAR, MISSING_LESSON, PERSONAL_CARD, PERSONAL_DECK, REGIONAL_CARD,
   SHARED_HSK_CARD, SNAPSHOT_TIME, legacyStudyBackup, newStudySnapshot, reviewedStudySnapshot,
@@ -72,19 +72,21 @@ test('both saved HSK editions resolve the same reviewed card and hide the delete
   }
 });
 
-test('saved en-GB and en-US preferences use the same regional card and study progress', () => {
+test('both regional forms share progress regardless of the legacy accent preference', () => {
   const forms = { 'en-GB': 'colour', 'en-US': 'color' } as const;
   for (const locale of ['en-GB', 'en-US'] as const) {
     const saved = reviewedStudySnapshot('hsk20', locale);
     const state = withCurrentSeed(saved);
     const canonical = state.words.find(({ id }) => id === REGIONAL_CARD);
     assert.ok(canonical);
-    assert.equal(getEnglishLocale(state.settings), locale);
-    const rendered = getEnglishStudyWord(canonical, getEnglishLocale(state.settings));
-    assert.equal(rendered.term, forms[locale]);
-    assert.equal(rendered.id, canonical.id);
-    assert.equal(rendered.srs, canonical.srs);
-    assert.equal(rendered.bloomLevel, 4);
+    assert.equal(state.settings.englishLocale, locale);
+    for (const accent of ENGLISH_LOCALES) {
+      const rendered = getEnglishStudyWord(canonical, accent);
+      assert.equal(rendered.term, forms[accent]);
+      assert.equal(rendered.id, canonical.id);
+      assert.equal(rendered.srs, canonical.srs);
+      assert.equal(rendered.bloomLevel, 4);
+    }
   }
 });
 

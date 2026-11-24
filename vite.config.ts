@@ -4,10 +4,16 @@ import fs from 'fs';
 import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 import {VitePWA} from 'vite-plugin-pwa';
-import {createSpeechRouter} from './server/speech.mjs';
+import {createSpeechRouter, loadSpeechEnvironment} from './server/speech.mjs';
 import {createSentenceAssessmentRouter} from './server/sentenceAssessment.mjs';
+import {createWordChainRouter} from './server/wordChain.mjs';
 
 const projectRoot = import.meta.dirname;
+
+function speechEnvironment(mode: string) {
+  const files = ['.env', '.env.local', `.env.${mode}`, `.env.${mode}.local`];
+  return loadSpeechEnvironment(files.map((file) => path.join(projectRoot, file)));
+}
 
 export default defineConfig(() => {
   return {
@@ -31,22 +37,22 @@ export default defineConfig(() => {
       {
         name: 'largo-speech-api',
         configureServer(server) {
-          const env = loadEnv(server.config.mode, projectRoot, 'AZURE_SPEECH_');
-          server.middlewares.use('/api/speech', createSpeechRouter(env));
+          server.middlewares.use('/api/speech', createSpeechRouter(speechEnvironment(server.config.mode)));
         },
         configurePreviewServer(server) {
-          const env = loadEnv(server.config.mode, projectRoot, 'AZURE_SPEECH_');
-          server.middlewares.use('/api/speech', createSpeechRouter(env));
+          server.middlewares.use('/api/speech', createSpeechRouter(speechEnvironment(server.config.mode)));
         },
       },
       {
-        name: 'largo-sentence-assessment-api',
+        name: 'largo-ai-api',
         configureServer(server) {
           const env = loadEnv(server.config.mode, projectRoot, 'DEEPSEEK_');
+          server.middlewares.use('/api/ai/word-chain', createWordChainRouter(env));
           server.middlewares.use('/api/ai', createSentenceAssessmentRouter(env));
         },
         configurePreviewServer(server) {
           const env = loadEnv(server.config.mode, projectRoot, 'DEEPSEEK_');
+          server.middlewares.use('/api/ai/word-chain', createWordChainRouter(env));
           server.middlewares.use('/api/ai', createSentenceAssessmentRouter(env));
         },
       },
@@ -151,10 +157,7 @@ export default defineConfig(() => {
       host: '0.0.0.0',
       port: 3000,
       allowedHosts: true,
-      // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modify—file watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
-      // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
     },
   };

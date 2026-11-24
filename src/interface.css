@@ -1042,6 +1042,8 @@ body:has(.app-shell[data-route="decks"]) { min-height: 0; overflow: hidden; }
 }
 .english-variant:hover { border-color: var(--accent-text); color: var(--accent-text); }
 .english-variant strong { color: var(--text-primary); }
+.english-audio-status { flex-basis: 100%; color: var(--text-secondary); font-size: 0.76rem; }
+.word-example:has(.english-variants) { flex-direction: column; align-items: flex-start; }
 
 @container (min-width: 580px) {
   .deck-usage .word-examples { grid-template-columns: repeat(2, minmax(0, 1fr)); }

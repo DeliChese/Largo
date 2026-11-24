@@ -1,0 +1,75 @@
+.word-chain {
+  display: grid;
+  gap: 1.15rem;
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+.word-chain > button { justify-self: start; }
+.chain-muted { color: var(--text-secondary); font-size: 0.9rem; }
+
+.chain-setup, .chain-stage, .chain-history {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1rem, 3vw, 1.7rem);
+}
+
+.chain-setup > button { justify-self: start; }
+.chain-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.chain-fields label { display: grid; gap: 0.4rem; font-size: 0.9rem; font-weight: 650; }
+.chain-fields select, .chain-form input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  color: var(--text-primary);
+  background: var(--bg-canvas);
+  font: inherit;
+}
+.chain-fields select:focus-visible, .chain-form input:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+.chain-consent { display: flex; align-items: flex-start; gap: 0.55rem; font-size: 0.9rem; }
+.chain-consent input { margin-top: 0.3rem; accent-color: var(--accent-primary); }
+.chain-consent small { display: block; color: var(--text-secondary); margin-top: 0.2rem; }
+.chain-stage-top, .chain-controls, .chain-prompt, .chain-history li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.chain-stage-top {
+  justify-content: space-between;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+.chain-prompt {
+  justify-content: space-between;
+  border-radius: 14px;
+  padding: 1rem 1.15rem;
+  background: color-mix(in srgb, var(--accent-primary) 10%, var(--bg-surface));
+}
+.chain-letter { color: var(--accent-text); font-size: 3.25rem; line-height: 1.13; font-weight: 800; }
+.chain-clock { display: flex; align-items: center; gap: 0.35rem; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.chain-clock[data-urgent="true"], .chain-error { color: var(--error-text, #c24141); }
+.chain-error { font-size: 0.9rem; }
+.chain-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.65rem; }
+.chain-outcome h2, .chain-history h2 { font-weight: 750; font-size: 1.22rem; }
+.chain-history ol { list-style: none; padding: 0; margin: 0; }
+.chain-history li {
+  justify-content: space-between;
+  min-height: 3.5rem;
+  padding-block: 0.6rem;
+  border-top: 1px solid var(--border-hairline);
+}
+.chain-move { display: grid; min-width: 0; overflow-wrap: anywhere; }
+.chain-side { display: flex; align-items: center; gap: 0.35rem; color: var(--text-secondary); font-size: 0.75rem; }
+.chain-history li button { flex-shrink: 0; }
+
+@media (max-width: 480px) {
+  .chain-fields { grid-template-columns: minmax(0, 1fr); gap: 0.65rem; }
+  .chain-stage-top, .chain-controls { flex-wrap: wrap; }
+}

@@ -8,8 +8,8 @@ import { CURRENT_DATA_VERSION, hasCurrentSeedDecks, INITIAL_DECKS, INITIAL_PROFI
 import type { StudySessionLog, VocabDeck, VocabWord } from '../types/vocab';
 import { searchChineseDictionary } from './chineseDict';
 import { applyStudyReview, getClozeExample, getCollocationPrompt, getDailyStudyPlan, getPracticeWords, getStudyChoices } from './studyPlan';
-import { getDeckStudyLevel, getEditionDecks, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './studyScope';
-import { getEnglishLocale, getEnglishStudyWord, getSpeechVoice } from './englishStudy';
+import { getCurriculumDecks, getDeckStudyLevel, getEditionDecks, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './studyScope';
+import { getEnglishStudyWord, getSpeechVoice } from './englishStudy';
 import { exportDeckWord, importEnglishForms, importExamples, importTerms } from './vocabImport';
 
 function makeWord(id: string, deckId: string, term: string, language: 'zh' | 'en' = 'zh'): VocabWord {
@@ -103,19 +103,20 @@ test('English source data contains the A1–B2 word lists, collocation decks, an
   }
 });
 
-test('the phrasal collection retains separate PDF meanings and has two bilingual examples per card', () => {
+test('the phrasal collection has two distinct bilingual contexts for each meaning', () => {
   const decks = ENGLISH_DECKS.filter(({ collection }) => collection === 'phrasal');
   assert.ok(decks.every((deck) => getDeckStudyLevel(deck) === ENGLISH_PHRASAL_LEVEL && deck.category));
   assert.ok(new Set(decks.map(({ category }) => category)).size > 1);
   assert.ok(ENGLISH_DECKS.every(({ category }) => category !== 'Từ thường dùng'));
   const words = getScopedWords(ENGLISH_WORDS, decks, 'en');
-  assert.equal(words.length, 3210);
-  assert.equal(words.filter(({ term }) => term === 'act on').length, 2);
-  assert.ok(words.every(({ examples }) => examples.length === 2 && examples[0].sentence !== examples[1].sentence &&
-    examples.every(({ sentence, translation }) => sentence && translation)));
-  const abide = words.find(({ term }) => term === 'abide by')!;
-  assert.ok(abide.synonyms.includes('comply with'));
-  assert.ok(abide.antonyms.includes('violate'));
+  assert.equal(words.length, 33);
+  for (const { term, examples, notes } of words) {
+    assert.equal(examples.length, 2, term);
+    const sentences = examples.map(({ sentence }) => sentence.toLowerCase().replace(/[.!?]$/, ''));
+    assert.ok(sentences.every((sentence, index) => sentence.includes(term) && !sentence.includes(sentences[1 - index])), term);
+    assert.ok(examples.every(({ translation, sourceUrl }) => translation && !sourceUrl), term);
+    assert.doesNotMatch(notes ?? '', /PDF|trang \d/);
+  }
 });
 
 test('English regional forms share a card ID and SRS, with matching examples and accent-specific voices', () => {
@@ -133,10 +134,26 @@ test('English regional forms share a card ID and SRS, with matching examples and
   assert.equal(getEnglishStudyWord(reviewed, 'en-US').srs, reviewed.srs);
   assert.deepEqual(importEnglishForms(word.englishForms), word.englishForms);
   const legacyVoices = { en: 'en-GB-SoniaNeural' };
-  assert.equal(getEnglishLocale({ speechVoices: legacyVoices }), 'en-GB');
+  assert.equal(getSpeechVoice(legacyVoices, 'en'), undefined);
   assert.equal(getSpeechVoice(legacyVoices, 'en', 'en-US'), undefined);
   assert.equal(getSpeechVoice(legacyVoices, 'en', 'en-GB'), legacyVoices.en);
   assert.equal(getSpeechVoice({ ...legacyVoices, 'en-US': 'en-US-JennyNeural' }, 'en', 'en-US'), 'en-US-JennyNeural');
+  assert.equal(getSpeechVoice({ 'en-US': legacyVoices.en }, 'en', 'en-US'), undefined);
+});
+
+test('the combined Chinese study scope keeps unique cards from both books and prefers HSK 3.0 for shared cards', () => {
+  const decks = getCurriculumDecks(INITIAL_DECKS, 'zh');
+  const scope = getScopedWords(INITIAL_WORDS, decks, 'zh');
+  assert.equal(INITIAL_SETTINGS.hskEdition, 'hsk30');
+  assert.equal(decks[0].hskEdition, 'hsk30');
+  assert.equal(decks.length, CHINESE_DECKS.length);
+  assert.equal(new Set(scope.map(({ id }) => id)).size, scope.length);
+  const idsByEdition = (edition: 'hsk20' | 'hsk30') => new Set(getEditionDecks(decks, 'zh', edition).flatMap((deck) => deck.wordIds ?? []));
+  const newer = idsByEdition('hsk30');
+  const older = idsByEdition('hsk20');
+  assert.deepEqual(new Set(scope.map(({ id }) => id)), new Set([...older, ...newer]));
+  assert.ok(scope.some(({ id, deckId }) => older.has(id) && !newer.has(id) && deckId.startsWith('deck-zh-hsk20-')));
+  assert.ok(scope.filter(({ id }) => older.has(id) && newer.has(id)).every(({ deckId }) => deckId.startsWith('deck-zh-hsk30-')));
 });
 
 test('the Chinese vocabulary source retains coverage and context for the courses and dictionary lookup', async () => {
@@ -159,9 +176,8 @@ test('the Chinese vocabulary source retains coverage and context for the courses
     assert.ok(word.collocations.length > 0 && word.collocations[0].meaning, `missing collocation on ${word.id}`);
     assert.ok(word.examples.length > 0 && word.examples[0].sentence && word.examples[0].phonetic && word.examples[0].translation, `missing example fields on ${word.id}`);
     assert.ok(!/\([^)]*\)\s*$/.test(word.examples[0].sentence), `trailing parenthetical pinyin left in sentence on ${word.id}`);
-    assert.ok(word.notes, `missing notes on ${word.id}`);
     assert.ok(
-      !/(?:khác thanh hoặc biến thể|cần kiểm tra từ loại hoặc cách diễn đạt|trùng chữ trong đề cương|nhiều mục từ điển|dòng này ưu tiên|a1000 ưu tiên)/i.test(word.notes),
+      !/(?:khác thanh hoặc biến thể|cần kiểm tra từ loại hoặc cách diễn đạt|trùng chữ trong đề cương|nhiều mục từ điển|dòng này ưu tiên|a1000 ưu tiên)/i.test(word.notes ?? ''),
       `editorial triage artifact left in notes on ${word.id}: ${word.notes}`,
     );
   }
@@ -174,6 +190,18 @@ test('the Chinese vocabulary source retains coverage and context for the courses
   assert.equal(entry?.term, '扫码');
   assert.deepEqual(entry.collocations, [{ phrase: '扫码支付', meaning: 'quét mã thanh toán' }]);
   assert.ok(entry.examples[0]?.phonetic);
+});
+
+test('Chinese examples distinguish the two readings of 假 and use the intended readings of 扫地, 妻子 and 告诉', () => {
+  const leave = CHINESE_WORDS.find(({ id }) => id === 'zh-1117')!;
+  const fake = CHINESE_WORDS.find(({ id }) => id === 'zh-1336')!;
+  assert.ok(leave.examples.every(({ phonetic }) => phonetic?.includes('jià') && !phonetic.includes('jiǎ')));
+  assert.ok(fake.examples.every(({ phonetic }) => phonetic?.includes('jiǎ') && !phonetic.includes('jià')));
+  const examples = CHINESE_WORDS.flatMap((word) => word.examples);
+  for (const [hanzi, reading] of [['扫地', 'sǎodì'], ['妻子', 'qīzi'], ['告诉', 'gàosu']]) {
+    const matching = examples.filter(({ sentence }) => sentence.includes(hanzi));
+    assert.ok(matching.length && matching.every(({ phonetic }) => phonetic?.toLowerCase().includes(reading)), hanzi);
+  }
 });
 
 test('deck export retains bilingual examples and both types of word relations for custom languages', () => {
@@ -196,8 +224,8 @@ test('deck export retains bilingual examples and both types of word relations fo
 });
 
 test('both Chinese textbooks scope and order their HSK 1 lessons', () => {
-  const hsk30CoreIds = new Set(catalogue.flatMap((deck) => deck.cards)
-    .filter((card) => 'hskLevel' in card && card.hskLevel === 1).map(({ id }) => id));
+  const hsk30CoreIds = new Set(catalogue.flatMap<{ id: string; hskLevel?: number }>((deck) => deck.cards)
+    .filter((card) => card.hskLevel === 1).map(({ id }) => id));
   for (const [edition, count, first] of [['hsk20', 182, '你'], ['hsk30', 305, '你好']] as const) {
     const decks = getScopedDecks(getEditionDecks(INITIAL_DECKS, 'zh', edition), 'zh', 'hsk1');
     const words = getScopedWords(INITIAL_WORDS, decks, 'zh');
@@ -454,7 +482,7 @@ test('v7 curriculum upgrades preserve moved card progress, missing cards and per
   assert.equal(migrated.bloomLevel, 4);
   assert.equal(migrated.personalRelations, personalRelations);
   assert.ok(!state.words.some(({ id }) => id === deleted.id));
-  assert.ok(state.words.some(({ term }) => term === 'abide by'));
+  assert.ok(state.words.some(({ term }) => term === 'wake up'));
   assert.deepEqual(state.profile.todayWordIds, [reviewed.id]);
   assert.equal(withCurrentSeed(state), state);
 });

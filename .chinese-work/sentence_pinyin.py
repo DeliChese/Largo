@@ -856,6 +856,10 @@ EXTRA_COMPOUNDS = {
 
 # Context regexes -> replacement pinyin applied directly to sentence before tokenization
 CONTEXT_FIXES = [
+    (r'扫地', 'sǎodì'),
+    (r'是假的', 'shì jiǎ de'),
+    (r'妻子', 'qīzi'),
+    (r'告诉', 'gàosu'),
     # 得多 / 得 + adj / V + 得 + adj
     (r'坐得很直', 'zuò de hěn zhí'),
     (r'得了一个大奖', 'dé le yígè dàjiǎng'),
