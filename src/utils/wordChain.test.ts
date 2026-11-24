@@ -4,7 +4,7 @@ import { INITIAL_WORDS } from '../data/seedVocab';
 import { createBackup, previewBackup } from './backup';
 import { CORE_ENGLISH_CARD, reviewedStudySnapshot } from './fixtures/studySnapshots';
 import { getScopedWords } from './studyScope';
-import { addChainDeckEntry, buildChainLexicon, checkChainMove, chooseChainMove } from './wordChain';
+import { addChainDeckEntry, buildChainLexicon, checkChainMove, chooseChainMove, hasChainReply, nextChainTurn } from './wordChain';
 import { chainEnds, parseChainSuggestion } from './wordChainRules.mjs';
 
 test('plays exchange → entry → yellow and rejects incorrect initials, repeats and unknown words', () => {
@@ -29,6 +29,20 @@ test('only mixed mode accepts an English phrase and rejects invalid suggestions'
   assert.equal(checkChainMove('take   off', 'en', 't', new Set(), mixed).entry?.last, 'f');
   assert.equal(parseChainSuggestion({ term: 'take off', meaning: 'cất cánh' }, 'en', 'mixed', 't')?.term, 'take off');
   assert.equal(parseChainSuggestion({ term: 'wrong word', meaning: 'nghĩa mẫu' }, 'en', 'word', 'w'), null);
+});
+
+test('relay keeps one global clock and pass-and-play swaps active players with a fresh clock', () => {
+  assert.deepEqual(nextChainTurn('relay', 'player', 60_000, 30_000, 15), { turn: 'player', deadline: 60_000 });
+  assert.deepEqual(nextChainTurn('pass', 'player', 60_000, 30_000, 15), { turn: 'partner', deadline: 45_000 });
+  assert.deepEqual(nextChainTurn('pass', 'partner', 60_000, 32_000, 8), { turn: 'player', deadline: 40_000 });
+  assert.deepEqual(nextChainTurn('duel', 'player', 60_000, 32_000, 8), { turn: 'player', deadline: 40_000 });
+});
+
+test('a chain is blocked when every candidate for its closing letter has already been used', () => {
+  const base = INITIAL_WORDS[0];
+  const lexicon = buildChainLexicon(['ear', 'red', 'door'].map((term) => ({ ...base, term })), 'en', 'word');
+  assert.equal(hasChainReply(lexicon, 'r', new Set(['ear'])), true);
+  assert.equal(hasChainReply(lexicon, 'r', new Set(['ear', 'red'])), false);
 });
 
 test('easy keeps answers open, expert takes a dead end, and the opening remains playable', () => {

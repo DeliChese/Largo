@@ -605,7 +605,7 @@ export default function App() {
 
   const handleDeleteWord = (wordId: string, deckId?: string) => {
     const deck = decks.find((candidate) => candidate.id === deckId);
-    if (deck?.isCustom && deck.wordIds?.includes(wordId) &&
+    if (deck?.wordIds?.includes(wordId) &&
         words.some((word) => word.id === wordId && word.deckId !== deckId)) {
       setDecks((previous) => previous.map((candidate) => candidate.id === deckId
         ? { ...candidate, wordIds: candidate.wordIds?.filter((id) => id !== wordId) } : candidate));

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ENGLISH_DECKS, ENGLISH_PHRASAL_LEVEL, ENGLISH_V7_WORD_DECK_IDS, ENGLISH_WORDS, STARTER_ENGLISH_DECKS, STARTER_ENGLISH_WORDS } from '../data/englishDecks';
+import { ENGLISH_DECKS, ENGLISH_LEVELS, ENGLISH_PHRASAL_LEVEL, ENGLISH_V7_WORD_DECK_IDS, ENGLISH_WORDS, STARTER_ENGLISH_DECKS, STARTER_ENGLISH_WORDS } from '../data/englishDecks';
 import { CURRENT_DATA_VERSION, hasCurrentSeedDecks, INITIAL_DECKS, INITIAL_PROFILE, INITIAL_SETTINGS, INITIAL_WORDS, withCurrentSeed } from '../data/seedVocab';
 import type { VocabWord } from '../types/vocab';
 import { applyStudyReview, getClozeExample, getCollocationPrompt, getPracticeWords, getStudyChoices } from './studyPlan';
@@ -36,17 +36,19 @@ function makeWord(id: string, deckId: string, term: string): VocabWord {
 
 test('language and level selections keep the English review library scoped', () => {
   assert.deepEqual(getStudyLanguages(INITIAL_DECKS), ['en']);
-  assert.deepEqual(getStudyLevels('en', INITIAL_DECKS).map(({ id }) => id), ['all', 'a1', 'a2', 'b1', 'b2', ENGLISH_PHRASAL_LEVEL]);
+  assert.deepEqual(getStudyLevels('en', INITIAL_DECKS).map(({ id }) => id), ['all', ...ENGLISH_LEVELS, ENGLISH_PHRASAL_LEVEL]);
 
   const a2Decks = getScopedDecks(INITIAL_DECKS, 'en', 'a2');
   const a2 = getScopedWords(INITIAL_WORDS, a2Decks, 'en');
-  assert.equal(a2.length, 1008);
+  assert.equal(a2.filter(({ id }) => !id.startsWith('en-extra-')).length, 1008);
   assert.ok(a2.every((word) => word.language === 'en' && a2Decks.some((deck) => word.deckId === deck.id)));
 
   const b1Decks = getScopedDecks(INITIAL_DECKS, 'en', 'b1');
   const b1 = getScopedWords(INITIAL_WORDS, b1Decks, 'en');
-  assert.equal(b1.length, 1058);
-  assert.equal(getScopedWords(INITIAL_WORDS, getScopedDecks(INITIAL_DECKS, 'en', 'b2'), 'en').length, 1034);
+  assert.equal(b1.filter(({ id }) => !id.startsWith('en-extra-')).length, 1058);
+  assert.equal(getScopedWords(INITIAL_WORDS, getScopedDecks(INITIAL_DECKS, 'en', 'b2'), 'en')
+    .filter(({ id }) => !id.startsWith('en-extra-')).length, 1034);
+  assert.ok(getScopedWords(INITIAL_WORDS, getScopedDecks(INITIAL_DECKS, 'en', 'c1'), 'en').length >= 250);
 });
 
 test('custom decks with explicit or missing levels are included in English study levels', () => {
@@ -59,7 +61,8 @@ test('custom decks with explicit or missing levels are included in English study
 });
 
 test('English source data contains the A1–B2 word lists, collocation decks, and regional pairs', () => {
-  const baseWords = ENGLISH_WORDS.filter(({ id }) => !id.startsWith('en-phrasal-'));
+  const original = ENGLISH_WORDS.filter(({ id }) => !id.startsWith('en-extra-'));
+  const baseWords = original.filter(({ id }) => !id.startsWith('en-phrasal-'));
   assert.equal(baseWords.length, 4008);
   assert.equal(new Set(ENGLISH_WORDS.map((word) => word.id)).size, ENGLISH_WORDS.length);
   assert.equal(new Set(baseWords.map((word) => word.term.toLowerCase())).size, baseWords.length);
@@ -74,8 +77,8 @@ test('English source data contains the A1–B2 word lists, collocation decks, an
   }
   for (const level of ['a1', 'a2', 'b1', 'b2']) {
     const decks = getScopedDecks(ENGLISH_DECKS, 'en', level);
-    const words = getScopedWords(ENGLISH_WORDS, decks, 'en');
-    const phraseDecks = decks.filter(({ collection }) => collection === 'collocations');
+    const words = getScopedWords(original, decks, 'en');
+    const phraseDecks = decks.filter(({ collection, id }) => collection === 'collocations' && words.some((word) => word.deckId === id));
     const phrases = getScopedWords(words, phraseDecks, 'en');
     assert.equal(phrases.length, 72);
     const regional = words.filter(({ id }) => id.startsWith('en-regional-'));
@@ -98,8 +101,8 @@ test('English source data contains the A1–B2 word lists, collocation decks, an
 });
 
 test('the phrasal collection has two distinct bilingual contexts for each meaning', () => {
-  const decks = ENGLISH_DECKS.filter(({ collection }) => collection === 'phrasal');
-  assert.ok(decks.every((deck) => getDeckStudyLevel(deck) === ENGLISH_PHRASAL_LEVEL && deck.category));
+  const decks = ENGLISH_DECKS.filter((deck) => deck.collection === 'phrasal' && getDeckStudyLevel(deck) === ENGLISH_PHRASAL_LEVEL);
+  assert.ok(decks.every((deck) => deck.category));
   assert.ok(new Set(decks.map(({ category }) => category)).size > 1);
   assert.ok(ENGLISH_DECKS.every(({ category }) => category !== 'Từ thường dùng'));
   const words = getScopedWords(ENGLISH_WORDS, decks, 'en');
@@ -111,6 +114,23 @@ test('the phrasal collection has two distinct bilingual contexts for each meanin
     assert.ok(examples.every(({ translation, sourceUrl }) => translation && !sourceUrl), term);
     assert.doesNotMatch(notes ?? '', /PDF|trang \d/);
   }
+});
+
+test('the expanded catalog has 7,000 unique entries and covers all curriculum types', () => {
+  const keys = ENGLISH_WORDS.map(({ term }) => term.normalize('NFKC').trim().toLowerCase()
+    .replace(/[‘’]/g, "'").replace(/[‐‑–—]/g, '-').replace(/\s+/g, ' ').replace(/[.!?]+$/u, ''));
+  assert.equal(keys.length, 7_000);
+  assert.equal(new Set(keys).size, 7_000);
+  assert.equal(new Set(ENGLISH_DECKS.map(({ id }) => id)).size, ENGLISH_DECKS.length);
+  assert.equal(getScopedWords(ENGLISH_WORDS, ENGLISH_DECKS, 'en').length, 7_000);
+  assert.ok(ENGLISH_WORDS.every(({ examples }) => examples.some(({ sentence }) => sentence.trim())));
+  assert.ok(ENGLISH_WORDS.filter(({ examples }) => examples.some(({ translation }) => translation.trim())).length > 6_100);
+  assert.ok(ENGLISH_WORDS.filter(({ synonyms }) => synonyms.length > 0).length > 700);
+  assert.ok(ENGLISH_WORDS.filter(({ antonyms }) => antonyms.length > 0).length > 300);
+  const phrases = getScopedWords(ENGLISH_WORDS, ENGLISH_DECKS.filter(({ collection }) => collection === 'phrases'), 'en');
+  assert.deepEqual(new Set(phrases.map(({ partOfSpeech }) => partOfSpeech)), new Set(['Cụm danh từ', 'Cụm tính từ']));
+  assert.ok(phrases.every(({ examples }) => examples[0]?.translation));
+  assert.equal(getScopedWords(ENGLISH_WORDS, ENGLISH_DECKS.filter(({ collection }) => collection === 'phrasal'), 'en').length, 230);
 });
 
 test('English regional forms share a card ID and SRS, with matching examples and accent-specific voices', () => {

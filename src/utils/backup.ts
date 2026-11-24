@@ -50,7 +50,7 @@ const word = shape({
 const deck = shape({
   id, name: string, nativeName: optional(string), description: string, language, category: string, isCustom: bool, createdAt: count,
   level: optional(string), hskEdition: optional(edition), wordIds: optional(list(id, 200_000)),
-  collection: optional(oneOf('textbook', 'vocabulary', 'situations', 'collocations', 'regional', 'phrasal')),
+  collection: optional(oneOf('textbook', 'vocabulary', 'situations', 'collocations', 'regional', 'phrasal', 'phrases')),
 });
 const log = shape({
   id, deckId: id, timestamp: count, level: optional(string), language: optional(language), hskEdition: optional(edition),

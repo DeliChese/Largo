@@ -58,7 +58,7 @@ export function getScopedWords(words: readonly VocabWord[], scopedDecks: readonl
   const assigned = new Set<string>();
   const lessons = scopedDecks.flatMap((deck) => (deck.wordIds ?? []).flatMap((id) => {
     const word = byId.get(id);
-    if (!word || assigned.has(id) || (deck.isCustom && word.deckId !== deck.id && directIds.has(id))) return [];
+    if (!word || assigned.has(id) || (word.deckId !== deck.id && directIds.has(id))) return [];
     assigned.add(id);
     return [{ ...word, deckId: deck.id }];
   }));

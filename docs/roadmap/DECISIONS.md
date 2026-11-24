@@ -132,6 +132,14 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - Bộ cá nhân Đấu trường nối từ tham chiếu ID của thẻ đã có để dùng chung lịch ôn. Cụm từ chưa có thẻ hoặc mục do DeepSeek tạo chỉ trở thành thẻ mới sau khi người chơi bấm lưu. Bản sao lưu và cơ sở dữ liệu dùng định dạng hiện hành.
 - Tắt DeepSeek phía máy chủ bằng `DEEPSEEK_AI_ENABLED=false` và khởi động lại Largo. Khi rút mode chơi, giữ hỗ trợ bộ cá nhân tham chiếu thẻ để người dùng tiếp tục quản lý các mục đã lưu.
 
+## ADR-021 — Largo tập trung vào tiếng Anh
+
+- Ngày 2026-11-25. Chủ dự án chọn tiếng Anh làm phạm vi sản phẩm. ADR-019 về HSK mô tả bản cũ. Các tệp nguồn lịch sử vẫn dùng để ghi công và đối chiếu bản sao lưu.
+- Seed v12 bổ sung 2.963 thẻ tiếng Anh và giữ ID, tiến độ, quan hệ cá nhân và ý định xóa cho thư viện đã cài. Bốn cụm trùng trong danh mục mới dùng ID chung giữa các bộ. Bản lưu đã ôn các ID cũ vẫn giữ thẻ và lịch ôn của từng ID.
+- Tạo ví dụ AI là thao tác tự chọn trên thẻ. Server kiểm tra từ mục tiêu, câu trùng, bản dịch, hạn mức và timeout. Kết quả hiển thị trong thẻ đang mở. Tắt bằng biến môi trường `EXAMPLE_AI_ENABLED=false`.
+- Đấu trường hỗ trợ đấu bot, tiếp sức 60 giây và hai người cùng thiết bị. Các luật chạy với danh mục cục bộ. Thẻ được lưu từ game dùng lại ID nếu đã có trong thư viện.
+- Rollback giao diện bằng mã đọc được seed v12. Khi quay về mã v11, dùng bản sao lưu tương ứng trước cập nhật. Schema IndexedDB và định dạng backup v2 tiếp tục dùng cấu trúc hiện hành.
+
 ## Template ADR mới
 
 - ID/ngày/status:

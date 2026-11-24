@@ -1,14 +1,17 @@
 Nguồn học liệu tiếng Anh của Largo
 
-Largo chọn 3.600 mục từ theo cấp A1, A2, B1 và B2 của CEFR-J, ưu tiên từ
-thường gặp. CEFR-J tổng hợp ngữ liệu từ nhiều giáo trình tiếng Anh.
-Các nhóm chủ đề và bài học là cách sắp xếp của Largo. Bộ collocations và
-thẻ so sánh Anh-Anh / Anh-Mỹ do Largo biên soạn, với cấp độ gợi ý.
+Danh mục mặc định gồm 7.000 từ và cụm từ. Largo chọn 4.540 mục từ từ
+CEFR-J A1–B2, ưu tiên mục thường gặp, và bổ sung bộ giao tiếp, collocations,
+cụm động từ, cụm danh từ, cụm tính từ và so sánh Anh–Anh / Anh–Mỹ.
+Largo sắp xếp nhóm chủ đề và biên soạn nội dung bổ sung. Cấp độ của
+các bộ biên soạn, kể cả C1, là mức gợi ý.
 
-Cụm động từ
-• 33 nghĩa do Largo biên soạn theo bốn chủ đề, với hai câu ví dụ Anh–Việt
-  cho mỗi nghĩa. Ghi công Largo khi dùng lại ví dụ, bản dịch hoặc ghi chú
-  của bộ này theo CC BY-SA 4.0.
+Nội dung biên soạn
+• Cụm động từ, cụm danh từ, cụm tính từ và collocations bổ sung có ví dụ
+  Anh–Việt. Các ví dụ trong nhóm từ vựng bổ sung từ từ điển có thể chỉ
+  bằng tiếng Anh. Largo biên tập riêng ví dụ ở nhóm A1 bổ sung.
+• Ghi công Largo khi dùng lại ví dụ, bản dịch hoặc ghi chú do Largo
+  biên soạn theo CC BY-SA 4.0.
   https://creativecommons.org/licenses/by-sa/4.0/
 
 Phân cấp
@@ -51,7 +54,9 @@ https://dictionary.cambridge.org/pronunciation/
 https://dictionary.cambridge.org/uk/grammar/british-grammar/british-and-american-english
 
 Tái tạo danh sách từ trong repo
-Chạy python English/build_vocabulary.py <thu-muc-du-lieu> với các tệp sau.
+Giữ danh mục gốc English/englishVocabulary.json khi nạp các bộ bổ sung.
+Chạy python English/build_expansion.py <thu-muc-du-lieu> với các tệp sau
+để tạo lại englishExpansion.json và englishExtraVocabulary.json.
 
 cefr-j-1.6.zip
 https://cefr-j.org/data/CEFRJ_wordlist_ver1.6.zip

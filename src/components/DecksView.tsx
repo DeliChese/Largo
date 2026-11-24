@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import type { DeckCollection, DeckWordImport, EnglishWordForms, ExampleSentence, LexicalRelations, StudyModeId, VocabDeck, VocabWord } from '../types/vocab';
 import { isBuiltinWord } from '../data/seedVocab';
+import { ENGLISH_LEGACY_PHRASAL_DUPLICATES } from '../data/englishDecks';
 import { BLOOM_META, calculateRetentionProbability, formatIntervalVi } from '../utils/srsBloom';
 import { getDeckStudyLevel, getScopedDecks, getScopedWords, getStudyLevels } from '../utils/studyScope';
 import { compactPhonetic, searchable } from '../utils/vocabSearch';
@@ -26,6 +27,7 @@ import { EnglishVariantDetails } from './EnglishVariantDetails';
 import { EMPTY_EXAMPLES, EMPTY_RELATIONS, ExampleFields, RelationFields } from './WordFormFields';
 import { WordRelations } from './WordRelations';
 import { WordExamples } from './WordExamples';
+import { WordExampleGenerator } from './WordExampleGenerator';
 import { describeMastery, type WordMastery } from '../utils/mastery';
 
 const WORDS_PER_PAGE = 24;
@@ -36,6 +38,7 @@ const COLLECTION_LABELS: Record<DeckCollection | 'personal', string> = {
   vocabulary: 'Từ theo chủ đề',
   situations: 'Giao tiếp',
   phrasal: 'Cụm động từ',
+  phrases: 'Cụm danh từ và tính từ',
   collocations: 'Collocations',
   regional: 'Anh-Anh / Anh-Mỹ',
   personal: 'Bộ cá nhân',
@@ -153,7 +156,14 @@ export const DecksView: React.FC<DecksViewProps> = ({
     return [...topics];
   }, [filteredDecks]);
   const activeDeck = selectedDeckId === 'all' ? undefined : filteredDecks.find((deck) => deck.id === selectedDeckId) ?? filteredDecks[0];
-  const scopeWords = useMemo(() => getScopedWords(words, filteredDecks, 'en'), [words, filteredDecks]);
+  const scopeWords = useMemo(() => {
+    const scoped = getScopedWords(words, filteredDecks, 'en');
+    const ids = new Set(scoped.map(({ id }) => id));
+    return scoped.filter(({ id }) => {
+      const legacy = ENGLISH_LEGACY_PHRASAL_DUPLICATES.get(id);
+      return !legacy || !ids.has(legacy.canonicalId);
+    });
+  }, [words, filteredDecks]);
   const deckWords = useMemo(() => activeDeck ? getScopedWords(words, [activeDeck], 'en') : scopeWords,
     [activeDeck, scopeWords, words]);
   const targetDeck = activeDeck ?? filteredDecks[0] ?? scopedDecks[0];
@@ -549,6 +559,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
               <div className="deck-word-cards">
                 {pageWords.map((storedWord) => {
                   const word = getEnglishStudyWord(storedWord, englishLocale);
+                  const sourceDeck = activeDeck ?? decks.find(({ id }) => id === word.deckId);
                   const retention = word.srs.lastReviewedAt === null ? null : Math.round(calculateRetentionProbability(word) * 100);
                   return (
                     <article className="deck-word-card" key={word.id}>
@@ -584,6 +595,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
                           <WordExamples examples={word.examples.slice(0, 2)} speechRate={speechRate} />
                         </div>
                       )}
+                      <WordExampleGenerator key={englishLocale + ':' + word.term} word={word} locale={englishLocale}
+                        level={sourceDeck ? getDeckStudyLevel(sourceDeck) : undefined} speechRate={speechRate} />
                       <details className="deck-word-details">
                         <summary>Chi tiết thẻ</summary>
                         {word.notes && <p>{word.notes}</p>}

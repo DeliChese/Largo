@@ -952,6 +952,12 @@ body:has(.app-shell[data-route="decks"]) { min-height: 0; overflow: hidden; }
 .word-example p:first-child { font-weight: 650; }
 .word-example-translation { margin-top: 2px; color: var(--text-secondary); font-size: 0.78rem; }
 .word-example-source { color: var(--text-secondary); font-size: 0.69rem; text-decoration: underline; text-underline-offset: 2px; }
+.word-example-ai summary { color: var(--accent-text); font-size: 0.83rem; font-weight: 700; cursor: pointer; }
+.word-example-ai summary svg { display: inline; margin-inline: 3px; vertical-align: text-bottom; }
+.word-example-ai-content { display: grid; gap: 8px; padding-block: 8px; }
+.word-example-ai-content > p { color: var(--text-secondary); font-size: 0.8rem; }
+.word-example-ai-content > p:empty { display: none; }
+.word-example-ai-content > button { justify-self: start; }
 .word-relations {
   display: flex;
   flex-wrap: wrap;

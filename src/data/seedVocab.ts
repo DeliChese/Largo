@@ -7,7 +7,10 @@ import type {
   VocabDeck,
   VocabWord,
 } from '../types/vocab';
-import { ENGLISH_DECKS, ENGLISH_PHRASAL_PREVIOUS_DECK_IDS, ENGLISH_V7_WORD_DECK_IDS, ENGLISH_WORDS, PRE_V5_ENGLISH_WORD_IDS, STARTER_ENGLISH_WORDS } from './englishDecks';
+import {
+  ENGLISH_DECKS, ENGLISH_LEGACY_PHRASAL_DUPLICATES, ENGLISH_PHRASAL_PREVIOUS_DECK_IDS,
+  ENGLISH_V7_WORD_DECK_IDS, ENGLISH_WORDS, PRE_V5_ENGLISH_WORD_IDS, STARTER_ENGLISH_WORDS,
+} from './englishDecks';
 
 export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: string; short: string }> = {
   en: { name: 'Tiếng Anh', native: 'English', short: 'EN' },
@@ -16,7 +19,7 @@ export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: strin
 const ENGLISH_DATA_VERSION = 2;
 const ENGLISH_CURRICULUM_VERSION = 7;
 const ENGLISH_PHRASES_VERSION = 8;
-export const CURRENT_DATA_VERSION = 11;
+export const CURRENT_DATA_VERSION = 12;
 
 export const INITIAL_DECKS: VocabDeck[] = [...ENGLISH_DECKS];
 
@@ -88,10 +91,12 @@ function mergeEnglishSeed(decks: VocabDeck[], words: VocabWord[], version: numbe
   const savedEnglishWords = new Map(englishWords.map((word) => [word.id, word]));
   const personalWords = englishWords.filter(({ id, deckId }) => retiredDeckIds.has(deckId) && !isBuiltinWord(id));
   const personalDeckIds = new Set(personalWords.map(({ deckId }) => deckId));
-  const customWords = englishWords.filter((word) => !ENGLISH_WORDS_BY_ID.has(word.id))
-    .map((word) => legacyPhrasalWordId.test(word.id) && personalDeckIds.has(word.deckId)
-      ? { ...word, deckId: 'archive-' + word.deckId }
-      : word);
+  const customWords = englishWords.filter((word) => !ENGLISH_WORDS_BY_ID.has(word.id)).map((word) => {
+    const legacyDuplicate = ENGLISH_LEGACY_PHRASAL_DUPLICATES.get(word.id);
+    if (legacyDuplicate) return { ...word, deckId: legacyDuplicate.deckId };
+    return legacyPhrasalWordId.test(word.id) && personalDeckIds.has(word.deckId)
+      ? { ...word, deckId: 'archive-' + word.deckId } : word;
+  });
   const previousIds = version >= 5 ? STARTER_ENGLISH_WORD_IDS : PRE_V5_ENGLISH_WORD_IDS;
 
   const mergedEnglishWords = ENGLISH_WORDS.flatMap((word) => {
@@ -129,7 +134,17 @@ function mergeEnglishSeed(decks: VocabDeck[], words: VocabWord[], version: numbe
         wordIds: undefined,
         isCustom: true,
       })),
-      ...ENGLISH_DECKS.map((deck) => ({ ...deck, createdAt: savedDecksById.get(deck.id)?.createdAt ?? deck.createdAt })),
+      ...ENGLISH_DECKS.map((deck) => {
+        const saved = savedDecksById.get(deck.id);
+        if (deck.collection !== 'phrasal' || !deck.wordIds) {
+          return { ...deck, createdAt: saved?.createdAt ?? deck.createdAt };
+        }
+        // Installed lessons keep their own cards, including their saved progress and deletions.
+        const wordIds = saved ? saved.wordIds : deck.wordIds.filter((id) =>
+          ![...ENGLISH_LEGACY_PHRASAL_DUPLICATES].some(([legacyId, { canonicalId }]) => id === canonicalId &&
+            (savedEnglishWords.has(legacyId) || retiredDeckIds.has(ENGLISH_PHRASAL_PREVIOUS_DECK_IDS.get(legacyId) ?? ''))));
+        return { ...deck, wordIds, createdAt: saved?.createdAt ?? deck.createdAt };
+      }),
     ],
     words: [...customWords, ...mergedEnglishWords],
   };

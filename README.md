@@ -1,6 +1,6 @@
 # Largo
 
-Largo là PWA học tiếng Anh và tiếng Trung bằng tiếng Việt. Ứng dụng có từ vựng CEFR-J, hai phiên bản HSK, thẻ cá nhân, ôn cách quãng và bản sao lưu tiến độ. Tiến độ được lưu trên trình duyệt theo địa chỉ của ứng dụng.
+Largo là PWA học tiếng Anh bằng tiếng Việt. Thư viện có 7.000 từ và cụm từ, bộ thẻ cá nhân, ôn cách quãng và sao lưu tiến độ. Tiến độ được lưu trên trình duyệt theo địa chỉ của ứng dụng.
 
 ## Chạy trên máy
 
@@ -18,6 +18,8 @@ npm start
 
 ## Học liệu và giấy phép
 
-Bộ Cụm động từ hiện có 33 nghĩa do Largo biên soạn, mỗi nghĩa có hai ví dụ Anh–Việt. Bộ từ PDF và hai PDF HSK cũ đã được rút khỏi các tệp phát hành hiện tại. Bản lưu cá nhân cũ có thể chứa học liệu từ các phiên bản trước. Xem [nguồn tiếng Anh](public/english-sources.txt), [nguồn HSK](docs/agents/chinese-curriculum.md) và [phạm vi giấy phép](LICENSE).
+Thư viện lọc theo cấp A1–C1, chủ đề và loại học liệu, gồm collocations, cụm động từ, cụm danh từ và cụm tính từ. Đấu trường có đấu bot, tiếp sức 60 giây và hai người dùng chung thiết bị. Xem [nguồn và cách tái tạo học liệu](public/english-sources.txt) và [phạm vi giấy phép](LICENSE).
+
+Trên thẻ thư viện hoặc mặt đáp án flashcard, mở **Tạo lại ví dụ bằng AI** để tạo hai câu gợi ý. Cấu hình `GEMINI_API_KEY` và model tùy chọn `GEMINI_MODEL` ở máy chủ. Nếu chưa cấu hình Gemini, gateway dùng DeepSeek khi đã bật và cấu hình hợp lệ. Đặt `EXAMPLE_AI_ENABLED=false` để tắt việc tạo ví dụ.
 
 Nếu công khai kho mã, cần xử lý riêng các commit và bản phát hành cũ chứa học liệu đã rút. Xem [ADR-018](docs/roadmap/DECISIONS.md#adr-018--thay-thế-học-liệu-cụm-động-từ-trước-khi-phát-hành).

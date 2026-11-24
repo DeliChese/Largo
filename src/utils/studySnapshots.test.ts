@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { CURRENT_DATA_VERSION, hasCurrentSeedDecks, withCurrentSeed } from '../data/seedVocab';
+import { ENGLISH_LEGACY_PHRASAL_DUPLICATES } from '../data/englishDecks';
 import { ENGLISH_LOCALES, getEnglishStudyWord } from './englishStudy';
 import {
   CORE_ENGLISH_CARD, DELETED_ENGLISH_CARD, FIXTURE_AVATAR, MISSING_LESSON, PERSONAL_CARD, PERSONAL_DECK,
@@ -187,6 +188,34 @@ test('upgrading a v10 snapshot removes legacy Chinese items while preserving Eng
   assert.equal('showExamplePhonetic' in (migrated.settings ?? {}), false);
   assertProgressPreserved({ ...saved, settings: { ...saved.settings, speechVoices: { 'en-GB': 'en-GB-SoniaNeural' } } }, migrated);
   assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+test('a v11 English backup gains the expansion without changing existing progress or resurfacing deleted aliases', () => {
+  const fixture = reviewedStudySnapshot('en-GB');
+  const [legacyId, link] = [...ENGLISH_LEGACY_PHRASAL_DUPLICATES][0];
+  const [deletedAlias, deletedLink] = [...ENGLISH_LEGACY_PHRASAL_DUPLICATES][1];
+  const original = fixture.words.find(({ id }) => id === link.canonicalId)!;
+  const legacyCard = {
+    ...original, id: legacyId, deckId: link.deckId,
+    bloomLevel: 4 as const, srs: { ...original.srs, repetitions: 5, lastReviewedAt: SNAPSHOT_TIME },
+  };
+  const words = fixture.words.filter(({ id }) => !id.startsWith('en-extra-'));
+  const oldDeckIds = new Set(words.map(({ deckId }) => deckId));
+  const v11 = {
+    ...fixture, version: 11,
+    decks: fixture.decks.filter(({ id }) => oldDeckIds.has(id))
+      .map((deck) => deck.collection === 'phrasal' ? { ...deck, wordIds: undefined } : deck),
+    words: [...words, legacyCard],
+    profile: { ...fixture.profile, todayWordIds: [...fixture.profile.todayWordIds ?? [], legacyId] },
+  };
+  const next = withCurrentSeed(v11);
+  assertProgressPreserved(v11, next);
+  assert.equal(next.words.filter(({ id }) => id.startsWith('en-extra-')).length, 2963);
+  assert.deepEqual(next.words.find(({ id }) => id === legacyId), legacyCard);
+  assert.ok(!next.words.some(({ id }) => id === deletedAlias));
+  const lesson = next.decks.find(({ id }) => id === deletedLink.deckId)!;
+  assert.ok(!getScopedWords(next.words, [lesson], 'en').some(({ id }) => id === deletedLink.canonicalId));
+  assert.equal(withCurrentSeed(next), next);
 });
 
 test('the local fallback round-trips JSON and gzip snapshots and ignores damaged gzip data', async (t) => {

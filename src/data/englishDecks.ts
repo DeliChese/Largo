@@ -3,12 +3,15 @@ import englishCollocations from '../../English/englishCollocations.json' with { 
 import englishRegional from '../../English/englishRegional.json' with { type: 'json' };
 import englishEnrichment from '../../English/englishEnrichment.json' with { type: 'json' };
 import englishPhrasalVerbs from '../../English/englishPhrasalVerbs.json' with { type: 'json' };
+import englishExpansion from '../../English/englishExpansion.json' with { type: 'json' };
+import englishExtraVocabulary from '../../English/englishExtraVocabulary.json' with { type: 'json' };
+import englishOpposites from '../../English/englishOpposites.json' with { type: 'json' };
 import type { CollocationItem, DeckCollection, EnglishLocale, EnglishWordForms, ExampleSentence, VocabDeck, VocabWord } from '../types/vocab';
 import { createInitialSRS } from '../utils/srsBloom';
 import { ENGLISH_COLLOCATION_POS } from '../utils/englishStudy';
 
 const NOW = Date.now();
-export const ENGLISH_LEVELS = ['a1', 'a2', 'b1', 'b2'] as const;
+export const ENGLISH_LEVELS = ['a1', 'a2', 'b1', 'b2', 'c1'] as const;
 export const ENGLISH_PHRASAL_LEVEL = 'phrasal';
 const GENERAL_CATEGORY = 'Từ thường dùng';
 
@@ -53,6 +56,11 @@ interface EnglishEnrichment {
 }
 
 const enrichment: Record<string, EnglishEnrichment> = englishEnrichment;
+const englishOppositesByTerm = new Map<string, string>();
+for (const [first, second] of englishOpposites) {
+  englishOppositesByTerm.set(first, second);
+  englishOppositesByTerm.set(second, first);
+}
 
 interface EnglishVocabularyRow {
   term: string;
@@ -746,6 +754,7 @@ function createEnglishDeck(
 
 function createEnglishCard(id: string, deckId: string, card: EnglishCardSeed): VocabWord {
   const extra = enrichment[id];
+  const opposite = englishOppositesByTerm.get(card.term.toLowerCase());
   const englishForms = extra?.formExamples ? { ...card.englishForms } : card.englishForms;
   if (extra?.formExamples && englishForms) {
     for (const [locale, examples] of Object.entries(extra.formExamples)) {
@@ -761,7 +770,7 @@ function createEnglishCard(id: string, deckId: string, card: EnglishCardSeed): V
     language: 'en',
     examples: extra?.examples ?? card.examples,
     synonyms: extra?.synonyms ?? card.synonyms ?? [],
-    antonyms: extra?.antonyms ?? card.antonyms ?? [],
+    antonyms: [...new Set([...(extra?.antonyms ?? card.antonyms ?? []), ...(opposite ? [opposite] : [])])],
     bloomLevel: 1,
     srs: createInitialSRS(NOW),
     createdAt: NOW,
@@ -914,14 +923,47 @@ const regionalWords = englishRegional.flatMap(({ id, cards }) => cards.map((card
   });
 }));
 
-const courseDecks = [...STARTER_ENGLISH_DECKS, ...collocationDecks, ...regionalDecks, ...vocabularyDecks];
+interface EnglishExpansionDeck {
+  id: string;
+  title: string;
+  level: string;
+  category: string;
+  collection: string;
+  cards: (Pick<EnglishCardSeed, 'term' | 'meaning' | 'partOfSpeech' | 'examples'> &
+    Partial<EnglishCardSeed> & { id: string })[];
+}
+
+const expansionLessons: EnglishExpansionDeck[] = [...englishExpansion, ...englishExtraVocabulary];
+const expansionDecks = expansionLessons.map((lesson) =>
+  createEnglishDeck(lesson, lesson.collection as DeckCollection, lesson.category, ''),
+);
+const expansionWords = expansionLessons.flatMap(({ id: deckId, cards }) => cards.map(({ id, ...card }) =>
+  createEnglishCard(id, deckId, { phonetic: '', collocations: [], ...card }),
+));
+
+const courseDecks = [...STARTER_ENGLISH_DECKS, ...collocationDecks, ...regionalDecks, ...vocabularyDecks, ...expansionDecks];
 export const ENGLISH_PHRASAL_PREVIOUS_DECK_IDS = new Map(englishPhrasalVerbs.flatMap(({ cards }) =>
   cards.map(({ id, previousDeckId }) => [id, previousDeckId] as const),
 ));
-const phrasalDecks = englishPhrasalVerbs.map(({ id, title, topic }) => createEnglishDeck(
-  { id, title, level: ENGLISH_PHRASAL_LEVEL }, 'phrasal', topic, 'Cụm động từ theo ngữ cảnh, có câu mẫu song ngữ.',
+const starterByTerm = new Map(STARTER_ENGLISH_WORDS.map(({ term, id }) => [term.toLowerCase(), id]));
+export const ENGLISH_LEGACY_PHRASAL_DUPLICATES = new Map(englishPhrasalVerbs.flatMap(({ id: deckId, cards }) =>
+  cards.flatMap(({ id, term }) => {
+    const canonicalId = starterByTerm.get(term.toLowerCase());
+    return canonicalId ? [[id, { deckId, canonicalId }] as const] : [];
+  }),
 ));
-const phrasalWords = englishPhrasalVerbs.flatMap(({ id, cards }) => cards.map((card) => createEnglishCard(card.id, id, {
+const phrasalDecks = englishPhrasalVerbs.map(({ id, title, topic, cards }) => {
+  const deck = createEnglishDeck(
+    { id, title, level: ENGLISH_PHRASAL_LEVEL }, 'phrasal', topic, 'Cụm động từ theo ngữ cảnh, có câu mẫu song ngữ.',
+  );
+  const wordIds = cards.flatMap((card) => {
+    const shared = ENGLISH_LEGACY_PHRASAL_DUPLICATES.get(card.id);
+    return shared ? [shared.canonicalId] : [];
+  });
+  return wordIds.length ? { ...deck, wordIds } : deck;
+});
+const phrasalWords = englishPhrasalVerbs.flatMap(({ id, cards }) => cards
+  .filter((card) => !ENGLISH_LEGACY_PHRASAL_DUPLICATES.has(card.id)).map((card) => createEnglishCard(card.id, id, {
   term: card.term,
   phonetic: '',
   partOfSpeech: 'Cụm động từ',
@@ -942,5 +984,5 @@ export const ENGLISH_DECKS = [
   ...phrasalDecks,
 ];
 const deckOrder = new Map(ENGLISH_DECKS.map(({ id }, index) => [id, index]));
-export const ENGLISH_WORDS = [...STARTER_ENGLISH_WORDS, ...collocationWords, ...regionalWords, ...vocabularyWords, ...phrasalWords]
+export const ENGLISH_WORDS = [...STARTER_ENGLISH_WORDS, ...collocationWords, ...regionalWords, ...vocabularyWords, ...expansionWords, ...phrasalWords]
   .sort((a, b) => deckOrder.get(a.deckId)! - deckOrder.get(b.deckId)!);

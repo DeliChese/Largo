@@ -3,6 +3,8 @@ import { chainEnds, normalizeChainTerm } from './wordChainRules.mjs';
 
 export type ChainLanguage = 'en';
 export type ChainMode = 'word' | 'mixed';
+export type ChainVariant = 'duel' | 'relay' | 'pass';
+export type ChainPlayer = 'player' | 'partner';
 export type ChainDifficulty = keyof typeof CHAIN_DIFFICULTIES;
 
 export const CHAIN_DIFFICULTIES = {
@@ -13,6 +15,7 @@ export const CHAIN_DIFFICULTIES = {
 } as const;
 
 export const CHAIN_AI_ATTEMPTS = 2;
+export const CHAIN_RELAY_SECONDS = 60;
 
 export interface ChainEntry {
   term: string;
@@ -62,6 +65,17 @@ export function checkChainMove(
   if (used.has(key)) return { error: 'repeat' } as const;
   const entry = lexicon.entries.get(key);
   return entry ? { entry } : { error: 'unknown' } as const;
+}
+
+export function hasChainReply(lexicon: ReturnType<typeof buildChainLexicon>, first: string, used: ReadonlySet<string>) {
+  return lexicon.byFirst.get(first)?.some(({ key }) => !used.has(key)) ?? false;
+}
+
+export function nextChainTurn(
+  variant: ChainVariant, turn: ChainPlayer, deadline: number, now: number, seconds: number,
+) {
+  const next: ChainPlayer = variant !== 'pass' ? 'player' : turn === 'player' ? 'partner' : 'player';
+  return { turn: next, deadline: variant === 'relay' ? deadline : now + seconds * 1_000 };
 }
 
 export function chooseChainMove(

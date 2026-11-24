@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronDown, Focus, Maximiz
 import type { FormEvent, KeyboardEvent as ReactKeyboardEvent } from 'react';
 import type { AppSettings, ReviewQuality, StudySessionMode, VocabWord } from '../types/vocab';
 import { WordExamples } from './WordExamples';
+import { WordExampleGenerator } from './WordExampleGenerator';
 import { WordRelations } from './WordRelations';
 import { SentenceAiFeedback } from './SentenceAiFeedback';
 import { isSentenceAssessmentLanguage } from '../utils/sentenceAssessment.mjs';
@@ -478,6 +479,8 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
                     </div>
                   )}
                   <WordExamples examples={word.examples.slice(0, 2)} speechRate={settings.speechRate} />
+                  <WordExampleGenerator key={word.id} word={word} locale={language} level={session.level}
+                    speechRate={settings.speechRate} />
                   <WordRelations word={word} />
                   <details className="word-details">
                     <summary>Cách dùng và phát âm <ChevronDown size={15} aria-hidden="true" /></summary>

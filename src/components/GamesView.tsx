@@ -415,11 +415,11 @@ export const GamesView: React.FC<GamesViewProps> = ({
         </div>
 
         {arena && (
-          <section className="glass-panel flex flex-wrap items-center justify-between gap-4 p-5 sm:p-6">
+          <section className="chain-launch">
             <div className="space-y-2">
               <h2 className="font-display text-xl font-bold">Đấu trường nối từ</h2>
-              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                Đấu với bot bằng chữ cuối của từ trước. Lưu từ hay gặp trong ván vào bộ cá nhân.
+              <p className="text-sm">
+                Đấu với bot, nối tiếp sức 60 giây hoặc chơi hai người trên cùng một máy.
               </p>
             </div>
             <button type="button" onClick={() => setActiveGame('wordchain')} className="button-primary">

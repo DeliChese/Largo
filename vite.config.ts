@@ -33,6 +33,8 @@ export default defineConfig(() => {
               { name: 'english-vocabulary', test: /[\\/]src[\\/]data[\\/]englishDecks\.ts$/ },
               { name: 'english-card-details', test: /[\\/]English[\\/]englishEnrichment\.json$/, priority: 1 },
               { name: 'english-phrasal-verbs', test: /[\\/]English[\\/]englishPhrasalVerbs\.json$/, priority: 1 },
+              { name: 'english-expansion', test: /[\\/]English[\\/]englishExpansion\.json$/, priority: 1 },
+              { name: 'english-extra-vocabulary', test: /[\\/]English[\\/]englishExtraVocabulary\.json$/, priority: 1 },
             ],
           },
         },
