@@ -18,7 +18,7 @@ import {
   X,
 } from 'lucide-react';
 import type { DeckCollection, DeckWordImport, EnglishLocale, EnglishWordForms, ExampleSentence, HskEdition, LanguageCode, LexicalRelations, StudyModeId, VocabDeck, VocabWord } from '../types/vocab';
-import { HSK1_COURSES } from '../../Chinese/hsk1Courses';
+import { CHINESE_LESSON_LABELS, HSK_COURSES } from '../../Chinese/chineseDecks';
 import { isBuiltinWord, LANGUAGE_LABELS } from '../data/seedVocab';
 import { BLOOM_META, calculateRetentionProbability, formatIntervalVi } from '../utils/srsBloom';
 import { getDeckStudyLevel, getScopedDecks, getScopedWords, getStudyLevels } from '../utils/studyScope';
@@ -170,8 +170,8 @@ export const DecksView: React.FC<DecksViewProps> = ({
     const terms = searchable(deckQuery).split(' ').filter(Boolean);
     return scopedDecks.filter((deck) => {
       const level = levels.find(({ id }) => id === getDeckStudyLevel(deck))?.label ?? '';
-      const name = searchable(`${deck.name} ${deck.category} ${deck.description} ${level} ${COLLECTION_LABELS[deckCollection(deck)]}`);
-      return (!collection || deckCollection(deck) === collection) && terms.every((term) => name.includes(term));
+      const text = searchable([deck.name, deck.nativeName, deck.category, deck.description, level, COLLECTION_LABELS[deckCollection(deck)]].join(' '));
+      return (!collection || deckCollection(deck) === collection) && terms.every((term) => text.includes(term));
     });
   }, [scopedDecks, collection, deckQuery, levels]);
   const topicGroups = useMemo(() => {
@@ -195,8 +195,16 @@ export const DecksView: React.FC<DecksViewProps> = ({
   const zhDeck = targetDeck?.language === 'zh' ? targetDeck : undefined;
   const creationLevels = (deckLang === language ? levels : getStudyLevels(deckLang, decks))
     .filter(({ id }) => id !== 'all' && id !== 'custom');
-  const textbook = language === 'zh' ? HSK1_COURSES[hskEdition] : undefined;
+  const textbookLevel = activeDeck ? getDeckStudyLevel(activeDeck) : activeLevel;
+  const textbook = language === 'zh' ? HSK_COURSES[hskEdition][textbookLevel === 'hsk3' ? 'hsk3' : 'hsk1'] : undefined;
+  const lessonLabels = activeDeck ? CHINESE_LESSON_LABELS.get(activeDeck.id) : undefined;
   const relationWord = relationWordId ? words.find(({ id }) => id === relationWordId) : undefined;
+
+  const displayDeckName = (deck: VocabDeck) => {
+    if (activeLevel !== 'all' || deck.collection !== 'textbook') return deck.name;
+    const label = levels.find(({ id }) => id === getDeckStudyLevel(deck))?.label;
+    return label ? `${label} · ${deck.name}` : deck.name;
+  };
 
   const deckCounts = useMemo(() => {
     const counts = new Map<string, number>();
@@ -218,11 +226,13 @@ export const DecksView: React.FC<DecksViewProps> = ({
     const q = searchable(searchQuery);
     if (!q) return deckWords;
     const phoneticQuery = compactPhonetic(q);
-    const exactTerm = (word: VocabWord) => searchable(word.term) === q ||
+    const lessonLabel = (word: VocabWord) => searchable(lessonLabels?.get(word.id) ?? '');
+    const exactTerm = (word: VocabWord) => searchable(word.term) === q || lessonLabel(word) === q ||
       ENGLISH_LOCALES.some((locale) => searchable(word.englishForms?.[locale]?.term ?? '') === q);
     return deckWords.filter(
       (w) =>
         searchable(w.term).includes(q) ||
+        lessonLabel(w).includes(q) ||
         (phoneticQuery && compactPhonetic(w.phonetic).includes(phoneticQuery)) ||
         searchable(w.meaning).includes(q) ||
         [w.synonyms, w.antonyms, w.personalRelations?.synonyms, w.personalRelations?.antonyms]
@@ -238,7 +248,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
           );
         }),
     ).sort((a, b) => Number(exactTerm(b)) - Number(exactTerm(a)));
-  }, [deckWords, searchQuery]);
+  }, [deckWords, lessonLabels, searchQuery]);
 
   const pageCount = Math.max(1, Math.ceil(visibleWords.length / WORDS_PER_PAGE));
   const currentPage = Math.min(page, pageCount);
@@ -546,7 +556,10 @@ export const DecksView: React.FC<DecksViewProps> = ({
                     <li className="deck-list-item" key={deck.id}>
                       <button type="button" className="deck-picker" onClick={() => selectDeck(deck.id)} aria-pressed={activeDeck?.id === deck.id}>
                         <BookOpen size={15} aria-hidden="true" />
-                        <span>{deck.name}</span>
+                        <span className="deck-picker-title">
+                          <span>{displayDeckName(deck)}</span>
+                          {deck.nativeName && <span className="deck-native-name" lang={deck.language} dir="auto">{deck.nativeName}</span>}
+                        </span>
                         <span className="deck-card-count">{deckCounts.get(deck.id) ?? 0} thẻ</span>
                       </button>
                       {deck.isCustom && (
@@ -572,7 +585,12 @@ export const DecksView: React.FC<DecksViewProps> = ({
             <div className="deck-content-heading">
               <div className="deck-title-group">
                 {activeDeck && <p className="deck-topic-label">{activeDeck.category}</p>}
-                <h2 id="deck-content-title" ref={wordsHeading} tabIndex={-1}>{activeDeck?.name ?? 'Thẻ trong phạm vi'}</h2>
+                <h2 id="deck-content-title" ref={wordsHeading} tabIndex={-1}>
+                  {activeDeck ? displayDeckName(activeDeck) : 'Thẻ trong phạm vi'}
+                </h2>
+                {activeDeck?.nativeName && (
+                  <p className="deck-native-name" lang={activeDeck.language} dir="auto">{activeDeck.nativeName}</p>
+                )}
                 <p className="deck-description">
                   {deckWords.length.toLocaleString('vi-VN')} thẻ
                   {activeDeck?.description && <span> · {activeDeck.description}</span>}
@@ -641,7 +659,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                       <header className="deck-word-heading">
                         <div>
                           <div className="deck-term">
-                            <h3 lang={pronunciation}>{word.term}</h3>
+                            <h3 lang={pronunciation}>{lessonLabels?.get(word.id) ?? word.term}</h3>
                             <button type="button" className="icon-button" onClick={() => speak(word.term)} aria-label={`Phát âm ${word.term}`}>
                               <Volume2 size={17} aria-hidden="true" />
                             </button>

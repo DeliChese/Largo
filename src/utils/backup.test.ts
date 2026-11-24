@@ -45,4 +45,6 @@ test('preview rejects corrupted, ambiguous and future backup data', async () => 
   await reject({ ...backup, snapshot: { ...backup.snapshot, words: [word, word, ...words] } });
   await reject({ ...backup, snapshot: { ...backup.snapshot, words: [{ ...word, srs: { ...word.srs, nextReviewAt: 'tomorrow' } }, ...words] } });
   await reject({ ...backup, snapshot: { ...backup.snapshot, words: [{ ...word, deckId: 'missing-deck', id: 'custom-orphan' }, ...words] } });
+  const [deck, ...decks] = state.decks;
+  await reject({ ...backup, snapshot: { ...backup.snapshot, decks: [{ ...deck, nativeName: 12 }, ...decks] } });
 });

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ENGLISH_DECKS, ENGLISH_PHRASAL_LEVEL, ENGLISH_V7_WORD_DECK_IDS, ENGLISH_WORDS, STARTER_ENGLISH_DECKS, STARTER_ENGLISH_WORDS } from '../data/englishDecks';
-import { CHINESE_DECKS, CHINESE_WORDS } from '../../Chinese/chineseDecks';
+import { CHINESE_DECKS, CHINESE_LESSON_LABELS, CHINESE_WORDS } from '../../Chinese/chineseDecks';
 import { LEGACY_DECK_ID_MAP, LEGACY_WORD_ID_MAP } from '../data/seedMigration';
 import catalogue from '../../Chinese/chineseVocabulary.json' with { type: 'json' };
 import { CURRENT_DATA_VERSION, hasCurrentSeedDecks, INITIAL_DECKS, INITIAL_PROFILE, INITIAL_SETTINGS, INITIAL_WORDS, withCurrentSeed } from '../data/seedVocab';
@@ -40,7 +40,7 @@ function makeWord(id: string, deckId: string, term: string, language: 'zh' | 'en
 
 test('language and level selections keep the review library scoped without legacy decks', () => {
   assert.deepEqual(getStudyLanguages(INITIAL_DECKS), ['zh', 'en']);
-  assert.deepEqual(getStudyLevels('zh', INITIAL_DECKS).map(({ id }) => id), ['all', 'hsk1']);
+  assert.deepEqual(getStudyLevels('zh', INITIAL_DECKS).map(({ id }) => id), ['all', 'hsk1', 'hsk3']);
   assert.deepEqual(getStudyLevels('en', INITIAL_DECKS).map(({ id }) => id), ['all', 'a1', 'a2', 'b1', 'b2', ENGLISH_PHRASAL_LEVEL]);
 
   const a2Decks = getScopedDecks(INITIAL_DECKS, 'en', 'a2');
@@ -140,7 +140,7 @@ test('English regional forms share a card ID and SRS, with matching examples and
 });
 
 test('the Chinese vocabulary source retains coverage and context for the courses and dictionary lookup', async () => {
-  assert.equal(CHINESE_WORDS.length, 1388);
+  assert.equal(CHINESE_WORDS.length, 1424);
   assert.equal(new Set(CHINESE_WORDS.map(({ id }) => id)).size, CHINESE_WORDS.length);
   assert.ok(CHINESE_WORDS.every(({ examples }) => examples.length >= 2 && examples.slice(0, 2).every(({ translation }) => translation)));
   assert.ok(CHINESE_DECKS.every((deck) => deck.level !== 'legacy' && deck.category !== 'Bộ từ trước đây'));
@@ -199,10 +199,13 @@ test('both Chinese textbooks scope and order their HSK 1 lessons', () => {
   const hsk30CoreIds = new Set(catalogue.flatMap((deck) => deck.cards)
     .filter((card) => 'hskLevel' in card && card.hskLevel === 1).map(({ id }) => id));
   for (const [edition, count, first] of [['hsk20', 182, '你'], ['hsk30', 305, '你好']] as const) {
-    const decks = getEditionDecks(INITIAL_DECKS, 'zh', edition);
+    const decks = getScopedDecks(getEditionDecks(INITIAL_DECKS, 'zh', edition), 'zh', 'hsk1');
     const words = getScopedWords(INITIAL_WORDS, decks, 'zh');
     assert.equal(decks.length, 15);
     assert.ok(decks.every((deck) => deck.hskEdition === edition && deck.level === 'hsk1'));
+    assert.ok(decks.every((deck) => /\p{Script=Han}/u.test(deck.nativeName ?? '') && deck.category));
+    assert.equal(decks[0].nativeName, edition === 'hsk20' ? '你好' : 'AI小语，你好！');
+    assert.equal(decks[14].nativeName, edition === 'hsk20' ? '我是坐飞机来的' : '大兴机场见！');
     assert.equal(words.length, count);
     assert.equal(words[0].term, first);
     assert.equal(new Set(words.map(({ id }) => id)).size, words.length);
@@ -221,6 +224,48 @@ test('both Chinese textbooks scope and order their HSK 1 lessons', () => {
       assert.equal(words.find(({ term }) => term === '下雪')?.deckId, 'deck-zh-hsk30-hsk1-l12');
     }
   }
+});
+
+test('HSK 3 selects the correct textbook, lesson order, spelling and shared cards per edition', () => {
+  const scope = (edition: 'hsk20' | 'hsk30') => {
+    const editionDecks = getEditionDecks(INITIAL_DECKS, 'zh', edition);
+    const decks = getScopedDecks(editionDecks, 'zh', 'hsk3');
+    const lessons = decks.map((deck) => {
+      const cards = getScopedWords(INITIAL_WORDS, [deck], 'zh');
+      assert.deepEqual(cards.map(({ id }) => id), deck.wordIds);
+      assert.ok(cards.every((card) => card.meaning && card.phonetic && card.examples.length >= 2 &&
+        card.examples.every((example) => example.sentence && example.phonetic && example.translation)));
+      const labels = CHINESE_LESSON_LABELS.get(deck.id);
+      return { deck, cards, labels: cards.map(({ id, term }) => labels?.get(id) ?? term) };
+    });
+    const combined = getScopedWords(INITIAL_WORDS, decks, 'zh');
+    assert.equal(new Set(combined.map(({ id }) => id)).size, combined.length);
+    return lessons;
+  };
+  const old = scope('hsk20');
+  const modern = scope('hsk30');
+  assert.deepEqual(old.map(({ cards }) => cards.length), [15, 18, 17, 16, 13, 15, 12, 17, 13, 15, 19, 14, 15, 17, 21, 16, 16, 17, 14, 14]);
+  assert.deepEqual(modern.map(({ cards }) => cards.length), [27, 28, 26, 27, 27, 26, 27, 28, 26, 28, 27, 27, 27, 27, 24, 26, 27, 28]);
+  assert.equal(old[19].deck.name, 'Bài 20 · Mình chịu ảnh hưởng từ anh ấy.');
+  assert.equal(old[19].deck.nativeName, '我被他影响了。');
+  assert.equal(modern[17].deck.name, 'Bài 18 · Tôi đã biết gói sủi cảo.');
+  assert.equal(modern[17].deck.nativeName, '我学会了包饺子');
+  for (const course of [old, modern]) {
+    assert.ok(course.every(({ deck }) => /\p{Script=Han}/u.test(deck.nativeName ?? '') && !/\p{Script=Han}/u.test(deck.name)));
+    assert.ok(course.some(({ deck }) => deck.category === 'Ăn uống'));
+    assert.ok(new Set(course.map(({ deck }) => deck.category)).size > 1);
+  }
+  assert.deepEqual(old[0].labels, '周末 打算 啊 跟 一直 游戏 作业 着急 复习 南（方） 北方 面包 带 地图 搬'.split(' '));
+  assert.deepEqual(modern[0].labels.slice(0, 7), '以为 像 长 身高 米 瘦 接'.split(' '));
+  assert.deepEqual(old.flatMap(({ labels }) => labels.filter((label) => label.startsWith('*'))),
+    '*太太 *秘书 *眼镜 *睡着 *可乐 *中介 *生活 *举行 *各 *词语 *情况 *特点 *真正'.split(' '));
+  assert.ok(!old[4].labels.includes('张'));
+  assert.ok(old[17].labels.includes('不但……而且……'));
+  assert.ok(old[19].labels.includes('只有……才……'));
+  assert.equal(old[2].cards.find(({ term }) => term === '只')?.phonetic, 'zhǐ');
+  assert.equal(old[17].cards.find(({ term }) => term === '只')?.phonetic, 'zhī');
+  const late = [old[6], old[12], modern[5]].map(({ cards }) => cards.find(({ term }) => term === '迟到')!);
+  assert.ok(late.every((card) => card.id === late[0].id && card.srs === late[0].srs));
 });
 
 test('migrating v1 and v4 states preserves SRS progress, custom decks, deletions, and adds textbook cards', () => {
@@ -414,7 +459,7 @@ test('v7 curriculum upgrades preserve moved card progress, missing cards and per
   assert.equal(withCurrentSeed(state), state);
 });
 
-test('a snapshot stamped with the current version before the lessons were installed still loads both courses', () => {
+test('a v8 snapshot stamped before the HSK 1 lessons were installed still loads both courses', () => {
   const oldDecks = catalogue.filter(({ id }) => id !== 'deck-zh-textbook-supplements');
   const oldDeckByWordId = new Map(oldDecks.flatMap((deck) => deck.cards.map(({ id }) => [id, deck.id] as const)));
   const shared = CHINESE_WORDS.find(({ term }) => term === '你')!;
@@ -426,7 +471,7 @@ test('a snapshot stamped with the current version before the lessons were instal
     return [{ ...word, deckId, srs: word.id === shared.id ? srs : word.srs }];
   });
   const repaired = withCurrentSeed({
-    version: CURRENT_DATA_VERSION,
+    version: 8,
     decks: oldDecks.map(({ id, name, description, category, level }): VocabDeck => ({
       id, name, description, category, level, language: 'zh', isCustom: false, createdAt: 1000,
     })),
@@ -436,7 +481,7 @@ test('a snapshot stamped with the current version before the lessons were instal
   });
 
   for (const [edition, count] of [['hsk20', 181], ['hsk30', 304]] as const) {
-    const decks = getEditionDecks(repaired.decks, 'zh', edition);
+    const decks = getScopedDecks(getEditionDecks(repaired.decks, 'zh', edition), 'zh', 'hsk1');
     const scoped = getScopedWords(repaired.words, decks, 'zh');
     assert.equal(decks.length, 15);
     assert.equal(scoped.length, count);

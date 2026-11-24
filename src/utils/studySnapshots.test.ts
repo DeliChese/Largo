@@ -100,6 +100,38 @@ test('repairing a current-version snapshot with a missing lesson is idempotent',
   assert.equal(withCurrentSeed(repaired), repaired);
 });
 
+test('installing HSK 3 on v8 adds both courses, reuses reviewed cards and respects deletions on repairs', () => {
+  const saved = reviewedStudySnapshot();
+  const hsk3Decks = saved.decks.filter(({ level, language }) => language === 'zh' && level === 'hsk3');
+  const hsk3Ids = new Set(hsk3Decks.map(({ id }) => id));
+  const source = saved.words.find(({ term, deckId }) => term === '迟到' && hsk3Ids.has(deckId))!;
+  const sharedProgress = saved.words.find(({ id }) => id === SHARED_HSK_CARD)!;
+  const legacyCard = { ...source, deckId: 'deck-zh-hsk2-time', srs: sharedProgress.srs, bloomLevel: sharedProgress.bloomLevel };
+  const previous = {
+    ...saved, version: 8,
+    decks: saved.decks.filter(({ id }) => !hsk3Ids.has(id)),
+    words: [...saved.words.filter(({ deckId }) => !hsk3Ids.has(deckId)), legacyCard],
+  };
+  const upgraded = withCurrentSeed(previous);
+  assertProgressPreserved(previous, upgraded);
+  assert.equal(upgraded.version, CURRENT_DATA_VERSION);
+  assert.equal(upgraded.decks.filter(({ id }) => hsk3Ids.has(id)).length, 38);
+  assert.ok(upgraded.words.some(({ term }) => term === '服务台'));
+  for (const edition of ['hsk20', 'hsk30'] as const) {
+    const decks = getScopedDecks(getEditionDecks(upgraded.decks, 'zh', edition), 'zh', 'hsk3');
+    const card = getScopedWords(upgraded.words, decks, 'zh').find(({ id }) => id === legacyCard.id);
+    assert.equal(card?.srs, legacyCard.srs);
+    assert.equal(card?.bloomLevel, legacyCard.bloomLevel);
+  }
+  assert.equal(withCurrentSeed(upgraded), upgraded);
+  const repaired = withCurrentSeed({
+    ...upgraded, decks: previous.decks, words: upgraded.words.filter(({ id }) => id !== legacyCard.id),
+  });
+  assert.ok(hasCurrentSeedDecks(repaired.decks));
+  assert.ok(!repaired.words.some(({ id }) => id === legacyCard.id));
+  assert.equal(withCurrentSeed(repaired), repaired);
+});
+
 test('a JSON backup in the legacy export format provides a repeatable seed-migration fixture', () => {
   const exported = legacyStudyBackup();
   const json = JSON.stringify(exported);
@@ -116,6 +148,26 @@ test('a JSON backup in the legacy export format provides a repeatable seed-migra
   assertProgressPreserved(parsed, migrated);
   assert.deepEqual(migrated.profileImages, parsed.profileImages);
   assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+test('a v9 snapshot refreshes lesson titles and topics without changing membership or progress', () => {
+  const saved = reviewedStudySnapshot('hsk20');
+  const refreshedDeck = saved.decks.find(({ id }) => id === 'deck-zh-hsk20-hsk3-l03')!;
+  const removed = refreshedDeck.wordIds![0];
+  const snapshot = {
+    ...saved,
+    decks: saved.decks.map((deck) => deck.id === refreshedDeck.id
+      ? { ...deck, name: 'Bài 3 · 桌子上放着很多饮料。', category: 'Giáo trình chuẩn HSK 3 (bản HSK 2.0)', nativeName: undefined }
+      : deck),
+    words: saved.words.filter(({ id }) => id !== removed),
+  };
+  assert.equal(hasCurrentSeedDecks(snapshot.decks), false);
+  const updated = withCurrentSeed(snapshot);
+  assertProgressPreserved(snapshot, updated);
+  assert.equal(updated.version, snapshot.version);
+  assert.deepEqual(updated.decks.find(({ id }) => id === refreshedDeck.id), refreshedDeck);
+  assert.ok(!updated.words.some(({ id }) => id === removed));
+  assert.equal(withCurrentSeed(updated), updated);
 });
 
 test('the local fallback round-trips JSON and gzip snapshots and ignores damaged gzip data', async (t) => {

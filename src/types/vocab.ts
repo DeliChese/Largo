@@ -101,6 +101,7 @@ export type DeckCollection = 'textbook' | 'vocabulary' | 'situations' | 'colloca
 export interface VocabDeck {
   id: string;
   name: string;
+  nativeName?: string;
   description: string;
   language: LanguageCode;
   category: string;

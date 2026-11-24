@@ -9,6 +9,7 @@ import type {
 import {
   CHINESE_COURSE_WORDS,
   CHINESE_DECKS,
+  CHINESE_HSK3_SEED_VERSION,
   CHINESE_WORDS,
   hasCurrentChineseDecks,
   mergeChineseSeed,
@@ -30,7 +31,8 @@ export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: strin
 
 const ENGLISH_DATA_VERSION = 2;
 const ENGLISH_CURRICULUM_VERSION = 7;
-export const CURRENT_DATA_VERSION = 8;
+const ENGLISH_PHRASES_VERSION = 8;
+export const CURRENT_DATA_VERSION = CHINESE_HSK3_SEED_VERSION;
 
 export const INITIAL_DECKS: VocabDeck[] = [...CHINESE_DECKS, ...ENGLISH_DECKS];
 
@@ -77,7 +79,7 @@ function mergeEnglishSeed(decks: VocabDeck[], words: VocabWord[], version: numbe
     const saved = savedEnglishWords.get(word.id);
     if (!saved) {
       const oldDeckId = ENGLISH_V7_WORD_DECK_IDS.get(word.id);
-      const installedCurrentDeck = version >= CURRENT_DATA_VERSION && existingDeckIds.has(word.deckId);
+      const installedCurrentDeck = version >= ENGLISH_PHRASES_VERSION && existingDeckIds.has(word.deckId);
       const installedOldDeck = oldDeckId && existingDeckIds.has(oldDeckId) &&
         (version >= ENGLISH_CURRICULUM_VERSION || (version >= ENGLISH_DATA_VERSION && previousIds.has(word.id)));
       const existed = installedCurrentDeck || installedOldDeck;
@@ -102,7 +104,7 @@ function mergeEnglishSeed(decks: VocabDeck[], words: VocabWord[], version: numbe
 export function withCurrentSeed<T extends SeedState>(state: T): T {
   if (state.version > CURRENT_DATA_VERSION) return state;
   const needsChinese = state.version < CURRENT_DATA_VERSION || !hasCurrentChineseDecks(state.decks);
-  const needsEnglish = state.version < CURRENT_DATA_VERSION || !hasCurrentEnglishDecks(state.decks);
+  const needsEnglish = state.version < ENGLISH_PHRASES_VERSION || !hasCurrentEnglishDecks(state.decks);
   if (!needsChinese && !needsEnglish) return state;
 
   const chinese = needsChinese ? mergeChineseSeed(state.decks, state.words, state.version) : state;

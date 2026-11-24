@@ -8,6 +8,7 @@ import {
 import catalogue from './chineseVocabulary.json' with { type: 'json' };
 import chineseEnrichment from './chineseEnrichment.json' with { type: 'json' };
 import { HSK_EDITIONS, HSK1_COURSES } from './hsk1Courses';
+import { HSK3_NEW_COURSE, HSK3_STANDARD_COURSE } from './hsk3Course';
 
 interface CatalogueCard {
   id: string;
@@ -54,31 +55,59 @@ for (const deck of DECKS_DATA) {
 }
 
 function resolveLessonWordId(selector: string): string {
-  const [term, hskId] = selector.split('@');
-  const matches = (cardsByTerm.get(term) ?? []).filter((card) => !hskId || card.hskId === Number(hskId));
+  const [term, sourceId] = selector.split('@');
+  const matches = (cardsByTerm.get(term) ?? []).filter((card) =>
+    !sourceId || card.id === sourceId || card.hskId === Number(sourceId),
+  );
   if (matches.length !== 1) throw new Error(`Expected one Chinese card for ${selector}, got ${matches.length}`);
   return matches[0].id;
 }
 
-export const CHINESE_DECKS: VocabDeck[] = HSK_EDITIONS.flatMap(({ id: edition }) =>
-  HSK1_COURSES[edition].lessons.map((lesson, index): VocabDeck => ({
-    id: `deck-zh-${edition}-hsk1-l${String(index + 1).padStart(2, '0')}`,
-    name: `Bài ${index + 1} · ${lesson.title}`,
-    description: lesson.description,
-    category: lesson.topic,
-    collection: 'textbook',
-    language: 'zh',
-    level: 'hsk1',
-    hskEdition: edition,
-    wordIds: lesson.terms.map(resolveLessonWordId),
-    isCustom: false,
-    createdAt: NOW,
-  })),
+export const HSK_COURSES = {
+  hsk20: { hsk1: HSK1_COURSES.hsk20, hsk3: HSK3_STANDARD_COURSE },
+  hsk30: { hsk1: HSK1_COURSES.hsk30, hsk3: HSK3_NEW_COURSE },
+};
+export const CHINESE_HSK3_SEED_VERSION = 9;
+export const CHINESE_LESSON_LABELS = new Map<string, ReadonlyMap<string, string>>();
+
+export const CHINESE_DECKS = HSK_EDITIONS.flatMap(({ id: edition }) =>
+  Object.entries(HSK_COURSES[edition]).flatMap(([level, course]) =>
+    course.lessons.map((lesson, index): VocabDeck => {
+      const id = `deck-zh-${edition}-${level}-l${String(index + 1).padStart(2, '0')}`;
+      const labels = new Map<string, string>();
+      const wordIds = lesson.terms.map((entry) => {
+        const [printed, selector = printed.replace(/^\*/, '')] = entry.split('|');
+        const wordId = resolveLessonWordId(selector);
+        if (entry.includes('|') || printed.startsWith('*')) labels.set(wordId, printed.split('@')[0]);
+        return wordId;
+      });
+      if (labels.size) CHINESE_LESSON_LABELS.set(id, labels);
+      return {
+        id,
+        name: `Bài ${index + 1} · ${lesson.title}`,
+        nativeName: lesson.nativeTitle,
+        description: lesson.description ?? '',
+        category: lesson.topic,
+        collection: 'textbook',
+        language: 'zh',
+        level,
+        hskEdition: edition,
+        wordIds,
+        isCustom: false,
+        createdAt: NOW,
+      };
+    }),
+  ),
 );
 
-const courseDeckByWordId = new Map(CHINESE_DECKS.flatMap((deck) =>
-  (deck.wordIds ?? []).map((id) => [id, deck.id] as const),
-));
+const hsk1DeckByWordId = new Map<string, string>();
+const hsk3DeckByWordId = new Map<string, string>();
+for (const deck of CHINESE_DECKS) {
+  const byId = deck.level === 'hsk1' ? hsk1DeckByWordId : hsk3DeckByWordId;
+  for (const id of deck.wordIds ?? []) byId.set(id, deck.id);
+}
+// Keep the existing default deck of every HSK 1 card also used by HSK 3.
+const courseDeckByWordId = new Map([...hsk3DeckByWordId, ...hsk1DeckByWordId]);
 
 export const CHINESE_WORDS: VocabWord[] = DECKS_DATA.flatMap((topic) =>
   topic.cards.map((card): VocabWord => ({
@@ -109,7 +138,7 @@ export const CHINESE_WORDS: VocabWord[] = DECKS_DATA.flatMap((topic) =>
   })),
 );
 
-const BUILTIN_DECK_IDS = new Set(CHINESE_DECKS.map(({ id }) => id));
+const BUILTIN_DECK_LEVELS = new Map(CHINESE_DECKS.map(({ id, level }) => [id, level]));
 const BUILTIN_WORD_IDS = new Set(CHINESE_WORDS.map(({ id }) => id));
 export const CHINESE_COURSE_WORDS = CHINESE_WORDS.filter(({ id }) => courseDeckByWordId.has(id));
 
@@ -119,7 +148,8 @@ export function hasCurrentChineseDecks(decks: readonly VocabDeck[]): boolean {
     const saved = byId.get(lesson.id);
     const expectedIds = lesson.wordIds ?? [];
     return saved?.language === 'zh' && !saved.isCustom && saved.level === lesson.level && saved.collection === lesson.collection &&
-      saved.hskEdition === lesson.hskEdition && Array.isArray(saved.wordIds) &&
+      saved.hskEdition === lesson.hskEdition && saved.name === lesson.name && saved.nativeName === lesson.nativeName &&
+      saved.category === lesson.category && saved.description === lesson.description && Array.isArray(saved.wordIds) &&
       saved.wordIds.length === expectedIds.length && saved.wordIds.every((id, index) => id === expectedIds[index]);
   });
 }
@@ -169,8 +199,8 @@ export function mergeChineseSeed(decks: VocabDeck[], words: VocabWord[], version
     }
   }
 
-  const remainingDecks = decks.filter((deck) => !BUILTIN_DECK_IDS.has(deck.id) && (deck.language !== 'zh' || deck.isCustom));
-  const availableDeckIds = new Set([...BUILTIN_DECK_IDS, ...remainingDecks.map(({ id }) => id)]);
+  const remainingDecks = decks.filter((deck) => !BUILTIN_DECK_LEVELS.has(deck.id) && (deck.language !== 'zh' || deck.isCustom));
+  const availableDeckIds = new Set([...BUILTIN_DECK_LEVELS.keys(), ...remainingDecks.map(({ id }) => id)]);
   const previousDecks = new Map(decks.map((deck) => [migrateChineseDeckId(deck.id), deck]));
   for (const word of customOrOtherWords) {
     if (word.language !== 'zh' || availableDeckIds.has(word.deckId)) continue;
@@ -190,13 +220,16 @@ export function mergeChineseSeed(decks: VocabDeck[], words: VocabWord[], version
   }
 
   const priorBuiltinIds = version < 3 ? V1_CHINESE_WORD_IDS : version < 5 ? V4_CHINESE_WORD_IDS : v5WordIds;
-  const hadTextbookDecks = decks.some(({ id }) => BUILTIN_DECK_IDS.has(id));
+  const hadHsk1 = decks.some(({ id }) => BUILTIN_DECK_LEVELS.get(id) === 'hsk1');
+  const hadHsk3 = version >= CHINESE_HSK3_SEED_VERSION ||
+    decks.some(({ id }) => BUILTIN_DECK_LEVELS.get(id) === 'hsk3');
 
   const updatedChineseWords = CHINESE_WORDS.flatMap((word) => {
     const saved = savedBuiltinWords.get(word.id);
     if (!saved) {
-      // Add the course's new cards and respect deliberate deletions of existing cards.
-      return hadTextbookDecks || priorBuiltinIds.has(word.id) || !courseDeckByWordId.has(word.id) ? [] : [word];
+      // Absence indicates deletion only for cards installed by the saved curriculum.
+      const existed = hadHsk3 || (hadHsk1 ? hsk1DeckByWordId.has(word.id) : priorBuiltinIds.has(word.id));
+      return existed || !courseDeckByWordId.has(word.id) ? [] : [word];
     }
     return [{
       ...word,
@@ -208,8 +241,13 @@ export function mergeChineseSeed(decks: VocabDeck[], words: VocabWord[], version
     }];
   });
 
+  const updatedChineseDecks = CHINESE_DECKS.map((deck) => {
+    const saved = previousDecks.get(deck.id);
+    return saved ? { ...deck, createdAt: saved.createdAt } : deck;
+  });
+
   return {
-    decks: [...CHINESE_DECKS, ...remainingDecks],
+    decks: [...updatedChineseDecks, ...remainingDecks],
     words: [
       ...customOrOtherWords,
       ...updatedChineseWords,

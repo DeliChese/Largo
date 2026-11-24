@@ -6,6 +6,7 @@
 | --- | --- |
 | Chọn ngôn ngữ, phiên bản HSK, cấp độ hoặc bộ thẻ | `src/App.tsx`, `src/utils/studyScope.ts`, `src/types/vocab.ts` |
 | Danh sách bài, tìm bộ, lọc chủ đề, cuộn từng cột | `src/components/DecksView.tsx`, `src/interface.css` |
+| Quy ước cho giáo trình và ngôn ngữ mới | [Quy chuẩn học liệu](language-curriculum.md), [mẫu và checklist](language-curriculum-checklist.md) |
 | Điều hướng và bố cục chung | `src/App.tsx`, `src/components/Sidebar.tsx`, `src/index.css`, `src/interface.css` |
 | Phiên hằng ngày, ôn tăng cường, câu hỏi và chấm điểm | `src/utils/studyPlan.ts`, `src/components/StudyHubView.tsx`, `src/components/StudySession.tsx` |
 | Lịch ôn, Bloom, nhắc nhở và đo độ nhớ | `src/utils/srsBloom.ts`, `src/utils/studyPlan.ts`, `src/components/AnalyticsView.tsx` |

@@ -98,6 +98,19 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - Bridge cài tại `.local/deepseek-api` được sửa để `RATE_LIMIT_PER_MINUTE=0` cho phép loopback trực tiếp và chặn các kết nối khác. Lựa chọn này phục vụ thử nghiệm trên máy cá nhân. Giới hạn từ DeepSeek và tuổi thọ phiên đăng nhập phụ thuộc upstream.
 - Schema dữ liệu học giữ nguyên. Rollback bằng `DEEPSEEK_LOCAL_UNLIMITED=false`, `RATE_LIMIT_PER_MINUTE=30` và khởi động lại hai server.
 
+## ADR-016 — Danh mục theo bài HSK 3 của hai phiên bản
+
+- Ngày 2026-11-21. Theo yêu cầu chủ dự án, cấp HSK 3 có 20 bài từ giáo trình chuẩn bản 2.0 và 18 bài từ giáo trình mới bản 3.0. Mỗi phiên bản dùng tiêu đề và chỉ mục từ vựng của sách tương ứng.
+- Mỗi bài tham chiếu ID thẻ. Khi cùng một từ hoặc nghĩa xuất hiện trong nhiều bài hay hai phiên bản, lịch ôn dùng chung ID. Dấu `*` và các dạng chữ theo sách 2.0 hiển thị trong từng bài.
+- Seed v9 bổ sung thẻ chưa có trong giáo trình trước và giữ thẻ đã xóa của giáo trình đã cài. Dữ liệu trước v9 không có dấu xóa cho thẻ nằm ngoài danh mục bài đang cài, nên mục vắng mặt ngoài phạm vi đó được bổ sung như thẻ mới. IndexedDB và định dạng backup v2 dùng schema hiện hành.
+- Kiểm thử thứ tự bài, số mục, nội dung ví dụ và nâng cấp từ snapshot v8. Nếu cần rút bài sau phát hành, dùng bản sửa đọc được seed v9 để giữ tiến độ phát sinh. Khi quay về mã v8, dùng bản sao lưu trước nâng cấp.
+
+## ADR-017 — Tiêu đề nguyên ngữ và chủ đề trong thư viện
+
+- Ngày 2026-11-21. HSK 1 và HSK 3 dùng danh mục nhóm chủ đề chung với tiếng Anh. Tiêu đề chính hiển thị bằng tiếng Việt. Trường tùy chọn `nativeName` hiển thị tiêu đề gốc ở danh mục, trang chi tiết và tham gia tìm kiếm.
+- Chủ đề chỉ sắp xếp danh mục. Số bài và thứ tự thẻ vẫn lấy từ giáo trình của từng phiên bản. [Quy chuẩn học liệu](../agents/language-curriculum.md) áp dụng khi thêm ngôn ngữ.
+- Bản lưu v9 tự làm mới metadata của bộ tiếng Trung theo seed. Giữ ID bộ, ID thẻ, thời điểm tạo, tiến độ, bộ cá nhân và trạng thái thẻ đã xóa. Khi cần rollback cách đặt tên hoặc nhóm, phục hồi metadata trước đó trong seed và giữ bước phát hiện metadata cũ.
+
 ## Template ADR mới
 
 - ID/ngày/status:

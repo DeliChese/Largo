@@ -1,5 +1,5 @@
 import { ENGLISH_V7_WORD_DECK_IDS } from '../../data/englishDecks';
-import { INITIAL_DECKS, INITIAL_PROFILE, INITIAL_SETTINGS, INITIAL_WORDS } from '../../data/seedVocab';
+import { CURRENT_DATA_VERSION, INITIAL_DECKS, INITIAL_PROFILE, INITIAL_SETTINGS, INITIAL_WORDS } from '../../data/seedVocab';
 import type { EnglishLocale, HskEdition, StudySessionLog, VocabDeck, VocabWord } from '../../types/vocab';
 import type { PersistedAppState } from '../offlineStorage';
 import { createInitialSRS } from '../srsBloom';
@@ -37,7 +37,7 @@ const REVIEWED_SRS: VocabWord['srs'] = {
 export function newStudySnapshot(): PersistedAppState {
   // Keep fixture clocks fixed even when the catalogue is created at module load.
   return {
-    version: 8,
+    version: CURRENT_DATA_VERSION,
     savedAt: SNAPSHOT_TIME,
     decks: INITIAL_DECKS.map((deck) => ({ ...deck, createdAt: CREATED_AT })),
     words: INITIAL_WORDS.map((word) => ({ ...word, createdAt: CREATED_AT, srs: createInitialSRS(CREATED_AT) })),
@@ -110,9 +110,10 @@ export function legacyStudyBackup() {
   return {
     ...saved,
     version: 7,
-    decks: saved.decks.filter(({ language, isCustom, id }) => language !== 'en' || isCustom || legacyEnglishDecks.has(id)),
+    decks: saved.decks.filter(({ language, isCustom, id, level }) =>
+      isCustom || (language === 'en' ? legacyEnglishDecks.has(id) : level !== 'hsk3')),
     words: saved.words.flatMap((word) => {
-      if (word.language !== 'en') return [word];
+      if (word.language !== 'en') return word.deckId.includes('-hsk3-') ? [] : [word];
       const oldDeckId = ENGLISH_V7_WORD_DECK_IDS.get(word.id);
       return oldDeckId ? [{ ...word, deckId: oldDeckId }] : [];
     }),
