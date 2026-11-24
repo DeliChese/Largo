@@ -8,14 +8,14 @@ const DAY = 86_400_000;
 function event(index: number, patch: Partial<AttemptInput> = {}) {
   return createLearningAttempt({
     eventId: 'event-' + index, sessionId: 'session-' + index, attemptIndex: 0, wordId: 'target',
-    language: 'zh', hskEdition: index % 2 ? 'hsk20' : 'hsk30', taskType: 'cloze', source: 'manual',
+    language: 'en', taskType: 'cloze', source: 'manual',
     startedAt: index * DAY, answeredAt: index * DAY + 100, isRetry: false, scheduledAtStart: false,
     hintCount: 0, revealedAnswer: false, outcome: 'correct', assessmentSource: 'local',
     quality: 3, skill: 'context', contextId: 'context-' + index, ...patch,
   });
 }
 
-test('verified Bloom is sequential, uses spaced evidence and shares evidence across editions', () => {
+test('verified Bloom is sequential and requires spaced evidence across distinct contexts', () => {
   const first = event(1);
   assert.equal(buildMasteryProjection([first]).get('target')?.verifiedBloomLevel, null);
   assert.equal(buildMasteryProjection([first, first]).get('target')?.verifiedBloomLevel, null);

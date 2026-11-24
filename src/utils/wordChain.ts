@@ -1,7 +1,7 @@
 import type { VocabDeck, VocabWord } from '../types/vocab';
 import { chainEnds, normalizeChainTerm } from './wordChainRules.mjs';
 
-export type ChainLanguage = 'en' | 'zh';
+export type ChainLanguage = 'en';
 export type ChainMode = 'word' | 'mixed';
 export type ChainDifficulty = keyof typeof CHAIN_DIFFICULTIES;
 
@@ -33,7 +33,7 @@ export function buildChainLexicon(words: readonly VocabWord[], language: ChainLa
 
   const add = (term: string, meaning: string, wordId?: string) => {
     const key = normalizeChainTerm(term, language);
-    if (!key || !meaning.trim() || entries.has(key) || (mode === 'word' && language === 'en' && key.includes(' '))) return;
+    if (!key || !meaning.trim() || entries.has(key) || (mode === 'word' && key.includes(' '))) return;
     const entry = { term, meaning, wordId, key, ...chainEnds(key) };
     entries.set(key, entry);
     const group = byFirst.get(entry.first) ?? [];

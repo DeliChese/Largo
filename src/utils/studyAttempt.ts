@@ -1,4 +1,4 @@
-import type { HskEdition, LanguageCode, ReviewQuality, StudySessionMode, VocabWord } from '../types/vocab';
+import type { LanguageCode, ReviewQuality, StudySessionMode, VocabWord } from '../types/vocab';
 import type { AttemptInput, LearningAttemptEvent } from './learningAttempt';
 import type { PersistedAppState } from './offlineStorage';
 import { evaluateAnswerMatch, evaluateSynthesisSentence, normalizeText, reviewXp } from './srsBloom';
@@ -10,7 +10,6 @@ export interface StudySessionIdentity {
   deckId: string;
   language: LanguageCode;
   level: string;
-  hskEdition?: HskEdition;
   startedAt: number;
 }
 
@@ -80,7 +79,7 @@ export function projectStudyAttempt(
   const previous = state.logs.find(({ id }) => id === session.id) ?? EMPTY_PROGRESS;
   const log = {
     id: session.id, timestamp: time, mode: session.mode, deckId: session.deckId,
-    language: session.language, level: session.level, hskEdition: session.hskEdition,
+    language: session.language, level: session.level,
     wordsReviewed: previous.wordsReviewed + 1, correctCount: previous.correctCount + Number(attempt.outcome === 'correct'),
     xpEarned: previous.xpEarned + xp, durationSeconds: Math.max(1, Math.round((time - session.startedAt) / 1000)),
   };

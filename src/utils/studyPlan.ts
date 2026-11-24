@@ -135,25 +135,18 @@ export function applyStudyReview(
   return { ...word, srs: calculateNextSRS(word, quality, srsMode, now) };
 }
 
-export function stripTrailingPinyin(sentence: string): string {
-  return sentence.replace(/\s*\([^)]*\)\s*$/, '').trim();
-}
-
-function matchExpression(expression: string, language: VocabWord['language']) {
+function matchExpression(expression: string) {
   const term = expression.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
   if (!term) return null;
-  const pattern = language === 'zh' || language === 'ja'
-    ? term
-    : `(?<![\\p{L}\\p{N}])${term}(?![\\p{L}\\p{N}])`;
-  return new RegExp(pattern, 'giu');
+  return new RegExp(`(?<![\\p{L}\\p{N}])${term}(?![\\p{L}\\p{N}])`, 'giu');
 }
 
 function findClozeExample(word: VocabWord, expression: string, offset = 0) {
-  const matcher = matchExpression(expression, word.language);
+  const matcher = matchExpression(expression);
   if (!matcher) return null;
   const matches: (VocabWord['examples'][number] & { full: string; masked: string; answer: string })[] = [];
   for (const example of word.examples) {
-    const full = word.language === 'zh' ? stripTrailingPinyin(example.sentence) : example.sentence;
+    const full = example.sentence;
     const masked = full.replace(matcher, '＿＿＿');
     if (masked === full) continue;
     const candidate = { ...example, full, masked, answer: expression.trim() };
@@ -168,7 +161,7 @@ export function getClozeExample(word: VocabWord, offset = 0) {
 }
 
 export function getPhraseClozeExample(word: VocabWord, offset = 0) {
-  const headword = matchExpression(word.term, word.language);
+  const headword = matchExpression(word.term);
   if (!headword) return null;
   for (const { phrase, meaning } of word.collocations) {
     if (!meaning.trim() || normalizeText(phrase) === normalizeText(word.term) || !phrase.match(headword)) continue;

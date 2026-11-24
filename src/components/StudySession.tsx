@@ -10,7 +10,7 @@ import { isSentenceAssessmentLanguage } from '../utils/sentenceAssessment.mjs';
 import { calculateNextSRS, evaluateAnswerMatch, formatIntervalVi } from '../utils/srsBloom';
 import {
   getClozeExample, getCollocationPrompt, getPhraseClozeExample, getStudyChoices,
-  getStudyExercise, isScheduledReview, stripTrailingPinyin, STUDY_MODE_LABELS,
+  getStudyExercise, isScheduledReview, STUDY_MODE_LABELS,
 } from '../utils/studyPlan';
 import { soundEngine, speakLocalPronunciation, speakPronunciation, stopPronunciation } from '../utils/soundEngine';
 import { DEFAULT_ENGLISH_LOCALE } from '../utils/englishStudy';
@@ -33,7 +33,6 @@ interface StudySessionProps {
   settings: AppSettings;
   zenMode: boolean;
   onToggleZenMode: () => void;
-  onToggleExamplePhonetic?: () => void;
   onRecordReview: (attempt: LearningAttemptEvent) => Promise<{ progress: SessionProgress; retained: boolean }>;
   onExit: () => void;
   onContinue?: () => void;
@@ -58,7 +57,6 @@ const RATINGS: { value: ReviewQuality; label: string; tone: string }[] = [
   { value: 4, label: 'Rất dễ', tone: 'easy' },
 ];
 
-const SPEECH_LOCALES = { zh: 'zh-CN', ja: 'ja-JP', fr: 'fr-FR', ko: 'ko-KR', es: 'es-ES' };
 const SPEED_DURATION = 60_000;
 const AI_PILOT_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]']);
 
@@ -81,7 +79,7 @@ function suppressComposingEnter(event: ReactKeyboardEvent<HTMLInputElement>) {
   if (event.key === 'Enter' && event.nativeEvent.isComposing) event.preventDefault();
 }
 
-export function StudySession({ mode, session, sessionWords, adaptivePlan, allWords, masteryByWord, settings, zenMode, onToggleZenMode, onToggleExamplePhonetic, onRecordReview, onExit, onContinue }: StudySessionProps) {
+export function StudySession({ mode, session, sessionWords, adaptivePlan, allWords, masteryByWord, settings, zenMode, onToggleZenMode, onRecordReview, onExit, onContinue }: StudySessionProps) {
   const [queue, setQueue] = useState<SessionCard[]>(() => sessionWords.map((word, index) => {
     const item = adaptivePlan?.items[index];
     const suggestion = item?.wordId === word.id ? item : undefined;
@@ -90,12 +88,6 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
       : getStudyExercise(word, mode, false);
     return { word, exercise, retries: 0, suggestion };
   }));
-  const [localExamplePhonetic, setLocalExamplePhonetic] = useState(settings.showExamplePhonetic ?? true);
-  const showExamplePhonetic = onToggleExamplePhonetic ? (settings.showExamplePhonetic ?? true) : localExamplePhonetic;
-  const toggleExamplePhonetic = () => {
-    if (onToggleExamplePhonetic) onToggleExamplePhonetic();
-    else setLocalExamplePhonetic((v) => !v);
-  };
   const [index, setIndex] = useState(0);
   const [finished, setFinished] = useState(false);
   const [progress, setProgress] = useState<SessionProgress>(EMPTY_PROGRESS);
@@ -146,18 +138,17 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
     () => isChoices ? getStudyChoices(word, sessionLibrary.current, isPhrase) : [],
     [word, isChoices, isPhrase],
   );
-  const language = word.language === 'en' ? DEFAULT_ENGLISH_LOCALE : SPEECH_LOCALES[word.language];
-  const voiceLanguage = word.language;
+  const language = DEFAULT_ENGLISH_LOCALE;
   const canSpeakPrompt = !exercise.reverse || flipped;
   const shouldAutoSpeak = isDictation || (settings.autoPlayAudio && (isFlashcard || exerciseMode === 'quiz') && canSpeakPrompt);
 
   useEffect(() => {
     if (shouldAutoSpeak && !finished) {
-      if (offlineDictation) speakLocalPronunciation(word.term, voiceLanguage, settings.speechRate);
+      if (offlineDictation) speakLocalPronunciation(word.term, word.language, settings.speechRate);
       else speakPronunciation(word.term, word.language, settings.speechRate);
     }
     return stopPronunciation;
-  }, [index, word, voiceLanguage, offlineDictation, shouldAutoSpeak, settings.speechRate, finished]);
+  }, [index, word, offlineDictation, shouldAutoSpeak, settings.speechRate, finished]);
 
   useEffect(() => {
     sessionHeading.current?.focus({ preventScroll: true });
@@ -224,7 +215,7 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
     const context = cloze?.masked ?? (isPhrase ? getCollocationPrompt(word) : undefined) ?? exerciseMode;
     const event = createLearningAttempt({
       ...prompt, sessionId: session.id, attemptIndex: attemptIndex.current, wordId: word.id, language: word.language,
-      hskEdition: session.hskEdition, taskType: exerciseMode, source: mode === 'guided' || isIntensive ? mode : 'manual',
+      taskType: exerciseMode, source: mode === 'guided' || isIntensive ? mode : 'manual',
       answeredAt: now, isRetry: retry || revisingSentence, scheduledAtStart: scheduled && !isSynthesis,
       hintCount: Number(usedHint), revealedAnswer: flipped || (isSynthesis && usedHint),
       assessmentSource, criteria, quality, outcome, skill, contextId: studyContextId(context),
@@ -292,7 +283,7 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
 
   function speak(rate = settings.speechRate) {
     if (offlineDictation) {
-      const started = speakLocalPronunciation(word.term, voiceLanguage, rate);
+      const started = speakLocalPronunciation(word.term, word.language, rate);
       setAudioStatus(started ? '' : 'Giọng đọc trên thiết bị hiện không khả dụng.');
     } else {
       speakPronunciation(word.term, word.language, rate);
@@ -309,10 +300,6 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
     setUsedHint(false);
     setAudioStatus('');
     setPrompt(newPrompt());
-  }
-
-  function speakExample(sentence: string) {
-    speakPronunciation(word.language === 'zh' ? stripTrailingPinyin(sentence) : sentence, word.language, settings.speechRate);
   }
 
   function practiceSpeech() {
@@ -453,23 +440,9 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
           <div className="exercise-top">
             <span className="exercise-status" data-new={isNew}>{status}</span>
             <div className="exercise-top-actions">
-              {(word.examples.some(({ phonetic }) => phonetic) || cloze?.phonetic) && (
-                <button
-                  type="button"
-                  className="text-button example-pinyin-toggle"
-                  aria-pressed={showExamplePhonetic}
-                  onClick={toggleExamplePhonetic}
-                >
-                  {showExamplePhonetic ? 'Ẩn pinyin ví dụ' : 'Hiện pinyin ví dụ'}
-                </button>
-              )}
-              {(isFlashcard && canSpeakPrompt || isChoices && !isPhrase) && (word.language === 'en' ? (
+              {(isFlashcard && canSpeakPrompt || isChoices && !isPhrase) && (
                 <EnglishVariantDetails word={word} speechRate={settings.speechRate} />
-              ) : (
-                <button type="button" className="icon-button" onClick={() => speak()} aria-label="Nghe phát âm" title="Nghe phát âm">
-                  <Volume2 size={19} aria-hidden="true" />
-                </button>
-              ))}
+              )}
             </div>
           </div>
 
@@ -483,8 +456,8 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
                 </h2>
                 {canSpeakPrompt && word.phonetic && <p className="recall-reading">{word.phonetic}</p>}
                 {flipped && <p className="recall-answer">{word.meaning}</p>}
-                {flipped && (word.partOfSpeech || word.sinoVietnamese) && (
-                  <p className="recall-meta">{[word.partOfSpeech, word.sinoVietnamese].filter(Boolean).join(' · ')}</p>
+                {flipped && word.partOfSpeech && (
+                  <p className="recall-meta">{word.partOfSpeech}</p>
                 )}
               </div>
 
@@ -501,25 +474,17 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
                         <p lang={language}>{phraseInUse.phrase}</p>
                         <p>Cụm dùng ngay · {phraseInUse.meaning}</p>
                       </div>
-                      {word.language === 'en' ? <EnglishPronunciation text={phraseInUse.phrase} speechRate={settings.speechRate} label="cụm từ" /> : (
-                        <button type="button" className="icon-button" onClick={() => speakExample(phraseInUse.phrase)} aria-label="Nghe cụm từ">
-                        <Volume2 size={17} aria-hidden="true" />
-                        </button>
-                      )}
+                      <EnglishPronunciation text={phraseInUse.phrase} speechRate={settings.speechRate} label="cụm từ" />
                     </div>
                   )}
-                  <WordExamples examples={word.examples.slice(0, 2)} language={language} showPhonetic={showExamplePhonetic}
-                    onSpeak={speakExample} speechRate={settings.speechRate} />
+                  <WordExamples examples={word.examples.slice(0, 2)} speechRate={settings.speechRate} />
                   <WordRelations word={word} />
                   <details className="word-details">
                     <summary>Cách dùng và phát âm <ChevronDown size={15} aria-hidden="true" /></summary>
-                    {word.sinoVietnamese && <p>Âm Hán Việt · {word.sinoVietnamese}</p>}
-                    {word.radical && <p>Bộ thủ · {word.radical}</p>}
                     {word.notes && <p>{word.notes}</p>}
                     {word.collocations.filter((item) => item !== phraseInUse)
                       .map((item, i) => <p key={i}><strong lang={language}>{item.phrase}</strong> · {item.meaning}</p>)}
-                    <WordExamples examples={word.examples.slice(2)} startAt={3} language={language} showPhonetic={showExamplePhonetic}
-                      onSpeak={speakExample} speechRate={settings.speechRate} />
+                    <WordExamples examples={word.examples.slice(2)} startAt={3} speechRate={settings.speechRate} />
                     <div className="practice-audio">
                       <button type="button" className="button-secondary" onClick={() => speak(0.7)}><Volume2 size={16} aria-hidden="true" /> Nghe chậm</button>
                       <button type="button" className="button-secondary" onClick={practiceSpeech}><Mic size={16} aria-hidden="true" /> Luyện phát âm</button>
@@ -550,9 +515,8 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
                 <div className="exercise-feedback" data-correct={feedback.correct}>
                   <div role="status">
                     <strong>{feedback.message}</strong>
-                    {mode !== 'speed' && firstExample && <p lang={language}>{word.language === 'zh' ? stripTrailingPinyin(firstExample.sentence) : firstExample.sentence}</p>}
+                    {mode !== 'speed' && firstExample && <p lang={language}>{firstExample.sentence}</p>}
                     {isPhrase && firstExample?.translation && <p>{firstExample.translation}</p>}
-                    {mode !== 'speed' && showExamplePhonetic && firstExample?.phonetic && <p className="example-phonetic">{firstExample.phonetic}</p>}
                   </div>
                   {mode !== 'speed' && <button type="button" ref={nextButton} className="button-primary" onClick={() => advance()}>Tiếp tục <ArrowRight size={17} aria-hidden="true" /></button>}
                 </div>
@@ -565,9 +529,7 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
               <h2>{isDictation ? 'Nghe và gõ lại' : phraseCloze ? 'Điền cụm từ vào câu' : isCloze ? 'Điền từ vào câu' : 'Tự đặt câu'}</h2>
               {isDictation && (
                 <div className="practice-audio">
-                  {word.language === 'en' ? (
-                    <EnglishPronunciation text={word.term} speechRate={settings.speechRate} label="từ cần nghe" offlineOnly={offlineDictation} />
-                  ) : <button type="button" className="button-secondary" onClick={() => speak()}><Volume2 size={17} aria-hidden="true" /> Nghe từ</button>}
+                  <EnglishPronunciation text={word.term} speechRate={settings.speechRate} label="từ cần nghe" offlineOnly={offlineDictation} />
                   <button type="button" className="button-secondary" onClick={() => speak(0.65)}>Nghe chậm</button>
                   {offlineDictation && !feedback && <button type="button" className="text-button"
                     onClick={useFlashcardForAudio} disabled={saving || !!saveError}>Đổi sang thẻ ghi nhớ</button>}
@@ -578,17 +540,10 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
                 <div className="example-line">
                   <div>
                     <p lang={language}>{feedback ? cloze.full : cloze.masked}</p>
-                    {feedback && showExamplePhonetic && cloze.phonetic && <p className="example-phonetic">{cloze.phonetic}</p>}
                     <p>{cloze.translation}</p>
                     {phraseCloze && <p>Nghĩa của cụm · {phraseCloze.meaning}</p>}
                   </div>
-                  {feedback && (word.language === 'en' ? (
-                    <EnglishPronunciation text={cloze.full} speechRate={settings.speechRate} label="câu hoàn chỉnh" />
-                  ) : (
-                    <button type="button" className="icon-button" onClick={() => speakExample(cloze.full)} aria-label="Nghe câu hoàn chỉnh">
-                      <Volume2 size={17} aria-hidden="true" />
-                    </button>
-                  ))}
+                  {feedback && <EnglishPronunciation text={cloze.full} speechRate={settings.speechRate} label="câu hoàn chỉnh" />}
                 </div>
               )}
               {isSynthesis && (
@@ -617,8 +572,7 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
                   <div className="exercise-feedback" data-correct={feedback?.correct}>
                     <div role="status">
                       <strong>{previewedSentence?.message ?? feedback?.message}</strong>
-                      {isSynthesis && firstExample && <p lang={language}>Câu mẫu · {word.language === 'zh' ? stripTrailingPinyin(firstExample.sentence) : firstExample.sentence}</p>}
-                      {isSynthesis && showExamplePhonetic && firstExample?.phonetic && <p className="example-phonetic">{firstExample.phonetic}</p>}
+                      {isSynthesis && firstExample && <p lang={language}>Câu mẫu · {firstExample.sentence}</p>}
                       {!isSynthesis && !phraseCloze && word.phonetic && <p>{word.phonetic}</p>}
                     </div>
                   </div>

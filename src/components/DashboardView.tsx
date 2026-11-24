@@ -1,6 +1,5 @@
 import { ArrowDownRight, ArrowRight, BookOpen, CalendarDays, Clock3, Flame, Layers3, ListChecks, RotateCcw, Target, Volume2 } from 'lucide-react';
 import type { CSSProperties } from 'react';
-import { LANGUAGE_LABELS } from '../data/seedVocab';
 import type { AnalyticsSubRoute, AppRoute, UserProfile, VocabDeck, VocabWord } from '../types/vocab';
 import { computeForecastDays, localStudyDate } from '../utils/srsBloom';
 import { getDailyProgress, getDailyStudyPlan } from '../utils/studyPlan';
@@ -64,7 +63,7 @@ export function DashboardView({ profile, decks, words, level, speechRate, plan, 
       <div className="page-intro overview-intro">
         <div>
           <p className="page-kicker">
-            {LANGUAGE_LABELS[profile.targetLanguage].name}{level && ' · ' + level}
+            Tiếng Anh{level && ' · ' + level}
           </p>
           <h1>Hôm nay học gì?</h1>
         </div>
@@ -74,7 +73,7 @@ export function DashboardView({ profile, decks, words, level, speechRate, plan, 
       </div>
 
       <div className="overview-grid">
-        <section className="learning-hero" data-language={profile.targetLanguage} aria-labelledby="daily-plan-title">
+        <section className="learning-hero" aria-labelledby="daily-plan-title">
           <div className="learning-hero-content">
             <div className="hero-kicker"><ListChecks size={15} aria-hidden="true" /> Kế hoạch hôm nay</div>
             <h2 id="daily-plan-title">{headline}</h2>

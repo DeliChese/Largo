@@ -1,4 +1,4 @@
-import type { EnglishLocale, LanguageCode, SpeechVoices, VocabWord } from '../types/vocab';
+import type { EnglishLocale, SpeechVoices, VocabWord } from '../types/vocab';
 
 export const ENGLISH_LOCALES = ['en-GB', 'en-US'] as const;
 export const DEFAULT_ENGLISH_LOCALE: EnglishLocale = 'en-US';
@@ -8,8 +8,7 @@ export const ENGLISH_LOCALE_LABEL: Record<EnglishLocale, string> = {
   'en-US': 'Anh–Mỹ',
 };
 
-export function getSpeechVoice(voices: SpeechVoices | undefined, language: LanguageCode, locale = DEFAULT_ENGLISH_LOCALE) {
-  if (language !== 'en') return voices?.[language];
+export function getSpeechVoice(voices: SpeechVoices | undefined, locale = DEFAULT_ENGLISH_LOCALE) {
   const voice = voices?.[locale];
   if (voice?.startsWith(locale + '-')) return voice;
   const legacy = voices?.en;
@@ -18,7 +17,7 @@ export function getSpeechVoice(voices: SpeechVoices | undefined, language: Langu
 
 export function getEnglishStudyWord(word: VocabWord, locale: EnglishLocale): VocabWord {
   const forms = word.englishForms;
-  if (word.language !== 'en' || !forms) return word;
+  if (!forms) return word;
   const form = forms[locale];
   const term = form?.term ?? word.term;
   const termChanged = term !== word.term;

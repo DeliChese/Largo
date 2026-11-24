@@ -1,4 +1,4 @@
-import type { HskEdition, LanguageCode, ReviewQuality, StudyModeId } from '../types/vocab';
+import type { LanguageCode, ReviewQuality, StudyModeId } from '../types/vocab';
 
 export const PROMPT_VERSION = 1;
 export const RUBRIC_VERSION = 1;
@@ -20,7 +20,6 @@ export interface AttemptInput {
   attemptIndex: number;
   wordId: string;
   language: LanguageCode;
-  hskEdition?: HskEdition;
   taskType: StudyModeId;
   source: 'guided' | 'manual' | 'intensive' | 'game';
   startedAt: number;
@@ -80,7 +79,7 @@ function decodeAdaptivePlan(value: unknown): AdaptivePlanTrace | null {
 export function decodeLearningAttempt(raw: unknown): LearningAttemptEvent | null {
   if (!isObject(raw)) return null;
   const {
-    eventId, sessionId, attemptIndex, wordId, language, hskEdition, taskType, source, startedAt, answeredAt,
+    eventId, sessionId, attemptIndex, wordId, language, taskType, source, startedAt, answeredAt,
     isRetry, scheduledAtStart, hintCount, revealedAnswer, outcome, assessmentSource, quality, skill, contextId,
     schemaVersion, createdAt, responseMs, promptVersion, rubricVersion,
   } = raw;
@@ -90,8 +89,7 @@ export function decodeLearningAttempt(raw: unknown): LearningAttemptEvent | null
       !count(promptVersion) || !promptVersion || !count(rubricVersion) || !rubricVersion ||
       !count(hintCount) || typeof isRetry !== 'boolean' || typeof scheduledAtStart !== 'boolean' ||
       typeof revealedAnswer !== 'boolean' || !includes(tasks, taskType) || !includes(skills, skill) ||
-      !includes(['zh', 'en', 'ja', 'fr', 'ko', 'es'] as const, language) ||
-      (hskEdition !== undefined && !includes(['hsk20', 'hsk30'] as const, hskEdition)) ||
+      language !== 'en' ||
       !includes(['guided', 'manual', 'intensive', 'game'] as const, source) ||
       !includes(['correct', 'incorrect', 'partial', 'uncertain', 'unavailable'] as const, outcome) ||
       !includes(['local', 'ai', 'human', 'self'] as const, assessmentSource) ||
@@ -110,7 +108,7 @@ export function decodeLearningAttempt(raw: unknown): LearningAttemptEvent | null
   const adaptivePlan = decodeAdaptivePlan(raw.adaptivePlan);
   if (raw.adaptivePlan !== undefined && (!adaptivePlan || source !== 'guided')) return null;
   return {
-    eventId, sessionId, attemptIndex, wordId, language, ...(hskEdition ? { hskEdition } : {}), taskType, source,
+    eventId, sessionId, attemptIndex, wordId, language, taskType, source,
     startedAt, answeredAt, isRetry, scheduledAtStart, hintCount, revealedAnswer, outcome, assessmentSource,
     ...(quality ? { quality } : {}), skill, contextId, ...(criteria ? { criteria } : {}),
     ...(adaptivePlan ? { adaptivePlan } : {}),

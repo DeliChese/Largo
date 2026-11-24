@@ -184,29 +184,6 @@ test('evaluateAnswerMatch and evaluateSynthesisSentence validate user input', ()
   assert.equal(goodRes.hasCollocation, true);
 });
 
-test('evaluateSynthesisSentence evaluates Chinese unspaced sentences and collocations', () => {
-  const zhWord = makeWord({
-    id: 'zh-1',
-    language: 'zh',
-    term: '提高',
-    phonetic: 'tígāo',
-    meaning: 'nâng cao',
-    collocations: [{ phrase: '提高水平', meaning: 'nâng cao trình độ' }],
-  });
-
-  const tooShort = evaluateSynthesisSentence('提高。', zhWord);
-  assert.equal(tooShort.passed, false);
-
-  const missingTerm = evaluateSynthesisSentence('我每天努力学习汉语。', zhWord);
-  assert.equal(missingTerm.passed, false);
-  assert.equal(missingTerm.hasTargetWord, false);
-
-  const passedWithCol = evaluateSynthesisSentence('我们要努力提高水平。', zhWord);
-  assert.equal(passedWithCol.passed, true);
-  assert.equal(passedWithCol.hasTargetWord, true);
-  assert.equal(passedWithCol.hasCollocation, true);
-});
-
 test('the daily plan serves overdue reviews before a capped set of new words', () => {
   const later = makeWord({ id: 'later' });
   const early = makeWord({ id: 'early', srs: { ...later.srs, nextReviewAt: NOW - DAY_MS } });
@@ -278,22 +255,21 @@ test('guided practice varies retrieval and only builds cloze prompts from matchi
   assert.equal(getStudyExercise({ ...contextWord, examples: [] }, 'guided', false).mode, 'flashcard');
 });
 
-test('choices exclude duplicates and entries from other languages', () => {
+test('choices exclude duplicate meanings while keeping distinct options', () => {
   const word = makeWord();
   const options = getStudyChoices(word, [
     word,
     makeWord({ id: 'duplicate', term: 'strong', meaning: 'KIÊN CƯỜNG, NHANH PHỤC HỒI!' }),
     makeWord({ id: 'different', term: 'brittle', meaning: 'dễ gãy' }),
-    makeWord({ id: 'other-language', language: 'zh', term: '提高', meaning: 'nâng cao' }),
   ], false);
   assert.deepEqual(options.map(({ id }) => id).sort(), ['different', word.id]);
 });
 
-test('a scoped daily plan still applies the new-word limit across languages', () => {
+test('a scoped daily plan still applies the new-word limit across decks', () => {
   const unseen = makeWord({ srs: { ...makeWord().srs, lastReviewedAt: null } });
   const learnedElsewhere = makeWord({
-    id: 'zh',
-    language: 'zh',
+    id: 'other-deck-word',
+    deckId: 'd2',
     srs: { ...unseen.srs, lastReviewedAt: NOW, firstReviewedAt: NOW, nextReviewAt: NOW + DAY_MS },
   });
   const plan = getDailyStudyPlan([unseen], SAMPLE_PROFILE, 1, NOW, [unseen, learnedElsewhere]);

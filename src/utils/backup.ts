@@ -29,6 +29,7 @@ const list = (check: Check, limit = 10_000): Check => (value) =>
 const shape = (fields: Record<string, Check>): Check => (value) =>
   object(value) && Object.entries(fields).every(([key, check]) => check(value[key]));
 
+const legacyLanguages = new Set(['zh', 'ja', 'fr', 'ko', 'es']);
 const language = oneOf('en', 'zh', 'ja', 'fr', 'ko', 'es');
 const edition = oneOf('hsk20', 'hsk30');
 const relations = shape({ synonyms: list(string), antonyms: list(string) });
@@ -147,6 +148,9 @@ export async function previewBackup(file: Blob): Promise<BackupPreview> {
   if (!legacy) {
     if (!Array.isArray(root.attempts) || root.attempts.length > 300_000) throw invalid();
     for (const record of root.attempts) {
+      if (Number(version) < CURRENT_DATA_VERSION && object(record) && legacyLanguages.has(String(record.language))) {
+        continue;
+      }
       const attempt = decodeLearningAttempt(record);
       if (!attempt) throw new Error('Bản sao lưu chứa lượt trả lời không hợp lệ hoặc dùng phiên bản mới hơn.');
       const position = JSON.stringify([attempt.sessionId, attempt.attemptIndex]);

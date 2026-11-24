@@ -2,18 +2,36 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createLearningAttempt, type AttemptInput } from './learningAttempt';
 import { commitLearningAttempt, loadOfflineState } from './offlineStorage';
-import { SHARED_HSK_CARD, SNAPSHOT_TIME, reviewedStudySnapshot } from './fixtures/studySnapshots';
+import { CORE_ENGLISH_CARD, SNAPSHOT_TIME, reviewedStudySnapshot } from './fixtures/studySnapshots';
 import { gradeChoice, gradeSentence, gradeText, projectStudyAttempt, type StudySessionIdentity } from './studyAttempt';
 
 const session: StudySessionIdentity = {
-  id: 'session-fixture', mode: 'guided', deckId: 'all', language: 'zh', level: 'hsk1', hskEdition: 'hsk30',
+  id: 'session-fixture',
+  mode: 'guided',
+  deckId: 'all',
+  language: 'en',
+  level: 'a1',
   startedAt: SNAPSHOT_TIME,
 };
 const input: AttemptInput = {
-  eventId: 'attempt-fixture', sessionId: session.id, attemptIndex: 0, wordId: SHARED_HSK_CARD,
-  language: 'zh', taskType: 'quiz', source: 'guided', startedAt: SNAPSHOT_TIME, answeredAt: SNAPSHOT_TIME + 3_000,
-  isRetry: false, scheduledAtStart: true, hintCount: 0, revealedAnswer: false,
-  outcome: 'correct', assessmentSource: 'local', quality: 3, skill: 'recognition', contextId: 'quiz',
+  eventId: 'attempt-fixture',
+  sessionId: session.id,
+  attemptIndex: 0,
+  wordId: CORE_ENGLISH_CARD,
+  language: 'en',
+  taskType: 'quiz',
+  source: 'guided',
+  startedAt: SNAPSHOT_TIME,
+  answeredAt: SNAPSHOT_TIME + 3_000,
+  isRetry: false,
+  scheduledAtStart: true,
+  hintCount: 0,
+  revealedAnswer: false,
+  outcome: 'correct',
+  assessmentSource: 'local',
+  quality: 3,
+  skill: 'recognition',
+  contextId: 'quiz',
 };
 
 test('one scheduled answer links the canonical SRS, XP and session summary; retry leaves all three intact', () => {
@@ -26,8 +44,16 @@ test('one scheduled answer links the canonical SRS, XP and session summary; retr
   assert.equal(reviewed.srs.lastReviewedAt, event.answeredAt);
   assert.equal(next.profile.xp - saved.profile.xp, 12);
   assert.deepEqual(next.logs.at(-1), {
-    id: session.id, timestamp: event.answeredAt, mode: 'guided', deckId: 'all', language: 'zh',
-    level: 'hsk1', hskEdition: 'hsk30', wordsReviewed: 1, correctCount: 1, xpEarned: 12, durationSeconds: 3,
+    id: session.id,
+    timestamp: event.answeredAt,
+    mode: 'guided',
+    deckId: 'all',
+    language: 'en',
+    level: 'a1',
+    wordsReviewed: 1,
+    correctCount: 1,
+    xpEarned: 12,
+    durationSeconds: 3,
   });
   const retry = createLearningAttempt({ ...input, eventId: 'retry-fixture', attemptIndex: 1, isRetry: true });
   assert.equal(projectStudyAttempt(next, retry, session), next);
@@ -44,7 +70,7 @@ test('a prompt opened before the due time leaves SRS intact even when answered a
 
 test('offline feedback grades objective answers and leaves open production uncertain', () => {
   assert.equal(gradeChoice('a', 'b', 'b').outcome, 'incorrect');
-  assert.equal(gradeText('你好', '你好', true).quality, 2);
+  assert.equal(gradeText('hello', 'hello', true).quality, 2);
   const state = reviewedStudySnapshot();
   const word = state.words.find(({ id }) => id === 'en-regional-color')!;
   const grade = gradeSentence('color color color color color', word);

@@ -4,7 +4,6 @@ import type { VocabWord } from '../types/vocab';
 import {
   parseSentenceFeedback, sentenceAssessmentInput, sentencePrecheck, SENTENCE_RUBRIC_VERSION, SENTENCE_TASK,
 } from '../utils/sentenceAssessment.mjs';
-import { stripTrailingPinyin } from '../utils/studyPlan';
 
 const OUTCOME_LABELS = {
   passed: 'AI nhận thấy câu phù hợp',
@@ -31,7 +30,7 @@ export function SentenceAiFeedback({ word, answer }: { word: VocabWord; answer: 
   const active = useRef<AbortController | null>(null);
   useEffect(() => () => active.current?.abort(), []);
 
-  const examples = word.examples.map(({ sentence }) => word.language === 'zh' ? stripTrailingPinyin(sentence) : sentence);
+  const examples = word.examples.map(({ sentence }) => sentence);
   const problem = sentencePrecheck(word.language, word.term, answer, examples);
   const input = problem ? null : sentenceAssessmentInput(word.language, word.term, word.meaning, answer);
   const key = answer.trim();

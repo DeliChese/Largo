@@ -7,12 +7,20 @@ import {VitePWA} from 'vite-plugin-pwa';
 import {createSpeechRouter, loadSpeechEnvironment} from './server/speech.mjs';
 import {createSentenceAssessmentRouter} from './server/sentenceAssessment.mjs';
 import {createWordChainRouter} from './server/wordChain.mjs';
+import {createExampleGeneratorRouter} from './server/exampleGenerator.mjs';
 
 const projectRoot = import.meta.dirname;
 
 function speechEnvironment(mode: string) {
   const files = ['.env', '.env.local', `.env.${mode}`, `.env.${mode}.local`];
   return loadSpeechEnvironment(files.map((file) => path.join(projectRoot, file)));
+}
+
+function aiServerEnvironment(mode: string) {
+  return {
+    ...process.env,
+    ...loadEnv(mode, projectRoot, ''),
+  };
 }
 
 export default defineConfig(() => {
@@ -22,7 +30,6 @@ export default defineConfig(() => {
         output: {
           codeSplitting: {
             groups: [
-              { name: 'chinese-vocabulary', test: /[\\/]Chinese[\\/]chineseVocabulary\.json$/ },
               { name: 'english-vocabulary', test: /[\\/]src[\\/]data[\\/]englishDecks\.ts$/ },
               { name: 'english-card-details', test: /[\\/]English[\\/]englishEnrichment\.json$/, priority: 1 },
               { name: 'english-phrasal-verbs', test: /[\\/]English[\\/]englishPhrasalVerbs\.json$/, priority: 1 },
@@ -46,13 +53,15 @@ export default defineConfig(() => {
       {
         name: 'largo-ai-api',
         configureServer(server) {
-          const env = loadEnv(server.config.mode, projectRoot, 'DEEPSEEK_');
+          const env = aiServerEnvironment(server.config.mode);
           server.middlewares.use('/api/ai/word-chain', createWordChainRouter(env));
+          server.middlewares.use('/api/ai/examples', createExampleGeneratorRouter(env));
           server.middlewares.use('/api/ai', createSentenceAssessmentRouter(env));
         },
         configurePreviewServer(server) {
-          const env = loadEnv(server.config.mode, projectRoot, 'DEEPSEEK_');
+          const env = aiServerEnvironment(server.config.mode);
           server.middlewares.use('/api/ai/word-chain', createWordChainRouter(env));
+          server.middlewares.use('/api/ai/examples', createExampleGeneratorRouter(env));
           server.middlewares.use('/api/ai', createSentenceAssessmentRouter(env));
         },
       },
@@ -64,7 +73,7 @@ export default defineConfig(() => {
           name: 'Largo · Học từ và cụm từ',
           short_name: 'Largo',
           lang: 'vi',
-          description: 'Học từ vựng tiếng Anh và tiếng Trung theo cấp độ, luyện cụm từ trong câu và ôn cách quãng.',
+          description: 'Học từ vựng và cụm từ tiếng Anh theo cấp độ, luyện dùng trong câu và ôn cách quãng.',
           theme_color: '#f1eff9',
           background_color: '#f1eff9',
           display: 'standalone',

@@ -3,11 +3,11 @@ import test from 'node:test';
 import { INITIAL_PROFILE } from '../data/seedVocab';
 import type { VocabWord } from '../types/vocab';
 import { planAdaptiveSession, explainPlanItem, type AdaptivePlannerInput } from './adaptivePlanner';
-import { PERSONAL_CARD, SHARED_HSK_CARD, DELETED_HSK_CARD, SNAPSHOT_TIME, reviewedStudySnapshot } from './fixtures/studySnapshots';
+import { DELETED_ENGLISH_CARD, PERSONAL_CARD, REGIONAL_CARD, SNAPSHOT_TIME, reviewedStudySnapshot } from './fixtures/studySnapshots';
 import { createLearningAttempt, type AttemptInput } from './learningAttempt';
 import { buildMasteryProjection } from './mastery';
 import { applyStudyReview, getDailyStudyPlan, getStudyExercise } from './studyPlan';
-import { getEditionDecks, getScopedDecks, getScopedWords } from './studyScope';
+import { getScopedDecks, getScopedWords } from './studyScope';
 import { compareAdaptivePlans, summarizeAdaptiveStudy } from './plannerMetrics';
 import { hasOfflinePronunciation } from './soundEngine';
 
@@ -15,7 +15,7 @@ const DAY = 86_400_000;
 
 function card(id: string, due = SNAPSHOT_TIME - DAY, reviewed = true): VocabWord {
   return {
-    ...PERSONAL_CARD, id, term: '词' + id, meaning: 'từ ' + id, examples: [],
+    ...PERSONAL_CARD, id, term: 'word-' + id, meaning: 'từ ' + id, examples: [],
     srs: { ...PERSONAL_CARD.srs, lastReviewedAt: reviewed ? SNAPSHOT_TIME - 5 * DAY : null,
       nextReviewAt: due, repetitions: reviewed ? 4 : 0 },
   };
@@ -24,7 +24,7 @@ function card(id: string, due = SNAPSHOT_TIME - DAY, reviewed = true): VocabWord
 function sampleEvent(wordId: string, patch: Partial<AttemptInput> = {}) {
   return createLearningAttempt({
     eventId: 'event-' + wordId, sessionId: 'session-' + wordId, attemptIndex: 0,
-    wordId, language: 'zh', hskEdition: 'hsk20', taskType: 'dictation', source: 'manual',
+    wordId, language: 'en', taskType: 'dictation', source: 'manual',
     startedAt: SNAPSHOT_TIME - DAY, answeredAt: SNAPSHOT_TIME - DAY + 1_000, isRetry: false,
     scheduledAtStart: false, hintCount: 0, revealedAnswer: false, outcome: 'incorrect',
     assessmentSource: 'local', quality: 1, skill: 'listening', contextId: 'listen', ...patch,
@@ -34,7 +34,7 @@ function sampleEvent(wordId: string, patch: Partial<AttemptInput> = {}) {
 function input(words: VocabWord[], recentEvents = [] as ReturnType<typeof sampleEvent>[]): AdaptivePlannerInput {
   return {
     words, profile: INITIAL_PROFILE, newWordLimit: 8, now: SNAPSHOT_TIME,
-    masteryById: buildMasteryProjection(recentEvents), recentEvents, audioLanguages: new Set(['zh']),
+    masteryById: buildMasteryProjection(recentEvents), recentEvents, audioLanguages: new Set(['en']),
   };
 }
 
@@ -82,11 +82,10 @@ test('voice availability requires an on-device voice for the selected locale', (
   const voices = [
     { lang: 'en-US', voiceURI: 'one', name: 'US offline', localService: true, default: false },
     { lang: 'en-GB', voiceURI: 'two', name: 'UK network', localService: false, default: false },
-    { lang: 'zh-CN', voiceURI: 'three', name: 'Mandarin offline', localService: true, default: false },
   ];
   assert.equal(hasOfflinePronunciation(voices, 'en-US'), true);
   assert.equal(hasOfflinePronunciation(voices, 'en-GB'), false);
-  assert.equal(hasOfflinePronunciation(voices, 'zh'), true);
+  assert.equal(hasOfflinePronunciation(voices, 'en'), true);
 });
 
 test('missing prompt keys, uncertain AI and unsuitable distractors fall back to exercises available offline', () => {
@@ -101,18 +100,16 @@ test('missing prompt keys, uncertain AI and unsuitable distractors fall back to 
   assert.equal(plan.items.length, 1);
 });
 
-test('shared HSK IDs remain canonical and deleted or out-of-scope cards are excluded', () => {
+test('canonical English card IDs remain unique and deleted or out-of-scope cards are excluded', () => {
   const saved = reviewedStudySnapshot();
-  const events = [sampleEvent(SHARED_HSK_CARD), sampleEvent(DELETED_HSK_CARD), sampleEvent('outside')];
-  for (const edition of ['hsk20', 'hsk30'] as const) {
-    const deckList = getScopedDecks(getEditionDecks(saved.decks, 'zh', edition), 'zh', 'hsk1');
-    const words = getScopedWords(saved.words, deckList, 'zh');
-    const shared = words.find(({ id }) => id === SHARED_HSK_CARD)!;
-    const plan = planAdaptiveSession(input([...words, shared], events));
-    assert.equal(plan.items.filter(({ wordId }) => wordId === shared.id).length, 1);
-    assert.ok(plan.items.every(({ wordId }) => words.some(({ id }) => wordId === id)));
-    assert.ok(!plan.items.some(({ wordId }) => wordId === DELETED_HSK_CARD));
-  }
+  const events = [sampleEvent(REGIONAL_CARD), sampleEvent(DELETED_ENGLISH_CARD), sampleEvent('outside')];
+  const deckList = getScopedDecks(saved.decks, 'en', 'a1');
+  const words = getScopedWords(saved.words, deckList, 'en');
+  const shared = words.find(({ id }) => id === REGIONAL_CARD)!;
+  const plan = planAdaptiveSession(input([...words, shared], events));
+  assert.equal(plan.items.filter(({ wordId }) => wordId === shared.id).length, 1);
+  assert.ok(plan.items.every(({ wordId }) => words.some(({ id }) => wordId === id)));
+  assert.ok(!plan.items.some(({ wordId }) => wordId === DELETED_ENGLISH_CARD));
 });
 
 for (let scenario = 0; scenario < 20; scenario += 1) {
@@ -128,7 +125,7 @@ for (let scenario = 0; scenario < 20; scenario += 1) {
       ...input(words, due.filter((_, i) => i % 2 === 0).map(({ id }) => sampleEvent(id))),
       newWordLimit: scenario % 5,
       quotaWords: [...words, ...priorReviews],
-      audioLanguages: new Set(scenario % 2 ? ['zh'] : []),
+      audioLanguages: new Set(scenario % 2 ? ['en'] : []),
     };
     const original = structuredClone(words);
     const planned = planAdaptiveSession(data);

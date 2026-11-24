@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Search, Volume2, X } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import type { EnglishLocale, VocabWord } from '../types/vocab';
-import { speakPronunciation } from '../utils/soundEngine';
 import { compactPhonetic, searchable } from '../utils/vocabSearch';
 import { DEFAULT_ENGLISH_LOCALE, ENGLISH_LOCALE_LABEL, getEnglishStudyWord } from '../utils/englishStudy';
 import { EnglishPronunciation, EnglishVariantDetails } from './EnglishVariantDetails';
@@ -18,7 +17,6 @@ interface LookupMatch {
   term: string;
   phonetic: string;
   meaning: string;
-  sinoVietnamese?: string;
   partOfSpeech?: string;
   topCollocation?: VocabWord['collocations'][number];
   englishLocale?: EnglishLocale;
@@ -41,9 +39,9 @@ export function WordLookup({ words, speechRate }: WordLookupProps) {
     const alternateLocale = 'en-GB';
     return words.flatMap<LookupMatch>((storedWord) => {
       const word = getEnglishStudyWord(storedWord, DEFAULT_ENGLISH_LOCALE);
-      const { id, language, term, phonetic, meaning, sinoVietnamese, partOfSpeech, collocations } = word;
+      const { id, language, term, phonetic, meaning, partOfSpeech, collocations } = word;
       const topCollocation = collocations[0];
-      const match = { id, language, term, phonetic, meaning, sinoVietnamese, partOfSpeech, topCollocation, sourceWord: storedWord };
+      const match = { id, language, term, phonetic, meaning, partOfSpeech, topCollocation, sourceWord: storedWord };
       if (searchable(term) === q) return [{ ...match, rank: 0 }];
 
       const alternate = storedWord.englishForms && getEnglishStudyWord(storedWord, alternateLocale);
@@ -61,7 +59,7 @@ export function WordLookup({ words, speechRate }: WordLookupProps) {
       }
 
       const phoneticMatch = phoneticQuery && compactPhonetic(phonetic).includes(phoneticQuery);
-      if (phoneticMatch || [term, meaning, sinoVietnamese ?? ''].some(includesQuery)) {
+      if (phoneticMatch || [term, meaning].some(includesQuery)) {
         return [{ ...match, rank: 2 }];
       }
       if (alternate && (includesQuery(alternate.term) ||
@@ -125,7 +123,6 @@ export function WordLookup({ words, speechRate }: WordLookupProps) {
                         <strong lang={word.englishLocale ?? word.language}>{word.term}</strong>
                         {word.phonetic && <span className="lookup-phonetic">{word.phonetic}</span>}
                         {word.englishLocale && <span className="lookup-pos">{ENGLISH_LOCALE_LABEL[word.englishLocale]}</span>}
-                        {word.sinoVietnamese && <span className="lookup-sv">· {word.sinoVietnamese}</span>}
                       </div>
                       {word.partOfSpeech && <span className="lookup-pos">{word.partOfSpeech}</span>}
                       <p>{word.meaning}</p>
@@ -137,18 +134,14 @@ export function WordLookup({ words, speechRate }: WordLookupProps) {
                         </p>
                       )}
                     </div>
-                    {word.language === 'en' ? word.sourceWord
+                    {word.sourceWord
                       ? <EnglishVariantDetails word={word.sourceWord} speechRate={speechRate} />
-                      : <EnglishPronunciation text={word.term} speechRate={speechRate} /> : (
-                      <button type="button" className="icon-button" onClick={() => speakPronunciation(word.term, word.language, speechRate)} aria-label={'Nghe ' + word.term}>
-                      <Volume2 size={17} aria-hidden="true" />
-                      </button>
-                    )}
+                      : <EnglishPronunciation text={word.term} speechRate={speechRate} />}
                   </li>
                 ))}
               </ul>
             )}
-            {q && matches.length === 0 && <p className="panel-empty" role="status">Chưa có kết quả ở ngôn ngữ và cấp độ này.</p>}
+            {q && matches.length === 0 && <p className="panel-empty" role="status">Chưa có kết quả ở cấp độ này.</p>}
           </motion.div>
         )}
       </AnimatePresence>

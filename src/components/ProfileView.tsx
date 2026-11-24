@@ -1,8 +1,7 @@
 import { useRef, useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { ArrowUpRight, Camera, Check, Flame, GraduationCap, ImagePlus, Pencil, Target, Trash2, Trophy } from 'lucide-react';
-import type { LanguageCode, StudySessionLog, UserProfile, VocabWord } from '../types/vocab';
-import { LANGUAGE_LABELS } from '../data/seedVocab';
+import type { StudySessionLog, UserProfile, VocabWord } from '../types/vocab';
 import { getDailyProgress } from '../utils/studyPlan';
 import { PROFILE_IMAGE_ACCEPT, type ProfileImageKind } from '../utils/profileImages';
 import '../profile.css';
@@ -19,7 +18,7 @@ interface ProfileViewProps {
   onOpenAchievements: () => void;
 }
 
-type ProfileDraft = Pick<UserProfile, 'name' | 'title' | 'bio'> & { dailyGoalWords: string; targetLanguage?: LanguageCode };
+type ProfileDraft = Pick<UserProfile, 'name' | 'title' | 'bio'> & { dailyGoalWords: string };
 
 const formatNumber = new Intl.NumberFormat('vi-VN');
 
@@ -35,16 +34,11 @@ export function ProfileView({
   const imageControlsDisabled = !imagesReady || savingImage;
   const nameParts = profile.name.trim().split(/\s+/);
   const initials = (Array.from(nameParts[0] || 'L')[0] + (nameParts.length > 1 ? Array.from(nameParts.at(-1)!)[0] : '')).toLocaleUpperCase('vi');
-  const target = LANGUAGE_LABELS[profile.targetLanguage];
   const daily = getDailyProgress(profile, Date.now());
   const sessionCount = logs.filter((log) => !log.mode.startsWith('game_') && log.wordsReviewed > 0).length;
-  const languageProgress = new Map<LanguageCode, { learned: number; total: number }>([[profile.targetLanguage, { learned: 0, total: 0 }]]);
-  for (const word of words) {
-    const total = languageProgress.get(word.language) ?? { learned: 0, total: 0 };
-    total.total += 1;
-    if (word.srs.lastReviewedAt !== null) total.learned += 1;
-    languageProgress.set(word.language, total);
-  }
+  const englishWords = words.filter((word) => word.language === 'en');
+  const learnedCount = englishWords.filter((word) => word.srs.lastReviewedAt !== null).length;
+  const totalCount = englishWords.length;
 
   async function updateImage(kind: ProfileImageKind, file?: File) {
     setImageNotice(undefined);
@@ -88,7 +82,6 @@ export function ProfileView({
       name: draft.name.trim() || profile.name,
       title: draft.title.trim(),
       bio: draft.bio.trim(),
-      ...(draft.targetLanguage ? { targetLanguage: draft.targetLanguage } : {}),
       dailyGoalWords,
     });
     setDraft(null);
@@ -177,15 +170,6 @@ export function ProfileView({
                   <input value={draft.title} onChange={(event) => edit('title', event.target.value)} />
                 </label>
                 <label>
-                  <span>Ngôn ngữ đang học</span>
-                  <select value={draft.targetLanguage ?? profile.targetLanguage}
-                    onChange={(event) => edit('targetLanguage', event.target.value as LanguageCode)}>
-                    {(Object.entries(LANGUAGE_LABELS) as [LanguageCode, typeof target][]).map(([code, language]) => (
-                      <option key={code} value={code}>{language.name} · {language.native}</option>
-                    ))}
-                  </select>
-                </label>
-                <label>
                   <span>Mục tiêu mỗi ngày</span>
                   <input type="number" min={5} max={100} step={1} required value={draft.dailyGoalWords}
                     onChange={(event) => edit('dailyGoalWords', event.target.value)} />
@@ -203,7 +187,7 @@ export function ProfileView({
               <ul className="profile-preferences" aria-label="Thiết lập học">
                 <li>
                   <span className="metric-icon" data-tone="mint"><GraduationCap size={20} aria-hidden="true" /></span>
-                  <div><span>Ngôn ngữ đang học</span><strong>{target.name}</strong></div>
+                  <div><span>Ngôn ngữ đang học</span><strong>Tiếng Anh</strong></div>
                 </li>
                 <li>
                   <span className="metric-icon" data-tone="violet"><Target size={20} aria-hidden="true" /></span>
@@ -227,24 +211,22 @@ export function ProfileView({
         </section>
 
         <section className="glass-panel profile-language-card" aria-labelledby="profile-languages-title">
-          <h2 id="profile-languages-title">Từ đã luyện theo ngôn ngữ</h2>
+          <h2 id="profile-languages-title">Từ đã luyện</h2>
           <ul className="profile-language-list">
-            {Array.from(languageProgress, ([language, { learned, total }]) => (
-              <li key={language}>
-                <span className="profile-language-code">{LANGUAGE_LABELS[language].short}</span>
-                <div>
-                  <div className="profile-language-label">
-                    <strong>{LANGUAGE_LABELS[language].name}</strong>
-                    <span>{formatNumber.format(learned)} / {formatNumber.format(total)} từ</span>
-                  </div>
-                  {total > 0 && (
-                    <progress className="profile-progress" max={total} value={learned} aria-label={'Từ đã luyện · ' + LANGUAGE_LABELS[language].name}>
-                      {learned} / {total}
-                    </progress>
-                  )}
+            <li>
+              <span className="profile-language-code">EN</span>
+              <div>
+                <div className="profile-language-label">
+                  <strong>Tiếng Anh</strong>
+                  <span>{formatNumber.format(learnedCount)} / {formatNumber.format(totalCount)} từ</span>
                 </div>
-              </li>
-            ))}
+                {totalCount > 0 && (
+                  <progress className="profile-progress" max={totalCount} value={learnedCount} aria-label="Từ đã luyện · Tiếng Anh">
+                    {learnedCount} / {totalCount}
+                  </progress>
+                )}
+              </div>
+            </li>
           </ul>
         </section>
       </div>

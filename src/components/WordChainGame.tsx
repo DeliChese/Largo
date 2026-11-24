@@ -152,9 +152,7 @@ export function WordChainGame({ words, language, savedTerms, onSaveWord, onBack 
       </button>
       <header className="page-intro">
         <h1>Đấu trường nối từ</h1>
-        <p>{language === 'en'
-          ? 'Lấy chữ cái cuối của lượt trước để bắt đầu lượt sau. Ví dụ: exchange → entry → yellow.'
-          : 'Lấy chữ Hán cuối của lượt trước để bắt đầu lượt sau. Ví dụ: 学习 → 习惯 → 惯用.'}</p>
+        <p>Lấy chữ cái cuối của lượt trước để bắt đầu lượt sau. Ví dụ: exchange → entry → yellow.</p>
       </header>
 
       {!match ? (
@@ -177,7 +175,7 @@ export function WordChainGame({ words, language, savedTerms, onSaveWord, onBack 
           <label className="chain-consent">
             <input type="checkbox" checked={useDeepSeek} onChange={(event) => setUseDeepSeek(event.target.checked)} />
             <span>Bật DeepSeek khi bot hết từ trong kho
-              <small>Chỉ gửi ký tự cần nối, ngôn ngữ và chế độ. Tối đa {CHAIN_AI_ATTEMPTS} lần mỗi ván.</small>
+              <small>Chỉ gửi ký tự cần nối và chế độ. Tối đa {CHAIN_AI_ATTEMPTS} lần mỗi ván.</small>
             </span>
           </label>
           <button type="button" className="button-primary" onClick={start} disabled={!lexicon.canStart}>

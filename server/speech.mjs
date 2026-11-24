@@ -7,7 +7,7 @@ const REQUEST_WINDOW_MS = 60 * 1000;
 const SYNTHESIS_LIMIT = 90;
 const MAX_CACHED_CLIPS = 256;
 const MAX_CLIP_BYTES = 128 * 1024;
-const SUPPORTED_LANGUAGES = new Set(['en', 'zh', 'ja', 'fr', 'ko', 'es']);
+const SUPPORTED_LANGUAGES = new Set(['en']);
 
 const escapeXml = (text) => text.replace(/[<>&"']/g, (character) =>
   ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&apos;' })[character]);

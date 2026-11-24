@@ -3,8 +3,6 @@ import { Bell, Check, Download, Moon, RotateCcw, Sun, Upload, Volume2, Wifi } fr
 import type {
   AppSettings,
   ColorSchemeMode,
-  EnglishLocale,
-  LanguageCode,
   SRSMode,
   ThemeId,
   UIDensity,
@@ -13,7 +11,6 @@ import { SRS_MODE_META } from '../utils/srsBloom';
 import { soundEngine, speakPronunciation, stopPronunciation } from '../utils/soundEngine';
 import { ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getSpeechVoice } from '../utils/englishStudy';
 import { PWAInstallButton } from './PWAInstallButton';
-import { LANGUAGE_LABELS } from '../data/seedVocab';
 import { previewBackup, type BackupPreview } from '../utils/backup';
 import type { LearningAttemptEvent } from '../utils/learningAttempt';
 import type { AdaptiveStudyPlan } from '../utils/adaptivePlanner';
@@ -22,7 +19,6 @@ import { summarizeAdaptiveStudy, type compareAdaptivePlans } from '../utils/plan
 interface SettingsViewProps {
   settings: AppSettings;
   isOnline: boolean;
-  activeLanguage: LanguageCode;
   attempts: readonly LearningAttemptEvent[];
   plannerPreview?: {
     comparison: ReturnType<typeof compareAdaptivePlans>;
@@ -42,19 +38,11 @@ interface AzureVoice {
   name: string;
 }
 
-const VOICE_SAMPLES: Record<LanguageCode, string> = {
-  en: 'Could you say that again, please?',
-  zh: '不好意思，请再说一遍。',
-  ja: 'すみません、もう一度お願いします。',
-  fr: 'Pourriez-vous répéter, s’il vous plaît ?',
-  ko: '한 번 더 말씀해 주시겠어요?',
-  es: '¿Podrías repetirlo, por favor?',
-};
+const ENGLISH_VOICE_SAMPLE = 'Could you say that again, please?';
 
-function PronunciationSettings({ settings, isOnline, activeLanguage, onUpdateSettings }: Pick<
-  SettingsViewProps, 'settings' | 'isOnline' | 'activeLanguage' | 'onUpdateSettings'
+function PronunciationSettings({ settings, isOnline, onUpdateSettings }: Pick<
+  SettingsViewProps, 'settings' | 'isOnline' | 'onUpdateSettings'
 >) {
-  const [language, setLanguage] = useState<LanguageCode>(activeLanguage);
   const [voices, setVoices] = useState<AzureVoice[]>([]);
   const [catalogStatus, setCatalogStatus] = useState('loading');
   const [attempt, setAttempt] = useState(0);
@@ -92,55 +80,43 @@ function PronunciationSettings({ settings, isOnline, activeLanguage, onUpdateSet
     : catalogStatus === 'error' ? 'Chưa tải được danh sách giọng Azure.'
     : catalogStatus === 'loading' ? 'Đang tải giọng Azure…' : '';
 
-  const voiceSlots: readonly (LanguageCode | EnglishLocale)[] = language === 'en' ? ENGLISH_LOCALES : [language];
-
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-semibold">Giọng đọc theo ngôn ngữ</h3>
-        <div className="control-field">
-          <label htmlFor="voice-language">Ngôn ngữ</label>
-          <select id="voice-language" value={language} onChange={(event) => {
-            stopPronunciation();
-            setLanguage(event.target.value as LanguageCode);
-            setPreviewMessage('');
-          }}>
-            {Object.entries(LANGUAGE_LABELS).map(([code, label]) => <option key={code} value={code}>{label.name}</option>)}
-          </select>
-        </div>
-      {voiceSlots.map((slot) => {
-        const englishLocale: EnglishLocale | undefined = slot === 'en-GB' || slot === 'en-US' ? slot : undefined;
-        const label = englishLocale ? ENGLISH_LOCALE_LABEL[englishLocale] : 'Giọng đọc';
-        const voiceId = getSpeechVoice(settings.speechVoices, language, englishLocale) ?? '';
-        const options = voices.filter(({ locale }) => englishLocale
-          ? locale.toLowerCase() === englishLocale.toLowerCase()
-          : locale.toLowerCase().startsWith(language + '-'));
+      <h3 className="text-sm font-semibold">Giọng đọc tiếng Anh</h3>
+      {ENGLISH_LOCALES.map((englishLocale) => {
+        const label = ENGLISH_LOCALE_LABEL[englishLocale];
+        const voiceId = getSpeechVoice(settings.speechVoices, englishLocale) ?? '';
+        const options = voices.filter(({ locale }) => locale.toLowerCase() === englishLocale.toLowerCase());
+        const defaultVoice = englishLocale === 'en-GB' ? 'en-GB-SoniaNeural' : 'en-US-JennyNeural';
         return (
-          <div key={slot} className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto] gap-3 items-end">
+          <div key={englishLocale} className="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_auto] gap-3 items-end">
             <div className="control-field">
-              <label htmlFor={`pronunciation-voice-${slot}`}>{label}</label>
-              <select id={`pronunciation-voice-${slot}`} value={voiceId} onChange={(event) => {
+              <label htmlFor={`pronunciation-voice-${englishLocale}`}>
+                {label}{options.length > 0 ? ` (${options.length} giọng)` : ''}
+              </label>
+              <select id={`pronunciation-voice-${englishLocale}`} value={voiceId} onChange={(event) => {
                 stopPronunciation();
                 setPreviewMessage('');
                 const next = { ...settings.speechVoices };
-                if (event.target.value) next[slot] = event.target.value;
+                if (event.target.value) next[englishLocale] = event.target.value;
                 else {
-                  delete next[slot];
-                  if (englishLocale && next.en?.startsWith(englishLocale + '-')) delete next.en;
+                  delete next[englishLocale];
+                  if (next.en?.startsWith(englishLocale + '-')) delete next.en;
                 }
                 onUpdateSettings({ speechVoices: next });
               }}>
-                <option value="">{englishLocale ? 'Tự động' : 'Mặc định của thiết bị'}</option>
+                <option value="">Tự động ({defaultVoice})</option>
                 {voiceId && !options.some((voice) => voice.id === voiceId) && <option value={voiceId}>{voiceId}</option>}
                 {options.map((voice) => <option key={voice.id} value={voice.id}>{voice.name} · {voice.locale}</option>)}
               </select>
             </div>
             <button type="button" className="button-secondary" onClick={() => {
               setPreviewMessage('');
-              speakPronunciation(VOICE_SAMPLES[language], slot, settings.speechRate,
+              speakPronunciation(ENGLISH_VOICE_SAMPLE, englishLocale, settings.speechRate,
                 () => setPreviewMessage(''), undefined, undefined,
-                () => setPreviewMessage(englishLocale ? `Chưa phát được giọng ${label}.` : 'Chưa phát được giọng đọc.'));
+                () => setPreviewMessage(`Chưa phát được giọng ${label}.`));
             }}>
-              <Volume2 size={16} aria-hidden="true" /> {englishLocale ? `Nghe thử ${label}` : 'Nghe thử'}
+              <Volume2 size={16} aria-hidden="true" /> {`Nghe thử ${label}`}
             </button>
           </div>
         );
@@ -199,7 +175,6 @@ const THEME_CARDS: Array<{
 export const SettingsView: React.FC<SettingsViewProps> = ({
   settings,
   isOnline,
-  activeLanguage,
   attempts,
   plannerPreview,
   onUpdateSettings,
@@ -513,8 +488,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         className="glass-panel p-5 sm:p-6 space-y-4"
       >
         <h2 className="font-display text-base font-semibold">Âm thanh và phát âm</h2>
-        <PronunciationSettings key={activeLanguage} settings={settings} isOnline={isOnline}
-          activeLanguage={activeLanguage} onUpdateSettings={onUpdateSettings} />
+        <PronunciationSettings settings={settings} isOnline={isOnline} onUpdateSettings={onUpdateSettings} />
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
@@ -556,15 +530,6 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             <span>Bật hiệu ứng âm thanh tương tác</span>
           </label>
         </div>
-
-        <label className="flex items-center gap-2.5 text-xs font-medium cursor-pointer pt-1">
-          <input
-            type="checkbox"
-            checked={settings.showExamplePhonetic ?? true}
-            onChange={(e) => onUpdateSettings({ showExamplePhonetic: e.target.checked })}
-          />
-          <span>Hiển thị pinyin ở câu ví dụ (tiếng Trung)</span>
-        </label>
       </section>
 
       {/* 4. Offline & Data Backup */}

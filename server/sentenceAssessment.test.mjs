@@ -40,13 +40,13 @@ async function startApi(t, config = env, options = {}) {
   });
 }
 
-test('the local gate skips empty, bare and copied answers without rejecting valid short or inflected sentences', () => {
+test('the local gate skips empty, bare and copied answers without rejecting valid short or inflected English sentences', () => {
   assert.equal(sentencePrecheck('en', 'take off', ' TAKE OFF! '), 'too_short');
-  assert.equal(sentencePrecheck('zh', '提高', '？'), 'too_short');
+  assert.equal(sentencePrecheck('zh', '提高', '我们要提高水平。'), 'unsupported_language');
   assert.equal(sentencePrecheck('en', 'take off', 'Our plane took off at dawn!', [input.answer]), 'copied_example');
-  assert.equal(sentencePrecheck('zh', '学习', '大家一起学習吧。'), null);
   assert.equal(sentencePrecheck('en', 'go', 'Cats went.'), null);
   assert.ok(sentenceAssessmentInput('en', 'take off', 'cất cánh', input.answer));
+  assert.equal(sentenceAssessmentInput('zh', '提高', 'nâng cao', '我们要提高水平。'), null);
   assert.equal(sentenceAssessmentInput('en', 'take off', 'cất cánh', 'x'.repeat(321)), null);
 });
 
@@ -61,6 +61,7 @@ test('disabled, foreign, unconsented, closed and oversized requests make zero pr
   assert.equal((await post({}, { Origin: 'https://example.org' })).status, 403);
   assert.equal((await post({}, { 'X-Forwarded-For': '203.0.113.2' })).status, 403);
   assert.equal((await post({ consent: false })).status, 400);
+  assert.equal((await post({ language: 'zh' })).status, 400);
   assert.equal((await post({ task: 'cloze' })).status, 400);
   assert.equal((await post({ rubricVersion: 2 })).status, 400);
   assert.equal((await post({ profile: 'private' })).status, 400);

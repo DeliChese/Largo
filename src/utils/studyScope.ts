@@ -1,5 +1,4 @@
-import type { HskEdition, LanguageCode, VocabDeck, VocabWord } from '../types/vocab';
-import { DEFAULT_HSK_EDITION } from '../../Chinese/hsk1Courses';
+import type { LanguageCode, VocabDeck, VocabWord } from '../types/vocab';
 
 interface StudyLevel {
   id: string;
@@ -13,28 +12,26 @@ const BUILTIN_LEVELS: Partial<Record<LanguageCode, StudyLevel[]>> = {
 };
 
 export function getStudyLanguages(decks: readonly VocabDeck[]): LanguageCode[] {
-  return [...new Set<LanguageCode>(['zh', 'en', ...decks.map((deck) => deck.language)])];
+  return [...new Set<LanguageCode>(['en', ...decks.map((deck) => deck.language)])];
 }
 
 export function getDeckStudyLevel(deck: VocabDeck): string {
   const declaredLevel = deck.level?.trim();
-  if (declaredLevel) return declaredLevel.toLowerCase().replace(/^hsk\s+/, 'hsk');
+  if (declaredLevel) return declaredLevel.toLowerCase();
 
-  // Older decks store their level in the category, such as "HSK 1 · Chủ đề 1".
   const category = deck.category.trim();
-  const prefix = category.match(/^(hsk\s*\d+|[abc][12]|n[1-5])\b/i)?.[0];
-  return prefix ? prefix.toLowerCase().replace(/\s+/g, '') : CUSTOM_LEVEL.id;
+  const prefix = category.match(/^([abc][12])\b/i)?.[0];
+  return prefix ? prefix.toLowerCase() : CUSTOM_LEVEL.id;
 }
 
 function levelLabel(id: string): string {
   if (id === 'legacy') return 'Bộ từ trước đây';
   if (id === 'phrasal') return 'Chuyên đề';
-  if (/^hsk\d+$/.test(id)) return 'HSK ' + id.slice(3);
-  if (/^(?:[abc][12]|n[1-5])$/.test(id)) return id.toUpperCase();
+  if (/^[abc][12]$/.test(id)) return id.toUpperCase();
   return id === CUSTOM_LEVEL.id ? CUSTOM_LEVEL.label : id;
 }
 
-export function getStudyLevels(language: LanguageCode, decks: readonly VocabDeck[] = []): StudyLevel[] {
+export function getStudyLevels(language: LanguageCode = 'en', decks: readonly VocabDeck[] = []): StudyLevel[] {
   const levels = new Map((BUILTIN_LEVELS[language] ?? []).map((level) => [level.id, level]));
   for (const deck of decks) {
     if (deck.language !== language) continue;
@@ -50,17 +47,7 @@ export function getScopedDecks(decks: readonly VocabDeck[], language: LanguageCo
   );
 }
 
-export function getEditionDecks(decks: readonly VocabDeck[], language: LanguageCode, edition: HskEdition): VocabDeck[] {
-  return decks.filter((deck) => deck.language === language && (language !== 'zh' || deck.isCustom || deck.hskEdition === edition));
-}
-
-export function getCurriculumDecks(decks: readonly VocabDeck[], language: LanguageCode): VocabDeck[] {
-  const preferred = getEditionDecks(decks, language, DEFAULT_HSK_EDITION);
-  if (language !== 'zh') return preferred;
-  return [...preferred, ...decks.filter((deck) => deck.language === 'zh' && !deck.isCustom && deck.hskEdition === 'hsk20')];
-}
-
-export function getScopedWords(words: readonly VocabWord[], scopedDecks: readonly VocabDeck[], language: LanguageCode): VocabWord[] {
+export function getScopedWords(words: readonly VocabWord[], scopedDecks: readonly VocabDeck[], language: LanguageCode = 'en'): VocabWord[] {
   const deckIds = new Set(scopedDecks.map((deck) => deck.id));
   const directWords = words.filter((word) => word.language === language && deckIds.has(word.deckId));
   if (!scopedDecks.some((deck) => deck.wordIds)) return directWords;

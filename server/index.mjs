@@ -4,11 +4,13 @@ import { fileURLToPath } from 'node:url';
 import { createSpeechRouter } from './speech.mjs';
 import { createSentenceAssessmentRouter } from './sentenceAssessment.mjs';
 import { createWordChainRouter } from './wordChain.mjs';
+import { createExampleGeneratorRouter } from './exampleGenerator.mjs';
 
 const app = express();
 app.disable('x-powered-by');
 app.use('/api/speech', createSpeechRouter(process.env));
 app.use('/api/ai/word-chain', createWordChainRouter(process.env));
+app.use('/api/ai/examples', createExampleGeneratorRouter(process.env));
 app.use('/api/ai', createSentenceAssessmentRouter(process.env));
 app.use(express.static(fileURLToPath(new URL('../dist/', import.meta.url))));
 

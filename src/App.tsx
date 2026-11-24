@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import { Bell, ChevronDown, Languages, Menu, Moon, Plus, Sun, X } from 'lucide-react';
+import { Bell, ChevronDown, Menu, Moon, Plus, Sun, X } from 'lucide-react';
 import type {
   AnalyticsSubRoute,
   AppRoute,
@@ -8,7 +8,6 @@ import type {
   BloomLevel,
   DeckWordImport,
   ExampleSentence,
-  HskEdition,
   LanguageCode,
   LexicalRelations,
   StudyModeId,
@@ -19,14 +18,12 @@ import type {
   VocabDeck,
   VocabWord,
 } from './types/vocab';
-import { DEFAULT_HSK_EDITION } from '../Chinese/hsk1Courses';
 import {
   INITIAL_DECKS,
   INITIAL_LOGS,
   INITIAL_PROFILE,
   INITIAL_SETTINGS,
   INITIAL_WORDS,
-  LANGUAGE_LABELS,
   CURRENT_DATA_VERSION,
   hasCurrentSeedDecks,
   isBuiltinWord,
@@ -37,7 +34,7 @@ import {
   getDailyStudyPlan, getIntensiveStudyPlan, getPracticeWords, PRACTICE_SESSION_SIZE, recordStudyActivity,
   type StudyFilter,
 } from './utils/studyPlan';
-import { getCurriculumDecks, getDeckStudyLevel, getEditionDecks, getScopedDecks, getScopedWords, getStudyLanguages, getStudyLevels } from './utils/studyScope';
+import { getDeckStudyLevel, getScopedDecks, getScopedWords, getStudyLevels } from './utils/studyScope';
 import { DEFAULT_ENGLISH_LOCALE, getEnglishStudyWord } from './utils/englishStudy';
 import { importCollocations, importEnglishForms, importExamples, importTerms, trimImportText } from './utils/vocabImport';
 import {
@@ -146,7 +143,6 @@ export default function App() {
   const [route, setRoute] = useState<AppRoute>(initialHash.route);
   const [analyticsSub, setAnalyticsSub] = useState<AnalyticsSubRoute>(initialHash.analyticsSub);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [libraryHskEdition, setLibraryHskEdition] = useState<HskEdition>(DEFAULT_HSK_EDITION);
 
   // Study Session State
   const [selectedMode, setSelectedMode] = useState<StudyModeId>('flashcard');
@@ -314,47 +310,40 @@ export default function App() {
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
-  const language = profile.targetLanguage;
-  const audioLanguages = useMemo(() => new Set(
-    (Object.keys(LANGUAGE_LABELS) as LanguageCode[]).filter((code) =>
-      hasOfflinePronunciation(browserVoices, code)),
-  ), [browserVoices]);
-  const languages = useMemo(() => [...new Set([...getStudyLanguages(decks), language])], [decks, language]);
-  const curriculumDecks = useMemo(() => getCurriculumDecks(decks, language), [decks, language]);
-  const editionDecks = useMemo(() => getEditionDecks(decks, language, libraryHskEdition), [decks, language, libraryHskEdition]);
-  const levels = useMemo(() => getStudyLevels(language, curriculumDecks), [language, curriculumDecks]);
-  const level = levels.find((entry) => entry.id === settings.studyLevels?.[language]) ?? levels[0];
-  const scopedDecks = useMemo(() => getScopedDecks(curriculumDecks, language, level.id), [curriculumDecks, language, level.id]);
-  const libraryWords = useMemo(() => getScopedWords(words, scopedDecks, language), [words, scopedDecks, language]);
-  const scopedWords = useMemo(() => language === 'en'
-    ? libraryWords.map((word) => getEnglishStudyWord(word, DEFAULT_ENGLISH_LOCALE))
-    : libraryWords, [libraryWords, language]);
+  const language: LanguageCode = 'en';
+  const audioLanguages = useMemo(() => hasOfflinePronunciation(browserVoices, 'en')
+    ? new Set<LanguageCode>(['en']) : new Set<LanguageCode>(), [browserVoices]);
+  const levels = useMemo(() => getStudyLevels('en', decks), [decks]);
+  const level = levels.find((entry) => entry.id === settings.studyLevels?.en) ?? levels[0];
+  const scopedDecks = useMemo(() => getScopedDecks(decks, 'en', level.id), [decks, level.id]);
+  const libraryWords = useMemo(() => getScopedWords(words, scopedDecks, 'en'), [words, scopedDecks]);
+  const scopedWords = useMemo(() => libraryWords.map((word) => getEnglishStudyWord(word, DEFAULT_ENGLISH_LOCALE)), [libraryWords]);
   const arenaData = useMemo(() => {
-    if (route !== 'games' || (language !== 'en' && language !== 'zh')) return undefined;
-    const deckId = wordChainDeckId(language);
+    if (route !== 'games') return undefined;
+    const deckId = wordChainDeckId('en');
     const savedIds = new Set(decks.find((deck) => deck.id === deckId)?.wordIds);
     return {
-      language,
-      words: getScopedWords(words, curriculumDecks, language),
+      language: 'en' as const,
+      words: getScopedWords(words, decks, 'en'),
       savedTerms: new Set(words.filter((word) => word.deckId === deckId || savedIds.has(word.id))
-        .map((word) => normalizeChainTerm(word.term, language))),
+        .map((word) => normalizeChainTerm(word.term, 'en'))),
     };
-  }, [route, language, decks, words, curriculumDecks]);
+  }, [route, decks, words]);
   const profileWords = useMemo(() => {
     const deckIds = new Set(decks.map(({ id }) => id));
     const lessonWordIds = new Set(decks.flatMap(({ wordIds }) => wordIds ?? []));
-    return words.filter((word) => word.srs.lastReviewedAt !== null || deckIds.has(word.deckId) || lessonWordIds.has(word.id));
+    return words.filter((word) => word.language === 'en' && (word.srs.lastReviewedAt !== null || deckIds.has(word.deckId) || lessonWordIds.has(word.id)));
   }, [decks, words]);
   const scopedLogs = useMemo(() => {
     const decksById = new Map(decks.map((deck) => [deck.id, deck]));
     return logs.filter((log) => {
       const deck = decksById.get(log.deckId);
-      const logLanguage = log.language ?? deck?.language ?? 'zh';
-      if (logLanguage !== language) return false;
+      const logLanguage = log.language ?? deck?.language ?? 'en';
+      if (logLanguage !== 'en') return false;
       const logLevel = log.level && log.level !== 'all' ? log.level : deck ? getDeckStudyLevel(deck) : log.level;
       return level.id === 'all' || level.id === logLevel;
     });
-  }, [logs, decks, language, level.id]);
+  }, [logs, decks, level.id]);
   const legacyPlan = useMemo(() => getDailyStudyPlan(scopedWords, profile, settings.dailyNewWordLimit, now, words),
     [scopedWords, profile, settings.dailyNewWordLimit, now, words]);
   const adaptivePlanAt = useCallback((timestamp: number) => planAdaptiveSession({
@@ -410,7 +399,7 @@ export default function App() {
     navigate('study');
     const id = globalThis.crypto?.randomUUID?.() ?? 'study-' + Date.now() + '-' + Math.random().toString(36).slice(2);
     setActiveSession({
-      id, mode, deckId, language, level: level.id, hskEdition: scopedDecks.find((deck) => deck.id === deckId)?.hskEdition,
+      id, mode, deckId, language, level: level.id,
       startedAt: Date.now(), words: pool, adaptivePlan,
     });
   };
@@ -442,21 +431,15 @@ export default function App() {
     setShowReminderPopover(false);
   };
 
-  const changeLanguage = (targetLanguage: LanguageCode) => {
-    resetScopeSelection();
-    setProfile((current) => ({ ...current, targetLanguage }));
-  };
-
   const changeLevel = (nextLevel: string) => {
     resetScopeSelection();
-    setSettings((current) => ({ ...current, studyLevels: { ...current.studyLevels, [language]: nextLevel } }));
+    setSettings((current) => ({ ...current, studyLevels: { ...current.studyLevels, en: nextLevel } }));
   };
 
   const practiceWords = (deckId: string) => {
     const deck = scopedDecks.find(({ id }) => id === deckId);
     if (!deck) return scopedWords;
-    const deckWords = getScopedWords(words, [deck], language);
-    return language === 'en' ? deckWords.map((word) => getEnglishStudyWord(word, DEFAULT_ENGLISH_LOCALE)) : deckWords;
+    return getScopedWords(words, [deck], 'en').map((word) => getEnglishStudyWord(word, DEFAULT_ENGLISH_LOCALE));
   };
 
   const handleBeginHubSession = (
@@ -579,9 +562,8 @@ export default function App() {
     const created = { ...deck, id, isCustom: true, createdAt: Date.now() };
     setDecks((prev) => [created, ...prev]);
     const createdLevel = getDeckStudyLevel(created);
-    if (deck.language !== language) changeLanguage(deck.language);
-    if (deck.language !== language || (level.id !== 'all' && createdLevel !== level.id)) {
-      setSettings((current) => ({ ...current, studyLevels: { ...current.studyLevels, [deck.language]: createdLevel } }));
+    if (level.id !== 'all' && createdLevel !== level.id) {
+      setSettings((current) => ({ ...current, studyLevels: { ...current.studyLevels, en: createdLevel } }));
     }
     return id;
   };
@@ -659,17 +641,13 @@ export default function App() {
         partOfSpeech: trimText(item.partOfSpeech) || 'Từ / cụm từ',
         meaning: item.meaning.trim(),
         notes: trimText(item.notes) || undefined,
-        ...(lang === 'zh' && {
-          sinoVietnamese: trimText(item.sinoVietnamese) || undefined,
-          radical: trimText(item.radical) || undefined,
-        }),
         collocations: importCollocations(item.collocations) ?? (trimText(item.collocation)
           ? [{ phrase: trimText(item.collocation), meaning: trimText(item.collocationMeaning) }]
           : []),
         examples: importExamples(item.examples) ?? (trimText(item.example)
           ? [{ sentence: trimText(item.example), phonetic: trimText(item.examplePhonetic) || undefined, translation: trimText(item.translation) }]
           : []),
-        ...(lang === 'en' && { englishForms: importEnglishForms(item.englishForms) }),
+        englishForms: importEnglishForms(item.englishForms),
         synonyms: importTerms(item.synonyms),
         antonyms: importTerms(item.antonyms),
         bloomLevel: 1 as BloomLevel,
@@ -854,24 +832,6 @@ export default function App() {
                   <span className="header-current">{NAV_LABELS[route]}</span>
                 </div>
                 <div className="study-scope" role="group" aria-label="Phạm vi học">
-                  {languages.length === 2 ? (
-                    <div className="scope-language-switch" role="group" aria-label="Ngôn ngữ đang học">
-                      {languages.map((code) => (
-                        <button key={code} type="button" aria-pressed={language === code}
-                          onClick={() => { if (language !== code) changeLanguage(code); }}>
-                          {LANGUAGE_LABELS[code].name}
-                        </button>
-                      ))}
-                    </div>
-                  ) : (
-                    <label className="scope-field">
-                      <Languages size={16} aria-hidden="true" />
-                      <select aria-label="Ngôn ngữ đang học" value={language} onChange={(event) => changeLanguage(event.target.value as LanguageCode)}>
-                        {languages.map((code) => <option key={code} value={code}>{LANGUAGE_LABELS[code].name}</option>)}
-                      </select>
-                      <ChevronDown size={14} aria-hidden="true" />
-                    </label>
-                  )}
                   {route !== 'decks' && <label className="scope-field">
                     <select aria-label="Cấp độ đang học" value={level.id} onChange={(event) => changeLevel(event.target.value)}>
                       {levels.map((entry) => <option key={entry.id} value={entry.id}>{entry.label}</option>)}
@@ -958,7 +918,6 @@ export default function App() {
                       settings={settings}
                       zenMode={settings.zenFocusMode}
                       onToggleZenMode={() => setSettings((value) => ({ ...value, zenFocusMode: !value.zenFocusMode }))}
-                      onToggleExamplePhonetic={() => setSettings((value) => ({ ...value, showExamplePhonetic: !(value.showExamplePhonetic ?? true) }))}
                       onRecordReview={handleRecordReview}
                       onExit={() => setActiveSession(null)}
                       onContinue={activeSession.mode === 'guided' ? (plan.words.length ? startDailySession : undefined)
@@ -994,19 +953,13 @@ export default function App() {
 
                   {route === 'decks' && (
                     <DecksView
-                      key={language}
-                      decks={editionDecks}
+                      decks={decks}
                       words={words}
                       masteryByWord={masteryByWord}
-                      language={language}
-                      hskEdition={libraryHskEdition}
-                      onChangeHskEdition={setLibraryHskEdition}
                       levels={levels}
                       activeLevel={level.id}
                       onChangeLevel={changeLevel}
                       speechRate={settings.speechRate}
-                      showExamplePhonetic={settings.showExamplePhonetic ?? true}
-                      onToggleExamplePhonetic={() => setSettings((value) => ({ ...value, showExamplePhonetic: !(value.showExamplePhonetic ?? true) }))}
                       onCreateDeck={handleCreateDeck}
                       onDeleteDeck={handleDeleteDeck}
                       onAddWord={handleAddWord}
@@ -1031,16 +984,13 @@ export default function App() {
                       avatarUrl={avatarUrl} coverUrl={coverUrl} imagesReady={hydrated}
                       onUpdateImage={handleUpdateProfileImage}
                       onOpenAchievements={() => navigate('achievements')}
-                      onUpdateProfile={(patch) => {
-                        if (patch.targetLanguage && patch.targetLanguage !== language) resetScopeSelection();
-                        setProfile((value) => ({ ...value, ...patch }));
-                      }} />
+                      onUpdateProfile={(patch) => setProfile((value) => ({ ...value, ...patch }))} />
                   )}
 
                   {route === 'achievements' && <AchievementsView profile={profile} words={words} />}
 
                   {route === 'settings' && (
-                    <SettingsView settings={settings} isOnline={isOnline} activeLanguage={language}
+                    <SettingsView settings={settings} isOnline={isOnline}
                       plannerPreview={plannerPreview && {
                         comparison: compareAdaptivePlans(plannerPreview.candidate, legacyPlan),
                         strategy: plannerPreview.candidate.strategy,

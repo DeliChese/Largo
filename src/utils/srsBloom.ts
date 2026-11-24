@@ -354,28 +354,15 @@ export function evaluateSynthesisSentence(
 } {
   const cleaned = sentence.trim();
   const normalized = normalizeText(cleaned);
-  const isCJK =
-    targetWord.language === 'zh' ||
-    targetWord.language === 'ja' ||
-    /[\u4e00-\u9fff]/.test(cleaned);
-
-  const cjkChars = cleaned.match(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/gu) || [];
   const spaceWords = normalized.split(/\s+/).filter(Boolean);
-  const wordCount = isCJK ? cjkChars.length : spaceWords.length;
+  const wordCount = spaceWords.length;
   const termBase = normalizeText(targetWord.term);
 
-  // Match exact word (CJK or Latin) or simple Latin inflections
-  const hasTargetWord = isCJK
-    ? normalized.includes(termBase)
-    : normalized.includes(termBase) ||
-      (termBase.length > 3 && normalized.includes(termBase.slice(0, termBase.length - 1)));
+  const hasTargetWord = normalized.includes(termBase) ||
+    (termBase.length > 3 && normalized.includes(termBase.slice(0, termBase.length - 1)));
 
   const hasCollocation = targetWord.collocations.some((c) => {
     const normCol = normalizeText(c.phrase);
-    if (isCJK) {
-      const cleanCol = normCol.replace(/[….\s]+/g, '');
-      return cleanCol.length >= 2 && normalized.replace(/\s+/g, '').includes(cleanCol);
-    }
     const tokens = normCol.split(' ').filter((t) => t.length > 2);
     return tokens.length >= 2 && tokens.every((tok) => normalized.includes(tok));
   });
@@ -386,9 +373,7 @@ export function evaluateSynthesisSentence(
       hasTargetWord,
       hasCollocation,
       wordCount,
-      feedback: isCJK
-        ? 'Hãy thử viết câu có ít nhất 5 ký tự để tạo ngữ cảnh.'
-        : 'Câu còn quá ngắn (cần tối thiểu 5 từ để thể hiện ngữ cảnh rõ ràng).',
+      feedback: 'Câu còn quá ngắn (cần tối thiểu 5 từ để thể hiện ngữ cảnh rõ ràng).',
     };
   }
   if (!hasTargetWord) {

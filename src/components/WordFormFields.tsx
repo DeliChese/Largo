@@ -31,12 +31,6 @@ export function ExampleFields({ values, onChange, language, sample }: ExampleFie
               <input value={example.translation} placeholder={index === 0 ? sample?.translation : undefined}
                 onChange={(event) => update({ translation: event.target.value })} />
             </label>
-            {language === 'zh' && example.sentence.trim() && (
-              <label className="control-field">
-                <span>Pinyin câu {index + 1}</span>
-                <input value={example.phonetic ?? ''} onChange={(event) => update({ phonetic: event.target.value })} />
-              </label>
-            )}
           </div>
         );
       })}

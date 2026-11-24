@@ -279,27 +279,6 @@
 .header-current { font-weight: 750; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; }
 .header-add { min-height: 40px; padding-inline: 12px; white-space: nowrap; }
 .study-scope { display: flex; gap: 7px; margin-inline-start: auto; }
-.scope-language-switch {
-  display: flex;
-  align-items: stretch;
-  gap: 3px;
-  padding: 3px;
-  border: 1px solid var(--control-border);
-  border-radius: 11px;
-  background: var(--bg-subtle);
-}
-.scope-language-switch button {
-  flex: 1;
-  padding-inline: 10px;
-  border-radius: 8px;
-  color: var(--text-secondary);
-  font-size: 0.8rem;
-  font-weight: 700;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: background-color 150ms, color 150ms;
-}
-.scope-language-switch button[aria-pressed="true"] { color: var(--accent-text); background: var(--glass-highlight); }
 .scope-field {
   position: relative;
   display: flex;
@@ -379,7 +358,6 @@
 .lookup-term-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; }
 .lookup-results strong { font-size: 1rem; }
 .lookup-phonetic { color: var(--text-muted); font-size: 0.78rem; }
-.lookup-sv { color: var(--accent-text); font-size: 0.75rem; font-weight: 700; }
 .lookup-pos { display: inline-block; margin-top: 2px; color: var(--text-muted); font-size: 0.73rem; font-weight: 600; }
 .lookup-results li p, .reminder-list p { margin-top: 2px; color: var(--text-secondary); }
 .lookup-collocation { font-size: 0.76rem; color: var(--text-muted); }
@@ -433,10 +411,7 @@
 .learning-hero::before, .learning-hero::after { position: absolute; inset: 0; z-index: -1; content: ""; }
 .learning-hero::before {
   left: 16%;
-  background: url('./assets/images/hero-hsk-study.jpg') center right / cover no-repeat;
-}
-.learning-hero:not([data-language="zh"])::before {
-  background-image: url('./assets/images/hero_language_desk_1795099450280.jpg');
+  background: url('./assets/images/hero_language_desk_1795099450280.jpg') center right / cover no-repeat;
 }
 .learning-hero::after {
   background: linear-gradient(90deg, #271b42 3%, #291b43 21%, #2b1b43eb 40%, #281a4163 65%, #291f3b08 100%);
@@ -642,7 +617,6 @@
 .exercise-panel { padding: clamp(17px, 3.4vw, 35px); }
 .exercise-top { display: flex; align-items: center; justify-content: space-between; min-height: 41px; gap: 10px; }
 .exercise-top-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
-.example-pinyin-toggle { font-size: 0.76rem; }
 .exercise-status {
   display: inline-flex;
   align-items: center;
@@ -1096,7 +1070,6 @@ body:has(.app-shell[data-route="decks"]) { min-height: 0; overflow: hidden; }
   .study-scope { grid-row: 2; grid-column: 1 / -1; margin: 0; }
   .scope-field { flex: 1; min-height: 35px; }
   .scope-field select { flex: 1; max-width: none; padding-block: 5px; }
-  .scope-language-switch button { padding-inline: 7px; font-size: 0.74rem; }
   .header-actions { gap: 5px; }
   .header-actions .icon-button, .mobile-menu-trigger { width: 36px; min-height: 36px; }
   .lookup-trigger span { display: none; }

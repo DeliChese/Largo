@@ -57,8 +57,6 @@ export function exportDeckWord(word: VocabWord): DeckWordImport {
   return {
     term: word.term,
     phonetic: word.phonetic,
-    sinoVietnamese: word.sinoVietnamese,
-    radical: word.radical,
     partOfSpeech: word.partOfSpeech,
     meaning: word.meaning,
     notes: word.notes,

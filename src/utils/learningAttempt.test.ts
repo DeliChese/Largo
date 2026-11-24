@@ -1,16 +1,15 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createBackup, previewBackup } from './backup';
-import { newStudySnapshot, SHARED_HSK_CARD, SNAPSHOT_TIME } from './fixtures/studySnapshots';
+import { CORE_ENGLISH_CARD, newStudySnapshot, SNAPSHOT_TIME } from './fixtures/studySnapshots';
 import { createLearningAttempt, decodeLearningAttempt, type AttemptInput } from './learningAttempt';
 
 const attemptInput: AttemptInput = {
   eventId: 'b3211f66-a111-4dfb-a91e-cbd821d65792',
   sessionId: '5c60feea-ab82-41e5-990a-a4d06463eeeb',
   attemptIndex: 0,
-  wordId: SHARED_HSK_CARD,
-  language: 'zh',
-  hskEdition: 'hsk30',
+  wordId: CORE_ENGLISH_CARD,
+  language: 'en',
   taskType: 'quiz',
   source: 'guided',
   startedAt: SNAPSHOT_TIME,
@@ -32,6 +31,7 @@ test('attempt records use a stable ID and discard unknown fields including raw a
   assert.equal(event.eventId, attemptInput.eventId);
   assert.deepEqual(decodeLearningAttempt({ ...event, rawAnswer: 'discard this' }), event);
   assert.equal(decodeLearningAttempt({ ...event, schemaVersion: 99 }), null);
+  assert.equal(decodeLearningAttempt({ ...event, language: 'zh' }), null);
   assert.equal(decodeLearningAttempt({ ...event, responseMs: -1 }), null);
   assert.equal(decodeLearningAttempt({ ...event, startedAt: event.answeredAt + 1 }), null);
 });

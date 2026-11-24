@@ -1,6 +1,6 @@
 {
   "name": "Largo · Học từ và cụm từ",
-  "description": "Học từ vựng tiếng Anh và tiếng Trung theo cấp độ, luyện cụm từ trong câu và ôn cách quãng.",
+  "description": "Học từ vựng, collocations và cụm từ tiếng Anh theo cấp độ và chủ đề, luyện câu với AI và ôn cách quãng.",
   "requestFramePermissions": ["microphone"],
-  "majorCapabilities": []
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

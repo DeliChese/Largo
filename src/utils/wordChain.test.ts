@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { INITIAL_WORDS } from '../data/seedVocab';
 import { createBackup, previewBackup } from './backup';
-import { reviewedStudySnapshot, SHARED_HSK_CARD } from './fixtures/studySnapshots';
+import { CORE_ENGLISH_CARD, reviewedStudySnapshot } from './fixtures/studySnapshots';
 import { getScopedWords } from './studyScope';
 import { addChainDeckEntry, buildChainLexicon, checkChainMove, chooseChainMove } from './wordChain';
 import { chainEnds, parseChainSuggestion } from './wordChainRules.mjs';
@@ -22,14 +22,12 @@ test('plays exchange → entry → yellow and rejects incorrect initials, repeat
   assert.equal(chooseChainMove(lexicon, 'y', used, 'expert'), undefined);
 });
 
-test('only mixed mode accepts an English phrase and Chinese uses whole Han characters', () => {
+test('only mixed mode accepts an English phrase and rejects invalid suggestions', () => {
   const single = buildChainLexicon(INITIAL_WORDS, 'en', 'word');
   const mixed = buildChainLexicon(INITIAL_WORDS, 'en', 'mixed');
   assert.equal(checkChainMove('take off', 'en', 't', new Set(), single).error, 'unknown');
   assert.equal(checkChainMove('take   off', 'en', 't', new Set(), mixed).entry?.last, 'f');
-  const chinese = buildChainLexicon(INITIAL_WORDS, 'zh', 'word');
-  assert.equal(checkChainMove('习惯。', 'zh', '习', new Set(), chinese).entry?.last, '惯');
-  assert.equal(parseChainSuggestion({ term: '𠀀你', meaning: 'nghĩa mẫu' }, 'zh', 'mixed', '𠀀')?.term, '𠀀你');
+  assert.equal(parseChainSuggestion({ term: 'take off', meaning: 'cất cánh' }, 'en', 'mixed', 't')?.term, 'take off');
   assert.equal(parseChainSuggestion({ term: 'wrong word', meaning: 'nghĩa mẫu' }, 'en', 'word', 'w'), null);
 });
 
@@ -45,18 +43,15 @@ test('easy keeps answers open, expert takes a dead end, and the opening remains 
 });
 
 test('saved cards retain the same ID and reviews after backup restore, without changing curriculum membership', async () => {
-  const state = reviewedStudySnapshot('hsk30', 'en-GB');
-  const original = state.words.find(({ id }) => id === SHARED_HSK_CARD)!;
-  const decks = addChainDeckEntry(state.decks, 'zh', original.id, 123);
+  const state = reviewedStudySnapshot('en-GB');
+  const original = state.words.find(({ id }) => id === CORE_ENGLISH_CARD)!;
+  const decks = addChainDeckEntry(state.decks, 'en', original.id, 123);
   const arena = decks.at(-1)!;
-  assert.equal(addChainDeckEntry(decks, 'zh', original.id, 456), decks);
-  assert.deepEqual(getScopedWords(state.words, decks, 'zh'), getScopedWords(state.words, state.decks, 'zh'));
-  const english = state.words.find(({ language }) => language === 'en')!;
-  const englishDecks = addChainDeckEntry(decks, 'en', english.id, 123);
-  assert.deepEqual(getScopedWords(state.words, englishDecks, 'en'), getScopedWords(state.words, decks, 'en'));
+  assert.equal(addChainDeckEntry(decks, 'en', original.id, 456), decks);
+  assert.deepEqual(getScopedWords(state.words, decks, 'en'), getScopedWords(state.words, state.decks, 'en'));
 
   const backup = createBackup({ ...state, decks }, {});
   const restored = (await previewBackup(new Blob([JSON.stringify(backup)]))).state;
-  const saved = getScopedWords(restored.words, [restored.decks.find(({ id }) => id === arena.id)!], 'zh');
-  assert.deepEqual(saved, [{ ...original, deckId: arena.id }]);
+  const saved = getScopedWords(restored.words, [restored.decks.find(({ id }) => id === arena.id)!], 'en');
+  assert.deepEqual(saved, [JSON.parse(JSON.stringify({ ...original, deckId: arena.id }))]);
 });

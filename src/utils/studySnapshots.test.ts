@@ -1,17 +1,16 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { CURRENT_DATA_VERSION, hasCurrentSeedDecks, withCurrentSeed } from '../data/seedVocab';
-import type { HskEdition } from '../types/vocab';
 import { ENGLISH_LOCALES, getEnglishStudyWord } from './englishStudy';
 import {
-  DELETED_HSK_CARD, FIXTURE_AVATAR, MISSING_LESSON, PERSONAL_CARD, PERSONAL_DECK, REGIONAL_CARD,
-  SHARED_HSK_CARD, SNAPSHOT_TIME, legacyStudyBackup, newStudySnapshot, reviewedStudySnapshot,
+  CORE_ENGLISH_CARD, DELETED_ENGLISH_CARD, FIXTURE_AVATAR, MISSING_LESSON, PERSONAL_CARD, PERSONAL_DECK,
+  REGIONAL_CARD, SNAPSHOT_TIME, legacyStudyBackup, newStudySnapshot, reviewedStudySnapshot,
   studySnapshotMissingLesson,
 } from './fixtures/studySnapshots';
 import { loadOfflineState, loadSyncFallbackState, saveOfflineState, type PersistedAppState } from './offlineStorage';
 import { applyStudyReview, getDailyStudyPlan } from './studyPlan';
 import { evaluateSynthesisSentence } from './srsBloom';
-import { getEditionDecks, getScopedDecks, getScopedWords } from './studyScope';
+import { getScopedDecks, getScopedWords } from './studyScope';
 
 function assertProgressPreserved(before: PersistedAppState, after: PersistedAppState) {
   assert.deepEqual(after.profile, before.profile); // Includes todayWordIds.
@@ -19,10 +18,10 @@ function assertProgressPreserved(before: PersistedAppState, after: PersistedAppS
   assert.deepEqual(after.logs, before.logs);
   assert.deepEqual(after.decks.find(({ id }) => id === PERSONAL_DECK.id), PERSONAL_DECK);
   assert.deepEqual(after.words.find(({ id }) => id === PERSONAL_CARD.id), PERSONAL_CARD);
-  assert.ok(!after.words.some(({ id }) => id === DELETED_HSK_CARD));
+  assert.ok(!after.words.some(({ id }) => id === DELETED_ENGLISH_CARD));
   assert.equal(new Set(after.words.map(({ id }) => id)).size, after.words.length);
 
-  for (const id of [SHARED_HSK_CARD, REGIONAL_CARD]) {
+  for (const id of [CORE_ENGLISH_CARD, REGIONAL_CARD]) {
     const saved = before.words.find((word) => word.id === id);
     const restored = after.words.find((word) => word.id === id);
     assert.ok(saved && restored, id);
@@ -34,17 +33,17 @@ function assertProgressPreserved(before: PersistedAppState, after: PersistedAppS
   }
 }
 
-function scopeHsk(state: PersistedAppState, edition: HskEdition) {
-  return getScopedWords(state.words, getScopedDecks(getEditionDecks(state.decks, 'zh', edition), 'zh', 'hsk1'), 'zh');
+function scopeEnglishA1(state: PersistedAppState) {
+  return getScopedWords(state.words, getScopedDecks(state.decks, 'en', 'a1'), 'en');
 }
 
-test('a new installation plans the first HSK cards at the configured daily limit', () => {
+test('a new installation plans the first English A1 cards at the configured daily limit', () => {
   const fresh = newStudySnapshot();
   assert.equal(fresh.version, CURRENT_DATA_VERSION);
   assert.equal(withCurrentSeed(fresh), fresh);
   assert.equal(fresh.profile.xp, 0);
   assert.deepEqual(fresh.logs, []);
-  const scope = scopeHsk(fresh, 'hsk20');
+  const scope = scopeEnglishA1(fresh);
   const limit = fresh.settings.dailyNewWordLimit;
   const plan = getDailyStudyPlan(scope, fresh.profile, limit, SNAPSHOT_TIME, fresh.words);
   assert.equal(plan.reviewCount, 0);
@@ -53,29 +52,21 @@ test('a new installation plans the first HSK cards at the configured daily limit
   assert.ok(plan.words.every(({ srs }) => srs.lastReviewedAt === null));
 });
 
-test('both saved HSK editions resolve the same reviewed card and hide the deleted card', () => {
-  const deckByEdition = { hsk20: MISSING_LESSON, hsk30: 'deck-zh-hsk30-hsk1-l02' } as const;
-  for (const edition of ['hsk20', 'hsk30'] as const) {
-    const saved = reviewedStudySnapshot(edition);
-    const state = withCurrentSeed(saved);
-    assert.equal(state, saved);
-    assert.equal(state.settings.hskEdition, edition);
-    const scope = scopeHsk(state, edition);
-    const matches = scope.filter(({ id }) => id === SHARED_HSK_CARD);
-    assert.equal(matches.length, 1);
-    assert.equal(matches[0].deckId, deckByEdition[edition]);
-    assert.deepEqual(matches[0].srs, saved.words.find(({ id }) => id === SHARED_HSK_CARD)?.srs);
-    assert.ok(!scope.some(({ id }) => id === DELETED_HSK_CARD));
-    const plan = getDailyStudyPlan(scope, state.profile, state.settings.dailyNewWordLimit, SNAPSHOT_TIME, state.words);
-    assert.equal(plan.reviewCount, 1);
-    assert.equal(plan.words[0].id, SHARED_HSK_CARD);
-  }
+test('reviewed English cards appear in daily reviews and deleted starter cards stay hidden', () => {
+  const saved = reviewedStudySnapshot();
+  const state = withCurrentSeed(saved);
+  assert.equal(state, saved);
+  const scope = scopeEnglishA1(state);
+  assert.ok(!scope.some(({ id }) => id === DELETED_ENGLISH_CARD));
+  const plan = getDailyStudyPlan(scope, state.profile, state.settings.dailyNewWordLimit, SNAPSHOT_TIME, state.words);
+  assert.equal(plan.reviewCount, 2);
+  assert.deepEqual(plan.words.slice(0, 2).map(({ id }) => id), [REGIONAL_CARD, CORE_ENGLISH_CARD]);
 });
 
-test('both regional forms share progress regardless of the legacy accent preference', () => {
+test('both regional forms share progress regardless of the accent preference', () => {
   const forms = { 'en-GB': 'colour', 'en-US': 'color' } as const;
   for (const locale of ['en-GB', 'en-US'] as const) {
-    const saved = reviewedStudySnapshot('hsk20', locale);
+    const saved = reviewedStudySnapshot(locale);
     const state = withCurrentSeed(saved);
     const canonical = state.words.find(({ id }) => id === REGIONAL_CARD);
     assert.ok(canonical);
@@ -97,40 +88,8 @@ test('repairing a current-version snapshot with a missing lesson is idempotent',
 
   const repaired = withCurrentSeed(saved);
   assert.ok(hasCurrentSeedDecks(repaired.decks));
-  assert.ok(scopeHsk(repaired, 'hsk20').some(({ id, deckId }) => id === SHARED_HSK_CARD && deckId === MISSING_LESSON));
+  assert.ok(scopeEnglishA1(repaired).some(({ id, deckId }) => id === REGIONAL_CARD && deckId === MISSING_LESSON));
   assertProgressPreserved(saved, repaired);
-  assert.equal(withCurrentSeed(repaired), repaired);
-});
-
-test('installing HSK 3 on v8 adds both courses, reuses reviewed cards and respects deletions on repairs', () => {
-  const saved = reviewedStudySnapshot();
-  const hsk3Decks = saved.decks.filter(({ level, language }) => language === 'zh' && level === 'hsk3');
-  const hsk3Ids = new Set(hsk3Decks.map(({ id }) => id));
-  const source = saved.words.find(({ term, deckId }) => term === '迟到' && hsk3Ids.has(deckId))!;
-  const sharedProgress = saved.words.find(({ id }) => id === SHARED_HSK_CARD)!;
-  const legacyCard = { ...source, deckId: 'deck-zh-hsk2-time', srs: sharedProgress.srs, bloomLevel: sharedProgress.bloomLevel };
-  const previous = {
-    ...saved, version: 8,
-    decks: saved.decks.filter(({ id }) => !hsk3Ids.has(id)),
-    words: [...saved.words.filter(({ deckId }) => !hsk3Ids.has(deckId)), legacyCard],
-  };
-  const upgraded = withCurrentSeed(previous);
-  assertProgressPreserved(previous, upgraded);
-  assert.equal(upgraded.version, CURRENT_DATA_VERSION);
-  assert.equal(upgraded.decks.filter(({ id }) => hsk3Ids.has(id)).length, 38);
-  assert.ok(upgraded.words.some(({ term }) => term === '服务台'));
-  for (const edition of ['hsk20', 'hsk30'] as const) {
-    const decks = getScopedDecks(getEditionDecks(upgraded.decks, 'zh', edition), 'zh', 'hsk3');
-    const card = getScopedWords(upgraded.words, decks, 'zh').find(({ id }) => id === legacyCard.id);
-    assert.equal(card?.srs, legacyCard.srs);
-    assert.equal(card?.bloomLevel, legacyCard.bloomLevel);
-  }
-  assert.equal(withCurrentSeed(upgraded), upgraded);
-  const repaired = withCurrentSeed({
-    ...upgraded, decks: previous.decks, words: upgraded.words.filter(({ id }) => id !== legacyCard.id),
-  });
-  assert.ok(hasCurrentSeedDecks(repaired.decks));
-  assert.ok(!repaired.words.some(({ id }) => id === legacyCard.id));
   assert.equal(withCurrentSeed(repaired), repaired);
 });
 
@@ -152,24 +111,82 @@ test('a JSON backup in the legacy export format provides a repeatable seed-migra
   assert.equal(withCurrentSeed(migrated), migrated);
 });
 
-test('a v9 snapshot refreshes lesson titles and topics without changing membership or progress', () => {
-  const saved = reviewedStudySnapshot('hsk20');
-  const refreshedDeck = saved.decks.find(({ id }) => id === 'deck-zh-hsk20-hsk3-l03')!;
-  const removed = refreshedDeck.wordIds![0];
-  const snapshot = {
+test('upgrading a v10 snapshot removes legacy Chinese items while preserving English progress and personal cards', () => {
+  const saved = reviewedStudySnapshot('en-GB');
+  const legacyState = {
     ...saved,
-    decks: saved.decks.map((deck) => deck.id === refreshedDeck.id
-      ? { ...deck, name: 'Bài 3 · 桌子上放着很多饮料。', category: 'Giáo trình chuẩn HSK 3 (bản HSK 2.0)', nativeName: undefined }
-      : deck),
-    words: saved.words.filter(({ id }) => id !== removed),
-  };
-  assert.equal(hasCurrentSeedDecks(snapshot.decks), false);
-  const updated = withCurrentSeed(snapshot);
-  assertProgressPreserved(snapshot, updated);
-  assert.equal(updated.version, snapshot.version);
-  assert.deepEqual(updated.decks.find(({ id }) => id === refreshedDeck.id), refreshedDeck);
-  assert.ok(!updated.words.some(({ id }) => id === removed));
-  assert.equal(withCurrentSeed(updated), updated);
+    version: 10,
+    decks: [
+      ...saved.decks,
+      {
+        id: 'deck-zh-hsk30-hsk1-l01',
+        name: 'Bài 1 · Xin chào',
+        description: 'HSK 1',
+        language: 'zh',
+        category: 'HSK 1',
+        level: 'hsk1',
+        hskEdition: 'hsk30',
+        isCustom: false,
+        createdAt: SNAPSHOT_TIME,
+      },
+    ],
+    words: [
+      ...saved.words,
+      {
+        ...PERSONAL_CARD,
+        id: 'zh-0001',
+        deckId: 'deck-zh-hsk30-hsk1-l01',
+        term: '你好',
+        phonetic: 'nǐ hǎo',
+        sinoVietnamese: 'nhĩ hảo',
+        radical: '亻',
+        meaning: 'xin chào',
+        language: 'zh',
+      },
+    ],
+    logs: [
+      ...saved.logs,
+      {
+        id: 'legacy-zh-log',
+        timestamp: SNAPSHOT_TIME,
+        mode: 'guided',
+        deckId: 'deck-zh-hsk30-hsk1-l01',
+        language: 'zh',
+        level: 'hsk1',
+        hskEdition: 'hsk30',
+        wordsReviewed: 3,
+        correctCount: 3,
+        xpEarned: 10,
+        durationSeconds: 30,
+      },
+    ],
+    profile: {
+      ...saved.profile,
+      targetLanguage: 'zh',
+      todayWordIds: ['zh-0001', CORE_ENGLISH_CARD, REGIONAL_CARD],
+    },
+    settings: {
+      ...saved.settings,
+      hskEdition: 'hsk30',
+      showExamplePhonetic: true,
+      studyLevels: { zh: 'hsk1', en: 'a1' },
+      speechVoices: { zh: 'zh-CN-XiaoxiaoNeural', 'en-GB': 'en-GB-SoniaNeural' },
+    },
+  } as unknown as PersistedAppState;
+
+  const migrated = withCurrentSeed(legacyState);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.ok(migrated.decks.every((deck) => deck.language === 'en'));
+  assert.ok(migrated.words.every((word) => word.language === 'en'));
+  assert.ok(migrated.logs.every((log) => log.language === 'en'));
+  assert.equal(migrated.profile.targetLanguage, 'en');
+  assert.deepEqual(migrated.profile.todayWordIds, [CORE_ENGLISH_CARD, REGIONAL_CARD]);
+  assert.deepEqual(migrated.settings?.studyLevels, { en: 'a1' });
+  assert.deepEqual(migrated.settings?.speechVoices, { 'en-GB': 'en-GB-SoniaNeural' });
+  assert.equal('hskEdition' in (migrated.settings ?? {}), false);
+  assert.equal('showExamplePhonetic' in (migrated.settings ?? {}), false);
+  assertProgressPreserved({ ...saved, settings: { ...saved.settings, speechVoices: { 'en-GB': 'en-GB-SoniaNeural' } } }, migrated);
+  assert.equal(withCurrentSeed(migrated), migrated);
 });
 
 test('the local fallback round-trips JSON and gzip snapshots and ignores damaged gzip data', async (t) => {

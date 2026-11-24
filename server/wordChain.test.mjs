@@ -42,6 +42,7 @@ test('blocks foreign and invalid requests and reuses a bounded, non-thinking com
   assert.equal((await post({}, { Origin: 'https://example.com' })).status, 403);
   assert.equal((await post({}, { 'X-Forwarded-For': '127.0.0.1' })).status, 403);
   assert.equal((await post({ consent: false })).status, 400);
+  assert.equal((await post({ language: 'zh' })).status, 400);
   assert.equal((await post({ moves: ['exchange', 'entry'] })).status, 400);
   assert.equal((await post({ first: 'yy' })).status, 400);
   assert.equal((await post({ first: 'y'.repeat(300) })).status, 413);

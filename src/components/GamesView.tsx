@@ -284,7 +284,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
     return [...activeTerms, ...extras].slice(0, 6).sort((a, b) => a.term.localeCompare(b.term));
   }, [activeGame, wfScore, wfLives, words]);
 
-  // --- GAME 3: WORD & HANZI SCRAMBLE ---
+  // --- GAME 3: WORD SCRAMBLE ---
   const [scrambleQueue, setScrambleQueue] = useState<VocabWord[]>([]);
   const [scrambleIdx, setScrambleIdx] = useState(0);
   const [scrambleTiles, setScrambleTiles] = useState<Array<{ id: number; char: string; used: boolean }>>([]);
@@ -687,7 +687,6 @@ export const GamesView: React.FC<GamesViewProps> = ({
             <div className="space-y-1.5">
               <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
                 Phiên âm: <span className="font-mono">{current.phonetic}</span>
-                {current.sinoVietnamese ? ` · Hán-Việt: ${current.sinoVietnamese}` : ''}
               </div>
               <div className="font-display text-xl font-bold">{current.meaning}</div>
               <button
@@ -810,19 +809,9 @@ export const GamesView: React.FC<GamesViewProps> = ({
               <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
                 Nghe âm thanh và chọn từ vựng tương ứng
               </div>
-              {current.language === 'en' ? (
-                <div className="flex justify-center">
-                  <EnglishPronunciation key={current.id} text={current.term} speechRate={speechRate} label="từ cần nghe" />
-                </div>
-              ) : <button
-                type="button"
-                onClick={() => speakPronunciation(current.term, current.language, speechRate)}
-                className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white cursor-pointer"
-                style={{ backgroundColor: 'var(--accent-primary)' }}
-              >
-                <Volume2 className="w-4 h-4" />
-                <span>Phát lại âm thanh</span>
-              </button>}
+              <div className="flex justify-center">
+                <EnglishPronunciation key={current.id} text={current.term} speechRate={speechRate} label="từ cần nghe" />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
@@ -965,7 +954,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
             setWfInput(e.target.value);
             submitWordFallGuess(e.target.value);
           }}
-          placeholder="Gõ nhanh từ ngoại ngữ đang rơi..."
+          placeholder="Gõ nhanh từ tiếng Anh đang rơi..."
           disabled={wfGameOver}
           className="flex-1 rounded-xl border px-4 py-2.5 text-sm focus:outline-none"
           style={{

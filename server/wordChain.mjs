@@ -10,9 +10,8 @@ const SYSTEM = 'Give one real common vocabulary item matching the language, star
 function readInput(body) {
   if (!body || Object.keys(body).length !== 4 || body.consent !== true ||
       (body.mode !== 'word' && body.mode !== 'mixed') || typeof body.first !== 'string') return null;
-  const valid = body.language === 'en' ? /^[a-z]$/.test(body.first)
-    : body.language === 'zh' && /^\p{Script=Han}$/u.test(body.first);
-  return valid ? { language: body.language, mode: body.mode, first: body.first } : null;
+  const valid = body.language === 'en' && /^[a-z]$/.test(body.first);
+  return valid ? { language: 'en', mode: body.mode, first: body.first } : null;
 }
 
 export function createWordChainRouter(env, { request = fetch, now = Date.now } = {}) {
@@ -26,7 +25,7 @@ export function createWordChainRouter(env, { request = fetch, now = Date.now } =
 
   async function suggest({ language, mode, first }) {
     const { endpoint, communityLocal, key, model } = connection;
-    const prompt = (language === 'en' ? 'English' : 'Simplified Chinese') + ', starts with ' + first +
+    const prompt = 'English, starts with ' + first +
       (mode === 'word' ? ', one word.' : ', word or short phrase.');
     const response = await request(endpoint, {
       method: 'POST',

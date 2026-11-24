@@ -34,9 +34,12 @@ test('Azure synthesizes once for simultaneous requests for an identical clip', {
   const alternateVoice = 'en-US-GuyNeural';
   t.mock.method(globalThis, 'fetch', async (url, options) => {
     if (url.endsWith('/voices/list')) {
-      return Response.json([voiceId, alternateVoice].map((ShortName) => ({
-        ShortName, Locale: 'en-US', LocalName: ShortName, VoiceType: 'Neural',
-      })));
+      return Response.json([
+        ...[voiceId, alternateVoice].map((ShortName) => ({
+          ShortName, Locale: 'en-US', LocalName: ShortName, VoiceType: 'Neural',
+        })),
+        { ShortName: 'zh-CN-XiaoxiaoNeural', Locale: 'zh-CN', LocalName: 'Xiaoxiao', VoiceType: 'Neural' },
+      ]);
     }
     assert.equal(options.headers['X-Microsoft-OutputFormat'], 'audio-24khz-48kbitrate-mono-mp3');
     requests.push(options.body);
@@ -134,4 +137,39 @@ test('Azure routes require a direct local request before contacting Azure', asyn
   assert.equal(response.status, 200);
   assert.deepEqual(await response.json(), { voices: [] });
   assert.equal(upstream.mock.callCount(), 1);
+
+  const hostedHost = 'ais-dev-sample.asia-east1.run.app';
+  const previousService = process.env.K_SERVICE;
+  process.env.K_SERVICE = 'true';
+  t.after(() => {
+    if (previousService === undefined) delete process.env.K_SERVICE;
+    else process.env.K_SERVICE = previousService;
+  });
+
+  const hostedVoices = await httpFetch(origin + '/voices', {
+    headers: {
+      'X-Forwarded-Host': hostedHost,
+      'X-Forwarded-Proto': 'https',
+      'X-Forwarded-For': '203.0.113.9',
+      'Sec-Fetch-Site': 'same-origin',
+    },
+  });
+  assert.equal(hostedVoices.status, 200);
+  assert.deepEqual(await hostedVoices.json(), { voices: [] });
+
+  const rejectedCrossSite = await httpFetch(origin + '/voices', {
+    headers: {
+      'X-Forwarded-Host': hostedHost,
+      'Sec-Fetch-Site': 'cross-site',
+    },
+  });
+  assert.equal(rejectedCrossSite.status, 403);
+
+  const rejectedExternalHost = await httpFetch(origin + '/voices', {
+    headers: {
+      'X-Forwarded-Host': 'evil.example',
+      'Sec-Fetch-Site': 'same-origin',
+    },
+  });
+  assert.equal(rejectedExternalHost.status, 403);
 });

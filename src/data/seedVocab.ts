@@ -1,42 +1,26 @@
 import type {
   AppSettings,
   LanguageCode,
+  SpeechVoices,
   StudySessionLog,
   UserProfile,
   VocabDeck,
   VocabWord,
 } from '../types/vocab';
-import {
-  CHINESE_COURSE_WORDS,
-  CHINESE_DECKS,
-  CHINESE_HSK3_SEED_VERSION,
-  CHINESE_WORDS,
-  hasCurrentChineseDecks,
-  mergeChineseSeed,
-  migrateChineseDeckId,
-  migrateChineseWordId,
-  resolveMigratedChineseDeckLevel,
-} from '../../Chinese/chineseDecks';
-import { DEFAULT_HSK_EDITION } from '../../Chinese/hsk1Courses';
 import { ENGLISH_DECKS, ENGLISH_PHRASAL_PREVIOUS_DECK_IDS, ENGLISH_V7_WORD_DECK_IDS, ENGLISH_WORDS, PRE_V5_ENGLISH_WORD_IDS, STARTER_ENGLISH_WORDS } from './englishDecks';
 
 export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: string; short: string }> = {
-  zh: { name: 'Tiếng Trung', native: '中文', short: 'ZH' },
   en: { name: 'Tiếng Anh', native: 'English', short: 'EN' },
-  ja: { name: 'Tiếng Nhật', native: '日本語', short: 'JA' },
-  fr: { name: 'Tiếng Pháp', native: 'Français', short: 'FR' },
-  ko: { name: 'Tiếng Hàn', native: '한국어', short: 'KO' },
-  es: { name: 'Tiếng Tây Ban Nha', native: 'Español', short: 'ES' },
 };
 
 const ENGLISH_DATA_VERSION = 2;
 const ENGLISH_CURRICULUM_VERSION = 7;
 const ENGLISH_PHRASES_VERSION = 8;
-export const CURRENT_DATA_VERSION = 10;
+export const CURRENT_DATA_VERSION = 11;
 
-export const INITIAL_DECKS: VocabDeck[] = [...CHINESE_DECKS, ...ENGLISH_DECKS];
+export const INITIAL_DECKS: VocabDeck[] = [...ENGLISH_DECKS];
 
-export const INITIAL_WORDS: VocabWord[] = [...CHINESE_COURSE_WORDS, ...ENGLISH_WORDS];
+export const INITIAL_WORDS: VocabWord[] = [...ENGLISH_WORDS];
 
 interface SeedState {
   decks: VocabDeck[];
@@ -49,13 +33,12 @@ interface SeedState {
 
 const ENGLISH_DECK_IDS = new Set(ENGLISH_DECKS.map(({ id }) => id));
 const ENGLISH_WORDS_BY_ID = new Map(ENGLISH_WORDS.map((word) => [word.id, word]));
-const CHINESE_WORD_IDS = new Set(CHINESE_WORDS.map(({ id }) => id));
 const STARTER_ENGLISH_WORD_IDS = new Set(STARTER_ENGLISH_WORDS.map(({ id }) => id));
 const legacyPhrasalDeckId = /^deck-en-phrasal-[a-z]+-\d{2}$/;
 const legacyPhrasalWordId = /^en-phrasal-[a-z0-9-]+-[a-f0-9]{10}$/;
 
 export function isBuiltinWord(wordId: string): boolean {
-  return ENGLISH_WORDS_BY_ID.has(wordId) || CHINESE_WORD_IDS.has(wordId) || legacyPhrasalWordId.test(wordId);
+  return ENGLISH_WORDS_BY_ID.has(wordId) || legacyPhrasalWordId.test(wordId);
 }
 
 function hasCurrentEnglishDecks(decks: readonly VocabDeck[]): boolean {
@@ -69,18 +52,43 @@ function hasCurrentEnglishDecks(decks: readonly VocabDeck[]): boolean {
 }
 
 export function hasCurrentSeedDecks(decks: readonly VocabDeck[]): boolean {
-  return hasCurrentChineseDecks(decks) && hasCurrentEnglishDecks(decks);
+  return !decks.some(({ language }) => language !== 'en') && hasCurrentEnglishDecks(decks);
+}
+
+function cleanEnglishWord(word: VocabWord): VocabWord {
+  const legacy = word as VocabWord & { sinoVietnamese?: unknown; radical?: unknown };
+  if (!('sinoVietnamese' in legacy) && !('radical' in legacy) && Array.isArray(legacy.antonyms)) {
+    return word;
+  }
+  const { sinoVietnamese: _sv, radical: _rad, ...rest } = legacy;
+  return Array.isArray(rest.antonyms) ? rest : { ...rest, antonyms: [] };
+}
+
+function cleanEnglishDeck(deck: VocabDeck): VocabDeck {
+  if (!('hskEdition' in deck)) return deck;
+  const { hskEdition: _edition, ...rest } = deck as VocabDeck & { hskEdition?: unknown };
+  return rest;
+}
+
+function cleanSpeechVoices(voices?: Record<string, string | undefined>): SpeechVoices | undefined {
+  if (!voices) return undefined;
+  const cleaned: SpeechVoices = {};
+  for (const key of ['en', 'en-GB', 'en-US'] as const) {
+    if (voices[key]) cleaned[key] = voices[key];
+  }
+  return Object.keys(cleaned).length > 0 ? cleaned : undefined;
 }
 
 function mergeEnglishSeed(decks: VocabDeck[], words: VocabWord[], version: number) {
-  const savedDecksById = new Map(decks.map((deck) => [deck.id, deck]));
-  const retiredDecks = decks.filter(({ id, language, isCustom }) =>
-    language === 'en' && !isCustom && legacyPhrasalDeckId.test(id));
+  const englishDecks = decks.filter((deck) => deck.language === 'en').map(cleanEnglishDeck);
+  const englishWords = words.filter((word) => word.language === 'en').map(cleanEnglishWord);
+  const savedDecksById = new Map(englishDecks.map((deck) => [deck.id, deck]));
+  const retiredDecks = englishDecks.filter(({ id, isCustom }) => !isCustom && legacyPhrasalDeckId.test(id));
   const retiredDeckIds = new Set(retiredDecks.map(({ id }) => id));
-  const savedEnglishWords = new Map(words.filter((word) => word.language === 'en').map((word) => [word.id, word]));
-  const personalWords = words.filter(({ id, deckId }) => retiredDeckIds.has(deckId) && !isBuiltinWord(id));
+  const savedEnglishWords = new Map(englishWords.map((word) => [word.id, word]));
+  const personalWords = englishWords.filter(({ id, deckId }) => retiredDeckIds.has(deckId) && !isBuiltinWord(id));
   const personalDeckIds = new Set(personalWords.map(({ deckId }) => deckId));
-  const otherWords = words.filter((word) => word.language !== 'en' || !ENGLISH_WORDS_BY_ID.has(word.id))
+  const customWords = englishWords.filter((word) => !ENGLISH_WORDS_BY_ID.has(word.id))
     .map((word) => legacyPhrasalWordId.test(word.id) && personalDeckIds.has(word.deckId)
       ? { ...word, deckId: 'archive-' + word.deckId }
       : word);
@@ -110,7 +118,7 @@ function mergeEnglishSeed(decks: VocabDeck[], words: VocabWord[], version: numbe
 
   return {
     decks: [
-      ...decks.filter(({ id }) => !ENGLISH_DECK_IDS.has(id) && !retiredDeckIds.has(id)),
+      ...englishDecks.filter(({ id }) => !ENGLISH_DECK_IDS.has(id) && !retiredDeckIds.has(id)),
       ...retiredDecks.filter(({ id }) => personalDeckIds.has(id)).map((deck): VocabDeck => ({
         ...deck,
         name: 'Từ tự thêm · ' + deck.name,
@@ -123,18 +131,19 @@ function mergeEnglishSeed(decks: VocabDeck[], words: VocabWord[], version: numbe
       })),
       ...ENGLISH_DECKS.map((deck) => ({ ...deck, createdAt: savedDecksById.get(deck.id)?.createdAt ?? deck.createdAt })),
     ],
-    words: [...otherWords, ...mergedEnglishWords],
+    words: [...customWords, ...mergedEnglishWords],
   };
 }
 
 export function withCurrentSeed<T extends SeedState>(state: T): T {
   if (state.version > CURRENT_DATA_VERSION) return state;
-  const needsChinese = state.version < CURRENT_DATA_VERSION || !hasCurrentChineseDecks(state.decks);
-  const needsEnglish = state.version < CURRENT_DATA_VERSION || !hasCurrentEnglishDecks(state.decks);
-  if (!needsChinese && !needsEnglish) return state;
+  const needsEnglish = state.version < CURRENT_DATA_VERSION || !hasCurrentSeedDecks(state.decks) ||
+    state.words.some((word) => word.language !== 'en') || state.profile.targetLanguage !== 'en';
+  if (!needsEnglish) return state;
 
-  const chinese = needsChinese ? mergeChineseSeed(state.decks, state.words, state.version) : state;
-  const library = needsEnglish ? mergeEnglishSeed(chinese.decks, chinese.words, state.version) : chinese;
+  const library = mergeEnglishSeed(state.decks, state.words, state.version);
+  const keptWordIds = new Set(library.words.map(({ id }) => id));
+  const keptDeckIds = new Set(library.decks.map(({ id }) => id));
 
   let { profile } = state;
   if (state.version < ENGLISH_DATA_VERSION &&
@@ -142,32 +151,47 @@ export function withCurrentSeed<T extends SeedState>(state: T): T {
     profile.title === 'Lộ trình Tiếng Trung Khoa học') {
     profile = { ...profile, name: INITIAL_PROFILE.name, title: INITIAL_PROFILE.title };
   }
-  if (profile.todayWordIds?.length) {
-    const mappedToday = [...new Set(profile.todayWordIds.map(migrateChineseWordId))];
-    const changed = mappedToday.length !== profile.todayWordIds.length ||
-      mappedToday.some((id, index) => id !== profile.todayWordIds![index]);
-    if (changed) {
-      profile = { ...profile, todayWordIds: mappedToday };
-    }
-  }
+  profile = {
+    ...profile,
+    targetLanguage: 'en',
+    ...(profile.todayWordIds !== undefined && {
+      todayWordIds: profile.todayWordIds.filter((id) => keptWordIds.has(id)),
+    }),
+  };
 
-  const logs = state.logs.map((log) => {
-    const nextDeckId = log.deckId === 'all' ? 'all' : migrateChineseDeckId(log.deckId);
-    const resolvedLevel = nextDeckId !== 'all' ? resolveMigratedChineseDeckLevel(log.deckId) : undefined;
-    const nextLevel = log.level === 'legacy' || !log.level || log.level === 'all'
-      ? resolvedLevel ?? log.level
-      : log.level;
-    if (nextDeckId === log.deckId && nextLevel === log.level) return log;
-    return { ...log, deckId: nextDeckId, ...(nextLevel ? { level: nextLevel } : {}) };
+  const logs = state.logs.flatMap((log) => {
+    const rawLang = log.language as string | undefined;
+    if (rawLang && rawLang !== 'en') return [];
+    if (!rawLang && log.deckId !== 'all' && !keptDeckIds.has(log.deckId)) return [];
+    const { hskEdition: _edition, ...rest } = log as StudySessionLog & { hskEdition?: unknown };
+    return [{ ...rest, language: 'en' as const }];
   });
+
+  let nextSettings: Partial<AppSettings> | undefined;
+  if (state.settings) {
+    const {
+      hskEdition: _edition,
+      showExamplePhonetic: _phonetic,
+      studyLevels,
+      speechVoices,
+      ...restSettings
+    } = state.settings as Partial<AppSettings> & { hskEdition?: unknown; showExamplePhonetic?: unknown };
+    const cleanedVoices = cleanSpeechVoices(speechVoices as Record<string, string | undefined> | undefined);
+    nextSettings = {
+      ...INITIAL_SETTINGS,
+      ...restSettings,
+      ...(studyLevels?.en ? { studyLevels: { en: studyLevels.en } } : {}),
+      ...(cleanedVoices ? { speechVoices: cleanedVoices } : {}),
+    };
+  }
 
   return {
     ...state,
     decks: library.decks,
-    words: library.words.map((word) => Array.isArray(word.antonyms) ? word : { ...word, antonyms: [] }),
+    words: library.words,
     profile,
     logs,
-    ...(state.settings ? { settings: { ...INITIAL_SETTINGS, ...state.settings } } : {}),
+    ...(nextSettings ? { settings: nextSettings } : {}),
     version: CURRENT_DATA_VERSION,
   };
 }
@@ -177,7 +201,7 @@ export const INITIAL_PROFILE: UserProfile = {
   title: 'Học từ vựng mỗi ngày',
   bio: '',
   nativeLanguage: 'vi',
-  targetLanguage: 'zh',
+  targetLanguage: 'en',
   xp: 0,
   streakDays: 0,
   longestStreak: 0,
@@ -198,10 +222,8 @@ export const INITIAL_SETTINGS: AppSettings = {
   srsMode: 'standard',
   dailyNewWordLimit: 8,
   adaptivePlanner: false,
-  hskEdition: DEFAULT_HSK_EDITION,
   speechRate: 1.0,
   autoPlayAudio: false,
-  showExamplePhonetic: true,
   soundEnabled: true,
   soundVolume: 0.45,
   reminderEnabled: true,

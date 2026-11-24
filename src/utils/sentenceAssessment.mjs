@@ -7,23 +7,23 @@ const encoder = new TextEncoder();
 const votes = new Set(['pass', 'fail', 'uncertain']);
 
 export function isSentenceAssessmentLanguage(language) {
-  return language === 'en' || language === 'zh';
+  return language === 'en';
 }
 
-function comparisonText(text, language) {
-  return text.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{M}\p{N}]+/gu, language === 'zh' ? '' : ' ').trim();
+function comparisonText(text) {
+  return text.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{M}\p{N}]+/gu, ' ').trim();
 }
 
 export function sentencePrecheck(language, term, answer, examples = []) {
+  if (!isSentenceAssessmentLanguage(language)) return 'unsupported_language';
   if (answer.trim().length > MAX_SENTENCE_LENGTH) return 'too_long';
-  const content = comparisonText(answer, language);
-  const target = comparisonText(term, language);
-  const units = language === 'zh' ? answer.match(/\p{Script=Han}/gu)
-    : answer.match(/\p{Script=Latin}+(?:['’\-]\p{Script=Latin}+)*/gu);
+  const content = comparisonText(answer);
+  const target = comparisonText(term);
+  const units = answer.match(/\p{Script=Latin}+(?:['’\-]\p{Script=Latin}+)*/gu);
   if (!units || units.length < 2 || (target && content.split(target).every((part) => !part.trim()))) {
     return 'too_short';
   }
-  if (examples.some((example) => comparisonText(example, language) === content)) return 'copied_example';
+  if (examples.some((example) => comparisonText(example) === content)) return 'copied_example';
   return null;
 }
 

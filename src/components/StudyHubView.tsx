@@ -119,9 +119,7 @@ export function StudyHubView({ decks, words, selectedMode, selectedDeckId, now, 
             <div className="select-wrap">
               <select id="practice-deck" value={selectedDeckId} onChange={(event) => onSelectDeck(event.target.value)}>
                 <option value="all">Tất cả bộ từ</option>
-                {decks.map((deck) => <option value={deck.id} key={deck.id}>
-                  {deck.hskEdition && (deck.hskEdition === 'hsk30' ? 'HSK 3.0 · ' : 'HSK 2.0 · ')}{deck.name}
-                </option>)}
+                {decks.map((deck) => <option value={deck.id} key={deck.id}>{deck.name}</option>)}
               </select>
               <ChevronDown size={16} aria-hidden="true" />
             </div>

@@ -1,5 +1,4 @@
-export type LanguageCode = 'en' | 'zh' | 'ja' | 'fr' | 'ko' | 'es';
-export type HskEdition = 'hsk20' | 'hsk30';
+export type LanguageCode = 'en';
 export type EnglishLocale = 'en-GB' | 'en-US';
 
 export type BloomLevel = 1 | 2 | 3 | 4 | 5 | 6;
@@ -84,8 +83,6 @@ export interface VocabWord extends LexicalRelations {
   meaning: string;
   language: LanguageCode;
   englishForms?: EnglishWordForms;
-  sinoVietnamese?: string; // Âm Hán-Việt cho tiếng Trung
-  radical?: string; // Bộ thủ / cấu tạo chữ Hán
   collocations: CollocationItem[];
   examples: ExampleSentence[];
   personalRelations?: LexicalRelations;
@@ -107,7 +104,6 @@ export interface VocabDeck {
   category: string;
   collection?: DeckCollection;
   level?: string;
-  hskEdition?: HskEdition;
   wordIds?: readonly string[];
   isCustom: boolean;
   createdAt: number;
@@ -119,8 +115,6 @@ export interface DeckWordImport {
   phonetic?: string;
   partOfSpeech?: string;
   notes?: string;
-  sinoVietnamese?: string;
-  radical?: string;
   collocation?: string;
   collocationMeaning?: string;
   example?: string;
@@ -145,7 +139,6 @@ export interface StudySessionLog {
   deckId: string | 'all';
   language?: LanguageCode;
   level?: string;
-  hskEdition?: HskEdition;
   wordsReviewed: number;
   correctCount: number;
   xpEarned: number;
@@ -180,12 +173,10 @@ export interface AppSettings {
   dailyNewWordLimit: number;
   adaptivePlanner?: boolean;
   studyLevels?: Partial<Record<LanguageCode, string>>;
-  hskEdition?: HskEdition;
   englishLocale?: EnglishLocale;
   speechRate: number; // 0.7 | 0.85 | 1.0 | 1.15
   speechVoices?: SpeechVoices;
   autoPlayAudio: boolean;
-  showExamplePhonetic?: boolean;
   soundEnabled: boolean;
   soundVolume: number; // 0 to 1
   reminderEnabled: boolean;
