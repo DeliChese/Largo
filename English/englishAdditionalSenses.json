@@ -101,6 +101,38 @@
       "notes": "Update someone on + chủ đề."
     }
   ],
+  "en-extra-academic-b8a98203ec": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "giảng viên hoặc nhà nghiên cứu đại học",
+      "examples": [
+        {
+          "sentence": "Several academics attended the conference.",
+          "translation": "Một số nhà nghiên cứu đại học tham dự hội nghị."
+        },
+        {
+          "sentence": "She works as an academic.",
+          "translation": "Cô ấy làm công việc giảng dạy và nghiên cứu đại học."
+        }
+      ]
+    }
+  ],
+  "en-extra-blog-def53e95f1": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "viết blog",
+      "examples": [
+        {
+          "sentence": "She blogs about food.",
+          "translation": "Cô ấy viết blog về ẩm thực."
+        },
+        {
+          "sentence": "He started blogging last year.",
+          "translation": "Anh ấy bắt đầu viết blog năm ngoái."
+        }
+      ]
+    }
+  ],
   "en-extra-blunt-bb79caae5f": [
     {
       "partOfSpeech": "Động từ",
@@ -214,6 +246,22 @@
       ]
     }
   ],
+  "en-extra-conservative-c152d5bbb3": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "người bảo thủ",
+      "examples": [
+        {
+          "sentence": "He describes himself as a conservative.",
+          "translation": "Anh ấy tự nhận mình là người bảo thủ."
+        },
+        {
+          "sentence": "Conservatives disagreed with the proposal.",
+          "translation": "Những người bảo thủ không đồng tình với đề xuất."
+        }
+      ]
+    }
+  ],
   "en-extra-cordial-8d5352e3e1": [
     {
       "partOfSpeech": "Danh từ",
@@ -258,6 +306,22 @@
         {
           "sentence": "He likes to crow about his success.",
           "translation": "Anh ấy thích khoe khoang về thành công của mình."
+        }
+      ]
+    }
+  ],
+  "en-extra-curve-80c1018a4c": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "uốn cong",
+      "examples": [
+        {
+          "sentence": "The path curves around the lake.",
+          "translation": "Con đường uốn quanh hồ."
+        },
+        {
+          "sentence": "The road begins to curve to the left.",
+          "translation": "Đường bắt đầu uốn cong sang trái."
         }
       ]
     }
@@ -310,6 +374,23 @@
       ]
     }
   ],
+  "en-extra-discount-221617318b": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "giảm giá; xem nhẹ",
+      "examples": [
+        {
+          "sentence": "The store discounted the old stock.",
+          "translation": "Cửa hàng giảm giá hàng tồn cũ."
+        },
+        {
+          "sentence": "Do not discount her experience.",
+          "translation": "Đừng xem nhẹ kinh nghiệm của cô ấy."
+        }
+      ],
+      "notes": "Danh từ thường nhấn âm đầu, động từ thường nhấn âm hai."
+    }
+  ],
   "en-extra-dislike-e4d14bef7a": [
     {
       "partOfSpeech": "Động từ",
@@ -343,6 +424,22 @@
       ]
     }
   ],
+  "en-extra-documentary-3708de487b": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "dựa trên tư liệu; thuộc tài liệu",
+      "examples": [
+        {
+          "sentence": "The researchers examined documentary evidence.",
+          "translation": "Các nhà nghiên cứu xem xét bằng chứng tài liệu."
+        },
+        {
+          "sentence": "We need documentary proof of the payment.",
+          "translation": "Chúng tôi cần chứng từ chứng minh việc thanh toán."
+        }
+      ]
+    }
+  ],
   "en-extra-elbow-6e85ebe745": [
     {
       "partOfSpeech": "Động từ",
@@ -371,6 +468,102 @@
         {
           "sentence": "The farther bank was hidden by trees.",
           "translation": "Bờ bên xa hơn bị cây che khuất."
+        }
+      ]
+    }
+  ],
+  "en-extra-fax-4af4e217c0": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "gửi bằng fax",
+      "examples": [
+        {
+          "sentence": "Please fax the document to our office.",
+          "translation": "Vui lòng gửi tài liệu qua fax đến văn phòng chúng tôi."
+        },
+        {
+          "sentence": "She faxed the signed form yesterday.",
+          "translation": "Cô ấy gửi mẫu đã ký qua fax hôm qua."
+        }
+      ]
+    }
+  ],
+  "en-extra-ferry-e9087d0b20": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chở qua lại",
+      "examples": [
+        {
+          "sentence": "Boats ferry passengers across the river.",
+          "translation": "Thuyền chở khách qua lại hai bờ sông."
+        },
+        {
+          "sentence": "A bus ferried guests to the hotel.",
+          "translation": "Xe buýt chở khách đến khách sạn."
+        }
+      ]
+    }
+  ],
+  "en-extra-filter-dfc3376b82": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "lọc; sàng lọc",
+      "examples": [
+        {
+          "sentence": "Filter the water before use.",
+          "translation": "Hãy lọc nước trước khi sử dụng."
+        },
+        {
+          "sentence": "You can filter the results by date.",
+          "translation": "Bạn có thể lọc kết quả theo ngày."
+        }
+      ]
+    }
+  ],
+  "en-extra-flock-8a1eb3d0b3": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đổ xô; tụ tập",
+      "examples": [
+        {
+          "sentence": "Tourists flock to the beach in summer.",
+          "translation": "Khách du lịch đổ xô đến bãi biển vào mùa hè."
+        },
+        {
+          "sentence": "People flocked to the opening ceremony.",
+          "translation": "Mọi người đổ xô đến lễ khai mạc."
+        }
+      ]
+    }
+  ],
+  "en-extra-full-time-612546d7f1": [
+    {
+      "partOfSpeech": "Trạng từ",
+      "meaning": "toàn thời gian",
+      "examples": [
+        {
+          "sentence": "She works full-time at the hospital.",
+          "translation": "Cô ấy làm việc toàn thời gian tại bệnh viện."
+        },
+        {
+          "sentence": "He studies full-time.",
+          "translation": "Anh ấy học toàn thời gian."
+        }
+      ]
+    }
+  ],
+  "en-extra-glance-e776a07090": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "liếc nhìn",
+      "examples": [
+        {
+          "sentence": "She glanced at her watch.",
+          "translation": "Cô ấy liếc nhìn đồng hồ."
+        },
+        {
+          "sentence": "He glanced around the room.",
+          "translation": "Anh ấy liếc nhìn quanh phòng."
         }
       ]
     }
@@ -456,6 +649,52 @@
       ]
     }
   ],
+  "en-extra-limp-e21b6c4d86": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "mềm oặt; rũ xuống",
+      "examples": [
+        {
+          "sentence": "The flowers looked limp.",
+          "translation": "Những bông hoa trông rũ xuống."
+        },
+        {
+          "sentence": "His arms hung limp at his sides.",
+          "translation": "Hai tay anh ấy buông thõng hai bên."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "dáng đi khập khiễng",
+      "examples": [
+        {
+          "sentence": "He walks with a limp.",
+          "translation": "Anh ấy đi khập khiễng."
+        },
+        {
+          "sentence": "Her limp improved after treatment.",
+          "translation": "Dáng đi khập khiễng của cô ấy cải thiện sau điều trị."
+        }
+      ]
+    }
+  ],
+  "en-extra-lodge-cb610bc104": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nộp; chính thức đưa ra; lưu trú",
+      "examples": [
+        {
+          "sentence": "She lodged a formal complaint.",
+          "translation": "Cô ấy nộp đơn khiếu nại chính thức."
+        },
+        {
+          "sentence": "They lodged with a local family.",
+          "translation": "Họ ở trọ với một gia đình địa phương."
+        }
+      ]
+    }
+  ],
   "en-extra-lyric-acf660ae9a": [
     {
       "partOfSpeech": "Danh từ",
@@ -504,6 +743,22 @@
       ]
     }
   ],
+  "en-extra-nickname-a0fb3f1159": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đặt biệt danh",
+      "examples": [
+        {
+          "sentence": "They nicknamed him Flash.",
+          "translation": "Họ đặt biệt danh cho anh ấy là Flash."
+        },
+        {
+          "sentence": "The building was nicknamed the Glass House.",
+          "translation": "Tòa nhà được đặt biệt danh là Nhà Kính."
+        }
+      ]
+    }
+  ],
   "en-extra-offensive-952be7cef8": [
     {
       "partOfSpeech": "Danh từ",
@@ -532,6 +787,22 @@
         {
           "sentence": "He padlocked his bike to the rack.",
           "translation": "Anh ấy dùng ổ khóa móc khóa xe đạp vào giá."
+        }
+      ]
+    }
+  ],
+  "en-extra-parachute-a438450d6b": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nhảy dù; thả bằng dù",
+      "examples": [
+        {
+          "sentence": "They parachuted into the training area.",
+          "translation": "Họ nhảy dù xuống khu vực huấn luyện."
+        },
+        {
+          "sentence": "Supplies were parachuted into the area.",
+          "translation": "Hàng tiếp tế được thả bằng dù xuống khu vực."
         }
       ]
     }
@@ -650,6 +921,22 @@
       ]
     }
   ],
+  "en-extra-runaway-7c0bb2ad8c": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "bỏ trốn; mất kiểm soát",
+      "examples": [
+        {
+          "sentence": "They helped a runaway dog.",
+          "translation": "Họ giúp một con chó chạy lạc."
+        },
+        {
+          "sentence": "The company faced runaway costs.",
+          "translation": "Công ty đối mặt với chi phí tăng mất kiểm soát."
+        }
+      ]
+    }
+  ],
   "en-extra-shampoo-021624ecb7": [
     {
       "partOfSpeech": "Động từ",
@@ -701,6 +988,70 @@
       "notes": "Go skiing là đi trượt tuyết."
     }
   ],
+  "en-extra-spice-58e989955f": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "thêm gia vị; làm sinh động",
+      "examples": [
+        {
+          "sentence": "She spiced the soup with pepper.",
+          "translation": "Cô ấy thêm tiêu vào súp."
+        },
+        {
+          "sentence": "The teacher spiced up the lesson with a game.",
+          "translation": "Giáo viên làm bài học sinh động hơn bằng trò chơi."
+        }
+      ]
+    }
+  ],
+  "en-extra-stall-e5b6a7364e": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chết máy; đình trệ; trì hoãn",
+      "examples": [
+        {
+          "sentence": "The engine stalled at the traffic lights.",
+          "translation": "Động cơ chết máy ở đèn giao thông."
+        },
+        {
+          "sentence": "Negotiations stalled last week.",
+          "translation": "Các cuộc đàm phán đình trệ tuần trước."
+        }
+      ]
+    }
+  ],
+  "en-extra-stem-919a11f948": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "thân cây; cuống",
+      "examples": [
+        {
+          "sentence": "Cut the stem of the flower.",
+          "translation": "Hãy cắt cuống hoa."
+        },
+        {
+          "sentence": "The plant has a thick stem.",
+          "translation": "Cây có thân dày."
+        }
+      ]
+    }
+  ],
+  "en-extra-submarine-3a48c2443b": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "dưới biển",
+      "examples": [
+        {
+          "sentence": "The island is linked by a submarine cable.",
+          "translation": "Hòn đảo được kết nối bằng cáp ngầm dưới biển."
+        },
+        {
+          "sentence": "Scientists studied a submarine volcano.",
+          "translation": "Các nhà khoa học nghiên cứu một núi lửa dưới biển."
+        }
+      ]
+    }
+  ],
   "en-extra-tick-55a4bc5be6": [
     {
       "partOfSpeech": "Động từ",
@@ -729,6 +1080,22 @@
         {
           "sentence": "Please tidy up the kitchen.",
           "translation": "Hãy dọn bếp cho gọn."
+        }
+      ]
+    }
+  ],
+  "en-extra-vegetarian-28af4d7711": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "người ăn chay",
+      "examples": [
+        {
+          "sentence": "My sister is a vegetarian.",
+          "translation": "Chị gái tôi là người ăn chay."
+        },
+        {
+          "sentence": "The restaurant welcomes vegetarians.",
+          "translation": "Nhà hàng phục vụ người ăn chay."
         }
       ]
     }

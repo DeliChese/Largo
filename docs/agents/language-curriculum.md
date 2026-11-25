@@ -31,7 +31,7 @@ Dùng chung giao diện trong [`DecksView.tsx`](../../src/components/DecksView.t
 
 Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và dữ liệu học. Khi cập nhật danh mục đã phát hành, kiểm thử bản lưu cũ, thẻ đã xóa, khôi phục và chạy cập nhật hai lần.
 
-## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v31)
+## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v32)
 
 - Nghĩa tiếng Việt là một hoặc vài cách dịch ngắn, cùng nghĩa trọng tâm; không dùng toàn bộ hướng dẫn ngữ pháp hoặc ví dụ làm đáp án nghĩa.
 - Giải thích và cách dùng nằm trong `notes`: nêu sắc thái, cấu trúc, giới từ, văn phong hoặc phân biệt từ dễ nhầm. Không tự tạo quy tắc tuyệt đối khi có ngoại lệ.
@@ -76,3 +76,5 @@ Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và 
 - Đợt 2K.2 (seed v30): 148 ID B1 nguồn chính general-09–17; hoàn tất 295/295 ID 2K và 950/950 ID B1 nguồn chính. Tổng 3.603/7.000; thêm 29 ID/32 nhóm nghĩa phụ. CI v29 đạt, kiểm tra JSON/ID v30 đạt; chưa xác nhận CI v30/browser tại thời điểm commit. Tiếp theo 2L (310 ID B1 extra chưa phủ). Xem [tiến độ](english-editorial-progress.md).
 
 - Đợt 2L.1 (seed v31): thêm 155 ID B1 extra work-01 và general-01–04; tổng 3.758/7.000; thêm 20 ID/20 nhóm nghĩa phụ. CI v30 đạt, kiểm tra JSON/ID v31 đạt; chưa xác nhận CI v31/browser tại thời điểm commit. Còn 155 ID B1 extra thuộc 2L.2. Xem [tiến độ](english-editorial-progress.md).
+
+- Đợt 2L.2 (seed v32): thêm 155 ID B1 extra còn lại, hoàn tất 310/310 B1 extra; tổng 3.913/7.000; thêm 22 ID/23 nhóm nghĩa phụ. CI v31 đạt, kiểm tra JSON/ID v32 đạt; chưa xác nhận CI v32/browser tại thời điểm commit. Tiếp theo 2M: B1 collocations, giao tiếp, regional. Xem [tiến độ](english-editorial-progress.md).
