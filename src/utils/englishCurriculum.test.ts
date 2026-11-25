@@ -71,7 +71,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 449);
+  assert.equal(editorialIds.size, 759);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -95,5 +95,38 @@ test('v13 upgrades corrected beginner content without resetting review state', (
   assert.equal(migrated.version, CURRENT_DATA_VERSION);
   assert.equal(migrated.words.find(item => item.id === word.id)?.meaning, 'mẹ');
   assert.equal(migrated.words.find(item => item.id === word.id)?.srs, srs);
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('A1 editorial coverage and corrected core senses', () => {
+  const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  const a1DeckIds = new Set(ENGLISH_DECKS.filter(deck => deck.level === 'a1').map(deck => deck.id));
+  const editedA1 = ENGLISH_WORDS.filter(word => a1DeckIds.has(word.deckId) &&
+    Object.prototype.hasOwnProperty.call(englishEditorial, word.id));
+  assert.equal(editedA1.length, 430);
+  assert.equal(byId.get('en-vocab-sentence')?.meaning, 'câu (ngữ pháp)');
+  assert.equal(byId.get('en-vocab-plane')?.meaning, 'máy bay');
+  assert.match(byId.get('en-vocab-listen')?.notes ?? '', /Listen to/);
+  assert.match(byId.get('en-vocab-does')?.notes ?? '', /động từ nguyên mẫu/);
+});
+
+test('v14 seed migration preserves progress and personal relations on corrected A1 cards', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-vocab-sentence')!;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const personalRelations = { synonyms: ['personal'], antonyms: [] };
+  const state = {
+    version: 14, decks: INITIAL_DECKS,
+    words: [{ ...word, meaning: 'bản án', srs, bloomLevel: 3 as const, personalRelations }],
+    logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] },
+  };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.equal(updated?.meaning, 'câu (ngữ pháp)');
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
+  assert.equal(updated?.personalRelations, personalRelations);
+  assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
   assert.equal(withCurrentSeed(migrated), migrated);
 });
