@@ -2,21 +2,21 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2F (tiếp tục A2 nguồn chính từ general-01; chia đợt con nếu cần). Mốc hiện tại: Seed v18, 1.640 ID có overlay; chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2G (A2 nguồn chính general-08 đến general-16; chia đợt con nếu cần). Mốc hiện tại: Seed v19, 1.911 ID có overlay; chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
-| Cấp/nhóm | Đợt 1 | Đợt 2a | Đợt 2b | Đợt 2c | Đợt 2d | Đợt 2e | Tổng có overlay |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| A1 | 8 | 112 | 310 | 370 | 166 | 36 | 1.002 |
-| A2 | 0 | 0 | 0 | 0 | 71 | 213 | 284 |
-| B1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| B2 | 0 | 61 | 0 | 0 | 0 | 0 | 61 |
-| C1 | 184 | 84 | 0 | 0 | 0 | 0 | 268 |
-| Cụm động từ (ID riêng) | 0 | 0 | 0 | 0 | 25 | 0 | 25 |
-| Tổng | 192 | 257 | 310 | 370 | 262 | 249 | 1.640 |
+| Cấp/nhóm | Đợt 1 | Đợt 2a | Đợt 2b | Đợt 2c | Đợt 2d | Đợt 2e | Đợt 2f | Tổng có overlay |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| A1 | 8 | 112 | 310 | 370 | 166 | 36 | 0 | 1.002 |
+| A2 | 0 | 0 | 0 | 0 | 71 | 213 | 271 | 555 |
+| B1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| B2 | 0 | 61 | 0 | 0 | 0 | 0 | 0 | 61 |
+| C1 | 184 | 84 | 0 | 0 | 0 | 0 | 0 | 268 |
+| Cụm động từ (ID riêng) | 0 | 0 | 0 | 0 | 25 | 0 | 0 | 25 |
+| Tổng | 192 | 257 | 310 | 370 | 262 | 249 | 271 | 1.911 |
 
-1.640/7.000 mục có chỉnh sửa biên tập (23,43%); chưa kiểm chứng mọi trường. 5.360 mục chưa có overlay. Bốn cụm động từ dùng chung ID đã tính vào A2, không đếm hai lần.
+1.911/7.000 mục có chỉnh sửa biên tập (27,30%); chưa kiểm chứng mọi trường. 5.089 mục chưa có overlay. Bốn cụm động từ dùng chung ID đã tính vào A2, không đếm hai lần.
 
 ## Phạm vi đợt 2a
 
@@ -55,6 +55,14 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - 249 ID mới, 498 câu song ngữ trong overlay mới (484 cặp khác nội dung nguồn trực tiếp, 14 cặp giữ nguyên theo đối chiếu câu và bản dịch chính xác). Các câu mới/biên tập do Largo soạn, không phải chứng nhận từ điển độc lập. Ví dụ riêng của Anh-Anh trên các thẻ có headword khác vẫn giữ nguyên theo cơ chế hiện tại; chưa kiểm tra hết enrichment, IPA và quan hệ từ.
 - Kiểm tra bằng GitHub API/JavaScript: toàn bộ danh mục nguồn có 7.000 ID duy nhất; JSON 1.640 khóa duy nhất; 249 ID mới thuộc seed, không trùng overlay cũ; 1.391 overlay cũ giữ nguyên; mọi mục mới có nghĩa và hai câu song ngữ không rỗng. Đã cập nhật assertion số lượng và thêm hai test TypeScript cho phủ A1, ví dụ vùng miền và migration v17. Chưa chạy lint/test/build/browser (không có checkout/runtime repo trong phiên API này).
 - Bàn giao 2F: bắt đầu các bài A2 nguồn chính từ `deck-en-a2-words-general-01` trở đi (620 ID chưa phủ), ưu tiên nhóm sinh hoạt/con người/hành động; chia đợt con theo sức chứa và chủ đề, không sửa ID/bộ. A2 extra, collocations, giao tiếp/biến thể, expansion còn cần biên tập.
+
+## Phạm vi đợt 2f (Seed v19)
+
+- 271 ID nguồn vocabulary A2 thuộc bảy bài `deck-en-a2-words-general-01` đến `deck-en-a2-words-general-07` (38 + 39 + 39 + 39 + 38 + 39 + 39). Đã phủ 551/900 từ nguồn chính A2, 555/1.297 ID toàn cấp A2. Tổng 1.911/7.000 ID có overlay (27,30%); còn 5.089 ID chưa có overlay. A1 giữ 1.002/1.002.
+- Sửa nghĩa sai ngữ cảnh ở max (mức tối đa), been/done (quá khứ phân từ), might (khả năng), stuff (đồ đạc/những thứ), given (được cho), hardly (hầu như không), condition (tình trạng/điều kiện), target (mục tiêu/bia ngắm), brilliant (xuất sắc/sáng chói); phân biệt từ loại yeah (thán từ), dead/die/death, lie/lay, raise/rise, lose/loose, advice/advise, beside/besides, used to/be used to. Bổ sung cấu trúc explain something to someone, consider/suggest + V-ing, prefer A to B và các danh từ không đếm được. Giữ CEFR và ID.
+- 542 câu song ngữ trong overlay mới, đều khác cặp câu/bản dịch nguồn trực tiếp theo so sánh chính xác. Nội dung biên soạn Largo, chưa đối chiếu độc lập mọi trường; giữ cơ chế ví dụ vùng miền hiện có.
+- Kiểm tra API/JavaScript: 271 ID mới trùng khớp bảy bài nguồn, không chồng lấn 1.640 overlay cũ; JSON 1.911 khóa duy nhất, mọi overlay cũ giữ nguyên nội dung, hai ví dụ song ngữ không rỗng mỗi ID mới. Cập nhật assertion tổng số overlay, thêm test phủ A2 và migration v18. Chưa chạy lint/test/build/browser hoặc migration trong runtime.
+- Bàn giao 2G: bắt đầu `deck-en-a2-words-general-08` đến `general-16`, còn 349 ID nguồn chính A2; sau đó 2H xử lý các bộ A2 còn lại. Chia đợt con khi cần; không coi độ phủ overlay là nghiệm thu.
 
 ## Các đợt tiếp theo
 

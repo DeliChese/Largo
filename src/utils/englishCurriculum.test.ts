@@ -71,7 +71,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 1640);
+  assert.equal(editorialIds.size, 1911);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -210,6 +210,45 @@ test('v17 seed migration updates 2e vocabulary without losing review state or re
   assert.equal(updated?.bloomLevel, 3);
   assert.equal(updated?.personalRelations, personalRelations);
   assert.ok(!migrated.words.some(item => item.id === 'en-vocab-lemon'));
+  assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2f corrects A2 core grammar and frequent meanings', () => {
+  const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  assert.equal(byId.get('en-vocab-max')?.meaning, 'mức tối đa (dạng rút gọn của maximum)');
+  assert.match(byId.get('en-vocab-might')?.notes ?? '', /động từ nguyên mẫu/);
+  assert.match(byId.get('en-vocab-been')?.meaning ?? '', /quá khứ phân từ/);
+  assert.match(byId.get('en-vocab-done')?.notes ?? '', /Do – did – done/);
+  assert.match(byId.get('en-vocab-used')?.notes ?? '', /Be used to/);
+  assert.match(byId.get('en-vocab-lie')?.notes ?? '', /lay – lain/);
+  assert.match(byId.get('en-vocab-advice')?.notes ?? '', /Không đếm được/);
+  assert.match(byId.get('en-vocab-suggest')?.notes ?? '', /Suggest \+ V-ing/);
+  assert.equal(byId.get('en-vocab-yeah')?.partOfSpeech, 'Thán từ');
+  const a2Decks = new Set(ENGLISH_DECKS.filter(deck => deck.level === 'a2').map(deck => deck.id));
+  const covered = ENGLISH_WORDS.filter(word => a2Decks.has(word.deckId) && word.id.startsWith('en-vocab-') &&
+    Object.prototype.hasOwnProperty.call(englishEditorial, word.id));
+  assert.equal(covered.length, 551);
+});
+
+test('v18 seed migration preserves saved progress for phase 2f content', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-vocab-max')!;
+  const srs = { ...word.srs, repetitions: 5, lastReviewedAt: 123 };
+  const personalRelations = { synonyms: ['personal'], antonyms: [] };
+  const state = {
+    version: 18, decks: INITIAL_DECKS,
+    words: [{ ...word, meaning: 'nghĩa cũ', srs, bloomLevel: 3 as const, personalRelations }],
+    logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] },
+  };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.equal(updated?.meaning, word.meaning);
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
+  assert.equal(updated?.personalRelations, personalRelations);
+  assert.ok(!migrated.words.some(item => item.id === 'en-vocab-advice'));
   assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
   assert.equal(withCurrentSeed(migrated), migrated);
 });
