@@ -2,7 +2,7 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2L — 310 ID B1 extra chưa có overlay (nguồn có 310 ID); kiểm tra CI v30 trước khi sửa. Mốc hiện tại: Seed v30, 3.603 ID có overlay; B1 nguồn chính 950/950; 297 ID có 320 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2L.2 — 155 ID B1 extra còn lại (general-05 (32), general-06 (32), general-07 (30), life-01 (19), daily-01 (26), travel-01 (10), people-01 (6)); kiểm tra CI v31 trước khi sửa. Mốc hiện tại: Seed v31, 3.758 ID có overlay; B1 nguồn chính 950/950, extra 155/310; 317 ID có 340 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
@@ -152,6 +152,14 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - 296 ví dụ chính: 2 câu trùng nguồn trực tiếp (bản dịch biên soạn), 294 câu viết mới/chỉnh lại. Thêm 29 ID/32 nhóm nghĩa phụ (64 ví dụ); tổng 297 ID/320 nhóm. Sửa extreme (cực độ), incredibly (cực kỳ), merely (chỉ), critical (quan trọng mang tính quyết định), accidentally (vô tình), liquid (ở thể lỏng), aggressive (hung hăng/quyết liệt); phân biệt economic/economical, electronic/electrical, superior to, eager to, allergic to, provided (that). Giữ nhãn nguồn wizard là tính từ, ghi rõ nghĩa cũ, hiếm trong Anh–Anh và bổ sung danh từ thông dụng. Không xác nhận IPA/quan hệ từ chưa đối chiếu.
 - Kiểm tra JavaScript: JSON hợp lệ, khóa cấp gốc duy nhất, 148 ID mới đúng nguồn, đủ hai ví dụ song ngữ mỗi mục; toàn bộ 950 ID B1 nguồn chính có overlay; bảo toàn 3.455 overlay và 268 ID nghĩa phụ cũ. Thêm test độ phủ toàn bộ B1 nguồn chính và migration v29 (SRS/Bloom, quan hệ cá nhân, thẻ đã xóa, todayWordIds, idempotence). Chưa chạy npm lint/test/build cục bộ, CI v30 chưa xác nhận tại thời điểm commit, chưa chạy browser/migration thực tế.
 - Bàn giao 2L: kiểm kê B1 extra theo ID trong englishExtraVocabulary.json: 310 ID duy nhất, 310 ID chưa phủ; ưu tiên work-01, general-01–07, life-01, daily-01, travel-01, people-01; chia đợt theo độ khó. Kiểm tra CI v30 trước khi sửa. Không chuyển 2M trước khi hoàn thành 2L.
+
+## Phạm vi đợt 2L.1 (Seed v31)
+
+- CI Seed v30 [45543561232](https://github.com/DeliChese/Largo/actions/runs/45543561232) thành công.
+- 155 ID mới: work-01 (27), general-01–04 (32 mỗi bài); B1 extra 155/310, nguồn chính giữ 950/950. Toàn kho 3.758/7.000 (53,69%), còn 3.242 ID thiếu overlay. Giữ nguyên 3.603 overlay cũ, ID, CEFR, bộ, nguồn và engine.
+- 310 ví dụ chính: 3 cặp nguồn giữ nguyên, 37 câu nguồn được dịch/chỉnh bản dịch, 270 câu biên soạn/chỉnh lại. Thêm 20 ID/20 nhóm nghĩa phụ (40 ví dụ); tổng 317 ID/340 nhóm. Sửa scholar (học giả), breeding (sinh sản/nhân giống), caller (người gọi điện), thorough (kỹ lưỡng), involve (bao gồm/liên quan), demonstrate (minh họa/chứng minh/biểu tình), pupil (học sinh/đồng tử), tick (ve/dấu tích), spicy (cay/đậm gia vị). Phân biệt adopt/adapt, historic/historical, altogether/all together, embarrass/embarrassed, congratulate on, accuse of, reduce by/to. Không xác nhận IPA/quan hệ từ chưa đối chiếu.
+- Kiểm tra JavaScript: JSON hợp lệ, khóa cấp gốc duy nhất, 155 ID đúng nguồn, đủ hai ví dụ song ngữ mỗi mục; bảo toàn 3.603 overlay và 297 ID nghĩa phụ cũ. Thêm test độ phủ và migration v30 (SRS/Bloom, quan hệ cá nhân, thẻ đã xóa, todayWordIds, idempotence). Chưa chạy npm lint/test/build cục bộ, CI v31 chưa xác nhận tại thời điểm commit; chưa chạy browser/migration thực tế.
+- Bàn giao 2L.2: còn đúng 155 ID B1 extra: general-05 (32), general-06 (32), general-07 (30), life-01 (19), daily-01 (26), travel-01 (10), people-01 (6). Kiểm tra CI v31 trước khi sửa; không chuyển 2M trước khi đủ 310/310 extra.
 
 ## Các đợt tiếp theo
 

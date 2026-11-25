@@ -73,7 +73,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 3603);
+  assert.equal(editorialIds.size, 3758);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -297,8 +297,8 @@ test('v19 seed migration preserves saved progress for phase 2g content', () => {
 test('additional senses have existing IDs and distinct examples without changing the primary review answer', () => {
   const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
   assert.equal(byId.size, 7000);
-  assert.equal(Object.keys(englishAdditionalSenses).length, 297);
-  assert.equal(Object.values(englishAdditionalSenses).flat().length, 320);
+  assert.equal(Object.keys(englishAdditionalSenses).length, 317);
+  assert.equal(Object.values(englishAdditionalSenses).flat().length, 340);
   for (const [id, senses] of Object.entries(englishAdditionalSenses)) {
     const word = byId.get(id);
     assert.ok(word, id);
@@ -647,5 +647,41 @@ test('v29 migration preserves review state and adds B1 tense secondary senses', 
   assert.equal(updated?.personalRelations, personalRelations);
   assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
   assert.ok(!migrated.words.some(item => item.id === 'en-vocab-wizard'));
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2L.1 covers 155 B1 extra vocabulary IDs', () => {
+  const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  const ids = ["en-extra-magician-8bc345e4ff","en-extra-creator-bc6bfd848e","en-extra-scholarship-f552935eea","en-extra-specialist-ace72b3572","en-extra-salesman-3dcedf9001","en-extra-accountant-29d8c99ec2","en-extra-vet-5f9276129b","en-extra-guidance-f8aac527f9","en-extra-architect-f2e40fc1ed","en-extra-mechanic-6c8a739536","en-extra-definition-4c4ed1afbf","en-extra-instructor-cf2eb894cc","en-extra-employment-0b22f40bb7","en-extra-ape-eb3cad5b7b","en-extra-transportation-0b349c79e4","en-extra-biology-af8f827a0c","en-extra-achievement-a38bcf73d3","en-extra-breeding-7bd09a6286","en-extra-scholar-e3f48726b8","en-extra-admission-6a6ba70249","en-extra-publisher-4f03a060b7","en-extra-beaver-71da248c60","en-extra-bronze-fcbbcd5a59","en-extra-mathematics-c90e097e46","en-extra-teller-4fd76659c9","en-extra-pupil-074f370625","en-extra-philosopher-542bce4a78","en-extra-publicly-8c987381c0","en-extra-afterward-d1e9283f4b","en-extra-dialog-6940189433","en-extra-offensive-952be7cef8","en-extra-qualified-40caeb2d30","en-extra-leadership-9e720e5388","en-extra-melt-af45b9700b","en-extra-reserve-6df24c372c","en-extra-eliminate-0a60353a3f","en-extra-medium-c082456a77","en-extra-involve-873f8161e2","en-extra-spectacular-52f7e22d23","en-extra-depth-ded32129b0","en-extra-occur-def696de03","en-extra-annual-ee5e2878c4","en-extra-sequence-bf37c7c208","en-extra-anxiety-ab0231f72d","en-extra-congratulate-c7985d6d17","en-extra-choir-1be0686a78","en-extra-equally-e2f172a800","en-extra-industrial-8ff09c475d","en-extra-cultural-7e2215a75a","en-extra-despair-e7684586cd","en-extra-shiny-619fd9c3e9","en-extra-representative-482a37dd98","en-extra-conquer-2ba89aa561","en-extra-conscious-db6e2c6375","en-extra-psychological-163d817fe8","en-extra-straw-e9fa045386","en-extra-accuse-603ec1f360","en-extra-wax-57abfafa35","en-extra-herd-5527e537a2","en-extra-beautifully-f6d1c9dfa0","en-extra-altogether-87e56ce642","en-extra-attract-8bec0a29bc","en-extra-restore-f329e3a317","en-extra-embarrass-8d97def128","en-extra-classical-25d9548a80","en-extra-clip-67905ad3cc","en-extra-organic-69f81619d0","en-extra-crow-851d49d308","en-extra-observation-772c695384","en-extra-endure-93a8039471","en-extra-gap-54d5dbf012","en-extra-delightful-ee5dce7139","en-extra-reduce-4c7e98bfa0","en-extra-amusing-b7cd3e9ec4","en-extra-visible-d42ef14979","en-extra-maintenance-8589c63b09","en-extra-tobacco-da43f06caa","en-extra-divide-895479bfaa","en-extra-variety-b530f329d6","en-extra-ambitious-e428ee1e7d","en-extra-tick-55a4bc5be6","en-extra-craft-355543f790","en-extra-satisfaction-bce2966c0b","en-extra-historical-f5dbf9fe93","en-extra-freely-52ebe25eea","en-extra-invest-5c417c6c81","en-extra-protective-4b373da8b1","en-extra-frustrated-6afb642998","en-extra-stunning-d4017430f1","en-extra-essence-092bd8646c","en-extra-thankful-74a1e04493","en-extra-heavenly-7265a0b018","en-extra-casual-c633eb52f6","en-extra-respectable-b0e63ca057","en-extra-demonstration-69f02b772a","en-extra-popcorn-0a4ef253e3","en-extra-rapidly-3b4ef8c683","en-extra-resolve-fdf09cdfc2","en-extra-mechanical-96ae0f875b","en-extra-accomplish-40df7df8c9","en-extra-adopt-b0ad248584","en-extra-consideration-6195048f9c","en-extra-registration-29c9c30e06","en-extra-constitution-eb9a7650cd","en-extra-supposedly-371756e504","en-extra-entertain-fbfc486980","en-extra-notion-31f61ed3e6","en-extra-extent-2b4a5bdd6f","en-extra-shallow-91d80a4942","en-extra-horizon-4726a1bce9","en-extra-reflection-f30409c51a","en-extra-disappointment-4171913bb2","en-extra-grill-2d6c1f3fa3","en-extra-define-ecd38f2608","en-extra-farther-7d757055d1","en-extra-acknowledge-085afa73a8","en-extra-opposition-9f17469d17","en-extra-rapid-7ee6118994","en-extra-unlucky-e0dd5b5c9b","en-extra-challenging-3208c4b145","en-extra-attraction-21c0fbc5d0","en-extra-selection-6504513406","en-extra-democratic-f9070e8db0","en-extra-translate-7fd690e20d","en-extra-sticky-964a9431ff","en-extra-primitive-db1946d32a","en-extra-peculiar-9f7439aa4e","en-extra-atomic-fd43322a4d","en-extra-sensation-595f053100","en-extra-caution-3cf083c282","en-extra-thorough-a06d7b2b04","en-extra-cheerful-a9e20626ae","en-extra-depressing-8f0ccfdbf7","en-extra-demonstrate-a65dd3628d","en-extra-spicy-2efa64f917","en-extra-sheer-a505589b53","en-extra-unite-0ec19cbd2d","en-extra-phenomenon-3754c68d4b","en-extra-annoyed-72e850d110","en-extra-camel-4812585e94","en-extra-enthusiasm-87a738aed2","en-extra-parrot-4488b8b86b","en-extra-pause-6210c0bf05","en-extra-separation-66af36d5b0","en-extra-caller-61de55ba33","en-extra-competitive-020dae3832","en-extra-elbow-6e85ebe745","en-extra-mustard-352b5b6699","en-extra-definite-4b63ac4733","en-extra-aspect-bd8bf4f1e8","en-extra-relate-e78618f499","en-extra-dusty-9985c202d7","en-extra-gifted-dbdc7bf49b","en-extra-obtain-cf3c3437a8","en-extra-mild-8290c58373"];
+  assert.equal(new Set(ids).size, 155);
+  for (const id of ids) {
+    const word = byId.get(id);
+    assert.ok(word, id);
+    assert.ok(Object.prototype.hasOwnProperty.call(englishEditorial, id), id);
+    assert.equal(word.examples.length, 2, id);
+    assert.ok(word.examples.every(e => e.sentence.trim() && e.translation.trim()), id);
+  }
+  assert.match(byId.get('en-extra-scholar-e3f48726b8')?.meaning ?? '', /học giả/);
+  assert.match(byId.get('en-extra-breeding-7bd09a6286')?.meaning ?? '', /nhân giống/);
+  assert.match(byId.get('en-extra-caller-61de55ba33')?.meaning ?? '', /gọi điện/);
+  assert.equal(byId.get('en-extra-reserve-6df24c372c')?.additionalSenses?.[0]?.partOfSpeech, 'Động từ');
+});
+
+test('v30 migration preserves review state and adds B1 extra reserve verb sense', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-extra-reserve-6df24c372c')!;
+  const { additionalSenses, ...old } = word;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const personalRelations = { synonyms: ['personal'], antonyms: [] };
+  const state = { version: 30, decks: INITIAL_DECKS, words: [{ ...old, srs, bloomLevel: 3 as const, personalRelations }] as VocabWord[], logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] } };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.deepEqual(updated?.additionalSenses, additionalSenses);
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
+  assert.equal(updated?.personalRelations, personalRelations);
+  assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
+  assert.ok(!migrated.words.some(item => item.id === 'en-extra-scholar-e3f48726b8'));
   assert.equal(withCurrentSeed(migrated), migrated);
 });

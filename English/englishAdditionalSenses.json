@@ -117,6 +117,22 @@
       ]
     }
   ],
+  "en-extra-caution-3cf083c282": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "cảnh báo; khuyên thận trọng",
+      "examples": [
+        {
+          "sentence": "Doctors caution against overwork.",
+          "translation": "Các bác sĩ cảnh báo không nên làm việc quá sức."
+        },
+        {
+          "sentence": "She cautioned me not to rush.",
+          "translation": "Cô ấy khuyên tôi không nên vội vàng."
+        }
+      ]
+    }
+  ],
   "en-extra-cereal-38c09b5448": [
     {
       "partOfSpeech": "Danh từ",
@@ -146,6 +162,22 @@
         {
           "sentence": "I heard the chicks chirp.",
           "translation": "Tôi nghe gà con kêu chiêm chiếp."
+        }
+      ]
+    }
+  ],
+  "en-extra-clip-67905ad3cc": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "kẹp; cắt tỉa",
+      "examples": [
+        {
+          "sentence": "Clip the papers together.",
+          "translation": "Hãy kẹp giấy lại với nhau."
+        },
+        {
+          "sentence": "She used scissors to clip the loose threads.",
+          "translation": "Cô ấy dùng kéo cắt các sợi chỉ thừa."
         }
       ]
     }
@@ -198,6 +230,38 @@
       ]
     }
   ],
+  "en-extra-craft-355543f790": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chế tác; soạn thảo cẩn thận",
+      "examples": [
+        {
+          "sentence": "They craft bowls from wood.",
+          "translation": "Họ chế tác bát từ gỗ."
+        },
+        {
+          "sentence": "She helped craft the statement.",
+          "translation": "Cô ấy giúp soạn thảo thông cáo cẩn thận."
+        }
+      ]
+    }
+  ],
+  "en-extra-crow-851d49d308": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "gáy; khoe khoang",
+      "examples": [
+        {
+          "sentence": "The rooster began to crow.",
+          "translation": "Con gà trống bắt đầu gáy."
+        },
+        {
+          "sentence": "He likes to crow about his success.",
+          "translation": "Anh ấy thích khoe khoang về thành công của mình."
+        }
+      ]
+    }
+  ],
   "en-extra-cushion-d0eae8d194": [
     {
       "partOfSpeech": "Động từ",
@@ -230,6 +294,22 @@
       ]
     }
   ],
+  "en-extra-despair-e7684586cd": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tuyệt vọng; mất hy vọng",
+      "examples": [
+        {
+          "sentence": "Do not despair if you fail once.",
+          "translation": "Đừng tuyệt vọng nếu thất bại một lần."
+        },
+        {
+          "sentence": "She began to despair of finding the key.",
+          "translation": "Cô ấy bắt đầu mất hy vọng tìm được chìa khóa."
+        }
+      ]
+    }
+  ],
   "en-extra-dislike-e4d14bef7a": [
     {
       "partOfSpeech": "Động từ",
@@ -245,6 +325,86 @@
         }
       ],
       "notes": "Dislike + danh từ/V-ing."
+    }
+  ],
+  "en-extra-divide-895479bfaa": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chia; phân chia",
+      "examples": [
+        {
+          "sentence": "Divide the cake into four pieces.",
+          "translation": "Hãy chia bánh thành bốn miếng."
+        },
+        {
+          "sentence": "The river divides the city in two.",
+          "translation": "Con sông chia thành phố làm hai."
+        }
+      ]
+    }
+  ],
+  "en-extra-elbow-6e85ebe745": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "huých bằng khuỷu tay; chen qua",
+      "examples": [
+        {
+          "sentence": "He elbowed his way through the crowd.",
+          "translation": "Anh ấy chen qua đám đông bằng khuỷu tay."
+        },
+        {
+          "sentence": "She elbowed me gently to get my attention.",
+          "translation": "Cô ấy huých nhẹ khuỷu tay vào tôi để gây chú ý."
+        }
+      ]
+    }
+  ],
+  "en-extra-farther-7d757055d1": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "xa hơn",
+      "examples": [
+        {
+          "sentence": "We chose the farther entrance.",
+          "translation": "Chúng tôi chọn lối vào xa hơn."
+        },
+        {
+          "sentence": "The farther bank was hidden by trees.",
+          "translation": "Bờ bên xa hơn bị cây che khuất."
+        }
+      ]
+    }
+  ],
+  "en-extra-grill-2d6c1f3fa3": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "vỉ nướng; thiết bị nướng",
+      "examples": [
+        {
+          "sentence": "Put the fish on the grill.",
+          "translation": "Hãy đặt cá lên vỉ nướng."
+        },
+        {
+          "sentence": "We bought a small electric grill.",
+          "translation": "Chúng tôi mua một bếp nướng điện nhỏ."
+        }
+      ]
+    }
+  ],
+  "en-extra-herd-5527e537a2": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "lùa; tập hợp thành đàn",
+      "examples": [
+        {
+          "sentence": "The farmer had to herd the cattle.",
+          "translation": "Người nông dân phải lùa đàn bò."
+        },
+        {
+          "sentence": "The dog helped herd the sheep.",
+          "translation": "Con chó giúp lùa đàn cừu."
+        }
+      ]
     }
   ],
   "en-extra-hike-c02d7803a9": [
@@ -312,6 +472,22 @@
       ]
     }
   ],
+  "en-extra-medium-c082456a77": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "phương tiện; môi trường",
+      "examples": [
+        {
+          "sentence": "Radio is a medium of communication.",
+          "translation": "Radio là phương tiện truyền thông."
+        },
+        {
+          "sentence": "The cells grow in a special medium.",
+          "translation": "Các tế bào phát triển trong môi trường đặc biệt."
+        }
+      ]
+    }
+  ],
   "en-extra-mop-40685fd53d": [
     {
       "partOfSpeech": "Động từ",
@@ -328,6 +504,22 @@
       ]
     }
   ],
+  "en-extra-offensive-952be7cef8": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cuộc tấn công; chiến dịch",
+      "examples": [
+        {
+          "sentence": "The army launched an offensive.",
+          "translation": "Quân đội phát động một cuộc tấn công."
+        },
+        {
+          "sentence": "The club launched a publicity offensive.",
+          "translation": "Câu lạc bộ phát động một chiến dịch truyền thông."
+        }
+      ]
+    }
+  ],
   "en-extra-padlock-f7f1daa58e": [
     {
       "partOfSpeech": "Động từ",
@@ -340,6 +532,38 @@
         {
           "sentence": "He padlocked his bike to the rack.",
           "translation": "Anh ấy dùng ổ khóa móc khóa xe đạp vào giá."
+        }
+      ]
+    }
+  ],
+  "en-extra-parrot-4488b8b86b": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "lặp lại máy móc",
+      "examples": [
+        {
+          "sentence": "Do not just parrot the textbook.",
+          "translation": "Đừng chỉ nhắc lại sách giáo khoa một cách máy móc."
+        },
+        {
+          "sentence": "He parroted the same claim without checking it.",
+          "translation": "Anh ấy lặp lại lời khẳng định đó mà không kiểm tra."
+        }
+      ]
+    }
+  ],
+  "en-extra-pause-6210c0bf05": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tạm dừng",
+      "examples": [
+        {
+          "sentence": "Please pause the video.",
+          "translation": "Vui lòng tạm dừng video."
+        },
+        {
+          "sentence": "She paused to think.",
+          "translation": "Cô ấy dừng lại để suy nghĩ."
         }
       ]
     }
@@ -376,6 +600,54 @@
         }
       ],
       "notes": "Quiz someone on + chủ đề."
+    }
+  ],
+  "en-extra-representative-482a37dd98": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "đại diện; tiêu biểu",
+      "examples": [
+        {
+          "sentence": "This is a representative sample.",
+          "translation": "Đây là một mẫu có tính đại diện."
+        },
+        {
+          "sentence": "The results are not representative of the whole group.",
+          "translation": "Kết quả không đại diện cho cả nhóm."
+        }
+      ]
+    }
+  ],
+  "en-extra-reserve-6df24c372c": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đặt trước; dành riêng",
+      "examples": [
+        {
+          "sentence": "Can I reserve a table?",
+          "translation": "Tôi có thể đặt bàn trước không?"
+        },
+        {
+          "sentence": "Please reserve a seat for me.",
+          "translation": "Vui lòng giữ chỗ cho tôi."
+        }
+      ]
+    }
+  ],
+  "en-extra-resolve-fdf09cdfc2": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "sự quyết tâm",
+      "examples": [
+        {
+          "sentence": "The setback tested her resolve.",
+          "translation": "Trở ngại thử thách quyết tâm của cô ấy."
+        },
+        {
+          "sentence": "He showed great resolve during the crisis.",
+          "translation": "Anh ấy thể hiện quyết tâm lớn trong khủng hoảng."
+        }
+      ]
     }
   ],
   "en-extra-shampoo-021624ecb7": [
@@ -429,6 +701,22 @@
       "notes": "Go skiing là đi trượt tuyết."
     }
   ],
+  "en-extra-tick-55a4bc5be6": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đánh dấu tích; kêu tích tắc",
+      "examples": [
+        {
+          "sentence": "Tick the correct box.",
+          "translation": "Hãy đánh dấu vào ô đúng."
+        },
+        {
+          "sentence": "The clock continued to tick.",
+          "translation": "Đồng hồ tiếp tục kêu tích tắc."
+        }
+      ]
+    }
+  ],
   "en-extra-tidy-118a1de593": [
     {
       "partOfSpeech": "Động từ",
@@ -441,6 +729,38 @@
         {
           "sentence": "Please tidy up the kitchen.",
           "translation": "Hãy dọn bếp cho gọn."
+        }
+      ]
+    }
+  ],
+  "en-extra-vet-5f9276129b": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "kiểm tra; thẩm định",
+      "examples": [
+        {
+          "sentence": "The company must vet every applicant.",
+          "translation": "Công ty phải thẩm định từng ứng viên."
+        },
+        {
+          "sentence": "An expert will vet the report.",
+          "translation": "Một chuyên gia sẽ kiểm tra báo cáo."
+        }
+      ]
+    }
+  ],
+  "en-extra-wax-57abfafa35": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "phủ sáp; đánh sáp",
+      "examples": [
+        {
+          "sentence": "He decided to wax the floor.",
+          "translation": "Anh ấy quyết định đánh sáp sàn."
+        },
+        {
+          "sentence": "She will wax the wooden table.",
+          "translation": "Cô ấy sẽ phủ sáp lên chiếc bàn gỗ."
         }
       ]
     }

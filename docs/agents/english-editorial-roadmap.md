@@ -32,7 +32,7 @@
 | 2I | Đã phủ 551/551 danh từ nguồn chính B1 (v27); chưa nghiệm thu | B1 nguồn chính: danh từ |
 | 2J | Đã phủ 104/104 động từ nguồn chính B1 (v28); chưa nghiệm thu | B1 nguồn chính: động từ |
 | 2K | Đã phủ 295/295 ID (v30); B1 nguồn chính 950/950, chưa nghiệm thu | B1 nguồn chính: tính từ, trạng từ và các mục nguồn chính còn lại |
-| 2L | Chưa làm | B1 extra |
+| 2L | Đang làm: 155/310 (2L.1, v31); còn 155 ID | B1 extra |
 | 2M | Chưa làm | B1 collocations, giao tiếp, regional |
 | 2N | Chưa làm | B1 expansion |
 | 2O | Chưa làm | B2 nguồn chính: danh từ |
