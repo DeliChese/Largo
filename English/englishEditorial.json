@@ -11,6 +11,10 @@
     "meaning": "khả năng thích nghi",
     "notes": "Khả năng điều chỉnh để phù hợp với điều kiện thay đổi."
   },
+  "en-extra-algorithm-b1eb2ec8ac": {
+    "meaning": "thuật toán",
+    "notes": "Tập hợp các bước xác định để giải quyết một vấn đề hoặc thực hiện phép tính; không nhất thiết chỉ chạy tuần tự."
+  },
   "en-extra-align-adcbf60c01": {
     "meaning": "căn chỉnh; thống nhất",
     "notes": "Đặt thẳng hàng hoặc làm mục tiêu phù hợp nhau: align X with Y."
@@ -23,17 +27,49 @@
     "meaning": "mơ hồ; có nhiều cách hiểu",
     "notes": "Khác vague (thiếu chi tiết): ambiguous thường cho phép nhiều cách diễn giải."
   },
+  "en-extra-amend-an-existing-statute-af1ade3102": {
+    "meaning": "sửa đổi đạo luật hiện hành",
+    "notes": "Amend là thay đổi một phần văn bản pháp luật; khác repeal là bãi bỏ."
+  },
+  "en-extra-amortize-c0061b049e": {
+    "meaning": "phân bổ dần; trả dần khoản nợ",
+    "notes": "Trong kế toán có thể phân bổ chi phí tài sản vô hình; trong tài chính có thể trả dần nợ qua các kỳ."
+  },
   "en-extra-amplify-29e60c5e58": {
     "meaning": "khuếch đại; làm tăng",
     "notes": "Làm âm thanh, tín hiệu hoặc tác động mạnh hơn."
+  },
+  "en-extra-arbitrage-3a02e4c92e": {
+    "meaning": "kinh doanh chênh lệch giá",
+    "notes": "Tận dụng chênh lệch giá của tài sản giống hoặc tương đương giữa các thị trường."
   },
   "en-extra-arduous-aae800e16f": {
     "meaning": "gian nan; vất vả",
     "notes": "Đòi hỏi nhiều nỗ lực trong thời gian dài: an arduous journey."
   },
+  "en-extra-artistic-expression-0a61671288": {
+    "meaning": "sự biểu đạt nghệ thuật",
+    "notes": "Thể hiện ý tưởng hoặc cảm xúc thông qua nghệ thuật."
+  },
+  "en-extra-as-a-matter-of-fact-901083e8f2": {
+    "meaning": "thực ra; trên thực tế",
+    "notes": "Dùng khi bổ sung, nhấn mạnh hoặc đính chính thông tin."
+  },
+  "en-extra-at-first-glance-5a42a7290d": {
+    "meaning": "thoạt nhìn",
+    "notes": "Nhận định ban đầu trước khi xem xét kỹ hơn."
+  },
+  "en-extra-authentication-b9d9062845": {
+    "meaning": "xác thực",
+    "notes": "Kiểm tra danh tính; authorization là xác định quyền truy cập."
+  },
   "en-extra-authenticity-c62eda8e53": {
     "meaning": "tính xác thực; sự chân thật",
     "notes": "Chỉ tính nguyên bản, đáng tin hoặc không giả tạo."
+  },
+  "en-extra-automation-6d65ed5c75": {
+    "meaning": "sự tự động hóa",
+    "notes": "Dùng công nghệ để thực hiện công việc với ít can thiệp thủ công hơn."
   },
   "en-extra-autonomous-6c5e11d2e9": {
     "meaning": "tự chủ; tự trị",
@@ -47,6 +83,10 @@
     "meaning": "không thích sự mơ hồ",
     "notes": "Averse to + danh từ/V-ing: không ưa hoặc có xu hướng tránh điều gì."
   },
+  "en-extra-bandwidth-2c7210c5b9": {
+    "meaning": "băng thông",
+    "notes": "Trong mạng máy tính, khả năng truyền dữ liệu trong một khoảng thời gian; khác tốc độ phản hồi (latency)."
+  },
   "en-extra-bear-in-mind-57677d7f66": {
     "meaning": "ghi nhớ; lưu ý",
     "notes": "Bear in mind that + mệnh đề, hoặc bear X in mind."
@@ -54,6 +94,10 @@
   "en-extra-bear-the-brunt-c9ac769245": {
     "meaning": "gánh chịu phần nặng nề nhất",
     "notes": "Thường dùng với of + tác động tiêu cực."
+  },
+  "en-extra-benchmark-0e89820860": {
+    "meaning": "mốc chuẩn; phép đo chuẩn",
+    "notes": "Dùng làm chuẩn so sánh; trong kỹ thuật có thể chỉ bài đo hiệu năng."
   },
   "en-extra-benevolence-fb9e48d4b3": {
     "meaning": "lòng nhân từ; thiện ý",
@@ -63,13 +107,41 @@
     "meaning": "vô hại; lành tính",
     "notes": "Trong y học đối lập với malignant (ác tính); ngoài y học chỉ điều không gây hại."
   },
+  "en-extra-beyond-a-shadow-of-a-doubt-591efeca4d": {
+    "meaning": "chắc chắn tuyệt đối",
+    "notes": "Thành ngữ nhấn mạnh rằng không còn nghi ngờ nào."
+  },
+  "en-extra-boost-team-morale-d5b2e03c7d": {
+    "meaning": "nâng cao tinh thần đội nhóm",
+    "notes": "Morale là tinh thần và sự tự tin của một tập thể; không nhầm moral (đạo đức)."
+  },
   "en-extra-bound-by-precedent-08aa2247e1": {
     "meaning": "bị ràng buộc bởi tiền lệ",
     "notes": "Bound by X chỉ việc phải tuân theo X."
   },
+  "en-extra-break-a-deadlock-0629e6d6cc": {
+    "meaning": "phá vỡ thế bế tắc",
+    "notes": "Giúp cuộc đàm phán hoặc quá trình đang đình trệ tiếp tục."
+  },
+  "en-extra-bridge-a-knowledge-gap-df36564e7f": {
+    "meaning": "thu hẹp khoảng trống kiến thức",
+    "notes": "Cung cấp kiến thức còn thiếu hoặc kết nối những hiểu biết chưa được nối kết."
+  },
+  "en-extra-broad-appeal-a5127501e8": {
+    "meaning": "sức hút rộng rãi",
+    "notes": "Khả năng hấp dẫn nhiều nhóm người khác nhau: have broad appeal."
+  },
   "en-extra-broad-consensus-0ea91e6758": {
     "meaning": "sự đồng thuận rộng rãi",
     "notes": "Nhiều bên đồng ý về một vấn đề, không nhất thiết tất cả."
+  },
+  "en-extra-cache-5e1ecee06a": {
+    "meaning": "bộ nhớ đệm",
+    "notes": "Lưu bản sao dữ liệu để truy xuất nhanh hơn; cache cũng dùng như động từ."
+  },
+  "en-extra-calculated-risk-4307b75ead": {
+    "meaning": "rủi ro đã được cân nhắc",
+    "notes": "Chấp nhận mạo hiểm sau khi đánh giá lợi ích và nguy cơ: take a calculated risk."
   },
   "en-extra-candid-95e75836ae": {
     "meaning": "thẳng thắn; chân thật",
@@ -79,6 +151,20 @@
     "meaning": "sự thẳng thắn; sự thành thật",
     "notes": "Nói thật cởi mở, kể cả điều khó nói. Anh-Anh thường viết candour."
   },
+  "en-extra-capture-the-imagination-7fe34ed9d0": {
+    "meaning": "khơi gợi trí tưởng tượng",
+    "notes": "Thu hút sự quan tâm, khiến người ta hình dung hoặc say mê một ý tưởng.",
+    "examples": [
+      {
+        "sentence": "The story managed to capture the imagination of young readers.",
+        "translation": "Câu chuyện đã khơi gợi trí tưởng tượng của độc giả nhỏ tuổi."
+      },
+      {
+        "sentence": "The project could capture the imagination of the public.",
+        "translation": "Dự án có thể khơi gợi trí tưởng tượng của công chúng."
+      }
+    ]
+  },
   "en-extra-catalyze-26aea82ea8": {
     "meaning": "xúc tác; thúc đẩy",
     "notes": "Làm phản ứng hoặc quá trình thay đổi diễn ra nhanh hơn."
@@ -87,6 +173,14 @@
     "meaning": "hệ thống cấp bậc chỉ huy",
     "notes": "Trình tự quyền hạn và báo cáo trong một tổ chức."
   },
+  "en-extra-challenge-conventional-wisdom-d13def6a01": {
+    "meaning": "thách thức quan niệm phổ biến",
+    "notes": "Đặt nghi vấn đối với điều nhiều người mặc nhiên chấp nhận."
+  },
+  "en-extra-cite-primary-sources-e69b3b03f8": {
+    "meaning": "trích dẫn nguồn sơ cấp",
+    "notes": "Dẫn tài liệu gốc hoặc chứng cứ trực tiếp, thay vì chỉ dẫn bản diễn giải thứ cấp."
+  },
   "en-extra-coherent-e972546000": {
     "meaning": "mạch lạc; nhất quán",
     "notes": "Các phần kết nối với nhau thành một chỉnh thể có logic."
@@ -94,6 +188,14 @@
   "en-extra-cohesive-bdc607d900": {
     "meaning": "gắn kết; thống nhất",
     "notes": "Nhấn mạnh các thành phần hoặc thành viên liên kết chặt chẽ."
+  },
+  "en-extra-collateral-55196b5ed4": {
+    "meaning": "tài sản bảo đảm",
+    "notes": "Tài sản được dùng làm bảo đảm cho khoản vay hoặc nghĩa vụ."
+  },
+  "en-extra-commodity-25206cd612": {
+    "meaning": "hàng hóa; hàng hóa cơ bản",
+    "notes": "Trong kinh tế, thường chỉ nguyên liệu hoặc sản phẩm tiêu chuẩn hóa có thể giao dịch."
   },
   "en-extra-common-misconception-6396c0db7b": {
     "meaning": "ngộ nhận phổ biến",
@@ -106,6 +208,14 @@
   "en-extra-compelling-argument-3d6b2c535c": {
     "meaning": "lập luận đầy sức thuyết phục",
     "notes": "Lập luận có sức khiến người nghe tin hoặc đồng ý."
+  },
+  "en-extra-compile-eba8dcd606": {
+    "meaning": "biên dịch; tổng hợp",
+    "notes": "Trong lập trình là chuyển mã nguồn sang dạng khác; trong văn bản là tập hợp thông tin."
+  },
+  "en-extra-comply-with-safety-codes-160b728b71": {
+    "meaning": "tuân thủ quy chuẩn an toàn",
+    "notes": "Comply with + quy định, yêu cầu hoặc tiêu chuẩn."
   },
   "en-extra-concession-b9aca78e33": {
     "meaning": "sự nhượng bộ",
@@ -144,9 +254,21 @@
     ],
     "synonyms": []
   },
+  "en-extra-control-for-confounding-factors-6e0abf7960": {
+    "meaning": "kiểm soát yếu tố gây nhiễu",
+    "notes": "Dùng thiết kế hoặc phương pháp phân tích để hạn chế ảnh hưởng của yếu tố gây nhiễu lên mối liên hệ cần nghiên cứu."
+  },
   "en-extra-corroborate-evidence-27edc5c586": {
     "meaning": "củng cố bằng chứng",
     "notes": "Corroborate là xác nhận bằng thông tin hoặc chứng cứ bổ sung; không chỉ lặp lại bằng chứng."
+  },
+  "en-extra-creative-freedom-e3ad658a00": {
+    "meaning": "tự do sáng tạo",
+    "notes": "Quyền hoặc khả năng đưa ra lựa chọn sáng tạo mà ít bị ràng buộc."
+  },
+  "en-extra-crisis-management-8dd990d227": {
+    "meaning": "quản lý khủng hoảng",
+    "notes": "Quá trình chuẩn bị, ứng phó và phục hồi khi có khủng hoảng."
   },
   "en-extra-criterion-5f435b82e7": {
     "meaning": "tiêu chí",
@@ -156,9 +278,25 @@
     "meaning": "thủ phạm; nguyên nhân gây lỗi",
     "notes": "Chỉ người gây ra việc sai hoặc thứ gây ra một vấn đề."
   },
+  "en-extra-culture-shock-90a522ee8b": {
+    "meaning": "sốc văn hóa",
+    "notes": "Sự bối rối hoặc khó thích nghi khi tiếp xúc với môi trường văn hóa xa lạ."
+  },
   "en-extra-curate-aa6132aeef": {
     "meaning": "tuyển chọn; biên tập",
     "notes": "Chọn và tổ chức nội dung hoặc hiện vật có chủ đích."
+  },
+  "en-extra-cursor-46a4eebd20": {
+    "meaning": "con trỏ",
+    "notes": "Chỉ vị trí tương tác hoặc nhập liệu trên màn hình."
+  },
+  "en-extra-curtail-civil-liberties-b752dd0c93": {
+    "meaning": "hạn chế các quyền tự do dân sự",
+    "notes": "Curtail nhấn mạnh việc thu hẹp hoặc giảm bớt phạm vi quyền."
+  },
+  "en-extra-decrypt-cdfbc38622": {
+    "meaning": "giải mã",
+    "notes": "Chuyển dữ liệu đã mã hóa trở về dạng có thể đọc được."
   },
   "en-extra-deduce-c7b1864582": {
     "meaning": "suy ra; suy luận",
@@ -174,9 +312,41 @@
       }
     ]
   },
+  "en-extra-deep-rooted-problem-d8dd754b28": {
+    "meaning": "vấn đề có căn nguyên sâu xa",
+    "notes": "Vấn đề đã hình thành sâu hoặc lâu dài, thường khó giải quyết."
+  },
+  "en-extra-deficit-b172744548": {
+    "meaning": "thâm hụt",
+    "notes": "Phần thiếu hụt khi chi tiêu hoặc nhu cầu vượt nguồn thu hoặc nguồn lực."
+  },
+  "en-extra-deflation-63e427f481": {
+    "meaning": "giảm phát",
+    "notes": "Mức giá chung giảm; khác disinflation là tốc độ lạm phát giảm."
+  },
+  "en-extra-delineate-the-scope-44545580bf": {
+    "meaning": "xác định rõ phạm vi",
+    "notes": "Nêu ranh giới nội dung, đối tượng hoặc điều kiện được đưa vào."
+  },
+  "en-extra-deploy-b7bd55c11b": {
+    "meaning": "triển khai",
+    "notes": "Đưa hệ thống hoặc ứng dụng vào môi trường sử dụng."
+  },
+  "en-extra-deprecation-ced1863729": {
+    "meaning": "việc đánh dấu không còn khuyến nghị sử dụng",
+    "notes": "Trong phần mềm, tính năng deprecated có thể vẫn hoạt động nhưng không nên dùng mới; chưa nhất thiết bị loại bỏ."
+  },
+  "en-extra-depreciate-f3895a6e43": {
+    "meaning": "mất giá; khấu hao",
+    "notes": "Tài sản giảm giá trị; trong kế toán, phân bổ chi phí tài sản hữu hình qua thời gian sử dụng."
+  },
   "en-extra-deteriorate-cd6334f12e": {
     "meaning": "xấu đi; xuống cấp",
     "notes": "Chỉ tình trạng hoặc chất lượng trở nên tệ hơn."
+  },
+  "en-extra-diagnostic-5a695eea5b": {
+    "meaning": "thuộc chẩn đoán",
+    "notes": "Dùng để xác định tình trạng hoặc nguyên nhân lỗi: diagnostic test."
   },
   "en-extra-diametrically-opposed-baeef2bf50": {
     "meaning": "đối lập hoàn toàn",
@@ -194,6 +364,10 @@
     "meaning": "lợi ích tăng thêm giảm dần",
     "notes": "Khi tăng đầu vào, phần lợi ích tăng thêm ngày càng nhỏ."
   },
+  "en-extra-disclose-conflicts-of-interest-c41d158916": {
+    "meaning": "công khai xung đột lợi ích",
+    "notes": "Thông báo các lợi ích có thể ảnh hưởng đến tính khách quan của quyết định."
+  },
   "en-extra-discreet-4c2733abf5": {
     "meaning": "kín đáo; tế nhị",
     "notes": "Tránh thu hút chú ý hoặc tiết lộ chuyện riêng. Không nhầm discrete (riêng biệt)."
@@ -206,6 +380,10 @@
     "meaning": "làm gián đoạn; phá vỡ",
     "notes": "Gây xáo trộn một quá trình hoặc trật tự đang vận hành."
   },
+  "en-extra-dividend-f7539a338b": {
+    "meaning": "cổ tức",
+    "notes": "Khoản phân phối cho cổ đông, thường từ lợi nhuận của công ty."
+  },
   "en-extra-double-edged-sword-a4dc860aaa": {
     "meaning": "con dao hai lưỡi",
     "notes": "Điều có cả lợi ích lẫn tác hại."
@@ -213,6 +391,18 @@
   "en-extra-double-standard-d8fbe5bec6": {
     "meaning": "tiêu chuẩn kép",
     "notes": "Áp dụng tiêu chuẩn khác nhau một cách thiếu công bằng cho tình huống tương tự."
+  },
+  "en-extra-draft-legislation-5fd326d776": {
+    "meaning": "soạn thảo luật; soạn dự luật",
+    "notes": "Draft là chuẩn bị văn bản dự thảo, chưa có nghĩa luật đã được thông qua."
+  },
+  "en-extra-draw-attention-to-007489659b": {
+    "meaning": "thu hút sự chú ý đến",
+    "notes": "Draw someone's attention to X: hướng sự chú ý của ai đến X."
+  },
+  "en-extra-drive-meaningful-change-f3be1f6be6": {
+    "meaning": "thúc đẩy thay đổi thực chất",
+    "notes": "Drive ở đây là thúc đẩy; meaningful nhấn mạnh thay đổi có giá trị thực tế."
   },
   "en-extra-durability-2731dedfe2": {
     "meaning": "độ bền",
@@ -230,13 +420,33 @@
     "meaning": "dựa trên thực nghiệm; thực chứng",
     "notes": "Dựa vào quan sát, đo lường hoặc thử nghiệm thay vì chỉ suy luận lý thuyết."
   },
+  "en-extra-encrypt-c6072170d7": {
+    "meaning": "mã hóa",
+    "notes": "Chuyển dữ liệu thành dạng khó đọc nếu không có khóa hoặc phương thức giải mã phù hợp."
+  },
+  "en-extra-enforce-strict-regulations-e6e8baf038": {
+    "meaning": "thực thi quy định nghiêm ngặt",
+    "notes": "Enforce là bảo đảm quy định được chấp hành; khác comply with là tuân thủ."
+  },
   "en-extra-ephemeral-8341425caf": {
     "meaning": "ngắn ngủi; chóng tàn",
     "notes": "Nhấn mạnh thời gian tồn tại rất ngắn, thường nói về hiện tượng, cảm xúc hoặc sự nổi tiếng."
   },
+  "en-extra-equal-access-c982246252": {
+    "meaning": "quyền tiếp cận bình đẳng",
+    "notes": "Equal access to + dịch vụ, cơ hội hoặc nguồn lực."
+  },
+  "en-extra-equity-30703a5c0f": {
+    "meaning": "vốn chủ sở hữu; sự công bằng",
+    "notes": "Trong tài chính là giá trị tài sản còn lại sau khi trừ nợ; trong xã hội là công bằng theo nhu cầu và hoàn cảnh."
+  },
   "en-extra-erode-3d3eb7dd21": {
     "meaning": "xói mòn; bào mòn",
     "notes": "Nghĩa bóng chỉ sự suy giảm dần của niềm tin, quyền lợi hoặc giá trị."
+  },
+  "en-extra-erode-public-trust-360c8556cc": {
+    "meaning": "làm xói mòn niềm tin công chúng",
+    "notes": "Erode nhấn mạnh sự suy giảm dần của niềm tin."
   },
   "en-extra-err-on-the-side-of-caution-280f7be105": {
     "meaning": "chọn cách thận trọng hơn",
@@ -254,9 +464,31 @@
     "meaning": "toàn diện; bao quát hết",
     "notes": "Cố gắng bao gồm mọi phần hoặc khả năng liên quan: an exhaustive list."
   },
+  "en-extra-exponential-growth-5782248c5d": {
+    "meaning": "tăng trưởng theo hàm mũ",
+    "notes": "Theo nghĩa toán học, tăng theo một hệ số không đổi qua các khoảng thời gian bằng nhau; không chỉ tăng nhanh.",
+    "examples": [
+      {
+        "sentence": "The model predicts exponential growth if the population doubles every year.",
+        "translation": "Mô hình dự đoán tăng trưởng theo hàm mũ nếu dân số tăng gấp đôi mỗi năm."
+      },
+      {
+        "sentence": "Exponential growth cannot continue indefinitely with limited resources.",
+        "translation": "Tăng trưởng theo hàm mũ không thể tiếp diễn vô hạn khi nguồn lực có hạn."
+      }
+    ]
+  },
   "en-extra-extrapolate-4808175c4b": {
     "meaning": "ngoại suy",
     "notes": "Ước tính giá trị hoặc xu hướng ngoài phạm vi dữ liệu đã biết: extrapolate from data."
+  },
+  "en-extra-extrapolate-from-data-e3ba6d693e": {
+    "meaning": "ngoại suy từ dữ liệu",
+    "notes": "Ước tính ngoài phạm vi quan sát dựa trên dữ liệu và giả định."
+  },
+  "en-extra-fake-news-33495e96e5": {
+    "meaning": "tin giả",
+    "notes": "Thông tin sai hoặc gây hiểu lầm được trình bày như tin tức; không đồng nghĩa với tin mình không thích."
   },
   "en-extra-fallacy-13bc620688": {
     "meaning": "lập luận sai; ngụy biện",
@@ -274,9 +506,25 @@
     "meaning": "điều kiện thuận lợi",
     "notes": "Nghĩa bóng: môi trường thuận lợi để ý tưởng hoặc hiện tượng phát triển."
   },
+  "en-extra-file-an-appeal-d27e80e763": {
+    "meaning": "nộp đơn kháng cáo; khiếu nại",
+    "notes": "File chỉ việc nộp chính thức; loại đơn tùy quy trình pháp lý."
+  },
+  "en-extra-firewall-a3863c5d7c": {
+    "meaning": "tường lửa",
+    "notes": "Cơ chế kiểm soát lưu lượng mạng dựa trên quy tắc an ninh."
+  },
+  "en-extra-firmware-c3bf47ea1f": {
+    "meaning": "phần sụn; phần mềm nhúng",
+    "notes": "Phần mềm được lưu trên thiết bị để điều khiển hoặc hỗ trợ phần cứng."
+  },
   "en-extra-flourish-6e49a740aa": {
     "meaning": "phát triển mạnh; thịnh vượng",
     "notes": "Dùng cho người, tổ chức, hoạt động hoặc sinh vật phát triển tốt."
+  },
+  "en-extra-fluctuate-7830d5121c": {
+    "meaning": "dao động",
+    "notes": "Tăng và giảm theo thời gian: fluctuate between A and B."
   },
   "en-extra-force-of-habit-da8fc479d8": {
     "meaning": "sức mạnh của thói quen",
@@ -310,6 +558,10 @@
     "meaning": "đầy rủi ro",
     "notes": "Fraught with thường đi cùng điều tiêu cực như risk, danger hoặc difficulty."
   },
+  "en-extra-frugal-d6cc2c9c88": {
+    "meaning": "tiết kiệm",
+    "notes": "Sử dụng tiền hoặc nguồn lực một cách cẩn thận, tránh lãng phí."
+  },
   "en-extra-gain-leverage-1e203336d2": {
     "meaning": "giành lợi thế thương lượng",
     "notes": "Leverage là lợi thế có thể dùng để tác động lên kết quả."
@@ -318,9 +570,21 @@
     "meaning": "dần được hưởng ứng",
     "notes": "Ý tưởng, sản phẩm hoặc phong trào bắt đầu nhận được sự ủng hộ."
   },
+  "en-extra-good-governance-36100b3f67": {
+    "meaning": "quản trị tốt",
+    "notes": "Bao gồm trách nhiệm giải trình, minh bạch và điều hành hiệu quả, không chỉ minh bạch."
+  },
+  "en-extra-grant-asylum-8f7c5fdf7f": {
+    "meaning": "cho hưởng quy chế tị nạn",
+    "notes": "Grant là chính thức cấp hoặc chấp thuận sự bảo hộ."
+  },
   "en-extra-grey-area-74d0a8b6a7": {
     "meaning": "vùng chưa rõ ràng",
     "notes": "Tình huống không dễ phân định, chẳng hạn về luật lệ hoặc đạo đức."
+  },
+  "en-extra-heated-debate-a965cfd520": {
+    "meaning": "cuộc tranh luận gay gắt",
+    "notes": "Heated chỉ tranh luận nhiều cảm xúc hoặc căng thẳng, không phải nhiệt độ."
   },
   "en-extra-heavy-on-jargon-fbd01f61d9": {
     "meaning": "dùng quá nhiều biệt ngữ",
@@ -329,6 +593,10 @@
   "en-extra-hit-the-nail-on-the-head-fc6dbfb7bb": {
     "meaning": "nói trúng trọng tâm",
     "notes": "Nhận định chính xác nguyên nhân hoặc bản chất vấn đề."
+  },
+  "en-extra-human-rights-b761794c04": {
+    "meaning": "quyền con người; nhân quyền",
+    "notes": "Các quyền cơ bản của con người; thường dùng ở số nhiều."
   },
   "en-extra-hypothesis-7beb7f4a57": {
     "meaning": "giả thuyết",
@@ -353,13 +621,39 @@
     "meaning": "hoàn hảo; không chê vào đâu được",
     "notes": "Không có lỗi đáng kể: impeccable manners, impeccable timing."
   },
+  "en-extra-impose-economic-sanctions-37d97bd606": {
+    "meaning": "áp đặt biện pháp trừng phạt kinh tế",
+    "notes": "Impose sanctions on + đối tượng; sanctions có thể gồm nhiều loại hạn chế kinh tế.",
+    "examples": [
+      {
+        "sentence": "The government threatened to impose economic sanctions on the country.",
+        "translation": "Chính phủ đe dọa áp đặt các biện pháp trừng phạt kinh tế lên quốc gia đó."
+      },
+      {
+        "sentence": "Several states agreed to impose economic sanctions.",
+        "translation": "Một số quốc gia đồng ý áp đặt biện pháp trừng phạt kinh tế."
+      }
+    ]
+  },
   "en-extra-in-light-of-deab23f4b0": {
     "meaning": "xét đến; dựa trên",
     "notes": "In light of + danh từ/cụm danh từ: xem xét thông tin hoặc tình huống liên quan."
   },
+  "en-extra-in-sharp-contrast-d539520c5f": {
+    "meaning": "trái ngược rõ rệt",
+    "notes": "In sharp contrast to/with + đối tượng được so sánh."
+  },
+  "en-extra-incentive-ba66450aff": {
+    "meaning": "động lực; sự khuyến khích",
+    "notes": "Lợi ích hoặc điều kiện thúc đẩy một hành động."
+  },
   "en-extra-incentivize-3d7c829c1a": {
     "meaning": "tạo động lực; khuyến khích",
     "notes": "Dùng lợi ích hoặc phần thưởng để thúc đẩy một hành vi."
+  },
+  "en-extra-income-disparity-cf77e5a984": {
+    "meaning": "chênh lệch thu nhập",
+    "notes": "Chênh lệch thu nhập giữa các cá nhân hoặc nhóm: reduce income disparity."
   },
   "en-extra-incongruous-17d2c607d6": {
     "meaning": "không ăn nhập; lạc lõng",
@@ -391,6 +685,14 @@
       }
     ]
   },
+  "en-extra-inflation-6d731a5ed1": {
+    "meaning": "lạm phát",
+    "notes": "Mức giá chung tăng theo thời gian, làm sức mua của tiền giảm nếu các yếu tố khác không đổi."
+  },
+  "en-extra-informed-decision-c82c1e8ce4": {
+    "meaning": "quyết định có đủ căn cứ",
+    "notes": "Quyết định dựa trên thông tin liên quan đã xem xét: make an informed decision."
+  },
   "en-extra-ingenious-93418be998": {
     "meaning": "tài tình; khéo sáng tạo",
     "notes": "Dùng cho ý tưởng hoặc giải pháp thông minh, độc đáo. Không nhầm ingenuous (ngây thơ, thật thà)."
@@ -398,6 +700,18 @@
   "en-extra-inherently-flawed-58e32c5a97": {
     "meaning": "có sai sót cố hữu",
     "notes": "Lỗi nằm ngay trong bản chất hay thiết kế, không chỉ do hoàn cảnh."
+  },
+  "en-extra-institutional-transparency-8ed74b9614": {
+    "meaning": "tính minh bạch của tổ chức",
+    "notes": "Mức độ tổ chức công khai thông tin và quy trình có liên quan."
+  },
+  "en-extra-integrate-ad9b338ab5": {
+    "meaning": "tích hợp",
+    "notes": "Kết hợp các thành phần để hoạt động cùng nhau: integrate X with/into Y."
+  },
+  "en-extra-interface-c796d37c6d": {
+    "meaning": "giao diện; điểm kết nối",
+    "notes": "Ranh giới tương tác giữa các hệ thống hoặc giữa người dùng với hệ thống."
   },
   "en-extra-intricate-f9e2aa11ce": {
     "meaning": "phức tạp; tinh xảo",
@@ -407,6 +721,10 @@
     "meaning": "nội tại; vốn có",
     "notes": "Thuộc bản chất của sự vật, không đến từ tác động bên ngoài: intrinsic value."
   },
+  "en-extra-irrefutable-proof-55ef1941bb": {
+    "meaning": "bằng chứng không thể bác bỏ",
+    "notes": "Irrefutable nhấn mạnh chứng cứ đủ mạnh để không thể phản bác hợp lý."
+  },
   "en-extra-irreversible-e49890d0ac": {
     "meaning": "không thể đảo ngược",
     "notes": "Không thể đưa về trạng thái ban đầu; khác difficult to reverse (khó đảo ngược)."
@@ -415,21 +733,75 @@
     "meaning": "biệt ngữ; thuật ngữ chuyên ngành",
     "notes": "Từ ngữ riêng của một nhóm nghề nghiệp, có thể khó hiểu với người ngoài."
   },
+  "en-extra-keep-pace-with-956a4c0289": {
+    "meaning": "theo kịp; bắt kịp",
+    "notes": "Keep pace with + sự thay đổi, tiến độ hoặc đối tượng.",
+    "examples": [
+      {
+        "sentence": "Schools must keep pace with changes in technology.",
+        "translation": "Các trường học phải theo kịp những thay đổi về công nghệ."
+      },
+      {
+        "sentence": "Many workers struggle to keep pace with rising prices.",
+        "translation": "Nhiều người lao động chật vật theo kịp mức giá ngày càng tăng."
+      }
+    ]
+  },
+  "en-extra-language-barrier-d8d8847d78": {
+    "meaning": "rào cản ngôn ngữ",
+    "notes": "Khó khăn giao tiếp do khác biệt ngôn ngữ: overcome a language barrier."
+  },
+  "en-extra-lasting-impression-f67cd8183e": {
+    "meaning": "ấn tượng lâu phai",
+    "notes": "Leave/make a lasting impression on someone: để lại ấn tượng lâu dài với ai."
+  },
+  "en-extra-latency-3fdb7e873d": {
+    "meaning": "độ trễ",
+    "notes": "Khoảng thời gian chờ giữa yêu cầu hoặc sự kiện và phản hồi tương ứng."
+  },
   "en-extra-law-enforcement-8cb6ef1d18": {
     "meaning": "việc thực thi pháp luật",
     "notes": "Cũng có thể chỉ lực lượng chịu trách nhiệm thực thi pháp luật."
+  },
+  "en-extra-lay-the-groundwork-99e608ec02": {
+    "meaning": "đặt nền móng",
+    "notes": "Lay the groundwork for + mục tiêu: chuẩn bị điều kiện cần thiết trước khi thực hiện."
   },
   "en-extra-leap-of-faith-db666c5303": {
     "meaning": "quyết định dựa vào niềm tin",
     "notes": "Chấp nhận làm điều gì dù chưa có đầy đủ bằng chứng bảo đảm."
   },
+  "en-extra-legal-liability-2340b8d6fc": {
+    "meaning": "trách nhiệm pháp lý",
+    "notes": "Trách nhiệm mà pháp luật quy định, có thể dẫn tới nghĩa vụ bồi thường hoặc hậu quả pháp lý."
+  },
   "en-extra-legal-mandate-d0369ecdc8": {
     "meaning": "yêu cầu hoặc thẩm quyền theo luật",
     "notes": "Chọn nghĩa dựa trên ngữ cảnh: nghĩa vụ bắt buộc hoặc quyền được giao."
   },
+  "en-extra-leverage-3d192e1294": {
+    "meaning": "tận dụng; đòn bẩy",
+    "notes": "Động từ là dùng lợi thế hoặc nguồn lực để tăng tác động; danh từ tài chính có thể chỉ đòn bẩy vay nợ."
+  },
+  "en-extra-liquidity-59b47e9ec5": {
+    "meaning": "tính thanh khoản",
+    "notes": "Khả năng chuyển tài sản thành tiền nhanh mà không mất giá đáng kể; cũng chỉ khả năng đáp ứng nghĩa vụ ngắn hạn."
+  },
+  "en-extra-long-term-vision-d7eff0cb1e": {
+    "meaning": "tầm nhìn dài hạn",
+    "notes": "Định hướng cho tương lai xa hơn mục tiêu trước mắt."
+  },
   "en-extra-lucid-948278737a": {
     "meaning": "rõ ràng; mạch lạc",
     "notes": "Dùng cho lời giải thích hoặc lập luận dễ hiểu; cũng có thể chỉ trạng thái tỉnh táo."
+  },
+  "en-extra-lucrative-19532b5632": {
+    "meaning": "sinh lợi cao",
+    "notes": "Dùng cho hoạt động đem lại nhiều tiền hoặc lợi nhuận."
+  },
+  "en-extra-make-a-world-of-difference-75625fe6e4": {
+    "meaning": "tạo ra khác biệt rất lớn",
+    "notes": "Thành ngữ nhấn mạnh tác động đáng kể, thường theo hướng tích cực."
   },
   "en-extra-margin-of-error-14fca2af32": {
     "meaning": "biên độ sai số",
@@ -438,6 +810,18 @@
   "en-extra-matter-of-degree-0004deca9a": {
     "meaning": "vấn đề về mức độ",
     "notes": "Khác biệt nằm ở nhiều hay ít, thay vì có hay không hoàn toàn."
+  },
+  "en-extra-media-coverage-03e65a8350": {
+    "meaning": "sự đưa tin của truyền thông",
+    "notes": "Coverage of + sự kiện/chủ đề; có thể tích cực hoặc tiêu cực."
+  },
+  "en-extra-media-literacy-f2f44b1333": {
+    "meaning": "năng lực hiểu và đánh giá truyền thông",
+    "notes": "Khả năng tiếp cận, phân tích, đánh giá và tạo nội dung truyền thông."
+  },
+  "en-extra-metadata-45447b7afb": {
+    "meaning": "siêu dữ liệu",
+    "notes": "Dữ liệu mô tả dữ liệu khác, ví dụ ngày tạo hoặc loại tệp."
   },
   "en-extra-metamorphosis-ce65059dee": {
     "meaning": "sự biến thái; sự biến đổi lớn",
@@ -471,9 +855,21 @@
       }
     ]
   },
+  "en-extra-modular-0511abcb24": {
+    "meaning": "dạng mô-đun",
+    "notes": "Gồm các thành phần tương đối độc lập, có thể kết hợp hoặc thay thế."
+  },
+  "en-extra-monopoly-cb3b5639a0": {
+    "meaning": "độc quyền",
+    "notes": "Tình trạng một nhà cung cấp chi phối nguồn cung của một thị trường."
+  },
   "en-extra-moral-compass-0f5b3a4e9d": {
     "meaning": "kim chỉ nam đạo đức",
     "notes": "Hệ giá trị giúp phân biệt đúng sai và định hướng quyết định."
+  },
+  "en-extra-moral-dilemma-e892ed1778": {
+    "meaning": "tình thế tiến thoái lưỡng nan về đạo đức",
+    "notes": "Phải lựa chọn giữa các phương án có những nghĩa vụ hoặc giá trị đạo đức xung đột."
   },
   "en-extra-mundane-dbef5506fc": {
     "meaning": "đời thường; tẻ nhạt",
@@ -482,6 +878,10 @@
   "en-extra-mutually-exclusive-6ccba40ef5": {
     "meaning": "loại trừ lẫn nhau",
     "notes": "Hai khả năng không thể đồng thời đúng hoặc xảy ra trong cùng điều kiện."
+  },
+  "en-extra-narrow-margin-d8014bee40": {
+    "meaning": "khoảng cách sít sao",
+    "notes": "Win/lose by a narrow margin: thắng hoặc thua với chênh lệch nhỏ."
   },
   "en-extra-negotiation-c79e1f0e3e": {
     "meaning": "sự thương lượng; cuộc đàm phán",
@@ -494,6 +894,10 @@
   "en-extra-oblivious-to-nuance-ca6d9ac6f7": {
     "meaning": "không nhận ra sắc thái tinh tế",
     "notes": "Oblivious to X là không nhận biết X; không nhất thiết là vô cảm."
+  },
+  "en-extra-on-equal-terms-f71f8c7f95": {
+    "meaning": "trên cơ sở bình đẳng",
+    "notes": "Chỉ điều kiện cạnh tranh, thương lượng hoặc tương tác ngang bằng."
   },
   "en-extra-open-a-can-of-worms-6e3ae4bb1b": {
     "meaning": "khơi ra hàng loạt rắc rối",
@@ -525,6 +929,14 @@
     "meaning": "sự giám sát; sự sơ suất",
     "notes": "Hai nghĩa khác nhau: regulatory oversight (giám sát); an oversight (một sơ suất)."
   },
+  "en-extra-overturn-a-verdict-22e1275094": {
+    "meaning": "hủy bỏ phán quyết",
+    "notes": "Dùng khi cơ quan có thẩm quyền đảo ngược hoặc hủy kết luận trước đó."
+  },
+  "en-extra-overwhelming-majority-9ebde1abf2": {
+    "meaning": "đại đa số",
+    "notes": "Một đa số rất lớn; không nhất thiết có một tỷ lệ cố định."
+  },
   "en-extra-paradigm-cacd11bd74": {
     "meaning": "mô hình tư duy; hệ hình",
     "notes": "Khuôn khổ tư duy hoặc cách tiếp cận điển hình trong một lĩnh vực."
@@ -533,6 +945,14 @@
     "meaning": "nghịch lý",
     "notes": "Mệnh đề hoặc tình huống có vẻ tự mâu thuẫn; không nhất thiết luôn chứa chân lý."
   },
+  "en-extra-parse-30c471f6aa": {
+    "meaning": "phân tích cú pháp",
+    "notes": "Đọc dữ liệu hoặc câu theo cấu trúc để xác định các thành phần của nó."
+  },
+  "en-extra-payload-239f59ed55": {
+    "meaning": "dữ liệu tải hữu ích; tải trọng",
+    "notes": "Trong giao tiếp dữ liệu, phần nội dung được chuyển đi, phân biệt với thông tin điều khiển."
+  },
   "en-extra-persuasive-610d1d8aae": {
     "meaning": "có sức thuyết phục",
     "notes": "Có khả năng làm người khác tin hoặc đồng ý."
@@ -540,6 +960,10 @@
   "en-extra-pivotal-29e116cb3c": {
     "meaning": "then chốt; mang tính quyết định",
     "notes": "Chỉ điều có vai trò đặc biệt quan trọng đối với kết quả hoặc diễn biến."
+  },
+  "en-extra-pixel-3f8d7379e2": {
+    "meaning": "điểm ảnh",
+    "notes": "Đơn vị hình ảnh riêng lẻ trong ảnh raster hoặc màn hình."
   },
   "en-extra-plausible-2caa75efae": {
     "meaning": "có vẻ hợp lý; đáng tin",
@@ -561,9 +985,37 @@
     "meaning": "mối quan ngại cấp bách",
     "notes": "Vấn đề cần được chú ý hoặc giải quyết sớm."
   },
+  "en-extra-procurement-f4c31f606e": {
+    "meaning": "hoạt động mua sắm; thu mua",
+    "notes": "Quá trình tổ chức tìm, chọn và mua hàng hóa hoặc dịch vụ."
+  },
   "en-extra-proof-of-concept-64b76b0569": {
     "meaning": "bằng chứng về tính khả thi",
     "notes": "Thử nghiệm hoặc bản mẫu để chứng minh một ý tưởng có thể hoạt động."
+  },
+  "en-extra-prosperity-f54d93092f": {
+    "meaning": "sự thịnh vượng",
+    "notes": "Tình trạng phát triển và sung túc, thường về kinh tế."
+  },
+  "en-extra-prototype-b34563e2eb": {
+    "meaning": "nguyên mẫu",
+    "notes": "Phiên bản thử nghiệm dùng để kiểm tra một ý tưởng hoặc thiết kế."
+  },
+  "en-extra-public-opinion-f520a164a1": {
+    "meaning": "dư luận; ý kiến công chúng",
+    "notes": "Quan điểm của công chúng về một vấn đề; thường dùng như danh từ không đếm được."
+  },
+  "en-extra-public-policy-370e7f70a7": {
+    "meaning": "chính sách công",
+    "notes": "Chính sách, định hướng hoặc biện pháp của cơ quan công quyền nhằm xử lý vấn đề xã hội."
+  },
+  "en-extra-public-scrutiny-1718fb7d34": {
+    "meaning": "sự xem xét kỹ của công chúng",
+    "notes": "Scrutiny nhấn mạnh việc kiểm tra và đánh giá kỹ lưỡng."
+  },
+  "en-extra-public-welfare-93d831eeba": {
+    "meaning": "phúc lợi công cộng",
+    "notes": "Điều kiện sống và lợi ích của cộng đồng; đôi khi chỉ hệ thống hỗ trợ công."
   },
   "en-extra-pull-strings-ebabeceeda": {
     "meaning": "dùng quan hệ để tác động",
@@ -573,13 +1025,41 @@
     "meaning": "hệ quả kéo theo",
     "notes": "Nhấn mạnh những ảnh hưởng phức tạp hoặc lan sang nhiều lĩnh vực."
   },
+  "en-extra-ratify-an-international-treaty-e84b67212d": {
+    "meaning": "phê chuẩn điều ước quốc tế",
+    "notes": "Ratify chỉ sự phê chuẩn chính thức, khác với việc ký văn bản."
+  },
+  "en-extra-reach-a-legal-settlement-c41ebcc88d": {
+    "meaning": "đạt thỏa thuận giải quyết tranh chấp",
+    "notes": "Các bên đạt thỏa thuận pháp lý, không nhất thiết phải qua hòa giải."
+  },
+  "en-extra-recession-c836905751": {
+    "meaning": "suy thoái kinh tế",
+    "notes": "Sự suy giảm đáng kể và lan rộng của hoạt động kinh tế; không có quy tắc hai quý áp dụng tuyệt đối ở mọi nơi."
+  },
   "en-extra-reciprocity-52a0ab6259": {
     "meaning": "sự có đi có lại; tính tương hỗ",
     "notes": "Quan hệ trao đổi hoặc đáp lại giữa các bên."
   },
+  "en-extra-reconcile-e2c30d5926": {
+    "meaning": "đối chiếu; hòa giải",
+    "notes": "Trong kế toán là làm khớp số liệu; trong quan hệ là giải quyết bất đồng."
+  },
+  "en-extra-redundancy-a9be4c13b9": {
+    "meaning": "sự dư thừa; cơ chế dự phòng",
+    "notes": "Trong kỹ thuật, bổ sung thành phần thay thế để tăng độ tin cậy; nghĩa thông thường là sự dư thừa."
+  },
   "en-extra-redundant-5a7853bd5e": {
     "meaning": "dư thừa; không cần thiết",
     "notes": "Chỉ phần không còn cần thiết vì đã có thứ khác thay thế hoặc lặp lại."
+  },
+  "en-extra-refactor-423fb404ba": {
+    "meaning": "tái cấu trúc mã",
+    "notes": "Cải thiện cấu trúc bên trong mã mà không chủ ý thay đổi hành vi bên ngoài."
+  },
+  "en-extra-refine-an-analytical-framework-7df32b060c": {
+    "meaning": "hoàn thiện khung phân tích",
+    "notes": "Điều chỉnh một hệ thống khái niệm hoặc phương pháp phân tích cho chính xác và hữu ích hơn."
   },
   "en-extra-rejuvenate-b1f49eb9e5": {
     "meaning": "trẻ hóa; phục hồi sức sống",
@@ -588,6 +1068,14 @@
   "en-extra-repercussion-8e30e67239": {
     "meaning": "hệ lụy; hậu quả",
     "notes": "Thường chỉ hậu quả gián tiếp hoặc bất lợi phát sinh sau một sự kiện."
+  },
+  "en-extra-replicate-a-study-8ab8294e16": {
+    "meaning": "lặp lại một nghiên cứu",
+    "notes": "Thực hiện lại nghiên cứu để kiểm tra liệu kết quả có thể tái hiện."
+  },
+  "en-extra-repository-e2885f2bbe": {
+    "meaning": "kho lưu trữ",
+    "notes": "Nơi lưu trữ, quản lý mã, tài liệu hoặc dữ liệu."
   },
   "en-extra-resourceful-500937eb36": {
     "meaning": "tháo vát; biết xoay xở",
@@ -601,6 +1089,10 @@
     "meaning": "dễ bị lợi dụng; sẵn để khai thác",
     "notes": "Ripe for X chỉ điều kiện đã thuận lợi để X xảy ra."
   },
+  "en-extra-risk-mitigation-cd29a45b5c": {
+    "meaning": "giảm thiểu rủi ro",
+    "notes": "Giảm khả năng xảy ra hoặc mức độ tác động của rủi ro; không nhất thiết loại bỏ hoàn toàn."
+  },
   "en-extra-rule-of-law-ca267b9e0d": {
     "meaning": "pháp quyền; nguyên tắc thượng tôn pháp luật",
     "notes": "Mọi người và cơ quan đều chịu sự điều chỉnh của pháp luật."
@@ -609,9 +1101,21 @@
     "meaning": "nổi bật; đáng chú ý",
     "notes": "Nói về điểm quan trọng nhất hoặc dễ nhận ra nhất trong một vấn đề."
   },
+  "en-extra-scalable-ab68a90a6d": {
+    "meaning": "có khả năng mở rộng",
+    "notes": "Có thể đáp ứng quy mô hoặc khối lượng công việc tăng thêm."
+  },
   "en-extra-scrupulous-383d33936d": {
     "meaning": "rất cẩn trọng; ngay thẳng",
     "notes": "Có thể nhấn mạnh sự kỹ lưỡng hoặc việc tuân thủ nghiêm túc nguyên tắc đạo đức."
+  },
+  "en-extra-scrutinize-methodology-5eaa3a3ec6": {
+    "meaning": "xem xét kỹ phương pháp luận",
+    "notes": "Scrutinize nhấn mạnh kiểm tra kỹ để đánh giá điểm mạnh hoặc hạn chế."
+  },
+  "en-extra-set-a-dangerous-precedent-82a4a7bc4f": {
+    "meaning": "tạo tiền lệ nguy hiểm",
+    "notes": "Một hành động hiện tại có thể trở thành căn cứ hoặc khuôn mẫu bất lợi cho các trường hợp sau."
   },
   "en-extra-sharp-contrast-0bcd5bbc69": {
     "meaning": "sự tương phản rõ rệt",
@@ -621,13 +1125,25 @@
     "meaning": "giải pháp thần kỳ",
     "notes": "Thường dùng để bác bỏ ý tưởng rằng một giải pháp đơn giản có thể xử lý mọi vấn đề."
   },
+  "en-extra-simulate-b9efe3955c": {
+    "meaning": "mô phỏng",
+    "notes": "Tái hiện đặc điểm của một tình huống hoặc hệ thống bằng mô hình."
+  },
   "en-extra-sobering-thought-04d7c398e6": {
     "meaning": "suy nghĩ khiến ta tỉnh ngộ",
     "notes": "Điều khiến người ta trở nên nghiêm túc hoặc nhận ra thực tế đáng lo."
   },
+  "en-extra-social-mobility-5958d65c25": {
+    "meaning": "sự dịch chuyển xã hội",
+    "notes": "Sự thay đổi vị thế kinh tế-xã hội của cá nhân hoặc nhóm, có thể đi lên hoặc đi xuống."
+  },
   "en-extra-solidarity-7e25fb62e0": {
     "meaning": "tinh thần đoàn kết",
     "notes": "Sự thống nhất và ủng hộ lẫn nhau trong một nhóm."
+  },
+  "en-extra-solvent-b86c3099a5": {
+    "meaning": "có khả năng thanh toán nợ",
+    "notes": "Trong tài chính, có khả năng đáp ứng nghĩa vụ nợ; danh từ solvent trong hóa học là dung môi."
   },
   "en-extra-stabilize-bbf7cf0f27": {
     "meaning": "ổn định; làm ổn định",
@@ -640,6 +1156,10 @@
   "en-extra-stand-the-test-of-time-7baeba13b6": {
     "meaning": "bền vững qua thời gian",
     "notes": "Tiếp tục có giá trị hoặc được công nhận sau một thời gian dài."
+  },
+  "en-extra-stark-contrast-61cccf6d49": {
+    "meaning": "sự tương phản rõ rệt",
+    "notes": "Nhấn mạnh sự khác biệt nổi bật: a stark contrast between A and B."
   },
   "en-extra-stark-reminder-94ecba2579": {
     "meaning": "lời nhắc nhở rõ rệt; nghiệt ngã",
@@ -679,9 +1199,21 @@
     "meaning": "kìm hãm; bóp nghẹt",
     "notes": "Ngăn sự phát triển hoặc biểu hiện của điều gì: stifle creativity."
   },
+  "en-extra-strategic-alignment-ad4987384b": {
+    "meaning": "sự thống nhất về chiến lược",
+    "notes": "Các mục tiêu, hoạt động hoặc nhóm được phối hợp theo cùng định hướng."
+  },
+  "en-extra-strict-compliance-52d9d2e3a9": {
+    "meaning": "sự tuân thủ nghiêm ngặt",
+    "notes": "Compliance with + luật/quy định/tiêu chuẩn."
+  },
   "en-extra-stringent-f38e2cf778": {
     "meaning": "nghiêm ngặt; khắt khe",
     "notes": "Thường dùng với quy định, tiêu chuẩn và yêu cầu: stringent requirements."
+  },
+  "en-extra-subsidy-15fc7418ed": {
+    "meaning": "khoản trợ cấp",
+    "notes": "Hỗ trợ tài chính, thường từ chính phủ, nhằm giảm chi phí hoặc khuyến khích hoạt động."
   },
   "en-extra-substantiate-a-claim-31926527ff": {
     "meaning": "đưa bằng chứng hỗ trợ nhận định",
@@ -691,13 +1223,33 @@
     "meaning": "súc tích; ngắn gọn",
     "notes": "Diễn đạt ít lời nhưng đủ ý."
   },
+  "en-extra-surplus-1bd305c929": {
+    "meaning": "thặng dư",
+    "notes": "Phần vượt quá nhu cầu, chi tiêu hoặc mức chuẩn."
+  },
   "en-extra-sustainability-43029a964b": {
     "meaning": "tính bền vững",
     "notes": "Khả năng duy trì lâu dài, đặc biệt không làm cạn kiệt nguồn lực."
   },
+  "en-extra-sweeping-reform-0c916ea421": {
+    "meaning": "cải cách sâu rộng",
+    "notes": "Sweeping chỉ phạm vi ảnh hưởng rộng, không nhất thiết cải cách thành công."
+  },
+  "en-extra-synchronize-2823580ca7": {
+    "meaning": "đồng bộ hóa",
+    "notes": "Làm cho thời gian, dữ liệu hoặc hoạt động khớp nhau."
+  },
+  "en-extra-syntax-93b8edb006": {
+    "meaning": "cú pháp",
+    "notes": "Quy tắc kết hợp các thành phần trong ngôn ngữ hoặc mã nguồn."
+  },
   "en-extra-synthesize-6fb0ab0f5b": {
     "meaning": "tổng hợp",
     "notes": "Kết hợp nhiều nguồn hoặc thành phần thành một chỉnh thể có ý nghĩa."
+  },
+  "en-extra-synthesize-literature-e7a8b249f1": {
+    "meaning": "tổng hợp tài liệu nghiên cứu",
+    "notes": "Kết nối kết quả từ nhiều nghiên cứu thành bức tranh chung, không chỉ liệt kê tóm tắt."
   },
   "en-extra-systematic-e452917780": {
     "meaning": "có hệ thống; bài bản",
@@ -707,6 +1259,20 @@
     "meaning": "khéo léo; tế nhị",
     "notes": "Biết nói hoặc làm sao để tránh làm người khác khó xử hay tổn thương."
   },
+  "en-extra-take-full-accountability-fddf8b3a11": {
+    "meaning": "chịu hoàn toàn trách nhiệm",
+    "notes": "Take accountability for + danh từ/V-ing: nhận trách nhiệm và giải trình về kết quả.",
+    "examples": [
+      {
+        "sentence": "The manager agreed to take full accountability for the error.",
+        "translation": "Người quản lý đồng ý chịu hoàn toàn trách nhiệm về sai sót."
+      },
+      {
+        "sentence": "Leaders should take full accountability for their decisions.",
+        "translation": "Các nhà lãnh đạo nên chịu hoàn toàn trách nhiệm về quyết định của mình."
+      }
+    ]
+  },
   "en-extra-tangible-c90f436c6c": {
     "meaning": "hữu hình; cụ thể",
     "notes": "Có thể chạm vào hoặc nhận thấy rõ, như tangible benefits (lợi ích cụ thể)."
@@ -714,6 +1280,14 @@
   "en-extra-tantamount-to-failure-db701f91a4": {
     "meaning": "chẳng khác nào thất bại",
     "notes": "Tantamount to X nhấn mạnh sự tương đương về tác động hoặc ý nghĩa."
+  },
+  "en-extra-tariff-1f65896b35": {
+    "meaning": "thuế quan",
+    "notes": "Thuế đánh lên hàng hóa nhập khẩu hoặc xuất khẩu; tariff còn có nghĩa biểu giá trong một số ngữ cảnh."
+  },
+  "en-extra-telemetry-1609117504": {
+    "meaning": "đo và truyền dữ liệu từ xa",
+    "notes": "Thu thập thông số từ thiết bị hoặc hệ thống rồi truyền về nơi giám sát."
   },
   "en-extra-tenacious-c1ae0d2798": {
     "meaning": "kiên trì; bền bỉ",
@@ -731,9 +1305,21 @@
     "meaning": "điểm tới hạn; bước ngoặt",
     "notes": "Ngưỡng mà sau đó một thay đổi nhỏ có thể dẫn đến chuyển biến lớn."
   },
+  "en-extra-to-a-large-extent-0382670d56": {
+    "meaning": "phần lớn; ở mức độ đáng kể",
+    "notes": "Dùng để giới hạn mức độ của nhận định, không khẳng định hoàn toàn."
+  },
   "en-extra-transform-aa214ea383": {
     "meaning": "biến đổi; chuyển đổi",
     "notes": "Thay đổi rõ rệt hình thức, tính chất hoặc cách vận hành: transform X into Y."
+  },
+  "en-extra-troubleshoot-ddcc20d051": {
+    "meaning": "tìm và xử lý sự cố",
+    "notes": "Tìm nguyên nhân vấn đề và xác định cách khắc phục."
+  },
+  "en-extra-turn-a-blind-eye-0396d3f76d": {
+    "meaning": "cố tình làm ngơ",
+    "notes": "Turn a blind eye to + vấn đề: cố ý phớt lờ điều đáng phải xử lý."
   },
   "en-extra-turnaround-85719be272": {
     "meaning": "sự xoay chuyển; thời gian xử lý",
@@ -787,21 +1373,45 @@
     "meaning": "kiên định; không lay chuyển",
     "notes": "Duy trì sự ủng hộ, niềm tin hoặc quyết tâm bất chấp khó khăn."
   },
+  "en-extra-uphold-the-rule-of-law-14177677a0": {
+    "meaning": "bảo vệ nguyên tắc pháp quyền",
+    "notes": "Duy trì nguyên tắc mọi cá nhân và cơ quan đều chịu sự điều chỉnh của pháp luật."
+  },
+  "en-extra-validate-133c8eb86c": {
+    "meaning": "xác nhận tính hợp lệ",
+    "notes": "Kiểm tra điều gì đáp ứng tiêu chí hoặc yêu cầu; khác verify ở một số ngữ cảnh chuyên ngành."
+  },
   "en-extra-vested-interest-c34d4e6830": {
     "meaning": "lợi ích riêng gắn với kết quả",
     "notes": "Thường hàm ý người có lợi ích riêng có động cơ tác động lên kết quả."
+  },
+  "en-extra-viable-1977d46c03": {
+    "meaning": "khả thi; có thể tồn tại",
+    "notes": "Có khả năng thực hiện, hoạt động hoặc tồn tại trong điều kiện thực tế."
   },
   "en-extra-viable-alternative-9aa6c3cad5": {
     "meaning": "phương án thay thế khả thi",
     "notes": "Phương án khác có khả năng hoạt động hoặc thực hiện được."
   },
+  "en-extra-vicious-circle-3755b70fb3": {
+    "meaning": "vòng luẩn quẩn",
+    "notes": "Các tác động tiêu cực củng cố lẫn nhau. Vicious cycle có nghĩa tương tự."
+  },
   "en-extra-vicious-cycle-9d581cfdcf": {
     "meaning": "vòng luẩn quẩn",
     "notes": "Một chuỗi tác động tiêu cực tự củng cố lẫn nhau."
   },
+  "en-extra-violate-privacy-rights-4cf5248d52": {
+    "meaning": "xâm phạm quyền riêng tư",
+    "notes": "Violate chỉ hành động xâm phạm hoặc vi phạm quyền."
+  },
   "en-extra-virtuous-circle-5184de958c": {
     "meaning": "vòng tuần hoàn tích cực",
     "notes": "Kết quả tốt tạo điều kiện cho những kết quả tốt tiếp theo."
+  },
+  "en-extra-virtuous-cycle-de15189416": {
+    "meaning": "vòng tuần hoàn tích cực",
+    "notes": "Các kết quả tốt củng cố lẫn nhau. Virtuous circle có nghĩa tương tự."
   },
   "en-extra-vital-distinction-0430e3d80b": {
     "meaning": "sự phân biệt then chốt",
@@ -837,17 +1447,47 @@
     "meaning": "thời điểm bước ngoặt",
     "notes": "Thời điểm đánh dấu sự thay đổi quan trọng trong diễn biến."
   },
+  "en-extra-webhook-9fd09dc335": {
+    "meaning": "cơ chế thông báo sự kiện qua web",
+    "notes": "Một hệ thống gửi yêu cầu HTTP đến địa chỉ đã cấu hình khi sự kiện xảy ra."
+  },
   "en-extra-widely-accepted-f325bf4ea4": {
     "meaning": "được chấp nhận rộng rãi",
     "notes": "Thường nói về quan điểm hoặc phương pháp được nhiều người công nhận."
+  },
+  "en-extra-win-win-outcome-71c51c90d9": {
+    "meaning": "kết quả đôi bên cùng có lợi",
+    "notes": "Dùng khi các bên tham gia đều nhận được lợi ích."
   },
   "en-extra-window-dressing-b40a95d050": {
     "meaning": "sự tô vẽ bề ngoài",
     "notes": "Làm thứ gì có vẻ tốt hơn thực tế mà không giải quyết bản chất."
   },
+  "en-extra-with-regard-to-42c43cb318": {
+    "meaning": "liên quan đến; về",
+    "notes": "Cụm giới từ tương đối trang trọng, theo sau là danh từ hoặc V-ing."
+  },
   "en-extra-worthy-of-scrutiny-75ef7af299": {
     "meaning": "đáng được xem xét kỹ",
     "notes": "Scrutiny là sự kiểm tra kỹ lưỡng, thường mang tính phản biện."
+  },
+  "en-extra-writer-s-block-1879446837": {
+    "meaning": "tình trạng bí ý tưởng khi viết",
+    "notes": "Khó bắt đầu hoặc tiếp tục viết dù muốn viết: suffer from writer's block.",
+    "examples": [
+      {
+        "sentence": "She took a short break to overcome writer's block.",
+        "translation": "Cô ấy nghỉ một lát để vượt qua tình trạng bí ý tưởng khi viết."
+      },
+      {
+        "sentence": "Writer's block can make even experienced authors feel frustrated.",
+        "translation": "Tình trạng bí ý tưởng có thể khiến cả những tác giả giàu kinh nghiệm cảm thấy nản lòng."
+      }
+    ]
+  },
+  "en-extra-yield-inconclusive-results-34ab9c78f8": {
+    "meaning": "cho kết quả chưa đủ để kết luận",
+    "notes": "Yield là tạo ra; inconclusive không có nghĩa kết quả sai."
   },
   "en-vocab-age": {
     "meaning": "tuổi; độ tuổi",
@@ -864,6 +1504,508 @@
       }
     ]
   },
+  "en-vocab-apple": {
+    "meaning": "quả táo",
+    "examples": [
+      {
+        "sentence": "I eat an apple every day.",
+        "translation": "Tôi ăn một quả táo mỗi ngày."
+      },
+      {
+        "sentence": "The apples are red.",
+        "translation": "Những quả táo có màu đỏ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-arm": {
+    "meaning": "cánh tay",
+    "examples": [
+      {
+        "sentence": "My arm hurts.",
+        "translation": "Cánh tay tôi bị đau."
+      },
+      {
+        "sentence": "She raised her arm.",
+        "translation": "Cô ấy giơ tay lên."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-aunt": {
+    "meaning": "cô; dì; bác gái; mợ; thím",
+    "examples": [
+      {
+        "sentence": "My aunt lives near us.",
+        "translation": "Dì tôi sống gần nhà chúng tôi."
+      },
+      {
+        "sentence": "I called my aunt yesterday.",
+        "translation": "Hôm qua tôi gọi điện cho cô tôi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-baby": {
+    "meaning": "em bé",
+    "examples": [
+      {
+        "sentence": "The baby is sleeping.",
+        "translation": "Em bé đang ngủ."
+      },
+      {
+        "sentence": "They have a new baby.",
+        "translation": "Họ vừa có em bé."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-band": {
+    "meaning": "ban nhạc; dải; vòng",
+    "examples": [
+      {
+        "sentence": "My brother plays in a band.",
+        "translation": "Anh trai tôi chơi trong một ban nhạc."
+      },
+      {
+        "sentence": "Put a rubber band around the papers.",
+        "translation": "Hãy buộc một sợi dây thun quanh tập giấy."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-bar": {
+    "meaning": "quán bar; quầy bar",
+    "examples": [
+      {
+        "sentence": "They met at a bar.",
+        "translation": "Họ gặp nhau tại một quán bar."
+      },
+      {
+        "sentence": "He works behind the bar.",
+        "translation": "Anh ấy làm việc sau quầy bar."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-bath": {
+    "meaning": "bồn tắm; việc tắm bồn",
+    "examples": [
+      {
+        "sentence": "The baby is in the bath.",
+        "translation": "Em bé đang ở trong bồn tắm."
+      },
+      {
+        "sentence": "I like to take a warm bath.",
+        "translation": "Tôi thích tắm bồn bằng nước ấm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-bedroom": {
+    "meaning": "phòng ngủ",
+    "examples": [
+      {
+        "sentence": "My bedroom has a window.",
+        "translation": "Phòng ngủ của tôi có một cửa sổ."
+      },
+      {
+        "sentence": "The children are in their bedroom.",
+        "translation": "Bọn trẻ đang ở phòng ngủ của chúng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-birth": {
+    "meaning": "sự ra đời; việc sinh",
+    "examples": [
+      {
+        "sentence": "Write your date of birth here.",
+        "translation": "Hãy viết ngày sinh của bạn ở đây."
+      },
+      {
+        "sentence": "They celebrated the birth of their son.",
+        "translation": "Họ ăn mừng sự ra đời của con trai."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-birthday": {
+    "meaning": "sinh nhật",
+    "examples": [
+      {
+        "sentence": "Today is my birthday.",
+        "translation": "Hôm nay là sinh nhật tôi."
+      },
+      {
+        "sentence": "Happy birthday to you!",
+        "translation": "Chúc bạn sinh nhật vui vẻ!"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-bottle": {
+    "meaning": "chai",
+    "examples": [
+      {
+        "sentence": "I bought a bottle of water.",
+        "translation": "Tôi mua một chai nước."
+      },
+      {
+        "sentence": "The bottle is empty.",
+        "translation": "Cái chai trống không."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-boy": {
+    "meaning": "cậu bé; con trai",
+    "examples": [
+      {
+        "sentence": "The boy has a red bag.",
+        "translation": "Cậu bé có một chiếc túi đỏ."
+      },
+      {
+        "sentence": "Two boys are playing outside.",
+        "translation": "Hai cậu bé đang chơi bên ngoài."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-boyfriend": {
+    "meaning": "bạn trai; người yêu nam",
+    "examples": [
+      {
+        "sentence": "She is waiting for her boyfriend.",
+        "translation": "Cô ấy đang đợi bạn trai."
+      },
+      {
+        "sentence": "Her boyfriend is a student.",
+        "translation": "Bạn trai cô ấy là sinh viên."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-bridge": {
+    "meaning": "cây cầu",
+    "examples": [
+      {
+        "sentence": "We walked across the bridge.",
+        "translation": "Chúng tôi đi bộ qua cầu."
+      },
+      {
+        "sentence": "The bridge is over the river.",
+        "translation": "Cây cầu bắc qua sông."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-brother": {
+    "meaning": "anh trai; em trai",
+    "examples": [
+      {
+        "sentence": "My brother is taller than me.",
+        "translation": "Anh trai tôi cao hơn tôi."
+      },
+      {
+        "sentence": "She has two brothers.",
+        "translation": "Cô ấy có hai anh em trai."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-butter": {
+    "meaning": "bơ",
+    "examples": [
+      {
+        "sentence": "Put some butter on your bread.",
+        "translation": "Hãy phết một ít bơ lên bánh mì."
+      },
+      {
+        "sentence": "I need butter for this cake.",
+        "translation": "Tôi cần bơ để làm chiếc bánh này."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-camera": {
+    "meaning": "máy ảnh; máy quay",
+    "examples": [
+      {
+        "sentence": "She took a photo with her camera.",
+        "translation": "Cô ấy chụp ảnh bằng máy ảnh."
+      },
+      {
+        "sentence": "The camera is in my bag.",
+        "translation": "Máy ảnh ở trong túi của tôi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-card": {
+    "meaning": "thẻ; thiệp; lá bài",
+    "examples": [
+      {
+        "sentence": "Can I pay by card?",
+        "translation": "Tôi có thể trả bằng thẻ không?"
+      },
+      {
+        "sentence": "He gave me a birthday card.",
+        "translation": "Anh ấy tặng tôi một tấm thiệp sinh nhật."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Playing card là lá bài; bank card là thẻ ngân hàng."
+  },
+  "en-vocab-case": {
+    "meaning": "trường hợp",
+    "examples": [
+      {
+        "sentence": "In this case, we need help.",
+        "translation": "Trong trường hợp này, chúng ta cần giúp đỡ."
+      },
+      {
+        "sentence": "Each case is different.",
+        "translation": "Mỗi trường hợp đều khác nhau."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Case còn có nghĩa hộp đựng trong ngữ cảnh khác."
+  },
+  "en-vocab-chair": {
+    "meaning": "ghế",
+    "examples": [
+      {
+        "sentence": "Please sit on this chair.",
+        "translation": "Mời bạn ngồi trên chiếc ghế này."
+      },
+      {
+        "sentence": "There are four chairs in the kitchen.",
+        "translation": "Có bốn chiếc ghế trong bếp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-character": {
+    "meaning": "nhân vật",
+    "examples": [
+      {
+        "sentence": "The main character is a young girl.",
+        "translation": "Nhân vật chính là một cô bé."
+      },
+      {
+        "sentence": "I like this character in the book.",
+        "translation": "Tôi thích nhân vật này trong sách."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Ở nghĩa khác, character còn chỉ tính cách."
+  },
+  "en-vocab-cheese": {
+    "meaning": "phô mai",
+    "examples": [
+      {
+        "sentence": "I like cheese on bread.",
+        "translation": "Tôi thích ăn phô mai với bánh mì."
+      },
+      {
+        "sentence": "We bought some cheese.",
+        "translation": "Chúng tôi mua một ít phô mai."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-child": {
+    "meaning": "trẻ em; đứa trẻ",
+    "examples": [
+      {
+        "sentence": "The child is reading.",
+        "translation": "Đứa trẻ đang đọc sách."
+      },
+      {
+        "sentence": "Every child needs food.",
+        "translation": "Mỗi đứa trẻ đều cần thức ăn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Số nhiều: children."
+  },
+  "en-vocab-clock": {
+    "meaning": "đồng hồ để bàn; đồng hồ treo tường",
+    "examples": [
+      {
+        "sentence": "The clock says seven.",
+        "translation": "Đồng hồ chỉ bảy giờ."
+      },
+      {
+        "sentence": "There is a clock on the wall.",
+        "translation": "Có một chiếc đồng hồ trên tường."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Watch thường chỉ đồng hồ đeo tay."
+  },
+  "en-vocab-coat": {
+    "meaning": "áo khoác",
+    "examples": [
+      {
+        "sentence": "Put on your coat.",
+        "translation": "Hãy mặc áo khoác vào."
+      },
+      {
+        "sentence": "Her coat is warm.",
+        "translation": "Áo khoác của cô ấy rất ấm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-coffee": {
+    "meaning": "cà phê",
+    "examples": [
+      {
+        "sentence": "I drink coffee in the morning.",
+        "translation": "Tôi uống cà phê vào buổi sáng."
+      },
+      {
+        "sentence": "Would you like a cup of coffee?",
+        "translation": "Bạn có muốn một tách cà phê không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Coffee là đồ uống hoặc hạt cà phê; a coffee có thể chỉ một suất cà phê."
+  },
+  "en-vocab-computer": {
+    "meaning": "máy tính",
+    "examples": [
+      {
+        "sentence": "I use a computer at work.",
+        "translation": "Tôi dùng máy tính ở nơi làm việc."
+      },
+      {
+        "sentence": "My computer is new.",
+        "translation": "Máy tính của tôi còn mới."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-couch": {
+    "meaning": "ghế sofa",
+    "examples": [
+      {
+        "sentence": "She sat on the couch.",
+        "translation": "Cô ấy ngồi trên ghế sofa."
+      },
+      {
+        "sentence": "The couch is in the living room.",
+        "translation": "Ghế sofa ở phòng khách."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-course": {
+    "meaning": "khóa học",
+    "examples": [
+      {
+        "sentence": "I am taking an English course.",
+        "translation": "Tôi đang học một khóa tiếng Anh."
+      },
+      {
+        "sentence": "The course starts on Monday.",
+        "translation": "Khóa học bắt đầu vào thứ Hai."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-cousin": {
+    "meaning": "anh họ; chị họ; em họ",
+    "examples": [
+      {
+        "sentence": "My cousin is twelve.",
+        "translation": "Em họ tôi mười hai tuổi."
+      },
+      {
+        "sentence": "I play games with my cousin.",
+        "translation": "Tôi chơi trò chơi với anh họ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-cover": {
+    "meaning": "vật che; nắp; bìa",
+    "examples": [
+      {
+        "sentence": "The book has a blue cover.",
+        "translation": "Cuốn sách có bìa màu xanh."
+      },
+      {
+        "sentence": "Put the cover back on the box.",
+        "translation": "Đậy nắp lại vào hộp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-cream": {
+    "meaning": "kem; kem sữa",
+    "examples": [
+      {
+        "sentence": "I put cream in my coffee.",
+        "translation": "Tôi thêm kem sữa vào cà phê."
+      },
+      {
+        "sentence": "She put cream on her hands.",
+        "translation": "Cô ấy bôi kem lên tay."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-dad": {
+    "meaning": "bố; ba",
+    "examples": [
+      {
+        "sentence": "My dad cooks dinner.",
+        "translation": "Bố tôi nấu bữa tối."
+      },
+      {
+        "sentence": "I called my dad yesterday.",
+        "translation": "Hôm qua tôi gọi điện cho bố."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Thân mật hơn father."
+  },
   "en-vocab-date": {
     "meaning": "ngày (trong tháng)",
     "examples": [
@@ -876,6 +2018,386 @@
         "translation": "Viết ngày tháng ở đầu trang."
       }
     ]
+  },
+  "en-vocab-daughter": {
+    "meaning": "con gái",
+    "examples": [
+      {
+        "sentence": "Their daughter goes to school.",
+        "translation": "Con gái họ đi học."
+      },
+      {
+        "sentence": "My daughter likes music.",
+        "translation": "Con gái tôi thích âm nhạc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-desk": {
+    "meaning": "bàn học; bàn làm việc",
+    "examples": [
+      {
+        "sentence": "My books are on the desk.",
+        "translation": "Sách của tôi ở trên bàn học."
+      },
+      {
+        "sentence": "He sits at his desk every morning.",
+        "translation": "Anh ấy ngồi ở bàn làm việc mỗi sáng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-dish": {
+    "meaning": "đĩa; món ăn",
+    "examples": [
+      {
+        "sentence": "Wash the dishes after dinner.",
+        "translation": "Hãy rửa bát đĩa sau bữa tối."
+      },
+      {
+        "sentence": "This is my favorite dish.",
+        "translation": "Đây là món ăn yêu thích của tôi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-doctor": {
+    "meaning": "bác sĩ",
+    "examples": [
+      {
+        "sentence": "I need to see a doctor.",
+        "translation": "Tôi cần đi khám bác sĩ."
+      },
+      {
+        "sentence": "Her mother is a doctor.",
+        "translation": "Mẹ cô ấy là bác sĩ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-dress": {
+    "meaning": "váy liền; đầm",
+    "examples": [
+      {
+        "sentence": "She wore a blue dress.",
+        "translation": "Cô ấy mặc một chiếc váy xanh."
+      },
+      {
+        "sentence": "I bought a new dress.",
+        "translation": "Tôi mua một chiếc đầm mới."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-egg": {
+    "meaning": "trứng",
+    "examples": [
+      {
+        "sentence": "I eat an egg for breakfast.",
+        "translation": "Tôi ăn một quả trứng vào bữa sáng."
+      },
+      {
+        "sentence": "Put the eggs in the fridge.",
+        "translation": "Hãy cho trứng vào tủ lạnh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-family": {
+    "meaning": "gia đình",
+    "examples": [
+      {
+        "sentence": "I live with my family.",
+        "translation": "Tôi sống cùng gia đình."
+      },
+      {
+        "sentence": "Her family is very large.",
+        "translation": "Gia đình cô ấy rất đông người."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-fan": {
+    "meaning": "người hâm mộ; quạt",
+    "examples": [
+      {
+        "sentence": "I am a fan of this singer.",
+        "translation": "Tôi là người hâm mộ ca sĩ này."
+      },
+      {
+        "sentence": "Please turn on the fan.",
+        "translation": "Làm ơn bật quạt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-father": {
+    "meaning": "bố; cha",
+    "examples": [
+      {
+        "sentence": "My father works in a school.",
+        "translation": "Bố tôi làm việc ở một trường học."
+      },
+      {
+        "sentence": "Her father is a doctor.",
+        "translation": "Bố cô ấy là bác sĩ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-feed": {
+    "meaning": "thức ăn cho vật nuôi; nguồn cấp dữ liệu",
+    "examples": [
+      {
+        "sentence": "The farmer buys feed for his chickens.",
+        "translation": "Người nông dân mua thức ăn cho gà."
+      },
+      {
+        "sentence": "I checked my news feed.",
+        "translation": "Tôi xem bảng tin của mình."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Danh từ; nghĩa nguồn cấp dữ liệu thường dùng trong công nghệ."
+  },
+  "en-vocab-field": {
+    "meaning": "cánh đồng",
+    "examples": [
+      {
+        "sentence": "The cows are in the field.",
+        "translation": "Những con bò ở ngoài đồng."
+      },
+      {
+        "sentence": "We walked across a field.",
+        "translation": "Chúng tôi đi qua một cánh đồng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Field còn chỉ lĩnh vực chuyên môn ở nghĩa khác."
+  },
+  "en-vocab-file": {
+    "meaning": "tệp; hồ sơ",
+    "examples": [
+      {
+        "sentence": "Save the file on your computer.",
+        "translation": "Lưu tệp vào máy tính của bạn."
+      },
+      {
+        "sentence": "The file is on my desk.",
+        "translation": "Tập hồ sơ ở trên bàn làm việc của tôi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-fish": {
+    "meaning": "cá",
+    "examples": [
+      {
+        "sentence": "The fish is swimming.",
+        "translation": "Con cá đang bơi."
+      },
+      {
+        "sentence": "We had fish for dinner.",
+        "translation": "Chúng tôi ăn cá vào bữa tối."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-flag": {
+    "meaning": "lá cờ",
+    "examples": [
+      {
+        "sentence": "The flag is red and white.",
+        "translation": "Lá cờ màu đỏ và trắng."
+      },
+      {
+        "sentence": "We saw a flag outside the school.",
+        "translation": "Chúng tôi thấy một lá cờ bên ngoài trường học."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-friend": {
+    "meaning": "bạn; người bạn",
+    "examples": [
+      {
+        "sentence": "My friend lives near my house.",
+        "translation": "Bạn tôi sống gần nhà tôi."
+      },
+      {
+        "sentence": "I met a friend at school.",
+        "translation": "Tôi gặp một người bạn ở trường."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-girl": {
+    "meaning": "cô bé; cô gái",
+    "examples": [
+      {
+        "sentence": "The girl is reading a book.",
+        "translation": "Cô bé đang đọc sách."
+      },
+      {
+        "sentence": "A girl is playing in the garden.",
+        "translation": "Một cô bé đang chơi trong vườn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-girlfriend": {
+    "meaning": "bạn gái; người yêu nữ",
+    "examples": [
+      {
+        "sentence": "He went to the park with his girlfriend.",
+        "translation": "Anh ấy đi công viên với bạn gái."
+      },
+      {
+        "sentence": "His girlfriend likes music.",
+        "translation": "Bạn gái anh ấy thích âm nhạc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-glass": {
+    "meaning": "thủy tinh; kính; cốc thủy tinh",
+    "examples": [
+      {
+        "sentence": "The window is made of glass.",
+        "translation": "Cửa sổ được làm bằng kính."
+      },
+      {
+        "sentence": "Can I have a glass of water?",
+        "translation": "Cho tôi một cốc nước được không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Glass chỉ vật liệu không đếm được; a glass là một chiếc cốc."
+  },
+  "en-vocab-grandfather": {
+    "meaning": "ông nội; ông ngoại",
+    "examples": [
+      {
+        "sentence": "My grandfather is eighty.",
+        "translation": "Ông tôi tám mươi tuổi."
+      },
+      {
+        "sentence": "Her grandfather lives with her.",
+        "translation": "Ông cô ấy sống cùng cô ấy."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-grandma": {
+    "meaning": "bà nội; bà ngoại",
+    "examples": [
+      {
+        "sentence": "My grandma makes good soup.",
+        "translation": "Bà tôi nấu súp ngon."
+      },
+      {
+        "sentence": "We visit grandma on Sundays.",
+        "translation": "Chúng tôi thăm bà vào Chủ nhật."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Cách gọi thân mật của grandmother."
+  },
+  "en-vocab-grandmother": {
+    "meaning": "bà nội; bà ngoại",
+    "examples": [
+      {
+        "sentence": "My grandmother is a good cook.",
+        "translation": "Bà tôi nấu ăn ngon."
+      },
+      {
+        "sentence": "We visited our grandmother yesterday.",
+        "translation": "Hôm qua chúng tôi đến thăm bà."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-grandpa": {
+    "meaning": "ông nội; ông ngoại",
+    "examples": [
+      {
+        "sentence": "My grandpa likes tea.",
+        "translation": "Ông tôi thích trà."
+      },
+      {
+        "sentence": "I visit my grandpa every week.",
+        "translation": "Tôi thăm ông mỗi tuần."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Cách gọi thân mật của grandfather."
+  },
+  "en-vocab-ground": {
+    "meaning": "mặt đất",
+    "examples": [
+      {
+        "sentence": "The ball fell to the ground.",
+        "translation": "Quả bóng rơi xuống đất."
+      },
+      {
+        "sentence": "Do not sit on the wet ground.",
+        "translation": "Đừng ngồi trên mặt đất ướt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-group": {
+    "meaning": "nhóm",
+    "examples": [
+      {
+        "sentence": "We work in a small group.",
+        "translation": "Chúng tôi làm việc trong một nhóm nhỏ."
+      },
+      {
+        "sentence": "A group of students came in.",
+        "translation": "Một nhóm học sinh bước vào."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-guest": {
+    "meaning": "khách",
+    "examples": [
+      {
+        "sentence": "We have a guest for dinner.",
+        "translation": "Chúng tôi có một vị khách đến ăn tối."
+      },
+      {
+        "sentence": "The guest is in room five.",
+        "translation": "Vị khách ở phòng số năm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-vocab-guy": {
     "meaning": "anh chàng; người đàn ông",
@@ -891,6 +2413,144 @@
       }
     ]
   },
+  "en-vocab-hair": {
+    "meaning": "tóc",
+    "examples": [
+      {
+        "sentence": "She has long hair.",
+        "translation": "Cô ấy có mái tóc dài."
+      },
+      {
+        "sentence": "He washes his hair every day.",
+        "translation": "Anh ấy gội đầu mỗi ngày."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Hair chỉ tóc nói chung thường không đếm được."
+  },
+  "en-vocab-hall": {
+    "meaning": "hội trường; sảnh; hành lang",
+    "examples": [
+      {
+        "sentence": "The students are in the school hall.",
+        "translation": "Học sinh đang ở hội trường của trường."
+      },
+      {
+        "sentence": "Leave your shoes in the hall.",
+        "translation": "Hãy để giày ở sảnh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-hat": {
+    "meaning": "mũ; nón",
+    "examples": [
+      {
+        "sentence": "She wears a hat in the sun.",
+        "translation": "Cô ấy đội mũ khi ra nắng."
+      },
+      {
+        "sentence": "My hat is on the chair.",
+        "translation": "Mũ của tôi ở trên ghế."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-hole": {
+    "meaning": "lỗ; lỗ thủng",
+    "examples": [
+      {
+        "sentence": "There is a hole in my sock.",
+        "translation": "Tất của tôi có một lỗ thủng."
+      },
+      {
+        "sentence": "The dog dug a hole in the garden.",
+        "translation": "Con chó đào một cái hố trong vườn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-home": {
+    "meaning": "nhà; nơi ở",
+    "examples": [
+      {
+        "sentence": "I am at home.",
+        "translation": "Tôi đang ở nhà."
+      },
+      {
+        "sentence": "She went home after school.",
+        "translation": "Cô ấy về nhà sau giờ học."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Go home không dùng to trước home."
+  },
+  "en-vocab-house": {
+    "meaning": "nhà; căn nhà",
+    "examples": [
+      {
+        "sentence": "Their house has two rooms.",
+        "translation": "Nhà họ có hai phòng."
+      },
+      {
+        "sentence": "I live in a small house.",
+        "translation": "Tôi sống trong một căn nhà nhỏ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-husband": {
+    "meaning": "chồng",
+    "examples": [
+      {
+        "sentence": "Her husband works at a bank.",
+        "translation": "Chồng cô ấy làm việc ở ngân hàng."
+      },
+      {
+        "sentence": "She went out with her husband.",
+        "translation": "Cô ấy đi ra ngoài cùng chồng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-jacket": {
+    "meaning": "áo khoác ngắn",
+    "examples": [
+      {
+        "sentence": "I bought a new jacket.",
+        "translation": "Tôi mua một chiếc áo khoác mới."
+      },
+      {
+        "sentence": "Take your jacket with you.",
+        "translation": "Hãy mang áo khoác theo."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-kid": {
+    "meaning": "trẻ em; đứa trẻ",
+    "examples": [
+      {
+        "sentence": "The kid is playing with a ball.",
+        "translation": "Đứa trẻ đang chơi bóng."
+      },
+      {
+        "sentence": "They have two kids.",
+        "translation": "Họ có hai con."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Thân mật; child trung tính hơn."
+  },
   "en-vocab-lady": {
     "meaning": "quý bà; người phụ nữ",
     "notes": "Cách gọi lịch sự trong một số ngữ cảnh.",
@@ -905,6 +2565,178 @@
       }
     ]
   },
+  "en-vocab-list": {
+    "meaning": "danh sách",
+    "examples": [
+      {
+        "sentence": "Make a list of your books.",
+        "translation": "Hãy lập danh sách sách của bạn."
+      },
+      {
+        "sentence": "My name is on the list.",
+        "translation": "Tên tôi có trong danh sách."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-magazine": {
+    "meaning": "tạp chí",
+    "examples": [
+      {
+        "sentence": "She is reading a magazine.",
+        "translation": "Cô ấy đang đọc tạp chí."
+      },
+      {
+        "sentence": "I bought a magazine at the station.",
+        "translation": "Tôi mua một cuốn tạp chí ở nhà ga."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-mail": {
+    "meaning": "thư từ; bưu phẩm",
+    "examples": [
+      {
+        "sentence": "The mail arrived at nine.",
+        "translation": "Thư từ đến lúc chín giờ."
+      },
+      {
+        "sentence": "I got your mail yesterday.",
+        "translation": "Tôi nhận được thư của bạn hôm qua."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Mail không có nghĩa bưu điện; post office là bưu điện."
+  },
+  "en-vocab-man": {
+    "meaning": "người đàn ông",
+    "examples": [
+      {
+        "sentence": "A man is waiting outside.",
+        "translation": "Một người đàn ông đang đợi bên ngoài."
+      },
+      {
+        "sentence": "The man has a blue shirt.",
+        "translation": "Người đàn ông mặc áo sơ mi xanh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-miss": {
+    "meaning": "cô (danh xưng)",
+    "examples": [
+      {
+        "sentence": "Miss Brown is our teacher.",
+        "translation": "Cô Brown là giáo viên của chúng tôi."
+      },
+      {
+        "sentence": "Good morning, Miss Lee.",
+        "translation": "Chào buổi sáng, cô Lee."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Dùng trước họ hoặc tên đầy đủ, theo truyền thống cho phụ nữ chưa kết hôn; Ms trung tính hơn."
+  },
+  "en-vocab-mobile": {
+    "meaning": "điện thoại di động",
+    "examples": [
+      {
+        "sentence": "I left my mobile at home.",
+        "translation": "Tôi để điện thoại di động ở nhà."
+      },
+      {
+        "sentence": "She called me on her mobile.",
+        "translation": "Cô ấy gọi cho tôi bằng điện thoại di động."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Danh từ mobile thường dùng ở Anh; Anh-Mỹ thường nói cell phone. Tính từ mobile là di động."
+  },
+  "en-vocab-mom": {
+    "meaning": "mẹ",
+    "examples": [
+      {
+        "sentence": "My mom is at work.",
+        "translation": "Mẹ tôi đang ở chỗ làm."
+      },
+      {
+        "sentence": "I help my mom cook dinner.",
+        "translation": "Tôi giúp mẹ nấu bữa tối."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Cách gọi thân mật thường gặp ở Mỹ; Anh-Anh thường dùng mum."
+  },
+  "en-vocab-mother": {
+    "meaning": "mẹ",
+    "examples": [
+      {
+        "sentence": "My mother is a teacher.",
+        "translation": "Mẹ tôi là giáo viên."
+      },
+      {
+        "sentence": "Her mother lives in Hanoi.",
+        "translation": "Mẹ cô ấy sống ở Hà Nội."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-mr": {
+    "meaning": "ông; anh (danh xưng)",
+    "examples": [
+      {
+        "sentence": "Mr Smith is my teacher.",
+        "translation": "Thầy Smith là giáo viên của tôi."
+      },
+      {
+        "sentence": "Good morning, Mr Lee.",
+        "translation": "Chào buổi sáng, ông Lee."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Dùng trước họ hoặc tên đầy đủ của nam giới."
+  },
+  "en-vocab-mrs": {
+    "meaning": "bà; cô (danh xưng)",
+    "examples": [
+      {
+        "sentence": "Mrs Green lives next door.",
+        "translation": "Bà Green sống cạnh nhà."
+      },
+      {
+        "sentence": "Mrs Brown teaches English.",
+        "translation": "Cô Brown dạy tiếng Anh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Dùng trước họ hoặc tên đầy đủ, theo truyền thống cho phụ nữ đã kết hôn; Ms không nêu tình trạng hôn nhân."
+  },
+  "en-vocab-mum": {
+    "meaning": "mẹ",
+    "examples": [
+      {
+        "sentence": "My mum is in the kitchen.",
+        "translation": "Mẹ tôi đang ở trong bếp."
+      },
+      {
+        "sentence": "I gave my mum a card.",
+        "translation": "Tôi tặng mẹ một tấm thiệp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Cách gọi thân mật thường gặp ở Anh; Anh-Mỹ thường dùng mom."
+  },
   "en-vocab-name": {
     "meaning": "tên; tên gọi",
     "examples": [
@@ -918,6 +2750,21 @@
       }
     ]
   },
+  "en-vocab-note": {
+    "meaning": "ghi chú; lời nhắn",
+    "examples": [
+      {
+        "sentence": "I left a note on the table.",
+        "translation": "Tôi để một lời nhắn trên bàn."
+      },
+      {
+        "sentence": "Take a note of the address.",
+        "translation": "Hãy ghi lại địa chỉ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-number": {
     "meaning": "số; con số",
     "examples": [
@@ -930,6 +2777,37 @@
         "translation": "Số điện thoại của bạn là gì?"
       }
     ]
+  },
+  "en-vocab-office": {
+    "meaning": "văn phòng",
+    "examples": [
+      {
+        "sentence": "Her office is on the second floor.",
+        "translation": "Văn phòng của cô ấy ở tầng hai."
+      },
+      {
+        "sentence": "I work in an office.",
+        "translation": "Tôi làm việc trong văn phòng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-paper": {
+    "meaning": "giấy",
+    "examples": [
+      {
+        "sentence": "Write your name on the paper.",
+        "translation": "Viết tên bạn lên tờ giấy."
+      },
+      {
+        "sentence": "I need a piece of paper.",
+        "translation": "Tôi cần một tờ giấy."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Paper nghĩa giấy thường không đếm được; a paper còn có thể là bài báo hoặc bài nghiên cứu."
   },
   "en-vocab-partner": {
     "meaning": "bạn đời; đối tác; người cùng làm việc",
@@ -945,6 +2823,100 @@
       }
     ]
   },
+  "en-vocab-pay": {
+    "meaning": "tiền công; tiền lương",
+    "examples": [
+      {
+        "sentence": "The pay is good.",
+        "translation": "Tiền lương khá tốt."
+      },
+      {
+        "sentence": "He gets his pay on Friday.",
+        "translation": "Anh ấy nhận lương vào thứ Sáu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Danh từ không đếm được; động từ pay nghĩa là trả tiền."
+  },
+  "en-vocab-person": {
+    "meaning": "người",
+    "examples": [
+      {
+        "sentence": "Only one person is in the room.",
+        "translation": "Chỉ có một người trong phòng."
+      },
+      {
+        "sentence": "She is a kind person.",
+        "translation": "Cô ấy là người tốt bụng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Số nhiều thông dụng: people."
+  },
+  "en-vocab-pocket": {
+    "meaning": "túi áo; túi quần",
+    "examples": [
+      {
+        "sentence": "My keys are in my pocket.",
+        "translation": "Chìa khóa ở trong túi tôi."
+      },
+      {
+        "sentence": "This jacket has two pockets.",
+        "translation": "Chiếc áo khoác này có hai túi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-pool": {
+    "meaning": "hồ bơi; bể bơi",
+    "examples": [
+      {
+        "sentence": "The hotel has a pool.",
+        "translation": "Khách sạn có hồ bơi."
+      },
+      {
+        "sentence": "The children swim in the pool.",
+        "translation": "Bọn trẻ bơi trong hồ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-post": {
+    "meaning": "bưu phẩm; bài đăng; chức vụ",
+    "examples": [
+      {
+        "sentence": "The post arrived this morning.",
+        "translation": "Thư từ đến sáng nay."
+      },
+      {
+        "sentence": "I read your post online.",
+        "translation": "Tôi đọc bài đăng của bạn trên mạng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Post còn chỉ vị trí công tác, tùy ngữ cảnh."
+  },
+  "en-vocab-present": {
+    "meaning": "quà; món quà",
+    "examples": [
+      {
+        "sentence": "This is a birthday present for you.",
+        "translation": "Đây là quà sinh nhật dành cho bạn."
+      },
+      {
+        "sentence": "She gave me a lovely present.",
+        "translation": "Cô ấy tặng tôi một món quà đẹp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Thẻ này dạy danh từ chỉ món quà, không phải at present (hiện tại)."
+  },
   "en-vocab-problem": {
     "meaning": "vấn đề; rắc rối",
     "examples": [
@@ -957,5 +2929,388 @@
         "translation": "Điện thoại của tôi có vấn đề."
       }
     ]
+  },
+  "en-vocab-radio": {
+    "meaning": "đài; radio",
+    "examples": [
+      {
+        "sentence": "I listen to the radio in the morning.",
+        "translation": "Tôi nghe đài vào buổi sáng."
+      },
+      {
+        "sentence": "Turn off the radio, please.",
+        "translation": "Làm ơn tắt radio."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-restaurant": {
+    "meaning": "nhà hàng; quán ăn",
+    "examples": [
+      {
+        "sentence": "We ate at a restaurant.",
+        "translation": "Chúng tôi ăn ở một nhà hàng."
+      },
+      {
+        "sentence": "The restaurant opens at noon.",
+        "translation": "Nhà hàng mở cửa lúc giữa trưa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-river": {
+    "meaning": "sông",
+    "examples": [
+      {
+        "sentence": "We live near a river.",
+        "translation": "Chúng tôi sống gần một con sông."
+      },
+      {
+        "sentence": "A boat is on the river.",
+        "translation": "Một chiếc thuyền đang trên sông."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-room": {
+    "meaning": "phòng; căn phòng",
+    "examples": [
+      {
+        "sentence": "My room is small.",
+        "translation": "Phòng tôi nhỏ."
+      },
+      {
+        "sentence": "There are two chairs in the room.",
+        "translation": "Có hai chiếc ghế trong phòng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-sale": {
+    "meaning": "việc bán; đợt giảm giá",
+    "examples": [
+      {
+        "sentence": "There is a sale at the shop.",
+        "translation": "Cửa hàng đang có đợt giảm giá."
+      },
+      {
+        "sentence": "The shirt is on sale.",
+        "translation": "Chiếc áo đang được bán giảm giá."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "For sale nghĩa là đang rao bán; on sale thường nghĩa giảm giá ở Anh-Mỹ, cũng có thể là đã mở bán."
+  },
+  "en-vocab-saw": {
+    "meaning": "cái cưa",
+    "examples": [
+      {
+        "sentence": "He uses a saw to cut wood.",
+        "translation": "Anh ấy dùng cưa để cắt gỗ."
+      },
+      {
+        "sentence": "The saw is in the box.",
+        "translation": "Cái cưa ở trong hộp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Saw cũng là quá khứ của see, nhưng thẻ này dạy danh từ."
+  },
+  "en-vocab-shop": {
+    "meaning": "cửa hàng; tiệm",
+    "examples": [
+      {
+        "sentence": "The shop closes at six.",
+        "translation": "Cửa hàng đóng cửa lúc sáu giờ."
+      },
+      {
+        "sentence": "There is a shop near my house.",
+        "translation": "Có một cửa hàng gần nhà tôi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-sign": {
+    "meaning": "biển báo; dấu hiệu",
+    "examples": [
+      {
+        "sentence": "Look at the sign on the door.",
+        "translation": "Hãy nhìn biển báo trên cửa."
+      },
+      {
+        "sentence": "That is a sign of rain.",
+        "translation": "Đó là dấu hiệu trời sắp mưa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-sister": {
+    "meaning": "chị gái; em gái",
+    "examples": [
+      {
+        "sentence": "My sister is at school.",
+        "translation": "Chị gái tôi đang ở trường."
+      },
+      {
+        "sentence": "He has two sisters.",
+        "translation": "Anh ấy có hai chị em gái."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-size": {
+    "meaning": "kích cỡ; kích thước",
+    "examples": [
+      {
+        "sentence": "What size are your shoes?",
+        "translation": "Giày bạn cỡ bao nhiêu?"
+      },
+      {
+        "sentence": "This shirt is the wrong size.",
+        "translation": "Chiếc áo sơ mi này không đúng cỡ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-smoke": {
+    "meaning": "khói",
+    "examples": [
+      {
+        "sentence": "There is smoke in the kitchen.",
+        "translation": "Có khói trong bếp."
+      },
+      {
+        "sentence": "Smoke rose from the fire.",
+        "translation": "Khói bốc lên từ đám lửa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-son": {
+    "meaning": "con trai",
+    "examples": [
+      {
+        "sentence": "Their son is seven years old.",
+        "translation": "Con trai họ bảy tuổi."
+      },
+      {
+        "sentence": "My son likes football.",
+        "translation": "Con trai tôi thích bóng đá."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-sugar": {
+    "meaning": "đường",
+    "examples": [
+      {
+        "sentence": "Do you take sugar in your tea?",
+        "translation": "Bạn có cho đường vào trà không?"
+      },
+      {
+        "sentence": "We need some sugar for the cake.",
+        "translation": "Chúng ta cần một ít đường để làm bánh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-temple": {
+    "meaning": "đền; chùa",
+    "examples": [
+      {
+        "sentence": "We visited a temple yesterday.",
+        "translation": "Hôm qua chúng tôi đi thăm một ngôi đền."
+      },
+      {
+        "sentence": "The temple is near the river.",
+        "translation": "Ngôi chùa nằm gần sông."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Nghĩa khác là thái dương, không trộn vào ví dụ này."
+  },
+  "en-vocab-tree": {
+    "meaning": "cây",
+    "examples": [
+      {
+        "sentence": "A bird is in the tree.",
+        "translation": "Một con chim ở trên cây."
+      },
+      {
+        "sentence": "We planted a tree in the garden.",
+        "translation": "Chúng tôi trồng một cây trong vườn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-tv": {
+    "meaning": "tivi; truyền hình",
+    "examples": [
+      {
+        "sentence": "We watch TV after dinner.",
+        "translation": "Chúng tôi xem tivi sau bữa tối."
+      },
+      {
+        "sentence": "The TV is in the living room.",
+        "translation": "Tivi ở phòng khách."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-uncle": {
+    "meaning": "chú; bác; cậu; dượng",
+    "examples": [
+      {
+        "sentence": "My uncle lives in the city.",
+        "translation": "Chú tôi sống ở thành phố."
+      },
+      {
+        "sentence": "I visited my uncle on Sunday.",
+        "translation": "Tôi đến thăm cậu tôi vào Chủ nhật."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-video": {
+    "meaning": "video; đoạn phim",
+    "examples": [
+      {
+        "sentence": "I watched a video on my phone.",
+        "translation": "Tôi xem một video trên điện thoại."
+      },
+      {
+        "sentence": "She made a short video.",
+        "translation": "Cô ấy làm một đoạn phim ngắn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-wall": {
+    "meaning": "bức tường",
+    "examples": [
+      {
+        "sentence": "The wall is white.",
+        "translation": "Bức tường màu trắng."
+      },
+      {
+        "sentence": "There is a picture on the wall.",
+        "translation": "Có một bức tranh trên tường."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-wash": {
+    "meaning": "việc giặt; việc rửa",
+    "examples": [
+      {
+        "sentence": "The shirt needs a wash.",
+        "translation": "Chiếc áo sơ mi cần được giặt."
+      },
+      {
+        "sentence": "I gave the car a wash.",
+        "translation": "Tôi đã rửa xe."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Danh từ trong a wash; động từ wash nghĩa là giặt, rửa."
+  },
+  "en-vocab-watch": {
+    "meaning": "đồng hồ đeo tay",
+    "examples": [
+      {
+        "sentence": "I wear a watch.",
+        "translation": "Tôi đeo đồng hồ."
+      },
+      {
+        "sentence": "My watch is on the table.",
+        "translation": "Đồng hồ của tôi ở trên bàn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Danh từ, không phải động từ watch (xem, theo dõi)."
+  },
+  "en-vocab-wife": {
+    "meaning": "vợ",
+    "examples": [
+      {
+        "sentence": "His wife is a nurse.",
+        "translation": "Vợ anh ấy là y tá."
+      },
+      {
+        "sentence": "He lives with his wife.",
+        "translation": "Anh ấy sống cùng vợ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Số nhiều: wives."
+  },
+  "en-vocab-window": {
+    "meaning": "cửa sổ",
+    "examples": [
+      {
+        "sentence": "Please open the window.",
+        "translation": "Làm ơn mở cửa sổ."
+      },
+      {
+        "sentence": "I can see a tree from my window.",
+        "translation": "Tôi nhìn thấy một cái cây từ cửa sổ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-woman": {
+    "meaning": "người phụ nữ",
+    "examples": [
+      {
+        "sentence": "The woman is talking on the phone.",
+        "translation": "Người phụ nữ đang nói chuyện điện thoại."
+      },
+      {
+        "sentence": "A woman opened the door.",
+        "translation": "Một người phụ nữ mở cửa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Số nhiều: women."
+  },
+  "en-vocab-yard": {
+    "meaning": "sân",
+    "examples": [
+      {
+        "sentence": "The children are playing in the yard.",
+        "translation": "Bọn trẻ đang chơi ngoài sân."
+      },
+      {
+        "sentence": "There is a tree in our yard.",
+        "translation": "Có một cái cây trong sân nhà chúng tôi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": [],
+    "notes": "Yard còn là đơn vị chiều dài ở nghĩa khác."
   }
 }

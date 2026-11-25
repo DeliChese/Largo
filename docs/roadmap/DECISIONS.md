@@ -148,6 +148,13 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - Đợt đầu: 184 mục C1, 8 mục A1; rà soát những mục còn lại theo từng chủ đề và cập nhật overlay sau khi đối chiếu ngôn ngữ. Không tuyên bố toàn bộ 7.000 mục đã được kiểm chứng.
 - Rollback: không merge PR nếu chưa đạt test; nếu đã phát hành, khôi phục học liệu cũ với một seed version mới hơn (giữ ID), hoặc phục hồi backup tương ứng trước khi hạ phiên bản.
 
+## ADR-023 — Biên tập học liệu đợt 2a
+
+- Ngày 2026-11-25. Seed v14 bổ sung 257 ID vào overlay hiện có: 84 C1, 112 A1 và 61 B2. Tổng 449 ID; giữ số lượng và ID thẻ, cấp và thành viên bộ.
+- C1 hoàn tất phủ nghĩa/ghi chú (268/268). A1 thay 112 cặp ví dụ theo nghĩa cơ bản và loại bỏ danh sách quan hệ từ chưa xác minh ở các ID này. B2 biên tập nghĩa và giải thích cho hai bộ công nghệ và kinh tế. Ví dụ và quan hệ từ ở C1/B2 chưa được kiểm chứng toàn bộ.
+- Ví dụ đã biên tập được ưu tiên trong hai locale nếu từ hiển thị không đổi; giữ nguyên ví dụ của từ có biến thể chính tả hoặc từ riêng.
+- Thêm test phạm vi C1, tính nhất quán ví dụ hai locale và migration v13. Chưa chạy lint/test/build/browser. Giữ PR draft; rollback bằng phiên bản seed mới hơn chứa nội dung trước đó hoặc backup trước cập nhật.
+
 ## Template ADR mới
 
 - ID/ngày/status:

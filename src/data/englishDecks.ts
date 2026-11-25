@@ -760,11 +760,22 @@ function createEnglishCard(id: string, deckId: string, card: EnglishCardSeed): V
   const extra = enrichment[id];
   const reviewed = editorial[id];
   const opposite = englishOppositesByTerm.get(card.term.toLowerCase());
-  const englishForms = extra?.formExamples ? { ...card.englishForms } : card.englishForms;
+  const englishForms = extra?.formExamples || (reviewed?.examples && card.englishForms)
+    ? { ...card.englishForms } : card.englishForms;
   if (extra?.formExamples && englishForms) {
     for (const [locale, examples] of Object.entries(extra.formExamples)) {
       const key = locale as EnglishLocale;
       englishForms[key] = { ...englishForms[key], examples };
+    }
+  }
+  // Reviewed examples must also be visible in regional modes for the same headword.
+  // Keep genuinely different regional spellings/terms and their specific examples intact.
+  if (reviewed?.examples && englishForms) {
+    for (const locale of ['en-GB', 'en-US'] as const) {
+      const form = englishForms[locale];
+      if (form && (!form.term || form.term === card.term)) {
+        englishForms[locale] = { ...form, examples: reviewed.examples };
+      }
     }
   }
   return {

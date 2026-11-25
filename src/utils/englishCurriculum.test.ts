@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import englishEditorial from '../../English/englishEditorial.json' with { type: 'json' };
 import { ENGLISH_DECKS, ENGLISH_WORDS } from '../data/englishDecks';
+import { getEnglishStudyWord } from './englishStudy';
 import { englishLearningCategory, englishLearningOrder } from '../data/englishCurriculum';
 import { CURRENT_DATA_VERSION, INITIAL_DECKS, INITIAL_WORDS, INITIAL_PROFILE, withCurrentSeed } from '../data/seedVocab';
 
@@ -61,4 +62,38 @@ test('v12 seed upgrade applies editorial changes without reviving deletions or l
   assert.ok(current.decks.includes(customDeck));
   assert.deepEqual(current.profile.todayWordIds, [old.id]);
   assert.equal(withCurrentSeed(current), current);
+});
+
+
+test('C1 editorial coverage and bilingual example overrides in both English locales', () => {
+  const editorialIds = new Set(Object.keys(englishEditorial));
+  const c1DeckIds = new Set(ENGLISH_DECKS.filter(deck => deck.level === 'c1').map(deck => deck.id));
+  const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
+  assert.equal(c1.length, 268);
+  assert.ok(c1.every(word => editorialIds.has(word.id)));
+  assert.equal(editorialIds.size, 449);
+  for (const word of ENGLISH_WORDS) {
+    const entry = englishEditorial[word.id as keyof typeof englishEditorial];
+    if (!entry || !('examples' in entry)) continue;
+    for (const locale of ['en-GB', 'en-US'] as const) {
+      const localized = getEnglishStudyWord(word, locale);
+      if (localized.term === word.term) assert.deepEqual(localized.examples, entry.examples, word.id);
+    }
+    assert.ok(entry.examples.every(example => example.sentence.trim() && example.translation.trim()), word.id);
+  }
+});
+
+test('v13 upgrades corrected beginner content without resetting review state', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-vocab-mum')!;
+  const srs = { ...word.srs, repetitions: 3, lastReviewedAt: 123 };
+  const state = {
+    version: 13, decks: INITIAL_DECKS,
+    words: [{ ...word, meaning: 'nghĩa cũ', srs }],
+    logs: [], profile: INITIAL_PROFILE,
+  };
+  const migrated = withCurrentSeed(state);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.equal(migrated.words.find(item => item.id === word.id)?.meaning, 'mẹ');
+  assert.equal(migrated.words.find(item => item.id === word.id)?.srs, srs);
+  assert.equal(withCurrentSeed(migrated), migrated);
 });
