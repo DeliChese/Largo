@@ -36,7 +36,7 @@ test('attempt records use a stable ID and discard unknown fields including raw a
   assert.equal(decodeLearningAttempt({ ...event, startedAt: event.answeredAt + 1 }), null);
 });
 
-test('v2 backup includes attempts, preserves archived attempts for removed words and rejects duplicate or future events', async () => {
+test('compact backup includes attempts, preserves archived attempts for removed words and rejects duplicate or future events', async () => {
   const event = createLearningAttempt({ ...attemptInput, adaptivePlan: { version: 1, plannedItems: 12, weakSkill: true } });
   const state = newStudySnapshot();
   state.settings.adaptivePlanner = true;

@@ -14,7 +14,7 @@ import {
 } from './srsBloom';
 import {
   applyStudyReview, getClozeExample, getDailyProgress, getDailyStudyPlan, getIntensiveStudyPlan, getPhraseClozeExample,
-  getPracticeWords, getStudyChoices, getStudyExercise, recordStudyActivity,
+  getPracticeWords, getStudyChoices, shuffle, getStudyExercise, recordStudyActivity,
 } from './studyPlan';
 import type { StudySessionLog, UserProfile, VocabWord } from '../types/vocab';
 
@@ -96,6 +96,47 @@ test('calculateNextSRS cram mode produces shorter intervals than relaxed mode', 
   const cram = calculateNextSRS(word, 3, 'cram', NOW);
   const relaxed = calculateNextSRS(word, 3, 'relaxed', NOW);
   assert.ok(cram.intervalDays < relaxed.intervalDays);
+});
+
+test('Fisher–Yates generates every permutation of three items and preserves the source', () => {
+  const source = ['a', 'b', 'c'];
+  const orders = new Set<string>();
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 2; j++) {
+      const draws = [i / 3, j / 2];
+      orders.add(shuffle(source, () => draws.shift()!).join(''));
+    }
+  }
+  assert.equal(orders.size, 6);
+  assert.deepEqual(source, ['a', 'b', 'c']);
+});
+
+test('late successful reviews credit elapsed time and disperse cards reproducibly', () => {
+  const card = makeWord();
+  for (const repetitions of [0, 1, 4]) {
+    const onTime = { ...card, srs: { ...card.srs, repetitions, nextReviewAt: NOW } };
+    const late = NOW + 20 * DAY_MS;
+    for (const quality of [2, 3, 4] as const) {
+      assert.ok(calculateNextSRS(onTime, quality, 'standard', late).intervalDays >
+        calculateNextSRS(onTime, quality, 'standard', NOW).intervalDays);
+    }
+    const intervals = Array.from({ length: 64 }, (_, i) =>
+      calculateNextSRS({ ...onTime, id: String(i) }, 3, 'standard', late).intervalDays);
+    assert.ok(new Set(intervals.map(Math.floor)).size > 1);
+    assert.equal(intervals[0], calculateNextSRS({ ...onTime, id: '0' }, 3, 'standard', late).intervalDays);
+    assert.equal(calculateNextSRS(onTime, 1, 'standard', late).intervalDays,
+      calculateNextSRS(onTime, 1, 'standard', NOW).intervalDays);
+  }
+});
+
+test('synthesis matches whole words and inflected phrase heads', () => {
+  const has = (term: string, sentence: string) =>
+    evaluateSynthesisSentence(sentence, makeWord({ term, partOfSpeech: 'verb' })).hasTargetWord;
+  assert.equal(has('go', 'It was good to see you.'), false);
+  assert.equal(has('run out of', 'We ran out of milk yesterday.'), true);
+  assert.equal(has('run out of', 'We ran out yesterday.'), false);
+  assert.equal(has('try', 'She tried a new recipe yesterday.'), true);
+  assert.equal(has('go', 'They went, then came back.'), true);
 });
 
 test('calculateNextSRS resets repetitions on lapse (quality=1)', () => {

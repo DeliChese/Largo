@@ -107,6 +107,16 @@ export const SRS_MODE_META: Record<
   },
 };
 
+// Stable per card and review step so button previews and replay use the same interval.
+function disperseInterval(days: number, id: string, repetitions: number): number {
+  if (days < 3) return days;
+  let hash = 2166136261;
+  for (const char of id + '/' + repetitions) hash = Math.imul(hash ^ char.charCodeAt(0), 16777619);
+  const radius = Math.max(1, Math.round(Math.min(days, 365) * 0.05));
+  const center = Math.min(days, 365 - radius);
+  return center + (hash >>> 0) % (2 * radius + 1) - radius;
+}
+
 /**
  * Computes the next review schedule using the selected SM-2 settings.
  */
@@ -149,7 +159,14 @@ export function calculateNextSRS(
       const qualityMod = quality === 2 ? 0.8 : quality === 4 ? 1.25 : 1.0;
       intervalDays = baseNext * qualityMod;
     }
-    intervalDays = Math.min(365, Math.max(0.25, Math.round(intervalDays * modeConfig.intervalMultiplier * 10) / 10));
+    if (prev.lastReviewedAt !== null) {
+      const elapsed = (now - prev.lastReviewedAt) / DAY_MS;
+      const lateDays = Math.max(0, elapsed - prev.intervalDays);
+      const credit = quality === 4 ? 1 : quality === 3 ? 0.5 : 0.25;
+      intervalDays += lateDays * credit * easeFactor;
+    }
+    const dispersed = disperseInterval(intervalDays * modeConfig.intervalMultiplier, word.id, repetitions);
+    intervalDays = Math.min(365, Math.max(0.25, Math.round(dispersed * 10) / 10));
   }
 
   const nextReviewAt = now + Math.round(intervalDays * DAY_MS);
@@ -342,6 +359,36 @@ export function evaluateAnswerMatch(userInput: string, expectedTerm: string): bo
   return a.length > 0 && a === b;
 }
 
+const irregularForms: Record<string, string> = {
+  be: 'am is are was were been being', do: 'does did done doing', go: 'goes went gone going',
+  have: 'has had having', run: 'ran running', come: 'came coming', get: 'got gotten getting',
+  make: 'made making', take: 'took taken taking', give: 'gave given giving', see: 'saw seen seeing',
+  buy: 'bought buying', bring: 'brought bringing', think: 'thought thinking', say: 'said saying',
+  leave: 'left leaving', find: 'found finding', keep: 'kept keeping', write: 'wrote written writing',
+  put: 'putting', sit: 'sat sitting', eat: 'ate eaten eating', break: 'broke broken breaking',
+};
+
+function englishTokens(text: string): string[] {
+  return text.normalize('NFKC').toLowerCase().replace(/’/g, "'").match(/[\p{L}\p{N}]+(?:'[\p{L}\p{N}]+)*/gu) ?? [];
+}
+
+function matchesPhrase(sentence: string[], phrase: string): boolean {
+  const [head, ...tail] = englishTokens(phrase);
+  if (!head) return false;
+  const forms = new Set([head]);
+  const plural = /[^aeiou]y$/.test(head) ? head.slice(0, -1) + 'ies'
+    : /(?:s|sh|ch|x|z|o)$/.test(head) ? head + 'es' : head + 's';
+  if (head !== 'be' && head !== 'have') forms.add(plural);
+  if (Object.hasOwn(irregularForms, head)) {
+    for (const form of irregularForms[head].split(' ')) forms.add(form);
+  } else if (/^[a-z]+$/.test(head)) {
+    const stem = /^(?:[^aeiou]*[aeiou])[^aeiouwxy]$/.test(head) ? head + head.at(-1) : head;
+    forms.add(/[^aeiou]y$/.test(head) ? head.slice(0, -1) + 'ied' : head.endsWith('e') ? head + 'd' : stem + 'ed');
+    forms.add((head.endsWith('ie') ? head.slice(0, -2) + 'y' : /[^e]e$/.test(head) ? head.slice(0, -1) : stem) + 'ing');
+  }
+  return sentence.some((token, index) => forms.has(token) && tail.every((part, i) => sentence[index + i + 1] === part));
+}
+
 export function evaluateSynthesisSentence(
   sentence: string,
   targetWord: VocabWord,
@@ -352,20 +399,10 @@ export function evaluateSynthesisSentence(
   wordCount: number;
   feedback: string;
 } {
-  const cleaned = sentence.trim();
-  const normalized = normalizeText(cleaned);
-  const spaceWords = normalized.split(/\s+/).filter(Boolean);
-  const wordCount = spaceWords.length;
-  const termBase = normalizeText(targetWord.term);
-
-  const hasTargetWord = normalized.includes(termBase) ||
-    (termBase.length > 3 && normalized.includes(termBase.slice(0, termBase.length - 1)));
-
-  const hasCollocation = targetWord.collocations.some((c) => {
-    const normCol = normalizeText(c.phrase);
-    const tokens = normCol.split(' ').filter((t) => t.length > 2);
-    return tokens.length >= 2 && tokens.every((tok) => normalized.includes(tok));
-  });
+  const tokens = englishTokens(sentence);
+  const wordCount = tokens.length;
+  const hasTargetWord = matchesPhrase(tokens, targetWord.term);
+  const hasCollocation = targetWord.collocations.some(({ phrase }) => matchesPhrase(tokens, phrase));
 
   if (wordCount < 5) {
     return {

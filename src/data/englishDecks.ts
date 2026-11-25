@@ -935,10 +935,10 @@ const regionalWords = englishRegional.flatMap(({ id, cards }) => cards.map((card
     englishForms: {
       'en-GB': {
         term: british.term,
-        phonetic: british.phonetic,
+        ...(british.phonetic && { phonetic: british.phonetic }),
         examples: [{ sentence: british.sentence, translation }],
       },
-      'en-US': { term: american.term, phonetic: american.phonetic },
+      'en-US': { term: american.term, ...(american.phonetic && { phonetic: american.phonetic }) },
     },
   });
 }));

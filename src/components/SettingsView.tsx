@@ -26,7 +26,7 @@ interface SettingsViewProps {
     durationMs: number;
   };
   onUpdateSettings: (patch: Partial<AppSettings>) => void;
-  onExportFullBackup: () => Promise<void>;
+  onExportFullBackup: (portable: boolean) => Promise<void>;
   onRestoreFullBackup: (backup: BackupPreview) => Promise<void>;
   backupReady: boolean;
   onResetAllData: () => Promise<void>;
@@ -185,6 +185,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 }) => {
   const [notifStatus, setNotifStatus] = useState<string | null>(null);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [portableBackup, setPortableBackup] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [backupError, setBackupError] = useState(false);
   const [preview, setPreview] = useState<BackupPreview>();
@@ -552,6 +553,10 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         </div>
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
+          <label className="flex items-center gap-2 text-xs">
+            <input type="checkbox" checked={portableBackup} onChange={event => setPortableBackup(event.target.checked)} />
+            Kèm toàn bộ học liệu để dùng với Largo bản cũ (v2)
+          </label>
           <button
             type="button"
             disabled={!backupReady || backupBusy}
@@ -559,7 +564,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               setBackupError(false);
               setExporting(true);
               try {
-                await onExportFullBackup();
+                await onExportFullBackup(portableBackup);
               } catch {
                 setBackupError(true);
               } finally {

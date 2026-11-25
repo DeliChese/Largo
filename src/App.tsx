@@ -195,6 +195,10 @@ export default function App() {
           setSettings(restoredSettings);
         }
       })
+      .catch((error: unknown) => {
+        setFutureState(true);
+        setStorageError(error instanceof Error ? error.message : 'Không thể đọc bản lưu.');
+      })
       .finally(() => setHydrated(true));
   }, []);
 
@@ -712,15 +716,15 @@ export default function App() {
     return update;
   };
 
-  const handleExportFullBackup = async () => {
+  const handleExportFullBackup = async (portable: boolean) => {
     await imageWrites.current;
     const stored = await loadStoredStudyData();
     if (stored?.hasFutureAttempts) throw new Error('Bản lưu chứa lượt trả lời của phiên bản mới hơn.');
     const images = stored?.images ?? profileImages;
     const [avatar, cover] = await Promise.all([readImageForBackup(images.avatar), readImageForBackup(images.cover)]);
     const state = stored?.state ?? { decks, words, logs, profile, settings, version: CURRENT_DATA_VERSION };
-    const payload = createBackup(state, { avatar, cover }, new Date(), stored?.attempts);
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const payload = createBackup(state, { avatar, cover }, new Date(), stored?.attempts, portable);
+    const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;

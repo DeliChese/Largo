@@ -58,7 +58,7 @@ Các nhóm từ loại là ưu tiên biên tập, không phải thay đổi thà
 - Từ đồng tự đa từ loại: giữ nghĩa/từ loại chính đúng phạm vi thẻ, không trộn nghĩa khác loại vào đáp án; thêm `additionalSenses` theo từ loại/nghĩa, với hai câu song ngữ riêng, cấu trúc và cách đọc khi khác. Không tự tạo ID hoặc lịch ôn riêng, không đưa nghĩa phụ vào đáp án/đánh giá Bloom. Khi headword vùng miền khác, không tự suy ra nghĩa phụ dùng chung. Xem [quy chuẩn học liệu](language-curriculum.md).
 - Với IPA và ví dụ theo vùng: schema overlay hiện chưa hỗ trợ mọi trường (như phonetic/englishForms/formExamples). Kiểm tra nguồn và cơ chế hợp nhất; nếu cần thay đổi schema hoặc nguồn, lập phạm vi riêng, kiểm thử và ghi rõ. Không tuyên bố đã sửa trường không được lưu/hiển thị.
 - Phân biệt nội dung Largo biên soạn với nội dung được đối chiếu từ điển. Ghi nguồn khi sử dụng; không sao chép ví dụ có bản quyền hàng loạt.
-- Khi có thay đổi học liệu cần migration, tăng CURRENT_DATA_VERSION trong src/data/seedVocab.ts theo phiên bản thực tế; không tăng seed cho commit chỉ có tài liệu.
+- Khi phát hành nội dung mới, tăng `ENGLISH_SEED_VERSION`. Chỉ tăng `CURRENT_DATA_VERSION` khi đổi định dạng dữ liệu người dùng hoặc cần migration.
 
 ## Quality gates
 

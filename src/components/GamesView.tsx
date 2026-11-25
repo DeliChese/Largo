@@ -16,6 +16,7 @@ import {
   X,
 } from 'lucide-react';
 import type { UserProfile, VocabWord } from '../types/vocab';
+import { shuffle } from '../utils/studyPlan';
 import { evaluateAnswerMatch } from '../utils/srsBloom';
 import { soundEngine, speakPronunciation } from '../utils/soundEngine';
 import { EnglishPronunciation } from './EnglishVariantDetails';
@@ -75,7 +76,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
   const [matchFinished, setMatchFinished] = useState(false);
 
   const startMatchGame = () => {
-    const pool = [...words].sort(() => Math.random() - 0.5).slice(0, 6);
+    const pool = shuffle(words).slice(0, 6);
     const tiles: MatchTile[] = [];
     pool.forEach((w) => {
       tiles.push({ uid: `${w.id}-t`, wordId: w.id, text: w.term, side: 'term', matched: false });
@@ -87,7 +88,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
         matched: false,
       });
     });
-    setMatchTiles(tiles.sort(() => Math.random() - 0.5));
+    setMatchTiles(shuffle(tiles));
     setSelectedTileUid(null);
     setMatchScore(0);
     setMatchCombo(0);
@@ -295,9 +296,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
 
   const loadScrambleRound = (w: VocabWord) => {
     const chars = Array.from(w.term);
-    const pool = chars
-      .map((char, id) => ({ id, char, used: false }))
-      .sort(() => Math.random() - 0.5);
+    const pool = shuffle(chars.map((char, id) => ({ id, char, used: false })));
     setScrambleTiles(pool);
     setScramblePicked([]);
     setScrambleFeedback(null);
@@ -306,7 +305,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
   const startScrambleGame = () => {
     const multiChar = words.filter((w) => Array.from(w.term).length >= 2);
     const source = multiChar.length >= 6 ? multiChar : words;
-    const pool = [...source].sort(() => Math.random() - 0.5).slice(0, 6);
+    const pool = shuffle(source).slice(0, 6);
     setScrambleQueue(pool);
     setScrambleIdx(0);
     setScrambleScore(0);
@@ -362,7 +361,7 @@ export const GamesView: React.FC<GamesViewProps> = ({
   const [abPickedId, setAbPickedId] = useState<string | null>(null);
 
   const startAudioBlitz = () => {
-    const pool = [...words].sort(() => Math.random() - 0.5).slice(0, 12);
+    const pool = shuffle(words).slice(0, 12);
     setAbQueue(pool);
     setAbIdx(0);
     setAbScore(0);

@@ -1,3 +1,5 @@
+import { compactSnapshot, expandSnapshot } from './compactSnapshot';
+import { ENGLISH_SEED_VERSION, withCurrentSeed } from '../data/seedVocab';
 import type {
   AppSettings,
   StudySessionLog,
@@ -8,6 +10,7 @@ import type {
 import type { ProfileImageKind, ProfileImages } from './profileImages';
 import { decodeLearningAttempt, type LearningAttemptEvent } from './learningAttempt';
 
+// Hydrated view used by React and the learning engine. Storage serializes it with compactSnapshot.
 export interface PersistedAppState {
   decks: VocabDeck[];
   words: VocabWord[];
@@ -42,6 +45,9 @@ function nextSnapshot(state: PersistedAppState, previous?: PersistedAppState | n
 }
 
 function assertCurrent(state: PersistedAppState, previous?: PersistedAppState | null) {
+  if (previous && 'seedVersion' in previous && Number(previous.seedVersion) > ENGLISH_SEED_VERSION) {
+    throw new Error('Bản lưu cần phiên bản học liệu mới hơn.');
+  }
   if ((previous?.version ?? 0) > state.version || (previous?.savedAt ?? 0) > lastSaveTime) {
     throw new Error('Dữ liệu đã được cập nhật ở tab khác. Hãy tải lại Largo để tiếp tục lưu.');
   }
@@ -91,7 +97,7 @@ function openDB(): Promise<IDBDatabase> {
 async function saveLocalFallback(snapshot: PersistedAppState & { savedAt: number }): Promise<boolean> {
   let raw = '';
   try {
-    raw = JSON.stringify(snapshot);
+    raw = JSON.stringify(compactSnapshot(snapshot));
     localStorage.setItem(LS_FALLBACK_KEY, raw);
     return true;
   } catch (error) {
@@ -168,7 +174,7 @@ export function saveOfflineState(state: PersistedAppState): Promise<void> {
     const snapshot = db ? await withDatabase(db, () => mutateState(db, [], (store, _tx, previous) => {
       assertCurrent(state, previous);
       const next = nextSnapshot(state, previous);
-      store.put(next, STATE_KEY);
+      store.put(compactSnapshot(next), STATE_KEY);
       return next;
     })) : nextSnapshot(state, fallback);
     await mirrorSnapshot(snapshot, !db);
@@ -179,7 +185,7 @@ export function loadSyncFallbackState(): PersistedAppState | null {
   try {
     const raw = localStorage.getItem(LS_FALLBACK_KEY);
     if (!raw || raw.startsWith(GZIP_PREFIX)) return null;
-    const state: PersistedAppState = JSON.parse(raw);
+    const state = expandSnapshot(JSON.parse(raw));
     lastSaveTime = Math.max(lastSaveTime, state?.savedAt ?? 0);
     return state;
   } catch {
@@ -217,7 +223,7 @@ export async function loadOfflineState(): Promise<PersistedAppState | null> {
   const fallback = await loadLocalFallback();
   const latest = result && (result.savedAt ?? 0) >= (fallback?.savedAt ?? 0) ? result : fallback;
   lastSaveTime = Math.max(lastSaveTime, latest?.savedAt ?? 0);
-  return latest;
+  return latest && expandSnapshot(latest);
 }
 
 export async function loadProfileImages(): Promise<ProfileImages> {
@@ -256,7 +262,7 @@ export async function loadStoredStudyData(): Promise<StoredStudyData | undefined
   const db = await openForWrite();
   if (!db) return;
   const fallback = await loadLocalFallback();
-  return withDatabase(db, () => new Promise((resolve, reject) => {
+  const data = await withDatabase(db, () => new Promise<StoredStudyData>((resolve, reject) => {
     const tx = db.transaction([STORE_NAME, ATTEMPTS_STORE], 'readonly');
     const store = tx.objectStore(STORE_NAME);
     const state = store.get(STATE_KEY);
@@ -275,6 +281,7 @@ export async function loadStoredStudyData(): Promise<StoredStudyData | undefined
     });
     tx.onabort = () => reject(tx.error ?? new Error('Không thể đọc dữ liệu học.'));
   }));
+  return { ...data, state: data.state && expandSnapshot(data.state) };
 }
 
 export function restoreOfflineState(
@@ -292,7 +299,7 @@ export function restoreOfflineState(
       existing.onsuccess = () => {
         try {
           if (existing.result.some(isFutureAttempt)) throw new Error('Bản lưu chứa lượt trả lời của phiên bản mới hơn.');
-          store.put(restored, STATE_KEY);
+          store.put(compactSnapshot(restored), STATE_KEY);
           for (const kind of ['avatar', 'cover'] as const) {
             if (images[kind]) store.put(images[kind], PROFILE_IMAGE_KEYS[kind]);
             else store.delete(PROFILE_IMAGE_KEYS[kind]);
@@ -327,7 +334,7 @@ export function commitLearningAttempt(
     const fallback = await loadLocalFallback();
     const db = await openForWrite();
     if (!db) {
-      const state = fallback ?? initial;
+      const state = fallback ? withCurrentSeed(expandSnapshot(fallback)) : initial;
       assertCurrent(initial, fallback);
       const position = JSON.stringify([event.sessionId, event.attemptIndex]);
       if (fallbackAttempts.has(event.eventId) || fallbackPositions.has(position)) return { state, inserted: false, retained: false };
@@ -342,7 +349,7 @@ export function commitLearningAttempt(
       const byId = ledger.getKey(event.eventId);
       const byPosition = ledger.index('position').getKey([event.sessionId, event.attemptIndex]);
       const newest = (previous?.savedAt ?? 0) >= (fallback?.savedAt ?? 0) ? previous : fallback;
-      const outcome: AttemptCommit = { state: newest ?? initial, inserted: false, retained: true };
+      const outcome: AttemptCommit = { state: newest ? withCurrentSeed(expandSnapshot(newest)) : initial, inserted: false, retained: true };
       byPosition.onsuccess = () => {
         if (byId.result !== undefined || byPosition.result !== undefined) return;
         try {
@@ -350,7 +357,7 @@ export function commitLearningAttempt(
           const next = project(outcome.state, decoded);
           if (next !== outcome.state || newest !== previous) {
             outcome.state = nextSnapshot(next, newest);
-            store.put(outcome.state, STATE_KEY);
+            store.put(compactSnapshot(outcome.state), STATE_KEY);
           }
           ledger.add(decoded);
           outcome.inserted = true;

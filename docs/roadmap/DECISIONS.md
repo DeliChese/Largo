@@ -185,3 +185,11 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - Test/metrics:
 - Rollback:
 - Link PR/commit:
+
+## ADR-027 — Tách học liệu khỏi tiến độ và điều chỉnh lịch ôn trễ
+
+Theo yêu cầu của chủ dự án, snapshot 35 và backup v3 dùng danh mục tiếng Anh đóng gói trong PWA. `ENGLISH_SEED_VERSION` đánh số lần phát hành học liệu. Bản lưu ghi thứ tự thẻ, ID đã xóa, tiến độ và trường đã sửa theo ID, cùng nội dung đầy đủ của thẻ riêng. Giữ ID đã phát hành trong danh mục. Khi rút hoặc đổi ID, cần migration riêng và fixture cho người đã học thẻ đó.
+
+Largo đọc snapshot cũ và backup v2, giữ IndexedDB ở phiên bản 4. Để quay lại bản dùng schema 34, xuất bản v2 kèm toàn bộ học liệu trong Cài đặt rồi nhập trên một hồ sơ trình duyệt riêng chạy bản cũ. Cách này giữ nguyên bản hiện tại cho tới khi đã đối chiếu thẻ, lịch sử và ảnh.
+
+Với thẻ đã từng ôn, lượt nhớ lại trễ được tính thêm 25%, 50% hoặc 100% số ngày trễ theo nút Khó, Tốt hoặc Dễ trước khi nhân hệ số dễ. Khoảng từ ba ngày có độ lệch xác định theo ID thẻ và số lần nhớ lại. Quy tắc áp dụng khi chấm lượt mới. Các lịch đang lưu được giữ đến lượt ôn tiếp theo.

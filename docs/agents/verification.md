@@ -2,7 +2,7 @@
 
 ## Lệnh trong repo
 
-Chạy từ thư mục gốc với Node 24 trở lên và npm 10 trở lên. Dùng `bun install --frozen-lockfile` để cài theo `bun.lock`. CI kiểm tra thêm `npm install` từ checkout sạch. Các lệnh kiểm kiểu, kiểm thử và build dùng Node `25.8.0` trong CI.
+Chạy từ thư mục gốc với Node 24 trở lên và npm 10 trở lên. Dùng `bun install --frozen-lockfile` để cài theo `bun.lock`. CI kiểm tra thêm `npm install` từ checkout sạch. Các lệnh kiểm kiểu, kiểm thử và build dùng Node `24.x` trong CI.
 
 ```text
 npm run dev
@@ -13,7 +13,7 @@ npm run build
 
 `npm run dev` chạy Vite, mặc định cổng `3000`. Dùng URL Vite thực sự in ra. `npm run lint` kiểm kiểu TypeScript. `npm test` chạy các test SRS/Bloom, phạm vi học, snapshot và các API Azure/DeepSeek giả lập. Lệnh dùng bộ phân giải import trong `scripts/register-test-imports.mjs` cho các test TypeScript. [CI](../../.github/workflows/verify.yml) chạy kiểm kiểu, test và build. Sau khi build, `npm run preview` xem bản Vite đã build hoặc `npm start` chạy Express phục vụ `dist/` và các API.
 
-Các [snapshot mẫu](../../src/utils/fixtures/studySnapshots.ts) dùng mốc thời gian cố định và hồ sơ giả lập. Bộ kiểm thử bao gồm dữ liệu mới cài, HSK hai phiên bản, Anh–Anh/Anh–Mỹ, bộ/thẻ cá nhân, thẻ đã xóa, lịch sử, avatar, bản lưu gzip và giáo trình thiếu bài. Các bài thử engine kiểm tra backup v2, mã lượt bị trùng, lịch ôn và XP sau lượt thử lại, chấm chưa xác minh cho câu mở và rubric Bloom.
+Các [snapshot mẫu](../../src/utils/fixtures/studySnapshots.ts) dùng mốc thời gian cố định và hồ sơ giả lập. Bộ kiểm thử bao gồm dữ liệu mới cài, bản lưu tiếng Trung đời cũ, Anh–Anh/Anh–Mỹ, bộ/thẻ cá nhân, thẻ đã xóa, lịch sử, avatar, bản lưu gzip và giáo trình thiếu bài. Các bài thử engine kiểm tra backup v2/v3, mã lượt bị trùng, lịch ôn và XP sau lượt thử lại, chấm chưa xác minh cho câu mở và rubric Bloom.
 
 ## Kiểm chứng E0–E1 trên trình duyệt
 
@@ -26,7 +26,7 @@ Các [snapshot mẫu](../../src/utils/fixtures/studySnapshots.ts) dùng mốc th
 1. Xác định URL người dùng đang xem, gồm hostname, cổng và route. Với bản chạy trên máy, ưu tiên đúng origin người dùng đang dùng để kiểm tra dữ liệu cũ. `localhost` và `127.0.0.1` có kho dữ liệu trình duyệt riêng.
 2. Xác nhận máy chủ đang phục vụ mã nào. Với Vite dev, kiểm tra module nguồn liên quan đã tải. Với Express hoặc preview, kiểm tra `dist/` và asset mà HTML tham chiếu. Kiểm tra `DISABLE_HMR` nếu việc tải lại thay đổi có liên quan. `vite-plugin-pwa` quản lý service worker và cache riêng.
 3. Nếu giao diện mới đã hiện nhưng dữ liệu trống, xem phạm vi ngôn ngữ, phiên bản HSK, cấp độ, bộ lọc và bản chụp đã lưu trước. Lỗi từng gặp là bản chụp có số `version` hiện tại nhưng thiếu các bộ giáo trình. Kiểm tra cả cấu trúc bộ và ID thẻ. Giữ tiến độ của người dùng tại origin này và dùng bản chụp mẫu cho các thử nghiệm cần làm sạch dữ liệu.
-4. Xác minh lại trên route vừa lỗi. Với `/#/decks`, chọn Tiếng Trung và lần lượt hai HSK, kiểm tra bài đầu/cuối, tìm bộ, đổi chủ đề và mở một bài. Trên màn hình đủ rộng, cuộn hai danh sách riêng và quan sát thanh lọc bên trái. Khi sửa migration, tải lại với dữ liệu cũ và xác nhận thẻ đã ôn giữ lịch/Bloom.
+4. Xác minh lại trên route vừa lỗi. Với `/#/decks`, chọn cấp tiếng Anh, tìm bộ, đổi chủ đề và mở một bài. Trên màn hình đủ rộng, cuộn hai danh sách riêng và quan sát thanh lọc bên trái. Khi sửa migration, tải lại với dữ liệu cũ và xác nhận thẻ đã ôn giữ lịch/Bloom.
 
 Kết quả HTTP chứng minh máy chủ đã trả nội dung. Kết quả kiểm thử chứng minh các trường hợp được chạy. Để báo một thao tác đã hoạt động trên web app, ghi URL và hành vi thực tế quan sát được. Khi được giao triển khai, xác định nền tảng và xác minh phiên bản tại URL triển khai trước khi báo hoàn tất.
 

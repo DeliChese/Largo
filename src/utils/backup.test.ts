@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { CURRENT_DATA_VERSION, INITIAL_DECKS, INITIAL_WORDS, withCurrentSeed } from '../data/seedVocab';
+import { CURRENT_DATA_VERSION, ENGLISH_SEED_VERSION, LAST_FULL_SNAPSHOT_VERSION, INITIAL_DECKS, INITIAL_WORDS, withCurrentSeed } from '../data/seedVocab';
 import { createBackup, previewBackup } from './backup';
 import { getScopedDecks, getScopedWords } from './studyScope';
 import {
@@ -8,7 +8,55 @@ import {
   reviewedStudySnapshot, studySnapshotMissingLesson,
 } from './fixtures/studySnapshots';
 
-test('v2 JSON round-trip keeps the snapshot and avatar bytes', async () => {
+test('compact backups omit unchanged seed content and preserve per-word edits', async () => {
+  const state = reviewedStudySnapshot();
+  const edited = state.words.find(word => word.id === CORE_ENGLISH_CARD)!;
+  edited.meaning = 'Nghĩa riêng của tôi';
+  const backup = createBackup(state, {});
+  assert.equal(backup.formatVersion, 3);
+  assert.ok(JSON.stringify(backup).length < JSON.stringify(state).length / 5);
+  const restored = await previewBackup(new Blob([JSON.stringify(backup)]));
+  assert.equal(restored.state.words.find(word => word.id === edited.id)?.meaning, edited.meaning);
+  assert.deepEqual(restored.state.words.map(word => word.id), state.words.map(word => word.id));
+});
+
+test('an older compact edition inherits new catalogue entries and keeps edits and deletions', async () => {
+  const state = reviewedStudySnapshot();
+  const edited = state.words.find(word => word.id === CORE_ENGLISH_CARD)!;
+  edited.meaning = 'Nghĩa do người dùng sửa';
+  const backup = createBackup(state, {});
+  const snapshot = backup.snapshot;
+  assert.ok('wordOrder' in snapshot);
+  const newCard = INITIAL_WORDS.find(word => word.id !== edited.id && word.id !== DELETED_ENGLISH_CARD)!;
+  const previousEdition = {
+    ...snapshot, seedVersion: ENGLISH_SEED_VERSION - 1,
+    wordOrder: (snapshot.wordOrder as string[]).filter(id => id !== newCard.id),
+    decks: snapshot.decks.filter(deck => deck.id !== newCard.deckId),
+  };
+  const parse = (snapshot: unknown) => previewBackup(new Blob([JSON.stringify({ ...backup, snapshot })]));
+  const restored = (await parse(previousEdition)).state;
+  assert.ok(restored.decks.some(deck => deck.id === newCard.deckId));
+  assert.deepEqual(restored.words.find(word => word.id === newCard.id), newCard);
+  assert.equal(restored.words.find(word => word.id === edited.id)?.meaning, edited.meaning);
+  assert.ok(!restored.words.some(word => word.id === DELETED_ENGLISH_CARD));
+  await assert.rejects(parse({ ...previousEdition, seedVersion: ENGLISH_SEED_VERSION }));
+  await assert.rejects(parse({ ...snapshot, seedVersion: ENGLISH_SEED_VERSION + 1 }));
+});
+
+test('portable v2 export restores progress, personal cards and overrides from the last full snapshot schema', async () => {
+  const state = reviewedStudySnapshot();
+  const card = state.words.find(word => word.id === CORE_ENGLISH_CARD)!;
+  card.notes = 'Ghi chú riêng';
+  const portable = createBackup(state, { avatar: FIXTURE_AVATAR }, new Date(0), [], true);
+  assert.equal(portable.formatVersion, 2);
+  assert.equal(portable.appDataVersion, LAST_FULL_SNAPSHOT_VERSION);
+  const restored = await previewBackup(new Blob([JSON.stringify(portable)]));
+  assert.deepEqual(restored.state.words, JSON.parse(JSON.stringify(state.words)));
+  assert.deepEqual(restored.state.profile, state.profile);
+  assert.ok(restored.images.avatar);
+});
+
+test('compact JSON round-trip keeps the snapshot and avatar bytes', async () => {
   const state = reviewedStudySnapshot('en-GB');
   const backup = createBackup(state, { avatar: FIXTURE_AVATAR }, new Date(0));
   const preview = await previewBackup(new Blob([JSON.stringify(backup)]));

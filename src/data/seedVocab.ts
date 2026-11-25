@@ -19,7 +19,10 @@ export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: strin
 const ENGLISH_DATA_VERSION = 2;
 const ENGLISH_CURRICULUM_VERSION = 7;
 const ENGLISH_PHRASES_VERSION = 8;
-export const CURRENT_DATA_VERSION = 34;
+export const LAST_FULL_SNAPSHOT_VERSION = 34;
+export const CURRENT_DATA_VERSION = 35;
+// Increment for catalogue releases independently of the snapshot schema.
+export const ENGLISH_SEED_VERSION = 34;
 
 export const INITIAL_DECKS: VocabDeck[] = [...ENGLISH_DECKS];
 
@@ -152,9 +155,9 @@ function mergeEnglishSeed(decks: VocabDeck[], words: VocabWord[], version: numbe
 
 export function withCurrentSeed<T extends SeedState>(state: T): T {
   if (state.version > CURRENT_DATA_VERSION) return state;
-  const needsEnglish = state.version < CURRENT_DATA_VERSION || !hasCurrentSeedDecks(state.decks) ||
+  const needsEnglish = state.version < LAST_FULL_SNAPSHOT_VERSION || !hasCurrentSeedDecks(state.decks) ||
     state.words.some((word) => word.language !== 'en') || state.profile.targetLanguage !== 'en';
-  if (!needsEnglish) return state;
+  if (!needsEnglish) return state.version === CURRENT_DATA_VERSION ? state : { ...state, version: CURRENT_DATA_VERSION };
 
   const library = mergeEnglishSeed(state.decks, state.words, state.version);
   const keptWordIds = new Set(library.words.map(({ id }) => id));

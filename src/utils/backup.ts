@@ -1,4 +1,5 @@
-import { CURRENT_DATA_VERSION, INITIAL_SETTINGS, isBuiltinWord, withCurrentSeed } from '../data/seedVocab';
+import { compactSnapshot, expandSnapshot } from './compactSnapshot';
+import { LAST_FULL_SNAPSHOT_VERSION, CURRENT_DATA_VERSION, INITIAL_SETTINGS, isBuiltinWord, withCurrentSeed } from '../data/seedVocab';
 import { DB_VERSION, type PersistedAppState } from './offlineStorage';
 import { PROFILE_IMAGE_ACCEPT, type ProfileImageKind, type ProfileImages } from './profileImages';
 import { decodeLearningAttempt, type LearningAttemptEvent } from './learningAttempt';
@@ -80,12 +81,13 @@ const settings = shape({
   speechVoices: optional(optionalStrings('en', 'zh', 'ja', 'fr', 'ko', 'es', 'en-GB', 'en-US')),
 });
 
-export function createBackup(state: PersistedAppState, images: ExportImages, now = new Date(), attempts: LearningAttemptEvent[] = []) {
-  const { decks, words, logs, profile, settings, version } = state;
+export function createBackup(state: PersistedAppState, images: ExportImages, now = new Date(), attempts: LearningAttemptEvent[] = [], portable = false) {
+  const compact = !portable && state.version === CURRENT_DATA_VERSION;
+  const { version, savedAt: _savedAt, ...snapshot } = compact ? compactSnapshot(state) : state;
   return {
-    format: 'largo-backup', formatVersion: 2, exportedAt: now.toISOString(),
-    appDataVersion: version, idbSchemaVersion: DB_VERSION,
-    snapshot: { decks, words, logs, profile, settings, images },
+    format: 'largo-backup', formatVersion: compact ? 3 : 2, exportedAt: now.toISOString(),
+    appDataVersion: portable && version === CURRENT_DATA_VERSION ? LAST_FULL_SNAPSHOT_VERSION : version, idbSchemaVersion: DB_VERSION,
+    snapshot: { ...snapshot, images },
     attempts,
   };
 }
@@ -130,13 +132,18 @@ export async function previewBackup(file: Blob): Promise<BackupPreview> {
   if (!object(root)) throw invalid();
   const legacy = root.format === undefined;
   const version = legacy ? root.version : root.appDataVersion;
-  const snapshot = legacy ? root : root.snapshot;
-  if (!legacy && (root.format !== 'largo-backup' || root.formatVersion !== 2 ||
+  let snapshot = legacy ? root : root.snapshot;
+  if (!legacy && (root.format !== 'largo-backup' || (root.formatVersion !== 2 && root.formatVersion !== 3) ||
     !count(root.idbSchemaVersion) || Number(root.idbSchemaVersion) > DB_VERSION)) {
     throw new Error('Phiên bản bản sao lưu này chưa được hỗ trợ.');
   }
   if (!count(version) || Number(version) < 1 || Number(version) > CURRENT_DATA_VERSION) {
     throw new Error('Phiên bản dữ liệu trong bản sao lưu chưa được hỗ trợ.');
+  }
+  if (object(snapshot) && 'seedVersion' in snapshot && root.formatVersion !== 3) throw invalid();
+  if (!legacy && root.formatVersion === 3) {
+    if (!object(snapshot) || !('seedVersion' in snapshot) || version !== CURRENT_DATA_VERSION) throw invalid();
+    snapshot = expandSnapshot(snapshot as unknown as PersistedAppState);
   }
   if (!object(snapshot) || !list(deck, 30_000)(snapshot.decks) || !list(word, 200_000)(snapshot.words) ||
     !list(log, 300_000)(snapshot.logs) || !profile(snapshot.profile) || !optional(settings)(snapshot.settings)) {

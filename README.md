@@ -16,6 +16,10 @@ npm start
 
 `npm run dev` mở Vite ở `http://localhost:3000`. `npm start` chạy bản đã build và các API. Khi cấu hình Azure Speech trong `.env`, mở ứng dụng qua `http://localhost:3000` hoặc `http://127.0.0.1:3000` để dùng giọng Azure. Các bản truy cập từ xa dùng giọng có sẵn trên thiết bị nếu trình duyệt hỗ trợ.
 
+## Sao lưu tiến độ
+
+Trong Cài đặt, bản sao lưu JSON v3 lưu tiến độ, nội dung cá nhân, ảnh và các lượt trả lời đã ghi. Khi khôi phục, Largo ghép các ID thẻ với học liệu tiếng Anh đi kèm ứng dụng. Để chuyển về Largo phiên bản dữ liệu 34, chọn **Kèm toàn bộ học liệu** trước khi xuất, rồi nhập bản v2 trên một hồ sơ trình duyệt riêng chạy bản cũ.
+
 ## Học liệu và giấy phép
 
 Thư viện lọc theo cấp A1–C1, chủ đề và loại học liệu, gồm collocations, cụm động từ, cụm danh từ và cụm tính từ. Đấu trường có đấu bot, tiếp sức 60 giây và hai người dùng chung thiết bị. Xem [nguồn và cách tái tạo học liệu](public/english-sources.txt) và [phạm vi giấy phép](LICENSE).

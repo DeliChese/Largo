@@ -203,9 +203,10 @@ function getChoiceCandidates(word: VocabWord, library: VocabWord[], forPhrase: b
   return candidates;
 }
 
-function shuffle<T>(items: T[]): T[] {
+export function shuffle<T>(source: readonly T[], random = Math.random): T[] {
+  const items = [...source];
   for (let i = items.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(random() * (i + 1));
     [items[i], items[j]] = [items[j], items[i]];
   }
   return items;

@@ -11,7 +11,7 @@ Thứ tự sản phẩm: **Learning Engine / Bloom Evidence / Adaptive Planner �
 ## Trước khi sửa
 
 - Chạy `git status --short`, đọc mã/test liên quan, giữ phần việc đang dở của người dùng; không sửa ngoài phạm vi. Với tài liệu chỉ sửa docs, xác minh link và thực trạng.
-- Giữ `VocabWord.id`, SRS, Bloom legacy, thẻ/bộ cá nhân, lịch sử, `todayWordIds`, ảnh và trạng thái thẻ đã xóa. HSK 2.0/3.0 có thể chia sẻ từ cùng ID, không tạo lịch ôn riêng. Migration phải idempotent và có fixtures.
+- Giữ `VocabWord.id`, SRS, Bloom legacy, thẻ/bộ cá nhân, lịch sử, `todayWordIds`, ảnh và trạng thái thẻ đã xóa. Hai biến thể Anh–Anh và Anh–Mỹ dùng chung ID và lịch ôn. Migration phải idempotent và có fixtures.
 - SRS và planner chạy offline; **AI không phải nguồn sự thật tuyệt đối và không được tự nâng Bloom**. Không gọi AI cho việc local có thể làm. Xem [engine](docs/roadmap/01-learning-engine.md), [Bloom](docs/roadmap/02-bloom-evidence.md), [events](docs/roadmap/04-events-migrations.md).
 - Không gửi `DEEPSEEK_API_KEY` hoặc Azure key tới trình duyệt, không đặt trong `VITE_*`, repository hoặc logs. AI gateway chỉ server-side, có quota, schema validation, consent, fallback.
 - Không chuyển origin hay thay schema DB mà thiếu full backup/restore test. Không xóa cache dữ liệu học để “sửa PWA”. `dist/` và `dev-dist/` là đầu ra build; không sửa trực tiếp.
