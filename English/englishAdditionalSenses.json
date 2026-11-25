@@ -557,6 +557,38 @@
       ]
     }
   ],
+  "en-vocab-alike": [
+    {
+      "partOfSpeech": "Trạng từ",
+      "meaning": "theo cách giống nhau; như nhau",
+      "examples": [
+        {
+          "sentence": "The rules apply to children and adults alike.",
+          "translation": "Quy định áp dụng cho trẻ em và người lớn như nhau."
+        },
+        {
+          "sentence": "The teacher treats all students alike.",
+          "translation": "Giáo viên đối xử với mọi sinh viên như nhau."
+        }
+      ]
+    }
+  ],
+  "en-vocab-alternative": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "phương án thay thế",
+      "examples": [
+        {
+          "sentence": "Is there a cheaper alternative?",
+          "translation": "Có phương án thay thế nào rẻ hơn không?"
+        },
+        {
+          "sentence": "We need to find an alternative to plastic.",
+          "translation": "Chúng ta cần tìm vật liệu thay thế nhựa."
+        }
+      ]
+    }
+  ],
   "en-vocab-answer": [
     {
       "partOfSpeech": "Động từ",
@@ -682,6 +714,22 @@
         {
           "sentence": "He balances work and study.",
           "translation": "Anh ấy cân đối công việc và học tập."
+        }
+      ]
+    }
+  ],
+  "en-vocab-bare": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "để lộ; phô ra",
+      "examples": [
+        {
+          "sentence": "The dog began to bare its teeth.",
+          "translation": "Con chó bắt đầu nhe răng."
+        },
+        {
+          "sentence": "The wind seemed to bare the roots of the tree.",
+          "translation": "Gió dường như làm lộ rễ cây."
         }
       ]
     }
@@ -830,6 +878,36 @@
         {
           "sentence": "She tied the ribbon in a bow.",
           "translation": "Cô ấy thắt dải ruy băng thành nơ."
+        }
+      ]
+    }
+  ],
+  "en-vocab-brief": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tóm tắt thông tin; phổ biến nhiệm vụ",
+      "examples": [
+        {
+          "sentence": "The manager will brief the team.",
+          "translation": "Quản lý sẽ phổ biến thông tin cho đội."
+        },
+        {
+          "sentence": "Please brief us on the changes.",
+          "translation": "Vui lòng thông tin ngắn gọn cho chúng tôi về các thay đổi."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "bản chỉ dẫn; yêu cầu công việc",
+      "examples": [
+        {
+          "sentence": "The designer read the project brief.",
+          "translation": "Nhà thiết kế đọc bản yêu cầu dự án."
+        },
+        {
+          "sentence": "We received a brief from the client.",
+          "translation": "Chúng tôi nhận bản yêu cầu công việc từ khách hàng."
         }
       ]
     }
@@ -1150,6 +1228,38 @@
         {
           "sentence": "He refused to comment.",
           "translation": "Anh ấy từ chối bình luận."
+        }
+      ]
+    }
+  ],
+  "en-vocab-commercial": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "mẩu quảng cáo (truyền hình, radio)",
+      "examples": [
+        {
+          "sentence": "I saw a commercial for the new car.",
+          "translation": "Tôi thấy một mẩu quảng cáo xe mới."
+        },
+        {
+          "sentence": "The programme paused for a commercial.",
+          "translation": "Chương trình tạm dừng để phát quảng cáo."
+        }
+      ]
+    }
+  ],
+  "en-vocab-complex": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "quần thể; khu phức hợp",
+      "examples": [
+        {
+          "sentence": "They live in an apartment complex.",
+          "translation": "Họ sống trong một khu chung cư."
+        },
+        {
+          "sentence": "The sports complex has two pools.",
+          "translation": "Khu liên hợp thể thao có hai hồ bơi."
         }
       ]
     }
@@ -1576,6 +1686,22 @@
       "notes": "Drive – drove – driven."
     }
   ],
+  "en-vocab-dull": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "làm cùn; làm giảm",
+      "examples": [
+        {
+          "sentence": "Sand can dull the blade.",
+          "translation": "Cát có thể làm cùn lưỡi dao."
+        },
+        {
+          "sentence": "The medicine may dull the pain.",
+          "translation": "Thuốc có thể làm dịu cơn đau."
+        }
+      ]
+    }
+  ],
   "en-vocab-dump": [
     {
       "partOfSpeech": "Động từ",
@@ -1604,6 +1730,68 @@
         {
           "sentence": "She encountered an old friend on the train.",
           "translation": "Cô ấy tình cờ gặp bạn cũ trên tàu."
+        }
+      ]
+    }
+  ],
+  "en-vocab-equal": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "bằng; ngang bằng",
+      "examples": [
+        {
+          "sentence": "Two plus two equals four.",
+          "translation": "Hai cộng hai bằng bốn."
+        },
+        {
+          "sentence": "Few players can equal her skill.",
+          "translation": "Ít người chơi có thể sánh ngang kỹ năng của cô ấy."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "người ngang hàng; người ngang sức",
+      "examples": [
+        {
+          "sentence": "He treats everyone as an equal.",
+          "translation": "Anh ấy đối xử với mọi người như người ngang hàng."
+        },
+        {
+          "sentence": "She has few equals in her field.",
+          "translation": "Ít người trong lĩnh vực có thể sánh ngang cô ấy."
+        }
+      ]
+    }
+  ],
+  "en-vocab-essential": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "thứ thiết yếu",
+      "examples": [
+        {
+          "sentence": "Pack only the essentials.",
+          "translation": "Chỉ đóng gói những thứ thiết yếu."
+        },
+        {
+          "sentence": "The shop sells everyday essentials.",
+          "translation": "Cửa hàng bán nhu yếu phẩm hằng ngày."
+        }
+      ]
+    }
+  ],
+  "en-vocab-exclusive": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "tin hoặc bài độc quyền",
+      "examples": [
+        {
+          "sentence": "The newspaper had an exclusive.",
+          "translation": "Tờ báo có một bài độc quyền."
+        },
+        {
+          "sentence": "The reporter promised the channel an exclusive.",
+          "translation": "Phóng viên hứa dành tin độc quyền cho kênh."
         }
       ]
     }
@@ -1640,6 +1828,22 @@
       ]
     }
   ],
+  "en-vocab-extreme": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cực điểm; thái cực",
+      "examples": [
+        {
+          "sentence": "Avoid both extremes.",
+          "translation": "Hãy tránh cả hai thái cực."
+        },
+        {
+          "sentence": "His views went from one extreme to the other.",
+          "translation": "Quan điểm của anh ấy chuyển từ thái cực này sang thái cực kia."
+        }
+      ]
+    }
+  ],
   "en-vocab-face": [
     {
       "partOfSpeech": "Động từ",
@@ -1652,6 +1856,22 @@
         {
           "sentence": "The window faces the sea.",
           "translation": "Cửa sổ hướng ra biển."
+        }
+      ]
+    }
+  ],
+  "en-vocab-faint": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "ngất xỉu",
+      "examples": [
+        {
+          "sentence": "She might faint in the heat.",
+          "translation": "Cô ấy có thể ngất vì nóng."
+        },
+        {
+          "sentence": "I thought I would faint when I stood up.",
+          "translation": "Tôi tưởng mình sẽ ngất khi đứng dậy."
         }
       ]
     }
@@ -2133,6 +2353,22 @@
       "notes": "Hardly nghĩa hầu như không, không phải trạng từ của hard theo nghĩa chăm chỉ."
     }
   ],
+  "en-vocab-healing": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "sự chữa lành; quá trình hồi phục",
+      "examples": [
+        {
+          "sentence": "Sleep plays a role in healing.",
+          "translation": "Giấc ngủ có vai trò trong quá trình hồi phục."
+        },
+        {
+          "sentence": "The patient needs time for healing.",
+          "translation": "Bệnh nhân cần thời gian để hồi phục."
+        }
+      ]
+    }
+  ],
   "en-vocab-help": [
     {
       "partOfSpeech": "Danh từ",
@@ -2195,6 +2431,22 @@
         {
           "sentence": "We hunted for a missing key.",
           "translation": "Chúng tôi tìm kiếm chìa khóa thất lạc."
+        }
+      ]
+    }
+  ],
+  "en-vocab-individual": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cá nhân",
+      "examples": [
+        {
+          "sentence": "Every individual has a right to privacy.",
+          "translation": "Mỗi cá nhân có quyền riêng tư."
+        },
+        {
+          "sentence": "The award goes to one individual.",
+          "translation": "Giải thưởng thuộc về một cá nhân."
         }
       ]
     }
@@ -2346,6 +2598,22 @@
       "phonetic": "/led/"
     }
   ],
+  "en-vocab-lean": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nghiêng; dựa",
+      "examples": [
+        {
+          "sentence": "Do not lean against the wet wall.",
+          "translation": "Đừng dựa vào bức tường ướt."
+        },
+        {
+          "sentence": "She had to lean forward to hear him.",
+          "translation": "Cô ấy phải nghiêng người về trước để nghe anh ấy."
+        }
+      ]
+    }
+  ],
   "en-vocab-leap": [
     {
       "partOfSpeech": "Danh từ",
@@ -2490,6 +2758,22 @@
       ]
     }
   ],
+  "en-vocab-liquid": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "chất lỏng",
+      "examples": [
+        {
+          "sentence": "Pour the liquid into a bowl.",
+          "translation": "Hãy đổ chất lỏng vào bát."
+        },
+        {
+          "sentence": "Water is a liquid at room temperature.",
+          "translation": "Nước là chất lỏng ở nhiệt độ phòng."
+        }
+      ]
+    }
+  ],
   "en-vocab-live": [
     {
       "partOfSpeech": "Tính từ",
@@ -2557,6 +2841,22 @@
       ]
     }
   ],
+  "en-vocab-marine": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "lính thủy đánh bộ",
+      "examples": [
+        {
+          "sentence": "He served as a marine for several years.",
+          "translation": "Anh ấy phục vụ trong lực lượng thủy quân lục chiến nhiều năm."
+        },
+        {
+          "sentence": "The marine returned home after training.",
+          "translation": "Người lính thủy đánh bộ trở về nhà sau huấn luyện."
+        }
+      ]
+    }
+  ],
   "en-vocab-mark": [
     {
       "partOfSpeech": "Động từ",
@@ -2605,6 +2905,22 @@
       ]
     }
   ],
+  "en-vocab-maximum": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "mức tối đa",
+      "examples": [
+        {
+          "sentence": "The room holds a maximum of thirty people.",
+          "translation": "Phòng chứa tối đa ba mươi người."
+        },
+        {
+          "sentence": "Do not exceed the maximum.",
+          "translation": "Không được vượt quá mức tối đa."
+        }
+      ]
+    }
+  ],
   "en-vocab-measure": [
     {
       "partOfSpeech": "Động từ",
@@ -2619,6 +2935,39 @@
           "translation": "Thiết bị đo nhiệt độ."
         }
       ]
+    }
+  ],
+  "en-vocab-minimum": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "mức tối thiểu",
+      "examples": [
+        {
+          "sentence": "We need a minimum of three volunteers.",
+          "translation": "Chúng tôi cần tối thiểu ba tình nguyện viên."
+        },
+        {
+          "sentence": "Keep noise to a minimum.",
+          "translation": "Hãy giữ tiếng ồn ở mức thấp nhất."
+        }
+      ]
+    }
+  ],
+  "en-vocab-minor": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "người chưa thành niên",
+      "examples": [
+        {
+          "sentence": "The law protects minors.",
+          "translation": "Pháp luật bảo vệ người chưa thành niên."
+        },
+        {
+          "sentence": "A minor needs permission to enter.",
+          "translation": "Người chưa thành niên cần được phép mới có thể vào."
+        }
+      ],
+      "notes": "Độ tuổi pháp lý phụ thuộc khu vực."
     }
   ],
   "en-vocab-monitor": [
@@ -2713,6 +3062,22 @@
         {
           "sentence": "I sometimes nap in the afternoon.",
           "translation": "Đôi khi tôi ngủ một lát vào buổi chiều."
+        }
+      ]
+    }
+  ],
+  "en-vocab-narrow": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "thu hẹp; trở nên hẹp",
+      "examples": [
+        {
+          "sentence": "We need to narrow the list of options.",
+          "translation": "Chúng ta cần thu hẹp danh sách lựa chọn."
+        },
+        {
+          "sentence": "The road begins to narrow here.",
+          "translation": "Đường bắt đầu hẹp lại ở đây."
         }
       ]
     }
@@ -2847,6 +3212,22 @@
       ]
     }
   ],
+  "en-vocab-overnight": [
+    {
+      "partOfSpeech": "Trạng từ",
+      "meaning": "qua đêm; chỉ sau một đêm",
+      "examples": [
+        {
+          "sentence": "We stayed overnight at a hostel.",
+          "translation": "Chúng tôi nghỉ qua đêm ở nhà trọ."
+        },
+        {
+          "sentence": "The temperature dropped overnight.",
+          "translation": "Nhiệt độ giảm trong đêm."
+        }
+      ]
+    }
+  ],
   "en-vocab-pace": [
     {
       "partOfSpeech": "Động từ",
@@ -2859,6 +3240,22 @@
         {
           "sentence": "Pace yourself during the run.",
           "translation": "Hãy điều chỉnh nhịp chạy phù hợp."
+        }
+      ]
+    }
+  ],
+  "en-vocab-pale": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "trở nên nhợt nhạt; lu mờ",
+      "examples": [
+        {
+          "sentence": "His face began to pale.",
+          "translation": "Mặt anh ấy bắt đầu tái đi."
+        },
+        {
+          "sentence": "These problems pale in comparison with the earlier ones.",
+          "translation": "Những vấn đề này trở nên nhỏ bé so với những vấn đề trước."
         }
       ]
     }
@@ -3321,6 +3718,22 @@
         {
           "sentence": "The device registers changes in temperature.",
           "translation": "Thiết bị ghi nhận thay đổi nhiệt độ."
+        }
+      ]
+    }
+  ],
+  "en-vocab-relative": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "người thân; họ hàng",
+      "examples": [
+        {
+          "sentence": "A close relative came to visit.",
+          "translation": "Một người họ hàng thân thiết đến thăm."
+        },
+        {
+          "sentence": "We stayed with relatives during the holiday.",
+          "translation": "Chúng tôi ở cùng họ hàng trong kỳ nghỉ."
         }
       ]
     }
@@ -3854,6 +4267,22 @@
       ]
     }
   ],
+  "en-vocab-sore": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "vết loét; chỗ đau",
+      "examples": [
+        {
+          "sentence": "The nurse examined the sore on his leg.",
+          "translation": "Y tá kiểm tra vết loét ở chân anh ấy."
+        },
+        {
+          "sentence": "The sore took a week to heal.",
+          "translation": "Vết loét mất một tuần để lành."
+        }
+      ]
+    }
+  ],
   "en-vocab-sort": [
     {
       "partOfSpeech": "Động từ",
@@ -3897,6 +4326,22 @@
         {
           "sentence": "The bridge is structurally sound.",
           "translation": "Kết cấu cây cầu vững chắc."
+        }
+      ]
+    }
+  ],
+  "en-vocab-stable": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "chuồng ngựa",
+      "examples": [
+        {
+          "sentence": "The horse returned to the stable.",
+          "translation": "Con ngựa trở về chuồng."
+        },
+        {
+          "sentence": "They cleaned the stable in the morning.",
+          "translation": "Họ dọn chuồng ngựa vào buổi sáng."
         }
       ]
     }
@@ -4047,6 +4492,22 @@
       ]
     }
   ],
+  "en-vocab-superior": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cấp trên",
+      "examples": [
+        {
+          "sentence": "She reported the problem to her superior.",
+          "translation": "Cô ấy báo vấn đề cho cấp trên."
+        },
+        {
+          "sentence": "Ask your superior before changing the schedule.",
+          "translation": "Hãy hỏi cấp trên trước khi thay đổi lịch."
+        }
+      ]
+    }
+  ],
   "en-vocab-supply": [
     {
       "partOfSpeech": "Động từ",
@@ -4163,6 +4624,36 @@
       ],
       "notes": "Tear – tore – torn; khác tear nghĩa nước mắt.",
       "phonetic": "/ter/ (Mỹ); /teə/ (Anh)"
+    }
+  ],
+  "en-vocab-tense": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "thì (ngữ pháp)",
+      "examples": [
+        {
+          "sentence": "The verb is in the past tense.",
+          "translation": "Động từ ở thì quá khứ."
+        },
+        {
+          "sentence": "Choose the correct tense for each sentence.",
+          "translation": "Chọn thì đúng cho từng câu."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "căng cứng; gồng lên",
+      "examples": [
+        {
+          "sentence": "Do not tense your shoulders.",
+          "translation": "Đừng gồng vai."
+        },
+        {
+          "sentence": "His muscles began to tense.",
+          "translation": "Cơ bắp của anh ấy bắt đầu căng lên."
+        }
+      ]
     }
   ],
   "en-vocab-through": [
@@ -4612,6 +5103,23 @@
           "translation": "Nhân chứng mô tả vụ tai nạn."
         }
       ]
+    }
+  ],
+  "en-vocab-wizard": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "phù thủy; người rất giỏi",
+      "examples": [
+        {
+          "sentence": "The wizard cast a spell.",
+          "translation": "Phù thủy thi triển phép thuật."
+        },
+        {
+          "sentence": "She is a wizard with computers.",
+          "translation": "Cô ấy rất giỏi máy tính."
+        }
+      ],
+      "notes": "Nghĩa người rất giỏi mang sắc thái thân mật."
     }
   ],
   "en-vocab-work": [
