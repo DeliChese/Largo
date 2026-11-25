@@ -34,7 +34,7 @@
 | 2K | Đã phủ 295/295 ID (v30); B1 nguồn chính 950/950, chưa nghiệm thu | B1 nguồn chính: tính từ, trạng từ và các mục nguồn chính còn lại |
 | 2L | Đã phủ 310/310 (v32); chưa nghiệm thu | B1 extra |
 | 2M | Đã phủ 108/108 ID (v33); chưa nghiệm thu | B1 collocations, giao tiếp, regional |
-| 2N | Chưa làm | B1 expansion |
+| 2N | Đang làm: 154/779 ID (2N.1, v34); còn 625 | B1 expansion |
 | 2O | Chưa làm | B2 nguồn chính: danh từ |
 | 2P | Chưa làm | B2 nguồn chính: động từ |
 | 2Q | Chưa làm | B2 nguồn chính: tính từ, trạng từ và các mục nguồn chính còn lại |

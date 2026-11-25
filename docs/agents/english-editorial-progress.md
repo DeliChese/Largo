@@ -2,7 +2,7 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2N — kiểm kê B1 expansion trong englishExpansion.json, trừ overlay hiện có và ID hợp nhất; kiểm tra CI v33 trước khi sửa. Mốc hiện tại: Seed v33, 4.021 ID có overlay; B1 nguồn chính 950/950, extra 310/310, collocations 72/72, giao tiếp 24/24, regional 12/12; 340 ID có 364 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2N.2 — 153 ID B1 expansion vocabulary còn lại (10 bài time-sequence đến family-community); kiểm tra CI v34 trước khi sửa. Mốc hiện tại: Seed v34, 4.175 ID có overlay; B1 expansion 154/779; 369 ID có 393 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
@@ -177,6 +177,14 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - Phạm vi locale: dùng formExamples hiện có trong English/englishEnrichment.json cho 14 ID (2 collocations revise for an exam/public transport: en-US; 12 regional: en-GB), 28 cặp ví dụ locale gồm 14 cặp nguồn và 14 cặp biên soạn thêm. Bảo toàn trường enrichment khác, không sửa schema/IPA/dữ liệu nguồn. Hai locale dự kiến có hai ví dụ theo cơ chế merge; thêm test xác minh runtime. Chưa xác nhận IPA và quan hệ từ toàn trường.
 - Kiểm tra JavaScript: JSON hợp lệ, khóa cấp gốc duy nhất, 108 ID đúng nguồn, hai ví dụ song ngữ khác nhau mỗi overlay, 14 nhóm locale chứa đúng cụm từ, bảo toàn 3.913 overlay và 339 ID nghĩa phụ cũ, enrichment ngoài phạm vi không đổi. Thêm test độ phủ/locale và migration v32 (SRS/Bloom, quan hệ cá nhân, thẻ đã xóa, todayWordIds, idempotence). Chưa chạy npm lint/test/build cục bộ; CI v33 chưa xác nhận khi commit; chưa chạy browser/migration thực tế.
 - Bàn giao 2N: kiểm kê B1 expansion từ blob đầy đủ, đối chiếu ID thực tế và phần đã phủ trước khi sửa. Kiểm tra CI v33 trước khi bắt đầu.
+
+## Phạm vi đợt 2N.1 (Seed v34)
+
+- CI Seed v33 [45567188670](https://github.com/DeliChese/Largo/actions/runs/45567188670) thành công.
+- Kiểm kê blob expansion đầy đủ: 45 bài có level b1, 779 ID duy nhất (vocabulary 307, phrases 182, collocations 109, phrasal 181); không ID nào có overlay trước 2N. Dùng level thực tế, không dựa tiền tố deck. Đợt 2N.1 thêm 154 ID thuộc food-culinary (21), workplace-skills (23), travel-transport (20), film-photography (29), sports-outdoors (23), earth-geology (21), gardening-botany (17). B1 expansion 154/779; toàn kho 4.175/7.000 (59,64%), còn 2.825 ID thiếu overlay. Giữ nguyên 4.021 overlay cũ, ID, CEFR, bộ, nguồn và engine.
+- 308 ví dụ chính: 0 cặp nguồn giữ nguyên, 0 câu nguồn chỉnh bản dịch, 308 câu biên soạn/chỉnh lại. Thêm 29 ID/29 nhóm nghĩa phụ (58 ví dụ), tổng 369 ID/393 nhóm. Sửa crop (cắt xén ảnh; danh từ cây trồng), reimburse (hoàn trả chi phí), turbulence (thắt dây an toàn khi nhiễu động, bỏ khuyến nghị thắt lỏng), freight (hàng vận chuyển không nhất thiết nặng), loam (đất thịt không nhất thiết giàu mùn), arable (có thể canh tác), monsoon (gió mùa), cramp (bỏ tuyên bố chữa chuột rút bằng nước muối). Phân biệt marinade/marinate, delegate (động/danh), implement/install, aisle/isle, gale/gust, marsh/swamp; giữ IPA và collocations nguồn, quan hệ từ chưa kiểm định.
+- Kiểm tra JavaScript: JSON hợp lệ, khóa cấp gốc duy nhất, 154 ID đúng nguồn, mỗi ID có hai ví dụ khác nhau và bản dịch không rỗng; bảo toàn 4.021 overlay và 340 ID nghĩa phụ cũ. Thêm test độ phủ và migration v33 (SRS/Bloom, quan hệ cá nhân, thẻ đã xóa, todayWordIds, idempotence). Chưa chạy npm lint/test/build cục bộ; CI v34 chưa xác nhận tại thời điểm commit; chưa chạy browser/migration thực tế.
+- Bàn giao 2N.2: 153 ID vocabulary trong 10 bài tiếp theo (time-sequence, quantity-scale, education-study, urban-transit, wildlife-conservation, logistics-quality, hospitality-journalism có ID tiền tố a2 nhưng level b1, nutrition-cooking, craft-woodwork, family-community). Sau đó còn 182 phrases, 109 collocations, 181 phrasal/idiom expansion; chia theo bài và rà cả cụm không tự nhiên. Không chuyển 2O trước khi phủ hết 779 ID.
 
 ## Các đợt tiếp theo
 

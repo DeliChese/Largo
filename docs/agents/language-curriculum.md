@@ -31,7 +31,7 @@ Dùng chung giao diện trong [`DecksView.tsx`](../../src/components/DecksView.t
 
 Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và dữ liệu học. Khi cập nhật danh mục đã phát hành, kiểm thử bản lưu cũ, thẻ đã xóa, khôi phục và chạy cập nhật hai lần.
 
-## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v33)
+## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v34)
 
 - Nghĩa tiếng Việt là một hoặc vài cách dịch ngắn, cùng nghĩa trọng tâm; không dùng toàn bộ hướng dẫn ngữ pháp hoặc ví dụ làm đáp án nghĩa.
 - Giải thích và cách dùng nằm trong `notes`: nêu sắc thái, cấu trúc, giới từ, văn phong hoặc phân biệt từ dễ nhầm. Không tự tạo quy tắc tuyệt đối khi có ngoại lệ.
@@ -80,3 +80,5 @@ Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và 
 - Đợt 2L.2 (seed v32): thêm 155 ID B1 extra còn lại, hoàn tất 310/310 B1 extra; tổng 3.913/7.000; thêm 22 ID/23 nhóm nghĩa phụ. CI v31 đạt, kiểm tra JSON/ID v32 đạt; chưa xác nhận CI v32/browser tại thời điểm commit. Tiếp theo 2M: B1 collocations, giao tiếp, regional. Xem [tiến độ](english-editorial-progress.md).
 
 - Đợt 2M (seed v33): 108 ID B1 collocations/giao tiếp/regional (72/24/12); tổng 4.021/7.000; thêm 1 nhóm nghĩa phụ và 14 nhóm formExamples cho locale khác từ chính. CI v32 đạt, kiểm tra JSON/ID v33 đạt; chưa xác nhận CI v33/browser khi commit. Tiếp theo 2N (B1 expansion). Xem [tiến độ](english-editorial-progress.md).
+
+- Đợt 2N.1 (seed v34): 154 ID B1 expansion vocabulary thuộc 7 bài đầu; toàn kho 4.175/7.000, B1 expansion 154/779; thêm 29 ID/29 nhóm nghĩa phụ. CI v33 đạt, kiểm tra JSON/ID v34 đạt; chưa xác nhận CI v34/browser khi commit. Tiếp theo 2N.2 (153 ID vocabulary). Xem [tiến độ](english-editorial-progress.md).

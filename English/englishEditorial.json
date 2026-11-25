@@ -58400,5 +58400,2469 @@
     ],
     "synonyms": [],
     "antonyms": []
+  },
+  "en-extra-simmer-365fcc9a87": {
+    "meaning": "đun liu riu; âm ỉ",
+    "notes": "Simmer ở nhiệt dưới mức sôi mạnh; simmer with anger = âm ỉ giận dữ.",
+    "examples": [
+      {
+        "sentence": "Let the soup simmer for ten minutes.",
+        "translation": "Để súp sôi liu riu trong mười phút."
+      },
+      {
+        "sentence": "Tensions continued to simmer within the team.",
+        "translation": "Căng thẳng tiếp tục âm ỉ trong đội."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-marinate-3118ba8bce": {
+    "meaning": "ướp; ngâm trong hỗn hợp gia vị",
+    "notes": "Marinate meat in a marinade; marinade là danh từ.",
+    "examples": [
+      {
+        "sentence": "Marinate the chicken in lemon juice.",
+        "translation": "Ướp gà với nước cốt chanh."
+      },
+      {
+        "sentence": "Let the tofu marinate for an hour.",
+        "translation": "Để đậu phụ ngấm gia vị trong một giờ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-whisk-19312273f4": {
+    "meaning": "đánh; khuấy nhanh bằng phới",
+    "notes": "Whisk eggs/cream; không nhất thiết đánh bông.",
+    "examples": [
+      {
+        "sentence": "Whisk the eggs in a bowl.",
+        "translation": "Đánh trứng trong bát."
+      },
+      {
+        "sentence": "Whisk the sauce until smooth.",
+        "translation": "Khuấy nhanh nước xốt đến khi mịn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-ferment-9f80af54e8": {
+    "meaning": "lên men; làm lên men",
+    "notes": "Ferment có thể có hoặc không có tân ngữ.",
+    "examples": [
+      {
+        "sentence": "The cabbage will ferment over several days.",
+        "translation": "Bắp cải sẽ lên men trong vài ngày."
+      },
+      {
+        "sentence": "Yeast helps ferment the sugars.",
+        "translation": "Men giúp lên men đường."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-garnish-3195f351e3": {
+    "meaning": "trang trí món ăn",
+    "notes": "Garnish something with herbs; trang trí khi trình bày món.",
+    "examples": [
+      {
+        "sentence": "Garnish the soup with fresh herbs.",
+        "translation": "Trang trí súp bằng rau thơm tươi."
+      },
+      {
+        "sentence": "She garnished each plate with lemon slices.",
+        "translation": "Cô ấy trang trí mỗi đĩa bằng lát chanh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-blanch-5b673c9a2c": {
+    "meaning": "chần sơ; trở nên tái nhợt",
+    "notes": "Blanch vegetables trong nước sôi rồi làm nguội nếu cần; blanch at news = tái mặt.",
+    "examples": [
+      {
+        "sentence": "Blanch the beans before freezing them.",
+        "translation": "Chần đậu trước khi cấp đông."
+      },
+      {
+        "sentence": "He blanched at the unexpected news.",
+        "translation": "Anh ấy tái mặt trước tin bất ngờ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-caramelize-63b44fada4": {
+    "meaning": "caramen hóa; làm chuyển màu nâu ngọt",
+    "notes": "Caramelize/caramelise; dùng cho đường và thực phẩm chứa đường.",
+    "examples": [
+      {
+        "sentence": "Cook the onions slowly until they caramelize.",
+        "translation": "Nấu hành tây từ từ đến khi chúng chuyển màu nâu ngọt."
+      },
+      {
+        "sentence": "Heat the sugar until it begins to caramelize.",
+        "translation": "Đun đường đến khi bắt đầu chuyển thành caramen."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-knead-c7164d1a33": {
+    "meaning": "nhào bột; xoa bóp",
+    "notes": "Chữ k không phát âm; knead dough.",
+    "examples": [
+      {
+        "sentence": "Knead the dough until smooth.",
+        "translation": "Nhào bột đến khi mịn."
+      },
+      {
+        "sentence": "She kneaded the stiff muscles in her neck.",
+        "translation": "Cô ấy xoa bóp cơ cổ bị căng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-aroma-e0c5f441ba": {
+    "meaning": "hương thơm; mùi thơm",
+    "notes": "Aroma of coffee; thường chỉ mùi dễ chịu.",
+    "examples": [
+      {
+        "sentence": "The aroma of fresh bread filled the kitchen.",
+        "translation": "Hương bánh mì mới nướng tràn ngập bếp."
+      },
+      {
+        "sentence": "This tea has a delicate floral aroma.",
+        "translation": "Trà này có hương hoa nhẹ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-savory-25b2adcfec": {
+    "meaning": "mặn; không ngọt; đậm đà",
+    "notes": "Savory (US), savoury (UK); phân biệt món mặn với món ngọt, không nhất thiết nhiều muối.",
+    "examples": [
+      {
+        "sentence": "We served savory snacks at the party.",
+        "translation": "Chúng tôi phục vụ đồ ăn nhẹ vị mặn tại tiệc."
+      },
+      {
+        "sentence": "She prefers savory dishes to desserts.",
+        "translation": "Cô ấy thích món mặn hơn món tráng miệng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-pungent-8a606e481d": {
+    "meaning": "có mùi hoặc vị mạnh, hăng nồng",
+    "notes": "Pungent smell/taste; không nhất thiết cay nóng.",
+    "examples": [
+      {
+        "sentence": "Garlic has a pungent smell.",
+        "translation": "Tỏi có mùi hăng nồng."
+      },
+      {
+        "sentence": "The cheese has a pungent aroma.",
+        "translation": "Phô mai có mùi nồng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-crispy-127c2817bd": {
+    "meaning": "giòn rụm; giòn",
+    "notes": "Crispy thường chỉ thức ăn có lớp giòn.",
+    "examples": [
+      {
+        "sentence": "The potatoes are crispy on the outside.",
+        "translation": "Khoai tây giòn ở bên ngoài."
+      },
+      {
+        "sentence": "She likes crispy fried onions.",
+        "translation": "Cô ấy thích hành chiên giòn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-bland-9db7cd4f9d": {
+    "meaning": "nhạt vị; tẻ nhạt",
+    "notes": "Bland food; bland design = thiết kế thiếu cá tính.",
+    "examples": [
+      {
+        "sentence": "The soup tastes bland without salt.",
+        "translation": "Súp có vị nhạt nếu không có muối."
+      },
+      {
+        "sentence": "The room had a bland design.",
+        "translation": "Căn phòng có thiết kế tẻ nhạt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-zesty-c12da903ca": {
+    "meaning": "đậm vị tươi mát; đầy sức sống",
+    "notes": "Zesty thường mô tả vị mạnh, tươi sáng như cam chanh; không nhất thiết chua.",
+    "examples": [
+      {
+        "sentence": "The salad has a zesty lemon dressing.",
+        "translation": "Salad có nước xốt chanh tươi đậm vị."
+      },
+      {
+        "sentence": "We served fish with a zesty sauce.",
+        "translation": "Chúng tôi dọn cá với nước xốt đậm vị tươi mát."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-culinary-23f532066e": {
+    "meaning": "thuộc nấu nướng; thuộc ẩm thực",
+    "notes": "Culinary skills/traditions; thường dùng trước danh từ.",
+    "examples": [
+      {
+        "sentence": "She wants to develop her culinary skills.",
+        "translation": "Cô ấy muốn phát triển kỹ năng nấu nướng."
+      },
+      {
+        "sentence": "The city is known for its culinary traditions.",
+        "translation": "Thành phố nổi tiếng với truyền thống ẩm thực."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-seasoning-e98a34ec5d": {
+    "meaning": "gia vị nêm; việc nêm gia vị",
+    "notes": "Seasoning là chất thêm để tăng vị hoặc việc nêm; seasoning a pan là tôi chảo.",
+    "examples": [
+      {
+        "sentence": "Add more seasoning if needed.",
+        "translation": "Thêm gia vị nếu cần."
+      },
+      {
+        "sentence": "Taste the soup and adjust the seasoning.",
+        "translation": "Nếm súp rồi điều chỉnh gia vị."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-utensil-b8268df1da": {
+    "meaning": "dụng cụ; dụng cụ nhà bếp",
+    "notes": "Kitchen utensil; thường chỉ dụng cụ cầm tay.",
+    "examples": [
+      {
+        "sentence": "Wash each utensil after use.",
+        "translation": "Rửa từng dụng cụ sau khi sử dụng."
+      },
+      {
+        "sentence": "A wooden spoon is a useful kitchen utensil.",
+        "translation": "Thìa gỗ là dụng cụ nhà bếp hữu ích."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-beverage-27648bbe98": {
+    "meaning": "đồ uống",
+    "notes": "Thường trang trọng hơn drink.",
+    "examples": [
+      {
+        "sentence": "Tea is a popular beverage.",
+        "translation": "Trà là một loại đồ uống phổ biến."
+      },
+      {
+        "sentence": "Choose a hot or cold beverage.",
+        "translation": "Chọn đồ uống nóng hoặc lạnh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-broth-915db8f30b": {
+    "meaning": "nước dùng",
+    "notes": "Nước nấu từ thịt, xương hoặc rau; stock gần nghĩa, không hoàn toàn đồng nhất.",
+    "examples": [
+      {
+        "sentence": "Add chicken broth to the rice.",
+        "translation": "Thêm nước dùng gà vào cơm."
+      },
+      {
+        "sentence": "The vegetables are cooked in a light broth.",
+        "translation": "Rau được nấu trong nước dùng thanh nhẹ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-pastry-e8a10a5bb2": {
+    "meaning": "bột làm bánh nướng; bánh làm từ loại bột này",
+    "notes": "Pastry không chỉ bánh ngọt; puff pastry = bột ngàn lớp.",
+    "examples": [
+      {
+        "sentence": "Roll out the pastry on a clean surface.",
+        "translation": "Cán bột bánh trên bề mặt sạch."
+      },
+      {
+        "sentence": "I bought a pastry for breakfast.",
+        "translation": "Tôi mua một chiếc bánh nướng ăn sáng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-preserve-1daf82f622": {
+    "meaning": "bảo quản; bảo tồn; giữ gìn",
+    "notes": "Preserve food/traditions; khác reserve (dành riêng).",
+    "examples": [
+      {
+        "sentence": "Salt can help preserve food.",
+        "translation": "Muối có thể giúp bảo quản thực phẩm."
+      },
+      {
+        "sentence": "The museum works to preserve local traditions.",
+        "translation": "Bảo tàng gìn giữ truyền thống địa phương."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-agenda-df71fb0bd9": {
+    "meaning": "chương trình nghị sự; mục tiêu riêng",
+    "notes": "On the agenda; hidden agenda = mục đích ngầm.",
+    "examples": [
+      {
+        "sentence": "What is on today's agenda?",
+        "translation": "Chương trình họp hôm nay có gì?"
+      },
+      {
+        "sentence": "We added two items to the agenda.",
+        "translation": "Chúng tôi thêm hai mục vào chương trình nghị sự."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-minutes-90e63d85fa": {
+    "meaning": "biên bản cuộc họp",
+    "notes": "Trong nghĩa biên bản, dùng dạng số nhiều; take the minutes = ghi biên bản.",
+    "examples": [
+      {
+        "sentence": "Could you take the minutes at the meeting?",
+        "translation": "Bạn có thể ghi biên bản cuộc họp không?"
+      },
+      {
+        "sentence": "The secretary sent us the meeting minutes.",
+        "translation": "Thư ký gửi cho chúng tôi biên bản cuộc họp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-delegate-6f216e33c5": {
+    "meaning": "giao việc; ủy quyền",
+    "notes": "Delegate a task to someone; danh từ delegate = đại biểu.",
+    "examples": [
+      {
+        "sentence": "Managers should delegate routine tasks.",
+        "translation": "Quản lý nên giao các việc thường lệ cho người khác."
+      },
+      {
+        "sentence": "She delegated the task to her assistant.",
+        "translation": "Cô ấy giao nhiệm vụ cho trợ lý."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-facilitate-2c3184ba2d": {
+    "meaning": "tạo điều kiện; hỗ trợ cho dễ dàng hơn",
+    "notes": "Facilitate a process/discussion; thường trang trọng hơn help.",
+    "examples": [
+      {
+        "sentence": "The new tool will facilitate communication.",
+        "translation": "Công cụ mới sẽ giúp giao tiếp dễ dàng hơn."
+      },
+      {
+        "sentence": "She helped facilitate the discussion.",
+        "translation": "Cô ấy hỗ trợ điều phối cuộc thảo luận."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-streamline-59afb3a486": {
+    "meaning": "tinh gọn; đơn giản hóa quy trình",
+    "notes": "Streamline a process; giảm bước thừa để tăng hiệu quả.",
+    "examples": [
+      {
+        "sentence": "We need to streamline the approval process.",
+        "translation": "Chúng ta cần tinh gọn quy trình phê duyệt."
+      },
+      {
+        "sentence": "The new system will streamline daily operations.",
+        "translation": "Hệ thống mới sẽ tinh gọn hoạt động hằng ngày."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-prioritize-9cd9bd9124": {
+    "meaning": "ưu tiên; xếp thứ tự ưu tiên",
+    "notes": "Prioritize (US), prioritise thường gặp ở UK; prioritize A over B.",
+    "examples": [
+      {
+        "sentence": "We must prioritize urgent tasks.",
+        "translation": "Chúng ta phải ưu tiên việc khẩn cấp."
+      },
+      {
+        "sentence": "The team prioritizes safety over speed.",
+        "translation": "Đội ưu tiên an toàn hơn tốc độ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-collaborate-c66ebd0878": {
+    "meaning": "cộng tác; hợp tác",
+    "notes": "Collaborate with someone on something.",
+    "examples": [
+      {
+        "sentence": "We collaborate with local schools.",
+        "translation": "Chúng tôi hợp tác với các trường địa phương."
+      },
+      {
+        "sentence": "The two teams collaborated on a project.",
+        "translation": "Hai đội cộng tác trong một dự án."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-brainstorm-e2e2381d75": {
+    "meaning": "động não; cùng nghĩ ý tưởng",
+    "notes": "Brainstorm ideas/solutions; giai đoạn tạo ý tưởng chưa cần đánh giá ngay.",
+    "examples": [
+      {
+        "sentence": "Let's brainstorm ideas for the event.",
+        "translation": "Hãy cùng nghĩ ý tưởng cho sự kiện."
+      },
+      {
+        "sentence": "The team brainstormed possible solutions.",
+        "translation": "Đội cùng động não tìm giải pháp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-implement-f9bb818d84": {
+    "meaning": "triển khai; thực hiện",
+    "notes": "Implement a plan/policy/system; không dùng thay install khi chỉ lắp thiết bị.",
+    "examples": [
+      {
+        "sentence": "We will implement the new policy next month.",
+        "translation": "Chúng tôi sẽ triển khai chính sách mới tháng tới."
+      },
+      {
+        "sentence": "It takes time to implement a plan well.",
+        "translation": "Thực hiện tốt một kế hoạch cần thời gian."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-allocate-33b7bcc005": {
+    "meaning": "phân bổ; dành cho",
+    "notes": "Allocate resources to/for something; allocate time to a task.",
+    "examples": [
+      {
+        "sentence": "We allocated more money to training.",
+        "translation": "Chúng tôi phân bổ thêm tiền cho đào tạo."
+      },
+      {
+        "sentence": "Allocate an hour to review the report.",
+        "translation": "Dành một giờ để xem xét báo cáo."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-elucidate-34c67b2d19": {
+    "meaning": "giải thích rõ; làm sáng tỏ",
+    "notes": "Trang trọng; clarify/explain thông dụng hơn trong giao tiếp.",
+    "examples": [
+      {
+        "sentence": "The diagram helps elucidate the concept.",
+        "translation": "Sơ đồ giúp làm rõ khái niệm."
+      },
+      {
+        "sentence": "The author elucidates the theory with examples.",
+        "translation": "Tác giả giải thích rõ lý thuyết bằng ví dụ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-appraise-d42fcf295e": {
+    "meaning": "đánh giá; định giá",
+    "notes": "Appraise property/performance; khác praise (khen ngợi).",
+    "examples": [
+      {
+        "sentence": "An expert will appraise the painting.",
+        "translation": "Chuyên gia sẽ định giá bức tranh."
+      },
+      {
+        "sentence": "Managers appraise staff performance annually.",
+        "translation": "Quản lý đánh giá hiệu suất nhân viên hằng năm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-reimburse-e5af52b0d2": {
+    "meaning": "hoàn trả chi phí",
+    "notes": "Reimburse someone for expenses; reimburse expenses, không reimburse tickets theo nghĩa trả lại tiền vé.",
+    "examples": [
+      {
+        "sentence": "The company will reimburse you for travel expenses.",
+        "translation": "Công ty sẽ hoàn trả chi phí đi lại cho bạn."
+      },
+      {
+        "sentence": "Keep your receipts so we can reimburse your expenses.",
+        "translation": "Giữ biên lai để chúng tôi hoàn trả chi phí."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-roster-c6836f7ad1": {
+    "meaning": "danh sách thành viên; bảng phân ca",
+    "notes": "Staff roster; rota thường dùng Anh–Anh cho lịch phân ca.",
+    "examples": [
+      {
+        "sentence": "Check the roster for your next shift.",
+        "translation": "Kiểm tra bảng phân ca để biết ca tiếp theo."
+      },
+      {
+        "sentence": "Her name is on the team roster.",
+        "translation": "Tên cô ấy có trong danh sách đội."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-milestone-7f7f85b1e7": {
+    "meaning": "cột mốc quan trọng",
+    "notes": "Reach a milestone; milestone in a project/life.",
+    "examples": [
+      {
+        "sentence": "Finishing the first draft was a major milestone.",
+        "translation": "Hoàn thành bản nháp đầu tiên là cột mốc quan trọng."
+      },
+      {
+        "sentence": "The project reached another milestone today.",
+        "translation": "Hôm nay dự án đạt thêm một cột mốc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-bottleneck-da24c3162a": {
+    "meaning": "điểm nghẽn; nút thắt",
+    "notes": "Bottleneck in a process; nguyên nhân hạn chế lưu lượng hoặc năng suất.",
+    "examples": [
+      {
+        "sentence": "Slow approvals create a bottleneck.",
+        "translation": "Phê duyệt chậm tạo ra điểm nghẽn."
+      },
+      {
+        "sentence": "We need to identify the bottleneck in production.",
+        "translation": "Chúng ta cần xác định điểm nghẽn trong sản xuất."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-workload-7f6c7360bf": {
+    "meaning": "khối lượng công việc",
+    "notes": "Heavy/light workload; manage/share the workload.",
+    "examples": [
+      {
+        "sentence": "My workload has increased this month.",
+        "translation": "Khối lượng công việc của tôi tăng trong tháng này."
+      },
+      {
+        "sentence": "We shared the workload equally.",
+        "translation": "Chúng tôi chia đều khối lượng công việc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-consensus-c983c585ac": {
+    "meaning": "sự đồng thuận",
+    "notes": "Reach a consensus on something; không nhất thiết mọi người hoàn toàn đồng ý.",
+    "examples": [
+      {
+        "sentence": "The group reached a consensus on the plan.",
+        "translation": "Nhóm đạt đồng thuận về kế hoạch."
+      },
+      {
+        "sentence": "There is a broad consensus on this issue.",
+        "translation": "Có sự đồng thuận rộng rãi về vấn đề này."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-proactive-1774757a37": {
+    "meaning": "chủ động; đi trước để xử lý vấn đề",
+    "notes": "Take a proactive approach; khác reactive (chỉ phản ứng khi xảy ra).",
+    "examples": [
+      {
+        "sentence": "We need a proactive approach to maintenance.",
+        "translation": "Chúng ta cần cách bảo trì chủ động."
+      },
+      {
+        "sentence": "She is proactive about finding solutions.",
+        "translation": "Cô ấy chủ động tìm giải pháp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-versatile-05681deae9": {
+    "meaning": "đa năng; linh hoạt",
+    "notes": "Versatile tool/worker; có thể dùng hoặc thích ứng nhiều mục đích.",
+    "examples": [
+      {
+        "sentence": "This is a versatile kitchen tool.",
+        "translation": "Đây là dụng cụ nhà bếp đa năng."
+      },
+      {
+        "sentence": "She is a versatile performer.",
+        "translation": "Cô ấy là nghệ sĩ đa năng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-diligent-cf08fccd9d": {
+    "meaning": "siêng năng; cần mẫn",
+    "notes": "Diligent in doing something; nhấn mạnh sự chăm chỉ và cẩn thận.",
+    "examples": [
+      {
+        "sentence": "He is a diligent student.",
+        "translation": "Anh ấy là học sinh chăm chỉ."
+      },
+      {
+        "sentence": "She was diligent in checking every detail.",
+        "translation": "Cô ấy cần mẫn kiểm tra từng chi tiết."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-punctual-f036b21c8b": {
+    "meaning": "đúng giờ",
+    "notes": "Punctual for meetings; punctuality là danh từ.",
+    "examples": [
+      {
+        "sentence": "Please be punctual for the interview.",
+        "translation": "Vui lòng đến phỏng vấn đúng giờ."
+      },
+      {
+        "sentence": "Our new colleague is always punctual.",
+        "translation": "Đồng nghiệp mới của chúng tôi luôn đúng giờ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-diplomatic-76658a7ce8": {
+    "meaning": "khéo léo; thuộc ngoại giao",
+    "notes": "Diplomatic response; diplomatic relations = quan hệ ngoại giao.",
+    "examples": [
+      {
+        "sentence": "She gave a diplomatic answer.",
+        "translation": "Cô ấy đưa ra câu trả lời khéo léo."
+      },
+      {
+        "sentence": "The countries established diplomatic relations.",
+        "translation": "Hai nước thiết lập quan hệ ngoại giao."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-itinerary-9844cdc6c5": {
+    "meaning": "lịch trình chuyến đi",
+    "notes": "Travel itinerary; danh sách điểm đến và thời gian dự kiến.",
+    "examples": [
+      {
+        "sentence": "Can you send me the itinerary?",
+        "translation": "Bạn gửi lịch trình cho tôi được không?"
+      },
+      {
+        "sentence": "Our itinerary includes three cities.",
+        "translation": "Lịch trình của chúng tôi gồm ba thành phố."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-layover-7f3bf44c00": {
+    "meaning": "thời gian dừng chờ nối chuyến",
+    "notes": "Phổ biến Anh–Mỹ; stopover có thể chỉ điểm dừng lâu hơn, tùy ngữ cảnh.",
+    "examples": [
+      {
+        "sentence": "We have a two-hour layover in Singapore.",
+        "translation": "Chúng tôi có hai giờ chờ nối chuyến ở Singapore."
+      },
+      {
+        "sentence": "The long layover gave us time to eat.",
+        "translation": "Thời gian chờ nối chuyến dài giúp chúng tôi có thời gian ăn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-embark-8c941bffd3": {
+    "meaning": "lên tàu; bắt đầu một việc lớn",
+    "notes": "Embark on a journey/project; trong du lịch thường chỉ lên tàu.",
+    "examples": [
+      {
+        "sentence": "Passengers can embark at noon.",
+        "translation": "Hành khách có thể lên tàu lúc giữa trưa."
+      },
+      {
+        "sentence": "We are about to embark on a new project.",
+        "translation": "Chúng tôi sắp bắt đầu một dự án mới."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-disembark-3a747e2d98": {
+    "meaning": "xuống tàu; xuống máy bay",
+    "notes": "Disembark from a ship/aircraft; trang trọng hơn get off.",
+    "examples": [
+      {
+        "sentence": "Passengers began to disembark.",
+        "translation": "Hành khách bắt đầu xuống tàu."
+      },
+      {
+        "sentence": "We disembarked from the ferry at noon.",
+        "translation": "Chúng tôi xuống phà lúc giữa trưa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-terminal-4e686af7bd": {
+    "meaning": "nhà ga; trạm đầu cuối; thiết bị đầu cuối",
+    "notes": "Airport terminal; computer terminal; tính từ terminal mang nghĩa cuối hoặc giai đoạn cuối.",
+    "examples": [
+      {
+        "sentence": "Which terminal does our flight leave from?",
+        "translation": "Chuyến bay của chúng ta khởi hành từ nhà ga nào?"
+      },
+      {
+        "sentence": "The bus terminal is near the station.",
+        "translation": "Bến xe buýt ở gần nhà ga."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-aisle-0145be012a": {
+    "meaning": "lối đi giữa các hàng ghế hoặc kệ",
+    "notes": "Aisle seat; chữ s câm; khác isle (đảo nhỏ).",
+    "examples": [
+      {
+        "sentence": "I would prefer an aisle seat.",
+        "translation": "Tôi thích ghế cạnh lối đi hơn."
+      },
+      {
+        "sentence": "The milk is in the next aisle.",
+        "translation": "Sữa ở dãy hàng kế bên."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-pedestrian-750cfe5c94": {
+    "meaning": "người đi bộ",
+    "notes": "Pedestrian crossing = vạch/nơi qua đường dành cho người đi bộ.",
+    "examples": [
+      {
+        "sentence": "A pedestrian waited at the crossing.",
+        "translation": "Một người đi bộ đợi tại chỗ sang đường."
+      },
+      {
+        "sentence": "The road is closed to cars but open to pedestrians.",
+        "translation": "Đường cấm ô tô nhưng mở cho người đi bộ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-intersection-6fda7451bc": {
+    "meaning": "giao lộ; điểm giao nhau",
+    "notes": "Intersection of two roads; junction thường dùng trong Anh–Anh.",
+    "examples": [
+      {
+        "sentence": "Turn left at the next intersection.",
+        "translation": "Rẽ trái tại giao lộ tiếp theo."
+      },
+      {
+        "sentence": "The two roads meet at a busy intersection.",
+        "translation": "Hai con đường gặp nhau tại giao lộ đông đúc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-roundabout-75c7d7184d": {
+    "meaning": "vòng xuyến; bùng binh",
+    "notes": "At a roundabout; tính từ roundabout = vòng vo, gián tiếp.",
+    "examples": [
+      {
+        "sentence": "Take the second exit at the roundabout.",
+        "translation": "Đi theo lối ra thứ hai tại vòng xuyến."
+      },
+      {
+        "sentence": "There is a roundabout near the school.",
+        "translation": "Có một vòng xuyến gần trường."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-detour-cea5cd4fd9": {
+    "meaning": "đường vòng; chuyến đi vòng",
+    "notes": "Take/make a detour; thường vì đường bị chặn hoặc muốn ghé nơi khác.",
+    "examples": [
+      {
+        "sentence": "We had to take a detour around the bridge.",
+        "translation": "Chúng tôi phải đi đường vòng tránh cây cầu."
+      },
+      {
+        "sentence": "The detour added ten minutes to our trip.",
+        "translation": "Đường vòng làm chuyến đi dài thêm mười phút."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-commuter-0e9f29349f": {
+    "meaning": "người thường xuyên đi lại giữa nhà và nơi làm việc hoặc học tập",
+    "notes": "Commute có thể bằng bất kỳ phương tiện nào.",
+    "examples": [
+      {
+        "sentence": "The station is crowded with commuters.",
+        "translation": "Nhà ga đông người đi làm."
+      },
+      {
+        "sentence": "She is a daily commuter who cycles to work.",
+        "translation": "Cô ấy đi làm hằng ngày bằng xe đạp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-turbulence-5800768b32": {
+    "meaning": "nhiễu động; sự xáo động",
+    "notes": "Air turbulence là luồng khí gây rung lắc; thường không đếm được.",
+    "examples": [
+      {
+        "sentence": "The plane encountered turbulence.",
+        "translation": "Máy bay gặp nhiễu động không khí."
+      },
+      {
+        "sentence": "Keep your seat belt fastened during turbulence.",
+        "translation": "Hãy thắt dây an toàn khi máy bay gặp nhiễu động."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-shuttle-48f42260a8": {
+    "meaning": "xe hoặc phương tiện đưa đón",
+    "notes": "Shuttle bus/service chạy qua lại giữa các điểm; không chỉ xe buýt.",
+    "examples": [
+      {
+        "sentence": "A free shuttle runs to the airport.",
+        "translation": "Có xe đưa đón miễn phí đến sân bay."
+      },
+      {
+        "sentence": "We took the hotel shuttle to the station.",
+        "translation": "Chúng tôi đi xe đưa đón của khách sạn đến ga."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-freight-58467d4070": {
+    "meaning": "hàng hóa vận chuyển; việc vận chuyển hàng",
+    "notes": "Freight thường không đếm được; freight train = tàu chở hàng, không nhất thiết hàng nặng.",
+    "examples": [
+      {
+        "sentence": "The ship carries freight across the sea.",
+        "translation": "Tàu chở hàng qua biển."
+      },
+      {
+        "sentence": "Most freight arrives by rail.",
+        "translation": "Phần lớn hàng hóa đến bằng đường sắt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-mileage-8741995dbd": {
+    "meaning": "quãng đường tính bằng dặm; mức tiết kiệm nhiên liệu",
+    "notes": "High mileage có thể chỉ xe đã đi nhiều dặm; fuel mileage là quãng đường trên lượng nhiên liệu.",
+    "examples": [
+      {
+        "sentence": "The car has high mileage.",
+        "translation": "Chiếc xe đã chạy rất nhiều dặm."
+      },
+      {
+        "sentence": "This model gets better fuel mileage.",
+        "translation": "Mẫu xe này đi được xa hơn với cùng lượng nhiên liệu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-berth-5c2f64c7f2": {
+    "meaning": "giường nằm; chỗ neo đậu tàu",
+    "notes": "A sleeping berth; a berth at a port.",
+    "examples": [
+      {
+        "sentence": "We booked a lower berth on the train.",
+        "translation": "Chúng tôi đặt giường tầng dưới trên tàu."
+      },
+      {
+        "sentence": "The ship moved into its berth.",
+        "translation": "Con tàu tiến vào vị trí neo đậu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-souvenir-15dacf6574": {
+    "meaning": "quà lưu niệm",
+    "notes": "A souvenir of/from a place or event.",
+    "examples": [
+      {
+        "sentence": "I bought a souvenir for my sister.",
+        "translation": "Tôi mua quà lưu niệm cho chị gái."
+      },
+      {
+        "sentence": "This postcard is a souvenir of our trip.",
+        "translation": "Bưu thiếp này là kỷ vật của chuyến đi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-depart-a43ac7b069": {
+    "meaning": "khởi hành; rời đi",
+    "notes": "Depart from a place; depart for a destination.",
+    "examples": [
+      {
+        "sentence": "The train departs at seven.",
+        "translation": "Tàu khởi hành lúc bảy giờ."
+      },
+      {
+        "sentence": "We depart for Hanoi tomorrow.",
+        "translation": "Ngày mai chúng tôi khởi hành đi Hà Nội."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-stroll-108821b3ae": {
+    "meaning": "tản bộ; đi dạo thong thả",
+    "notes": "Stroll along/through; danh từ stroll = cuộc đi dạo.",
+    "examples": [
+      {
+        "sentence": "We strolled along the beach.",
+        "translation": "Chúng tôi tản bộ dọc bãi biển."
+      },
+      {
+        "sentence": "People stroll through the park in the evening.",
+        "translation": "Mọi người đi dạo trong công viên vào buổi tối."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-trek-1994d77b7c": {
+    "meaning": "chuyến đi dài, thường vất vả",
+    "notes": "A trek through the mountains; cũng là động từ trek.",
+    "examples": [
+      {
+        "sentence": "We went on a three-day trek.",
+        "translation": "Chúng tôi thực hiện chuyến đi bộ đường dài ba ngày."
+      },
+      {
+        "sentence": "The trek through the forest was tiring.",
+        "translation": "Chuyến đi bộ xuyên rừng khá mệt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-aperture-6f59cf9b31": {
+    "meaning": "khẩu độ; lỗ mở",
+    "notes": "Trong nhiếp ảnh, điều chỉnh lượng ánh sáng qua ống kính; wider aperture thường là số f nhỏ hơn.",
+    "examples": [
+      {
+        "sentence": "Use a wider aperture in low light.",
+        "translation": "Dùng khẩu độ lớn hơn khi thiếu sáng."
+      },
+      {
+        "sentence": "I changed the aperture before taking the photo.",
+        "translation": "Tôi chỉnh khẩu độ trước khi chụp ảnh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-shutter-9db3a25b00": {
+    "meaning": "màn trập; cửa chớp",
+    "notes": "Shutter speed = tốc độ màn trập; window shutters = cửa chớp.",
+    "examples": [
+      {
+        "sentence": "The camera shutter clicked.",
+        "translation": "Màn trập máy ảnh phát tiếng tách."
+      },
+      {
+        "sentence": "A fast shutter speed can freeze motion.",
+        "translation": "Tốc độ màn trập nhanh có thể bắt đứng chuyển động."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-tripod-f6ad9187c3": {
+    "meaning": "chân máy ba chân",
+    "notes": "Mount a camera on a tripod.",
+    "examples": [
+      {
+        "sentence": "Put the camera on a tripod.",
+        "translation": "Đặt máy ảnh lên chân máy ba chân."
+      },
+      {
+        "sentence": "A tripod keeps the camera steady.",
+        "translation": "Chân máy giữ máy ảnh ổn định."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-panoramic-13ea119808": {
+    "meaning": "toàn cảnh; bao quát góc rộng",
+    "notes": "Panoramic view/photo.",
+    "examples": [
+      {
+        "sentence": "The hotel offers a panoramic view of the bay.",
+        "translation": "Khách sạn có tầm nhìn toàn cảnh vịnh."
+      },
+      {
+        "sentence": "She took a panoramic photo of the mountains.",
+        "translation": "Cô ấy chụp ảnh toàn cảnh núi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-backlit-62afd2d752": {
+    "meaning": "được chiếu sáng từ phía sau; ngược sáng",
+    "notes": "Backlit screen = màn hình có đèn nền; backlit subject = chủ thể được chiếu sáng từ sau.",
+    "examples": [
+      {
+        "sentence": "The trees were backlit by the setting sun.",
+        "translation": "Những cái cây được mặt trời lặn chiếu sáng từ phía sau."
+      },
+      {
+        "sentence": "The laptop has a backlit keyboard.",
+        "translation": "Máy tính có bàn phím đèn nền."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-overexposed-8377c2792e": {
+    "meaning": "phơi sáng quá mức; quá sáng",
+    "notes": "Trong ảnh, overexposed có thể mất chi tiết vùng sáng; không phải mọi ảnh sáng đều bị cháy sáng.",
+    "examples": [
+      {
+        "sentence": "The sky looks overexposed in this photo.",
+        "translation": "Bầu trời trong ảnh này bị phơi sáng quá mức."
+      },
+      {
+        "sentence": "Several frames were overexposed.",
+        "translation": "Một số khung hình quá sáng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-vignette-05bf250f13": {
+    "meaning": "mẩu cảnh ngắn; hiệu ứng tối hoặc nhạt dần ở rìa ảnh",
+    "notes": "Vignette trong văn học là cảnh ngắn gợi tả; trong ảnh là hiệu ứng viền.",
+    "examples": [
+      {
+        "sentence": "The book opens with a short vignette.",
+        "translation": "Cuốn sách mở đầu bằng một cảnh ngắn."
+      },
+      {
+        "sentence": "She added a dark vignette to the photo.",
+        "translation": "Cô ấy thêm hiệu ứng tối viền vào ảnh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-storyboard-f364d46aa7": {
+    "meaning": "bảng phân cảnh",
+    "notes": "Storyboard là chuỗi khung hình phác thảo để lên kế hoạch cảnh quay.",
+    "examples": [
+      {
+        "sentence": "We created a storyboard before filming.",
+        "translation": "Chúng tôi tạo bảng phân cảnh trước khi quay."
+      },
+      {
+        "sentence": "The director showed us the storyboard.",
+        "translation": "Đạo diễn cho chúng tôi xem bảng phân cảnh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-montage-c0d142a8f4": {
+    "meaning": "đoạn dựng ghép nhiều hình ảnh hoặc cảnh",
+    "notes": "A montage of clips/photos; không nhất thiết tất cả cảnh đều ngắn.",
+    "examples": [
+      {
+        "sentence": "The film ends with a montage of family photos.",
+        "translation": "Bộ phim kết thúc bằng đoạn ghép ảnh gia đình."
+      },
+      {
+        "sentence": "We made a short video montage.",
+        "translation": "Chúng tôi dựng một đoạn video ghép ngắn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-dubbing-4e43978c6c": {
+    "meaning": "việc lồng tiếng",
+    "notes": "Thay hoặc bổ sung lời thoại thu âm, thường để chuyển ngôn ngữ.",
+    "examples": [
+      {
+        "sentence": "The dubbing sounds natural.",
+        "translation": "Phần lồng tiếng nghe tự nhiên."
+      },
+      {
+        "sentence": "The film won praise for its dubbing.",
+        "translation": "Bộ phim được khen vì phần lồng tiếng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-close-up-b5c4425b01": {
+    "meaning": "ảnh hoặc cảnh quay cận cảnh",
+    "notes": "A close-up of something; close-up shot.",
+    "examples": [
+      {
+        "sentence": "The camera captured a close-up of her face.",
+        "translation": "Máy quay ghi cảnh cận mặt cô ấy."
+      },
+      {
+        "sentence": "Take a close-up of the flower.",
+        "translation": "Hãy chụp cận cảnh bông hoa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-camcorder-3e8e67fc4e": {
+    "meaning": "máy quay phim cầm tay",
+    "notes": "Thiết bị ghi hình và thường ghi âm, không phải mọi loại camera.",
+    "examples": [
+      {
+        "sentence": "He filmed the wedding with a camcorder.",
+        "translation": "Anh ấy quay đám cưới bằng máy quay cầm tay."
+      },
+      {
+        "sentence": "She borrowed a camcorder for the school project.",
+        "translation": "Cô ấy mượn máy quay cho dự án ở trường."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-crop-375676bd26": {
+    "meaning": "cắt xén ảnh; cắt ngắn",
+    "notes": "Crop an image; crop out an object. Harvest mới là động từ phổ biến cho thu hoạch.",
+    "examples": [
+      {
+        "sentence": "Crop the photo to remove the empty space.",
+        "translation": "Cắt xén ảnh để bỏ phần trống."
+      },
+      {
+        "sentence": "She cropped the picture around the face.",
+        "translation": "Cô ấy cắt ảnh để giữ vùng quanh khuôn mặt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-contrast-3426125bf1": {
+    "meaning": "sự tương phản; sự đối lập",
+    "notes": "Contrast between A and B; in contrast to.",
+    "examples": [
+      {
+        "sentence": "The contrast between black and white is strong.",
+        "translation": "Sự tương phản giữa đen và trắng rất mạnh."
+      },
+      {
+        "sentence": "There is a clear contrast between the two designs.",
+        "translation": "Hai thiết kế có sự tương phản rõ rệt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-hue-1049f7ce09": {
+    "meaning": "sắc màu",
+    "notes": "Hue chỉ loại màu như đỏ, xanh; khác saturation (độ bão hòa).",
+    "examples": [
+      {
+        "sentence": "The paint has a warm orange hue.",
+        "translation": "Sơn có sắc cam ấm."
+      },
+      {
+        "sentence": "The sky took on a pink hue.",
+        "translation": "Bầu trời chuyển sang sắc hồng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-gradient-1b6a3443f3": {
+    "meaning": "dải chuyển màu; độ dốc",
+    "notes": "Color gradient trong thiết kế; gradient của đường hoặc đại lượng trong toán/kỹ thuật.",
+    "examples": [
+      {
+        "sentence": "The background uses a blue gradient.",
+        "translation": "Nền sử dụng dải chuyển màu xanh lam."
+      },
+      {
+        "sentence": "The road has a steep gradient.",
+        "translation": "Con đường có độ dốc lớn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-symmetrical-11e0302b6f": {
+    "meaning": "đối xứng; cân xứng",
+    "notes": "Symmetrical about an axis; opposite: asymmetrical.",
+    "examples": [
+      {
+        "sentence": "The pattern is symmetrical.",
+        "translation": "Hoa văn có tính đối xứng."
+      },
+      {
+        "sentence": "The building has a symmetrical front.",
+        "translation": "Mặt trước tòa nhà có bố cục đối xứng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-minimalist-2595a86ec4": {
+    "meaning": "tối giản",
+    "notes": "Minimalist design/style; cũng là danh từ chỉ người theo chủ nghĩa tối giản.",
+    "examples": [
+      {
+        "sentence": "She prefers minimalist interiors.",
+        "translation": "Cô ấy thích nội thất tối giản."
+      },
+      {
+        "sentence": "The app has a minimalist design.",
+        "translation": "Ứng dụng có thiết kế tối giản."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-textured-0edcf57f43": {
+    "meaning": "có kết cấu bề mặt; có vân",
+    "notes": "Textured surface/paper; không nhất thiết thô ráp.",
+    "examples": [
+      {
+        "sentence": "The wall has a textured finish.",
+        "translation": "Tường có lớp hoàn thiện tạo vân."
+      },
+      {
+        "sentence": "We printed the card on textured paper.",
+        "translation": "Chúng tôi in thẻ trên giấy có vân."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-render-887270d0cb": {
+    "meaning": "kết xuất; thể hiện; khiến trở nên",
+    "notes": "Render an image; render something useless = khiến vô dụng; nghĩa thay đổi theo tân ngữ.",
+    "examples": [
+      {
+        "sentence": "The computer can render the image quickly.",
+        "translation": "Máy tính có thể kết xuất ảnh nhanh."
+      },
+      {
+        "sentence": "The error rendered the file unusable.",
+        "translation": "Lỗi khiến tệp không thể sử dụng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-caption-176ca52906": {
+    "meaning": "chú thích ảnh; phụ đề",
+    "notes": "Photo caption; closed captions có thể gồm lời thoại và âm thanh.",
+    "examples": [
+      {
+        "sentence": "Read the caption under the photo.",
+        "translation": "Đọc chú thích dưới ảnh."
+      },
+      {
+        "sentence": "The video includes captions for viewers.",
+        "translation": "Video có phụ đề cho người xem."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-matte-b982e3a6fc": {
+    "meaning": "mờ lì; không bóng",
+    "notes": "Matte (US), matt thường dùng UK; matte finish.",
+    "examples": [
+      {
+        "sentence": "She chose a matte black frame.",
+        "translation": "Cô ấy chọn khung màu đen lì."
+      },
+      {
+        "sentence": "The screen has a matte finish.",
+        "translation": "Màn hình có lớp hoàn thiện chống bóng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-vividly-92c1fb5820": {
+    "meaning": "một cách sống động; rõ nét",
+    "notes": "Vividly remember/describe.",
+    "examples": [
+      {
+        "sentence": "I vividly remember my first day at school.",
+        "translation": "Tôi nhớ rõ ngày đầu đi học."
+      },
+      {
+        "sentence": "The author vividly describes the city.",
+        "translation": "Tác giả mô tả thành phố rất sống động."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-backdrop-d48607b08b": {
+    "meaning": "phông nền; bối cảnh",
+    "notes": "Backdrop to/for an event; có thể là nền vật lý hoặc bối cảnh rộng hơn.",
+    "examples": [
+      {
+        "sentence": "The mountains form a beautiful backdrop.",
+        "translation": "Dãy núi tạo thành phông nền đẹp."
+      },
+      {
+        "sentence": "The story is set against a backdrop of social change.",
+        "translation": "Câu chuyện diễn ra trong bối cảnh xã hội thay đổi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-focal-bdb9a6ffe0": {
+    "meaning": "thuộc tiêu điểm; trung tâm",
+    "notes": "Focal point = điểm tập trung chú ý; focal length = tiêu cự.",
+    "examples": [
+      {
+        "sentence": "The fireplace is the focal point of the room.",
+        "translation": "Lò sưởi là điểm nhấn của căn phòng."
+      },
+      {
+        "sentence": "This lens has a fixed focal length.",
+        "translation": "Ống kính này có tiêu cự cố định."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-symphony-0c873ecbd3": {
+    "meaning": "bản giao hưởng; sự hòa quyện",
+    "notes": "Thường là tác phẩm âm nhạc nhiều chương cho dàn nhạc; cũng dùng nghĩa bóng.",
+    "examples": [
+      {
+        "sentence": "The orchestra played a symphony.",
+        "translation": "Dàn nhạc chơi một bản giao hưởng."
+      },
+      {
+        "sentence": "We heard a symphony of birdsong.",
+        "translation": "Chúng tôi nghe tiếng chim hòa quyện như bản giao hưởng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-crescendo-eedc28b678": {
+    "meaning": "sự tăng dần âm lượng; cao trào",
+    "notes": "Trong nhạc là quá trình tăng độ lớn, không chỉ điểm kết thúc.",
+    "examples": [
+      {
+        "sentence": "The music builds to a crescendo.",
+        "translation": "Âm nhạc tăng dần đến cao trào."
+      },
+      {
+        "sentence": "The applause rose to a crescendo.",
+        "translation": "Tiếng vỗ tay lớn dần đến cao trào."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-tempo-8d6546721a": {
+    "meaning": "nhịp độ; tốc độ",
+    "notes": "Tempo của nhạc là tốc độ nhịp; cũng dùng cho hoạt động.",
+    "examples": [
+      {
+        "sentence": "The song has a fast tempo.",
+        "translation": "Bài hát có nhịp độ nhanh."
+      },
+      {
+        "sentence": "The conductor changed the tempo.",
+        "translation": "Nhạc trưởng thay đổi nhịp độ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-acoustic-2f378e6ce9": {
+    "meaning": "thuộc âm học; không dùng khuếch đại điện trong nhạc cụ",
+    "notes": "Acoustic guitar; acoustic properties = đặc tính âm học.",
+    "examples": [
+      {
+        "sentence": "She plays an acoustic guitar.",
+        "translation": "Cô ấy chơi đàn ghi-ta acoustic."
+      },
+      {
+        "sentence": "The hall has excellent acoustic properties.",
+        "translation": "Hội trường có đặc tính âm học rất tốt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-agility-b22bacd700": {
+    "meaning": "sự nhanh nhẹn; khả năng linh hoạt",
+    "notes": "Physical/mental agility; agile là tính từ.",
+    "examples": [
+      {
+        "sentence": "The exercise improves agility.",
+        "translation": "Bài tập cải thiện sự nhanh nhẹn."
+      },
+      {
+        "sentence": "The job requires mental agility.",
+        "translation": "Công việc đòi hỏi sự linh hoạt trí óc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-sprint-fb9afa8473": {
+    "meaning": "chạy nước rút",
+    "notes": "Sprint to a place; chạy rất nhanh trong quãng ngắn.",
+    "examples": [
+      {
+        "sentence": "He sprinted to catch the bus.",
+        "translation": "Anh ấy chạy nước rút để kịp xe buýt."
+      },
+      {
+        "sentence": "The athletes sprinted towards the finish line.",
+        "translation": "Các vận động viên chạy nước rút về đích."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-stride-d6b5905709": {
+    "meaning": "sải bước; bước tiến lớn",
+    "notes": "A long stride; make great strides = tiến bộ đáng kể.",
+    "examples": [
+      {
+        "sentence": "He crossed the room in three long strides.",
+        "translation": "Anh ấy băng qua phòng bằng ba sải bước dài."
+      },
+      {
+        "sentence": "The team has made great strides in safety.",
+        "translation": "Đội đã đạt tiến bộ lớn về an toàn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-compass-d1068beeb9": {
+    "meaning": "la bàn; dụng cụ vẽ đường tròn",
+    "notes": "La bàn chỉ hướng; dụng cụ vẽ thường gọi a pair of compasses hoặc a compass.",
+    "examples": [
+      {
+        "sentence": "We used a compass to find north.",
+        "translation": "Chúng tôi dùng la bàn để tìm hướng bắc."
+      },
+      {
+        "sentence": "Draw a circle with a compass.",
+        "translation": "Vẽ đường tròn bằng com-pa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-summit-13984a4e7e": {
+    "meaning": "đỉnh núi; hội nghị thượng đỉnh",
+    "notes": "Reach the summit; attend a summit.",
+    "examples": [
+      {
+        "sentence": "We reached the summit before noon.",
+        "translation": "Chúng tôi lên tới đỉnh núi trước trưa."
+      },
+      {
+        "sentence": "The leaders met at a regional summit.",
+        "translation": "Các nhà lãnh đạo gặp nhau tại hội nghị thượng đỉnh khu vực."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-canteen-1775f06ac1": {
+    "meaning": "căng tin; bình đựng nước mang theo",
+    "notes": "Canteen chỉ nơi ăn tập thể hoặc bình nước, tùy ngữ cảnh.",
+    "examples": [
+      {
+        "sentence": "We ate lunch in the school canteen.",
+        "translation": "Chúng tôi ăn trưa tại căng tin trường."
+      },
+      {
+        "sentence": "He filled his canteen before the hike.",
+        "translation": "Anh ấy đổ đầy bình nước trước chuyến đi bộ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-kayak-9e2bce7d42": {
+    "meaning": "thuyền kayak",
+    "notes": "Thuyền nhỏ hẹp, thường dùng mái chèo hai đầu.",
+    "examples": [
+      {
+        "sentence": "We rented a kayak for the afternoon.",
+        "translation": "Chúng tôi thuê thuyền kayak vào buổi chiều."
+      },
+      {
+        "sentence": "She carried her kayak to the lake.",
+        "translation": "Cô ấy mang thuyền kayak ra hồ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-switchback-bc2cce6b47": {
+    "meaning": "khúc cua gấp; đường dốc uốn chữ chi",
+    "notes": "Thường dùng Anh–Mỹ cho khúc cua đổi hướng trên đường dốc.",
+    "examples": [
+      {
+        "sentence": "The trail has several steep switchbacks.",
+        "translation": "Đường mòn có vài khúc cua gấp trên dốc."
+      },
+      {
+        "sentence": "We followed a switchback up the hill.",
+        "translation": "Chúng tôi đi theo một khúc cua chữ chi lên đồi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-cramp-2b09621945": {
+    "meaning": "cơn chuột rút; cơn co thắt đau",
+    "notes": "Muscle cramp; cramps có thể chỉ cơn đau do co thắt.",
+    "examples": [
+      {
+        "sentence": "I got a cramp in my calf.",
+        "translation": "Tôi bị chuột rút bắp chân."
+      },
+      {
+        "sentence": "She stopped running because of a cramp.",
+        "translation": "Cô ấy dừng chạy vì chuột rút."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-relay-682fbae20f": {
+    "meaning": "cuộc đua tiếp sức; thiết bị chuyển tiếp",
+    "notes": "Relay race; electrical relay = rơ-le điện.",
+    "examples": [
+      {
+        "sentence": "Our school won the relay race.",
+        "translation": "Trường chúng tôi thắng cuộc đua tiếp sức."
+      },
+      {
+        "sentence": "A relay controls the electrical circuit.",
+        "translation": "Một rơ-le điều khiển mạch điện."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-referee-81803dd4e4": {
+    "meaning": "trọng tài",
+    "notes": "Referee trong nhiều môn thể thao; umpire dùng ở một số môn khác.",
+    "examples": [
+      {
+        "sentence": "The referee stopped the match.",
+        "translation": "Trọng tài dừng trận đấu."
+      },
+      {
+        "sentence": "The players accepted the referee's decision.",
+        "translation": "Các cầu thủ chấp nhận quyết định của trọng tài."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-warmup-c6cf1309cd": {
+    "meaning": "bài khởi động; hoạt động làm nóng",
+    "notes": "Warmup/warm-up là danh từ; warm up là động từ.",
+    "examples": [
+      {
+        "sentence": "We did a short warmup before training.",
+        "translation": "Chúng tôi khởi động ngắn trước khi tập."
+      },
+      {
+        "sentence": "The coach planned a ten-minute warmup.",
+        "translation": "Huấn luyện viên lên kế hoạch khởi động mười phút."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-carabiner-892d9e17cc": {
+    "meaning": "móc khóa có chốt",
+    "notes": "Móc kim loại có cổng đóng mở; không phải mọi carabiner đều dùng được cho leo núi.",
+    "examples": [
+      {
+        "sentence": "She clipped the keys to a carabiner.",
+        "translation": "Cô ấy móc chìa khóa vào một móc có chốt."
+      },
+      {
+        "sentence": "The climbing shop sells locking carabiners.",
+        "translation": "Cửa hàng đồ leo núi bán móc khóa có chốt khóa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-tarmac-81f5c5cc79": {
+    "meaning": "mặt đường nhựa; sân đỗ hoặc đường băng sân bay",
+    "notes": "Tarmac thường chỉ khu vực lát mặt cứng ở sân bay trong cách nói phổ thông.",
+    "examples": [
+      {
+        "sentence": "The plane stood on the tarmac.",
+        "translation": "Máy bay đỗ trên sân lát nhựa."
+      },
+      {
+        "sentence": "The path changes from gravel to tarmac.",
+        "translation": "Đường chuyển từ sỏi sang mặt nhựa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-hydrate-164ad2e35d": {
+    "meaning": "cung cấp nước; bù nước",
+    "notes": "Hydrate oneself; hydrate the skin; không đồng nhất với uống một lượng nước cố định.",
+    "examples": [
+      {
+        "sentence": "Remember to hydrate during exercise.",
+        "translation": "Nhớ bổ sung nước khi tập luyện."
+      },
+      {
+        "sentence": "This cream helps hydrate dry skin.",
+        "translation": "Kem này giúp cấp ẩm cho da khô."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-outperform-dc6fb31566": {
+    "meaning": "đạt kết quả tốt hơn; vượt trội hơn",
+    "notes": "Outperform someone/something; có tân ngữ trực tiếp, không thêm than.",
+    "examples": [
+      {
+        "sentence": "The new model outperforms the old one.",
+        "translation": "Mẫu mới hoạt động tốt hơn mẫu cũ."
+      },
+      {
+        "sentence": "Our team outperformed its competitors.",
+        "translation": "Đội chúng tôi đạt kết quả tốt hơn các đối thủ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-terrain-84088805e1": {
+    "meaning": "địa hình",
+    "notes": "Rough/steep terrain; thường không đếm được khi chỉ đặc điểm địa hình.",
+    "examples": [
+      {
+        "sentence": "The bike is designed for rough terrain.",
+        "translation": "Xe đạp được thiết kế cho địa hình gồ ghề."
+      },
+      {
+        "sentence": "The terrain becomes steeper near the top.",
+        "translation": "Địa hình dốc hơn gần đỉnh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-bivouac-2941bc58c7": {
+    "meaning": "nơi trú đêm tạm ngoài trời",
+    "notes": "Bivouac có thể dùng nơi trú đơn giản với hoặc không có lều; từ chuyên biệt.",
+    "examples": [
+      {
+        "sentence": "They set up a bivouac near the ridge.",
+        "translation": "Họ lập nơi trú đêm tạm gần sống núi."
+      },
+      {
+        "sentence": "The climbers spent the night in a bivouac.",
+        "translation": "Những người leo núi qua đêm tại nơi trú tạm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-rivalry-204507d4e9": {
+    "meaning": "sự cạnh tranh; sự ganh đua",
+    "notes": "Rivalry between groups; rivalry for something.",
+    "examples": [
+      {
+        "sentence": "There is a strong rivalry between the teams.",
+        "translation": "Hai đội cạnh tranh quyết liệt."
+      },
+      {
+        "sentence": "The game renewed an old rivalry.",
+        "translation": "Trận đấu khơi lại sự ganh đua lâu năm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-paddle-a2afeec49a": {
+    "meaning": "chèo bằng mái chèo; lội nước nông",
+    "notes": "Paddle a canoe; paddle in shallow water thường gặp Anh–Anh.",
+    "examples": [
+      {
+        "sentence": "We paddled across the lake.",
+        "translation": "Chúng tôi chèo thuyền qua hồ."
+      },
+      {
+        "sentence": "The children paddled in the shallow water.",
+        "translation": "Bọn trẻ lội chơi ở vùng nước nông."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-endurance-be95e048ff": {
+    "meaning": "sức bền; khả năng chịu đựng",
+    "notes": "Physical endurance; endurance training.",
+    "examples": [
+      {
+        "sentence": "Running long distances requires endurance.",
+        "translation": "Chạy đường dài đòi hỏi sức bền."
+      },
+      {
+        "sentence": "The training improved her endurance.",
+        "translation": "Việc tập luyện cải thiện sức bền của cô ấy."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-forfeit-fec2d88c48": {
+    "meaning": "mất quyền; chịu mất; bỏ cuộc dẫn đến mất quyền",
+    "notes": "Forfeit a deposit/game/right; không nhất thiết tự nguyện.",
+    "examples": [
+      {
+        "sentence": "The team had to forfeit the match.",
+        "translation": "Đội phải chịu thua trận do không thể thi đấu."
+      },
+      {
+        "sentence": "You may forfeit your deposit if you cancel.",
+        "translation": "Bạn có thể mất tiền đặt cọc nếu hủy."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-tandem-7186b6e1e1": {
+    "meaning": "nối tiếp nhau; dành cho hai người ngồi trước sau",
+    "notes": "Tandem bicycle; in tandem = cùng phối hợp, là cụm trạng từ.",
+    "examples": [
+      {
+        "sentence": "We rented a tandem bicycle.",
+        "translation": "Chúng tôi thuê xe đạp đôi."
+      },
+      {
+        "sentence": "The museum displays a tandem kayak.",
+        "translation": "Bảo tàng trưng bày thuyền kayak hai chỗ nối tiếp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-canyon-ff2a8a3987": {
+    "meaning": "hẻm núi sâu",
+    "notes": "Thung lũng sâu có vách dốc, thường do dòng nước xói mòn.",
+    "examples": [
+      {
+        "sentence": "A river flows through the canyon.",
+        "translation": "Một con sông chảy qua hẻm núi."
+      },
+      {
+        "sentence": "We admired the canyon from above.",
+        "translation": "Chúng tôi ngắm hẻm núi từ trên cao."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-plateau-821a80eab5": {
+    "meaning": "cao nguyên; giai đoạn chững lại",
+    "notes": "A high plateau; reach a plateau = đạt mức rồi chững lại.",
+    "examples": [
+      {
+        "sentence": "The village sits on a plateau.",
+        "translation": "Ngôi làng nằm trên cao nguyên."
+      },
+      {
+        "sentence": "Sales reached a plateau in June.",
+        "translation": "Doanh số chững lại vào tháng Sáu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-delta-4f4a9410ff": {
+    "meaning": "châu thổ; vùng đất bồi ở cửa sông",
+    "notes": "River delta hình thành do trầm tích; không phải lúc nào có hình tam giác.",
+    "examples": [
+      {
+        "sentence": "The river forms a wide delta.",
+        "translation": "Con sông tạo thành vùng châu thổ rộng."
+      },
+      {
+        "sentence": "Many people farm in the delta.",
+        "translation": "Nhiều người làm nông ở vùng châu thổ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-sediment-4eba3cb90f": {
+    "meaning": "trầm tích; cặn lắng",
+    "notes": "Sediment lắng từ nước hoặc môi trường khác; thường không đếm được.",
+    "examples": [
+      {
+        "sentence": "Sediment collects at the bottom of the lake.",
+        "translation": "Trầm tích tích tụ ở đáy hồ."
+      },
+      {
+        "sentence": "The bottle contains a little sediment.",
+        "translation": "Chai có một ít cặn lắng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-monsoon-343ccdf393": {
+    "meaning": "gió mùa; mùa mưa gió mùa",
+    "notes": "Hệ thống gió thay đổi theo mùa; không đồng nghĩa một trận mưa.",
+    "examples": [
+      {
+        "sentence": "The monsoon brings heavy rain to the region.",
+        "translation": "Gió mùa mang mưa lớn đến khu vực."
+      },
+      {
+        "sentence": "Farmers prepare for the monsoon season.",
+        "translation": "Nông dân chuẩn bị cho mùa gió mùa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-drought-caaed8c4eb": {
+    "meaning": "hạn hán",
+    "notes": "A prolonged period of unusually low rainfall; drought conditions.",
+    "examples": [
+      {
+        "sentence": "The region suffered a severe drought.",
+        "translation": "Khu vực chịu hạn hán nghiêm trọng."
+      },
+      {
+        "sentence": "The drought damaged many crops.",
+        "translation": "Hạn hán làm thiệt hại nhiều vụ mùa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-drizzle-424f22be65": {
+    "meaning": "mưa phùn; mưa lất phất",
+    "notes": "Light rain with very small drops; cũng là động từ.",
+    "examples": [
+      {
+        "sentence": "A light drizzle fell all morning.",
+        "translation": "Mưa phùn nhẹ rơi suốt buổi sáng."
+      },
+      {
+        "sentence": "We walked home in the drizzle.",
+        "translation": "Chúng tôi đi bộ về nhà trong mưa phùn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-gale-2c0f3f264b": {
+    "meaning": "gió rất mạnh; cơn gió mạnh",
+    "notes": "A gale khác một cơn gió giật ngắn (gust).",
+    "examples": [
+      {
+        "sentence": "A gale blew throughout the night.",
+        "translation": "Gió rất mạnh thổi suốt đêm."
+      },
+      {
+        "sentence": "The ferry was cancelled because of the gale.",
+        "translation": "Chuyến phà bị hủy vì gió mạnh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-downpour-c551e04110": {
+    "meaning": "trận mưa lớn như trút",
+    "notes": "A sudden/heavy downpour; danh từ đếm được.",
+    "examples": [
+      {
+        "sentence": "We were caught in a sudden downpour.",
+        "translation": "Chúng tôi gặp trận mưa lớn bất ngờ."
+      },
+      {
+        "sentence": "The downpour flooded the road.",
+        "translation": "Trận mưa như trút làm ngập đường."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-humidity-ba3fb020c4": {
+    "meaning": "độ ẩm không khí",
+    "notes": "High/low humidity; relative humidity = độ ẩm tương đối.",
+    "examples": [
+      {
+        "sentence": "The humidity is high today.",
+        "translation": "Độ ẩm hôm nay cao."
+      },
+      {
+        "sentence": "A fan makes the humidity easier to bear.",
+        "translation": "Quạt giúp chịu đựng độ ẩm dễ hơn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-limestone-147a8ea184": {
+    "meaning": "đá vôi",
+    "notes": "Đá trầm tích chủ yếu chứa canxi cacbonat.",
+    "examples": [
+      {
+        "sentence": "The cave formed in limestone.",
+        "translation": "Hang động hình thành trong đá vôi."
+      },
+      {
+        "sentence": "The walls are built from local limestone.",
+        "translation": "Tường được xây bằng đá vôi địa phương."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-granite-ac7daf28fd": {
+    "meaning": "đá granit; đá hoa cương",
+    "notes": "Đá magma xâm nhập, thường có hạt tinh thể nhìn thấy được.",
+    "examples": [
+      {
+        "sentence": "The kitchen has a granite countertop.",
+        "translation": "Bếp có mặt bàn đá granit."
+      },
+      {
+        "sentence": "The mountain is largely made of granite.",
+        "translation": "Ngọn núi chủ yếu cấu tạo từ đá granit."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-geyser-e61d15d58f": {
+    "meaning": "mạch nước nóng phun theo đợt",
+    "notes": "Geyser phun nước nóng và hơi; khác hot spring thông thường.",
+    "examples": [
+      {
+        "sentence": "The geyser erupted in a cloud of steam.",
+        "translation": "Mạch nước nóng phun lên trong đám hơi nước."
+      },
+      {
+        "sentence": "Visitors watched the geyser from a distance.",
+        "translation": "Khách tham quan quan sát mạch nước phun từ xa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-avalanche-bb93cff885": {
+    "meaning": "tuyết lở; khối lớn đổ xuống; làn sóng dồn dập",
+    "notes": "Avalanche thường là khối tuyết trượt xuống dốc; nghĩa bóng avalanche of messages.",
+    "examples": [
+      {
+        "sentence": "An avalanche blocked the mountain road.",
+        "translation": "Một trận tuyết lở chắn đường núi."
+      },
+      {
+        "sentence": "We received an avalanche of requests.",
+        "translation": "Chúng tôi nhận một loạt yêu cầu dồn dập."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-quarry-0ae90cdacd": {
+    "meaning": "mỏ đá lộ thiên",
+    "notes": "Stone quarry; cũng có nghĩa con mồi trong ngữ cảnh săn bắt.",
+    "examples": [
+      {
+        "sentence": "The old quarry is now filled with water.",
+        "translation": "Mỏ đá cũ giờ đầy nước."
+      },
+      {
+        "sentence": "Workers extracted stone from the quarry.",
+        "translation": "Công nhân khai thác đá từ mỏ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-marsh-428e626f22": {
+    "meaning": "đầm lầy có cây thân thảo",
+    "notes": "Marsh thường có cỏ/sậy, khác swamp thường có cây thân gỗ.",
+    "examples": [
+      {
+        "sentence": "Birds nest in the marsh.",
+        "translation": "Chim làm tổ trong đầm lầy."
+      },
+      {
+        "sentence": "A wooden path crosses the marsh.",
+        "translation": "Một lối đi gỗ băng qua đầm lầy."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-tributary-33c8a9ed94": {
+    "meaning": "phụ lưu; nhánh sông đổ vào dòng lớn hơn",
+    "notes": "A tributary of a river; không phải nhánh tách ra từ sông chính.",
+    "examples": [
+      {
+        "sentence": "This stream is a tributary of the main river.",
+        "translation": "Con suối này là phụ lưu của sông chính."
+      },
+      {
+        "sentence": "Several tributaries join the river upstream.",
+        "translation": "Một số phụ lưu nhập vào sông ở thượng nguồn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-barometer-18a270eea6": {
+    "meaning": "khí áp kế; chỉ báo",
+    "notes": "Đo áp suất khí quyển; nghĩa bóng barometer of public opinion.",
+    "examples": [
+      {
+        "sentence": "The barometer shows falling pressure.",
+        "translation": "Khí áp kế cho thấy áp suất đang giảm."
+      },
+      {
+        "sentence": "Sales can be a barometer of consumer confidence.",
+        "translation": "Doanh số có thể là chỉ báo niềm tin người tiêu dùng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-oasis-8e424db8e5": {
+    "meaning": "ốc đảo; nơi yên bình giữa môi trường khó chịu",
+    "notes": "An oasis in a desert; số nhiều oases.",
+    "examples": [
+      {
+        "sentence": "The travellers stopped at an oasis.",
+        "translation": "Những người đi đường dừng lại tại ốc đảo."
+      },
+      {
+        "sentence": "The park is an oasis of calm in the city.",
+        "translation": "Công viên là chốn yên bình giữa thành phố."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-lush-7937c4dc45": {
+    "meaning": "tươi tốt; sum suê",
+    "notes": "Lush vegetation/garden; cũng mô tả thứ phong phú, xa hoa.",
+    "examples": [
+      {
+        "sentence": "The valley is covered in lush vegetation.",
+        "translation": "Thung lũng phủ đầy cây cối tươi tốt."
+      },
+      {
+        "sentence": "The garden looks lush after the rain.",
+        "translation": "Khu vườn trông sum suê sau mưa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-temperate-20f52b106b": {
+    "meaning": "ôn đới; ôn hòa; chừng mực",
+    "notes": "Temperate climate = khí hậu ôn đới; temperate behaviour = cư xử chừng mực.",
+    "examples": [
+      {
+        "sentence": "These trees grow in temperate climates.",
+        "translation": "Những cây này mọc ở vùng khí hậu ôn đới."
+      },
+      {
+        "sentence": "She kept a temperate tone during the debate.",
+        "translation": "Cô ấy giữ giọng điệu chừng mực trong cuộc tranh luận."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-seedling-8d9b917ef1": {
+    "meaning": "cây con mọc từ hạt",
+    "notes": "Seedling khác cutting (cành giâm).",
+    "examples": [
+      {
+        "sentence": "Plant each seedling in a separate pot.",
+        "translation": "Trồng mỗi cây con vào một chậu riêng."
+      },
+      {
+        "sentence": "The seedlings need light to grow.",
+        "translation": "Cây con cần ánh sáng để phát triển."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-prune-6c83126bfc": {
+    "meaning": "cắt tỉa; lược bỏ",
+    "notes": "Prune branches; prune a list = lược bớt; danh từ prune là mận khô.",
+    "examples": [
+      {
+        "sentence": "We prune the trees in winter.",
+        "translation": "Chúng tôi cắt tỉa cây vào mùa đông."
+      },
+      {
+        "sentence": "She pruned the list of suggestions.",
+        "translation": "Cô ấy lược bớt danh sách đề xuất."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-pollinate-2b402a176a": {
+    "meaning": "thụ phấn",
+    "notes": "Chuyển hạt phấn đến bộ phận sinh sản thích hợp của cây; bees pollinate flowers.",
+    "examples": [
+      {
+        "sentence": "Bees pollinate many flowering plants.",
+        "translation": "Ong thụ phấn cho nhiều loài cây có hoa."
+      },
+      {
+        "sentence": "Some crops are pollinated by wind.",
+        "translation": "Một số cây trồng được thụ phấn nhờ gió."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-mulch-43fcf4db98": {
+    "meaning": "lớp phủ mặt đất",
+    "notes": "Mulch giữ ẩm hoặc hạn chế cỏ dại; có thể từ vật liệu hữu cơ hoặc khác.",
+    "examples": [
+      {
+        "sentence": "Spread mulch around the plants.",
+        "translation": "Rải lớp phủ quanh cây."
+      },
+      {
+        "sentence": "The mulch helps keep the soil moist.",
+        "translation": "Lớp phủ giúp giữ đất ẩm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-trowel-a83c96cac2": {
+    "meaning": "bay nhỏ; xẻng tay",
+    "notes": "Garden trowel dùng xúc đất; bricklayer's trowel dùng xây trát.",
+    "examples": [
+      {
+        "sentence": "Use a trowel to dig a small hole.",
+        "translation": "Dùng xẻng tay đào một lỗ nhỏ."
+      },
+      {
+        "sentence": "The gardener cleaned her trowel.",
+        "translation": "Người làm vườn làm sạch chiếc bay."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-sprout-7957bdf8ea": {
+    "meaning": "nảy mầm; đâm chồi",
+    "notes": "Seeds sprout; danh từ sprout = mầm.",
+    "examples": [
+      {
+        "sentence": "The seeds began to sprout.",
+        "translation": "Hạt bắt đầu nảy mầm."
+      },
+      {
+        "sentence": "New leaves sprouted from the stem.",
+        "translation": "Lá mới mọc ra từ thân cây."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-wither-c878000952": {
+    "meaning": "héo; tàn lụi",
+    "notes": "Plants wither; wither away = suy yếu dần.",
+    "examples": [
+      {
+        "sentence": "The flowers withered in the heat.",
+        "translation": "Hoa héo trong cái nóng."
+      },
+      {
+        "sentence": "Without water, the leaves will wither.",
+        "translation": "Nếu thiếu nước, lá sẽ héo."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-fertilizer-ee3a336aa6": {
+    "meaning": "phân bón",
+    "notes": "Fertilizer (US), fertiliser (UK); cung cấp chất dinh dưỡng, không nhất thiết chỉ cho đất.",
+    "examples": [
+      {
+        "sentence": "The farmer uses organic fertilizer.",
+        "translation": "Nông dân sử dụng phân bón hữu cơ."
+      },
+      {
+        "sentence": "Apply fertilizer according to the instructions.",
+        "translation": "Bón phân theo hướng dẫn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-nectar-445ca6eb84": {
+    "meaning": "mật hoa; nước quả đặc",
+    "notes": "Nectar là dịch ngọt do cây tiết ra; fruit nectar là đồ uống từ quả.",
+    "examples": [
+      {
+        "sentence": "Bees collect nectar from flowers.",
+        "translation": "Ong lấy mật từ hoa."
+      },
+      {
+        "sentence": "She bought a bottle of peach nectar.",
+        "translation": "Cô ấy mua một chai nước đào đặc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-foliage-4de35d414d": {
+    "meaning": "tán lá; lá cây",
+    "notes": "Thường không đếm được; chỉ lá nói chung, không nhất thiết sum suê.",
+    "examples": [
+      {
+        "sentence": "The tree has dense green foliage.",
+        "translation": "Cây có tán lá xanh dày."
+      },
+      {
+        "sentence": "The autumn foliage turns red and yellow.",
+        "translation": "Lá cây mùa thu chuyển đỏ và vàng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-loam-7c91b7fa1a": {
+    "meaning": "đất thịt",
+    "notes": "Đất có hỗn hợp cát, limon và sét tương đối cân bằng; không nhất thiết giàu mùn.",
+    "examples": [
+      {
+        "sentence": "Many vegetables grow well in loam.",
+        "translation": "Nhiều loại rau phát triển tốt trên đất thịt."
+      },
+      {
+        "sentence": "The garden has a layer of sandy loam.",
+        "translation": "Khu vườn có lớp đất thịt pha cát."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-graft-4e762e9903": {
+    "meaning": "ghép cành; ghép mô",
+    "notes": "Graft a branch onto a rootstock; graft skin onto a wound trong y học.",
+    "examples": [
+      {
+        "sentence": "They grafted a pear branch onto another tree.",
+        "translation": "Họ ghép một cành lê lên cây khác."
+      },
+      {
+        "sentence": "The surgeon grafted skin onto the damaged area.",
+        "translation": "Bác sĩ phẫu thuật ghép da lên vùng bị tổn thương."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-dormant-c74c9a30f4": {
+    "meaning": "ở trạng thái nghỉ; tạm thời không hoạt động",
+    "notes": "Dormant seeds/volcano; có thể hoạt động lại, không đồng nghĩa đã chết.",
+    "examples": [
+      {
+        "sentence": "The seeds remain dormant through winter.",
+        "translation": "Hạt ở trạng thái nghỉ suốt mùa đông."
+      },
+      {
+        "sentence": "The volcano has been dormant for years.",
+        "translation": "Núi lửa không hoạt động trong nhiều năm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-arable-c41ec0c6ff": {
+    "meaning": "có thể canh tác; phù hợp trồng trọt",
+    "notes": "Arable land = đất có thể trồng cây; không nhất thiết rất màu mỡ.",
+    "examples": [
+      {
+        "sentence": "The region has little arable land.",
+        "translation": "Khu vực có ít đất canh tác."
+      },
+      {
+        "sentence": "The map shows areas of arable land.",
+        "translation": "Bản đồ cho thấy các vùng đất trồng trọt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-botanical-aa65d1b65a": {
+    "meaning": "thuộc thực vật; thuộc thực vật học",
+    "notes": "Botanical garden/illustration; botanist = nhà thực vật học.",
+    "examples": [
+      {
+        "sentence": "We visited a botanical garden.",
+        "translation": "Chúng tôi tham quan vườn thực vật."
+      },
+      {
+        "sentence": "The book contains botanical illustrations.",
+        "translation": "Cuốn sách có hình minh họa thực vật."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-shears-836a606081": {
+    "meaning": "kéo lớn; kéo cắt tỉa",
+    "notes": "Thường dùng số nhiều: a pair of shears.",
+    "examples": [
+      {
+        "sentence": "She trimmed the hedge with garden shears.",
+        "translation": "Cô ấy tỉa hàng rào bằng kéo làm vườn."
+      },
+      {
+        "sentence": "We bought a pair of shears for the garden.",
+        "translation": "Chúng tôi mua một chiếc kéo lớn cho vườn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-acreage-9f9fc11e18": {
+    "meaning": "diện tích đất tính bằng mẫu Anh",
+    "notes": "Acreage không nhất thiết diện tích lớn; acre là đơn vị mẫu Anh.",
+    "examples": [
+      {
+        "sentence": "The farm increased its acreage.",
+        "translation": "Trang trại tăng diện tích đất."
+      },
+      {
+        "sentence": "The report records the acreage of each farm.",
+        "translation": "Báo cáo ghi diện tích tính bằng mẫu Anh của mỗi trang trại."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   }
 }

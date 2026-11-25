@@ -5874,5 +5874,469 @@
         }
       ]
     }
+  ],
+  "en-extra-whisk-19312273f4": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "phới đánh trứng",
+      "examples": [
+        {
+          "sentence": "Use a whisk to mix the eggs.",
+          "translation": "Dùng phới để đánh trứng."
+        },
+        {
+          "sentence": "She washed the whisk after cooking.",
+          "translation": "Cô ấy rửa phới sau khi nấu."
+        }
+      ]
+    }
+  ],
+  "en-extra-garnish-3195f351e3": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "phần trang trí món ăn",
+      "examples": [
+        {
+          "sentence": "Add parsley as a garnish.",
+          "translation": "Thêm rau mùi tây để trang trí."
+        },
+        {
+          "sentence": "The dish has a lemon garnish.",
+          "translation": "Món ăn có chanh trang trí."
+        }
+      ]
+    }
+  ],
+  "en-extra-preserve-1daf82f622": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "mứt; khu bảo tồn",
+      "examples": [
+        {
+          "sentence": "We bought a jar of fruit preserves.",
+          "translation": "Chúng tôi mua một lọ mứt trái cây."
+        },
+        {
+          "sentence": "The birds live in a nature preserve.",
+          "translation": "Chim sống trong khu bảo tồn thiên nhiên."
+        }
+      ]
+    }
+  ],
+  "en-extra-delegate-6f216e33c5": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "đại biểu; người được cử đại diện",
+      "examples": [
+        {
+          "sentence": "Each school sent a delegate.",
+          "translation": "Mỗi trường cử một đại biểu."
+        },
+        {
+          "sentence": "The delegates voted on the proposal.",
+          "translation": "Các đại biểu bỏ phiếu về đề xuất."
+        }
+      ]
+    }
+  ],
+  "en-extra-implement-f9bb818d84": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "dụng cụ; công cụ",
+      "examples": [
+        {
+          "sentence": "The farmer bought a new agricultural implement.",
+          "translation": "Nông dân mua một dụng cụ nông nghiệp mới."
+        },
+        {
+          "sentence": "The museum displays old farming implements.",
+          "translation": "Bảo tàng trưng bày nông cụ cổ."
+        }
+      ]
+    }
+  ],
+  "en-extra-roster-c6836f7ad1": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "xếp lịch làm việc; đưa vào danh sách",
+      "examples": [
+        {
+          "sentence": "She was rostered to work on Friday.",
+          "translation": "Cô ấy được xếp lịch làm thứ Sáu."
+        },
+        {
+          "sentence": "The manager rostered two nurses for the night shift.",
+          "translation": "Quản lý xếp ca đêm cho hai điều dưỡng."
+        }
+      ]
+    }
+  ],
+  "en-extra-terminal-4e686af7bd": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "cuối; giai đoạn cuối",
+      "examples": [
+        {
+          "sentence": "The terminal stage of the process takes an hour.",
+          "translation": "Giai đoạn cuối của quy trình mất một giờ."
+        },
+        {
+          "sentence": "The charity supports people with terminal illnesses.",
+          "translation": "Tổ chức hỗ trợ người mắc bệnh giai đoạn cuối."
+        }
+      ]
+    }
+  ],
+  "en-extra-pedestrian-750cfe5c94": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "thuộc người đi bộ; tẻ nhạt",
+      "examples": [
+        {
+          "sentence": "This is a pedestrian zone.",
+          "translation": "Đây là khu vực dành cho người đi bộ."
+        },
+        {
+          "sentence": "The novel has a pedestrian plot.",
+          "translation": "Tiểu thuyết có cốt truyện tẻ nhạt."
+        }
+      ]
+    }
+  ],
+  "en-extra-roundabout-75c7d7184d": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "vòng vo; gián tiếp",
+      "examples": [
+        {
+          "sentence": "He gave a roundabout explanation.",
+          "translation": "Anh ấy giải thích vòng vo."
+        },
+        {
+          "sentence": "We took a roundabout route home.",
+          "translation": "Chúng tôi đi đường vòng về nhà."
+        }
+      ]
+    }
+  ],
+  "en-extra-detour-cea5cd4fd9": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đi vòng; chuyển hướng",
+      "examples": [
+        {
+          "sentence": "We had to detour around the flooded road.",
+          "translation": "Chúng tôi phải đi vòng tránh đường ngập."
+        },
+        {
+          "sentence": "Traffic was detoured through the village.",
+          "translation": "Giao thông được chuyển hướng qua làng."
+        }
+      ]
+    }
+  ],
+  "en-extra-shuttle-48f42260a8": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đưa đón; di chuyển qua lại",
+      "examples": [
+        {
+          "sentence": "Buses shuttle visitors between the sites.",
+          "translation": "Xe buýt đưa đón khách giữa các địa điểm."
+        },
+        {
+          "sentence": "She shuttles between two offices.",
+          "translation": "Cô ấy đi lại giữa hai văn phòng."
+        }
+      ]
+    }
+  ],
+  "en-extra-stroll-108821b3ae": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cuộc đi dạo",
+      "examples": [
+        {
+          "sentence": "Let's go for a stroll.",
+          "translation": "Hãy đi dạo."
+        },
+        {
+          "sentence": "We took a stroll after dinner.",
+          "translation": "Chúng tôi đi dạo sau bữa tối."
+        }
+      ]
+    }
+  ],
+  "en-extra-trek-1994d77b7c": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đi bộ đường dài; đi một chặng vất vả",
+      "examples": [
+        {
+          "sentence": "We trekked through the forest.",
+          "translation": "Chúng tôi đi bộ đường dài xuyên rừng."
+        },
+        {
+          "sentence": "They trekked for hours to reach the village.",
+          "translation": "Họ đi bộ nhiều giờ để đến làng."
+        }
+      ]
+    }
+  ],
+  "en-extra-crop-375676bd26": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cây trồng; vụ mùa",
+      "examples": [
+        {
+          "sentence": "Rice is an important crop.",
+          "translation": "Lúa là cây trồng quan trọng."
+        },
+        {
+          "sentence": "The drought damaged the wheat crop.",
+          "translation": "Hạn hán gây thiệt hại vụ lúa mì."
+        }
+      ]
+    }
+  ],
+  "en-extra-contrast-3426125bf1": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tương phản; đối chiếu",
+      "examples": [
+        {
+          "sentence": "The dark frame contrasts with the white wall.",
+          "translation": "Khung tối tương phản với tường trắng."
+        },
+        {
+          "sentence": "The report contrasts two approaches.",
+          "translation": "Báo cáo đối chiếu hai cách tiếp cận."
+        }
+      ]
+    }
+  ],
+  "en-extra-caption-176ca52906": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "thêm chú thích hoặc phụ đề",
+      "examples": [
+        {
+          "sentence": "She captioned the photo with the date.",
+          "translation": "Cô ấy ghi chú ngày vào ảnh."
+        },
+        {
+          "sentence": "The team captioned the video.",
+          "translation": "Đội thêm phụ đề cho video."
+        }
+      ]
+    }
+  ],
+  "en-extra-sprint-fb9afa8473": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cuộc chạy nước rút",
+      "examples": [
+        {
+          "sentence": "He won the final sprint.",
+          "translation": "Anh ấy thắng cuộc chạy nước rút cuối."
+        },
+        {
+          "sentence": "The race ended with a sprint.",
+          "translation": "Cuộc đua kết thúc bằng màn nước rút."
+        }
+      ]
+    }
+  ],
+  "en-extra-stride-d6b5905709": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "sải bước",
+      "examples": [
+        {
+          "sentence": "She strode into the room.",
+          "translation": "Cô ấy sải bước vào phòng."
+        },
+        {
+          "sentence": "He strode across the garden.",
+          "translation": "Anh ấy sải bước qua vườn."
+        }
+      ]
+    }
+  ],
+  "en-extra-cramp-2b09621945": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "bị co rút; hạn chế",
+      "examples": [
+        {
+          "sentence": "My leg cramped during the race.",
+          "translation": "Chân tôi bị chuột rút trong cuộc đua."
+        },
+        {
+          "sentence": "The small room cramped our movements.",
+          "translation": "Căn phòng nhỏ hạn chế việc di chuyển."
+        }
+      ]
+    }
+  ],
+  "en-extra-relay-682fbae20f": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chuyển tiếp; truyền đạt",
+      "examples": [
+        {
+          "sentence": "Please relay the message to the team.",
+          "translation": "Vui lòng chuyển lời nhắn cho đội."
+        },
+        {
+          "sentence": "The station relays the signal.",
+          "translation": "Trạm chuyển tiếp tín hiệu."
+        }
+      ]
+    }
+  ],
+  "en-extra-referee-81803dd4e4": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "làm trọng tài",
+      "examples": [
+        {
+          "sentence": "She refereed the match.",
+          "translation": "Cô ấy làm trọng tài trận đấu."
+        },
+        {
+          "sentence": "He will referee the final.",
+          "translation": "Anh ấy sẽ làm trọng tài trận chung kết."
+        }
+      ]
+    }
+  ],
+  "en-extra-paddle-a2afeec49a": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "mái chèo; vợt dạng bản",
+      "examples": [
+        {
+          "sentence": "He dropped his paddle into the water.",
+          "translation": "Anh ấy đánh rơi mái chèo xuống nước."
+        },
+        {
+          "sentence": "She bought a table tennis paddle.",
+          "translation": "Cô ấy mua vợt bóng bàn."
+        }
+      ]
+    }
+  ],
+  "en-extra-plateau-821a80eab5": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chững lại; đạt mức ổn định",
+      "examples": [
+        {
+          "sentence": "Sales plateaued after June.",
+          "translation": "Doanh số chững lại sau tháng Sáu."
+        },
+        {
+          "sentence": "Her progress began to plateau.",
+          "translation": "Tiến bộ của cô ấy bắt đầu chững lại."
+        }
+      ]
+    }
+  ],
+  "en-extra-drizzle-424f22be65": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "mưa phùn; rưới một ít chất lỏng",
+      "examples": [
+        {
+          "sentence": "It drizzled all afternoon.",
+          "translation": "Trời mưa phùn suốt buổi chiều."
+        },
+        {
+          "sentence": "Drizzle oil over the salad.",
+          "translation": "Rưới một ít dầu lên salad."
+        }
+      ]
+    }
+  ],
+  "en-extra-quarry-0ae90cdacd": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "khai thác đá",
+      "examples": [
+        {
+          "sentence": "They quarry limestone nearby.",
+          "translation": "Họ khai thác đá vôi gần đây."
+        },
+        {
+          "sentence": "Granite was quarried from the hill.",
+          "translation": "Đá granit được khai thác từ ngọn đồi."
+        }
+      ]
+    }
+  ],
+  "en-extra-prune-6c83126bfc": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "mận khô",
+      "examples": [
+        {
+          "sentence": "She added prunes to the cake.",
+          "translation": "Cô ấy thêm mận khô vào bánh."
+        },
+        {
+          "sentence": "I bought a bag of prunes.",
+          "translation": "Tôi mua một túi mận khô."
+        }
+      ]
+    }
+  ],
+  "en-extra-mulch-43fcf4db98": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "phủ vật liệu lên đất",
+      "examples": [
+        {
+          "sentence": "Mulch the soil around the trees.",
+          "translation": "Phủ vật liệu lên đất quanh cây."
+        },
+        {
+          "sentence": "We mulched the flower beds.",
+          "translation": "Chúng tôi phủ đất các luống hoa."
+        }
+      ]
+    }
+  ],
+  "en-extra-sprout-7957bdf8ea": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "mầm; chồi non",
+      "examples": [
+        {
+          "sentence": "A green sprout appeared in the pot.",
+          "translation": "Một chồi xanh xuất hiện trong chậu."
+        },
+        {
+          "sentence": "She added bean sprouts to the soup.",
+          "translation": "Cô ấy thêm giá đỗ vào súp."
+        }
+      ]
+    }
+  ],
+  "en-extra-graft-4e762e9903": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "mô ghép; cành ghép",
+      "examples": [
+        {
+          "sentence": "The doctor checked the skin graft.",
+          "translation": "Bác sĩ kiểm tra mô da ghép."
+        },
+        {
+          "sentence": "The graft began to grow in spring.",
+          "translation": "Cành ghép bắt đầu phát triển vào mùa xuân."
+        }
+      ]
+    }
   ]
 }

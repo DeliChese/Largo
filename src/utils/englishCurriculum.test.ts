@@ -73,7 +73,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 4021);
+  assert.equal(editorialIds.size, 4175);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -297,8 +297,8 @@ test('v19 seed migration preserves saved progress for phase 2g content', () => {
 test('additional senses have existing IDs and distinct examples without changing the primary review answer', () => {
   const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
   assert.equal(byId.size, 7000);
-  assert.equal(Object.keys(englishAdditionalSenses).length, 340);
-  assert.equal(Object.values(englishAdditionalSenses).flat().length, 364);
+  assert.equal(Object.keys(englishAdditionalSenses).length, 369);
+  assert.equal(Object.values(englishAdditionalSenses).flat().length, 393);
   for (const [id, senses] of Object.entries(englishAdditionalSenses)) {
     const word = byId.get(id);
     assert.ok(word, id);
@@ -762,5 +762,42 @@ test('v32 migration preserves review state and locale examples on B1 regional li
   assert.equal(updated.personalRelations, personalRelations);
   assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
   assert.ok(!migrated.words.some(item => item.id === 'en-regional-math'));
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2N.1 covers 154 B1 expansion vocabulary IDs', () => {
+  const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  const ids = ["en-extra-simmer-365fcc9a87","en-extra-marinate-3118ba8bce","en-extra-whisk-19312273f4","en-extra-ferment-9f80af54e8","en-extra-garnish-3195f351e3","en-extra-blanch-5b673c9a2c","en-extra-caramelize-63b44fada4","en-extra-knead-c7164d1a33","en-extra-aroma-e0c5f441ba","en-extra-savory-25b2adcfec","en-extra-pungent-8a606e481d","en-extra-crispy-127c2817bd","en-extra-bland-9db7cd4f9d","en-extra-zesty-c12da903ca","en-extra-culinary-23f532066e","en-extra-seasoning-e98a34ec5d","en-extra-utensil-b8268df1da","en-extra-beverage-27648bbe98","en-extra-broth-915db8f30b","en-extra-pastry-e8a10a5bb2","en-extra-preserve-1daf82f622","en-extra-agenda-df71fb0bd9","en-extra-minutes-90e63d85fa","en-extra-delegate-6f216e33c5","en-extra-facilitate-2c3184ba2d","en-extra-streamline-59afb3a486","en-extra-prioritize-9cd9bd9124","en-extra-collaborate-c66ebd0878","en-extra-brainstorm-e2e2381d75","en-extra-implement-f9bb818d84","en-extra-allocate-33b7bcc005","en-extra-elucidate-34c67b2d19","en-extra-appraise-d42fcf295e","en-extra-reimburse-e5af52b0d2","en-extra-roster-c6836f7ad1","en-extra-milestone-7f7f85b1e7","en-extra-bottleneck-da24c3162a","en-extra-workload-7f6c7360bf","en-extra-consensus-c983c585ac","en-extra-proactive-1774757a37","en-extra-versatile-05681deae9","en-extra-diligent-cf08fccd9d","en-extra-punctual-f036b21c8b","en-extra-diplomatic-76658a7ce8","en-extra-itinerary-9844cdc6c5","en-extra-layover-7f3bf44c00","en-extra-embark-8c941bffd3","en-extra-disembark-3a747e2d98","en-extra-terminal-4e686af7bd","en-extra-aisle-0145be012a","en-extra-pedestrian-750cfe5c94","en-extra-intersection-6fda7451bc","en-extra-roundabout-75c7d7184d","en-extra-detour-cea5cd4fd9","en-extra-commuter-0e9f29349f","en-extra-turbulence-5800768b32","en-extra-shuttle-48f42260a8","en-extra-freight-58467d4070","en-extra-mileage-8741995dbd","en-extra-berth-5c2f64c7f2","en-extra-souvenir-15dacf6574","en-extra-depart-a43ac7b069","en-extra-stroll-108821b3ae","en-extra-trek-1994d77b7c","en-extra-aperture-6f59cf9b31","en-extra-shutter-9db3a25b00","en-extra-tripod-f6ad9187c3","en-extra-panoramic-13ea119808","en-extra-backlit-62afd2d752","en-extra-overexposed-8377c2792e","en-extra-vignette-05bf250f13","en-extra-storyboard-f364d46aa7","en-extra-montage-c0d142a8f4","en-extra-dubbing-4e43978c6c","en-extra-close-up-b5c4425b01","en-extra-camcorder-3e8e67fc4e","en-extra-crop-375676bd26","en-extra-contrast-3426125bf1","en-extra-hue-1049f7ce09","en-extra-gradient-1b6a3443f3","en-extra-symmetrical-11e0302b6f","en-extra-minimalist-2595a86ec4","en-extra-textured-0edcf57f43","en-extra-render-887270d0cb","en-extra-caption-176ca52906","en-extra-matte-b982e3a6fc","en-extra-vividly-92c1fb5820","en-extra-backdrop-d48607b08b","en-extra-focal-bdb9a6ffe0","en-extra-symphony-0c873ecbd3","en-extra-crescendo-eedc28b678","en-extra-tempo-8d6546721a","en-extra-acoustic-2f378e6ce9","en-extra-agility-b22bacd700","en-extra-sprint-fb9afa8473","en-extra-stride-d6b5905709","en-extra-compass-d1068beeb9","en-extra-summit-13984a4e7e","en-extra-canteen-1775f06ac1","en-extra-kayak-9e2bce7d42","en-extra-switchback-bc2cce6b47","en-extra-cramp-2b09621945","en-extra-relay-682fbae20f","en-extra-referee-81803dd4e4","en-extra-warmup-c6cf1309cd","en-extra-carabiner-892d9e17cc","en-extra-tarmac-81f5c5cc79","en-extra-hydrate-164ad2e35d","en-extra-outperform-dc6fb31566","en-extra-terrain-84088805e1","en-extra-bivouac-2941bc58c7","en-extra-rivalry-204507d4e9","en-extra-paddle-a2afeec49a","en-extra-endurance-be95e048ff","en-extra-forfeit-fec2d88c48","en-extra-tandem-7186b6e1e1","en-extra-canyon-ff2a8a3987","en-extra-plateau-821a80eab5","en-extra-delta-4f4a9410ff","en-extra-sediment-4eba3cb90f","en-extra-monsoon-343ccdf393","en-extra-drought-caaed8c4eb","en-extra-drizzle-424f22be65","en-extra-gale-2c0f3f264b","en-extra-downpour-c551e04110","en-extra-humidity-ba3fb020c4","en-extra-limestone-147a8ea184","en-extra-granite-ac7daf28fd","en-extra-geyser-e61d15d58f","en-extra-avalanche-bb93cff885","en-extra-quarry-0ae90cdacd","en-extra-marsh-428e626f22","en-extra-tributary-33c8a9ed94","en-extra-barometer-18a270eea6","en-extra-oasis-8e424db8e5","en-extra-lush-7937c4dc45","en-extra-temperate-20f52b106b","en-extra-seedling-8d9b917ef1","en-extra-prune-6c83126bfc","en-extra-pollinate-2b402a176a","en-extra-mulch-43fcf4db98","en-extra-trowel-a83c96cac2","en-extra-sprout-7957bdf8ea","en-extra-wither-c878000952","en-extra-fertilizer-ee3a336aa6","en-extra-nectar-445ca6eb84","en-extra-foliage-4de35d414d","en-extra-loam-7c91b7fa1a","en-extra-graft-4e762e9903","en-extra-dormant-c74c9a30f4","en-extra-arable-c41ec0c6ff","en-extra-botanical-aa65d1b65a","en-extra-shears-836a606081","en-extra-acreage-9f9fc11e18"];
+  assert.equal(new Set(ids).size, 154);
+  for (const id of ids) {
+    const word = byId.get(id);
+    assert.ok(word, id);
+    assert.ok(Object.prototype.hasOwnProperty.call(englishEditorial, id), id);
+    assert.equal(word.examples.length, 2, id);
+    assert.ok(word.examples.every(e => e.sentence.trim() && e.translation.trim()), id);
+    assert.notEqual(word.examples[0].sentence, word.examples[1].sentence, id);
+  }
+  assert.match(byId.get('en-extra-reimburse-e5af52b0d2')?.notes ?? '', /for expenses/);
+  assert.match(byId.get('en-extra-crop-375676bd26')?.notes ?? '', /Harvest/);
+  assert.match(byId.get('en-extra-turbulence-5800768b32')?.examples[1].sentence ?? '', /fastened/);
+  assert.equal(byId.get('en-extra-delegate-6f216e33c5')?.additionalSenses?.[0]?.partOfSpeech, 'Danh từ');
+});
+
+test('v33 migration preserves review state and adds B1 expansion delegate noun sense', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-extra-delegate-6f216e33c5')!;
+  const { additionalSenses, ...old } = word;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const personalRelations = { synonyms: ['personal'], antonyms: [] };
+  const state = { version: 33, decks: INITIAL_DECKS, words: [{ ...old, srs, bloomLevel: 3 as const, personalRelations }] as VocabWord[], logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] } };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.deepEqual(updated?.additionalSenses, additionalSenses);
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
+  assert.equal(updated?.personalRelations, personalRelations);
+  assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
+  assert.ok(!migrated.words.some(item => item.id === 'en-extra-crop-375676bd26'));
   assert.equal(withCurrentSeed(migrated), migrated);
 });
