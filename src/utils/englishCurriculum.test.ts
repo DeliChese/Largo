@@ -71,7 +71,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 1129);
+  assert.equal(editorialIds.size, 1391);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -102,7 +102,7 @@ test('v13 upgrades corrected beginner content without resetting review state', (
 test('A1 editorial coverage and corrected core senses', () => {
   const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
   const a1DeckIds = new Set(ENGLISH_DECKS.filter(deck => deck.level === 'a1').map(deck => deck.id));
-  const editedA1 = ENGLISH_WORDS.filter(word => a1DeckIds.has(word.deckId) &&
+  const editedA1 = ENGLISH_WORDS.filter(word => a1DeckIds.has(word.deckId) && word.id.startsWith('en-vocab-') &&
     Object.prototype.hasOwnProperty.call(englishEditorial, word.id));
   assert.equal(editedA1.length, 800);
   assert.equal(byId.get('en-vocab-sentence')?.meaning, 'câu (ngữ pháp)');
@@ -144,6 +144,30 @@ test('A1 editorial repairs word class and common senses', () => {
   const migrated = withCurrentSeed(state);
   assert.equal(migrated.version, CURRENT_DATA_VERSION);
   assert.equal(migrated.words.find(item => item.id === word.id)?.partOfSpeech, 'Động từ');
+  assert.equal(migrated.words.find(item => item.id === word.id)?.srs, srs);
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2d covers supplementary A1, collocations and shared phrasal IDs', () => {
+  const edited = new Set(Object.keys(englishEditorial));
+  const a1Decks = new Set(ENGLISH_DECKS.filter(deck => deck.level === 'a1').map(deck => deck.id));
+  const a1 = ENGLISH_WORDS.filter(word => a1Decks.has(word.deckId));
+  const extra = a1.filter(word => word.id.startsWith('en-extra-'));
+  const phrases = a1.filter(word => word.id.startsWith('en-phrase-'));
+  assert.equal(extra.length, 94);
+  assert.equal(phrases.length, 72);
+  assert.ok([...extra, ...phrases].every(word => edited.has(word.id) && word.examples.length === 2));
+  const words = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  assert.equal(words.get('en-vocab-ms')?.meaning, 'cô; bà (danh xưng)');
+  assert.match(words.get('deck-en-a2-travel-pick-up')?.notes ?? '', /pick her up/);
+  const word = words.get('en-phrase-do-homework')!;
+  assert.match(word.notes ?? '', /không đếm được/);
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const state = { version: 16, decks: INITIAL_DECKS, words: [{ ...word, notes: 'ghi chú cũ', srs }], logs: [], profile: INITIAL_PROFILE };
+  const migrated = withCurrentSeed(state);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.equal(migrated.words.find(item => item.id === word.id)?.notes, word.notes);
   assert.equal(migrated.words.find(item => item.id === word.id)?.srs, srs);
   assert.equal(withCurrentSeed(migrated), migrated);
 });

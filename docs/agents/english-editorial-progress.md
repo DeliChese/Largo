@@ -2,16 +2,17 @@
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
-| Cấp | Đợt 1 | Đợt 2a | Đợt 2b | Đợt 2c | Tổng có overlay |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| A1 | 8 | 112 | 310 | 370 | 800 |
-| A2 | 0 | 0 | 0 | 0 | 0 |
-| B1 | 0 | 0 | 0 | 0 | 0 |
-| B2 | 0 | 61 | 0 | 0 | 61 |
-| C1 | 184 | 84 | 0 | 0 | 268 |
-| Tổng | 192 | 257 | 310 | 370 | 1.129 |
+| Cấp/nhóm | Đợt 1 | Đợt 2a | Đợt 2b | Đợt 2c | Đợt 2d | Tổng có overlay |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| A1 | 8 | 112 | 310 | 370 | 166 | 966 |
+| A2 | 0 | 0 | 0 | 0 | 71 | 71 |
+| B1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| B2 | 0 | 61 | 0 | 0 | 0 | 61 |
+| C1 | 184 | 84 | 0 | 0 | 0 | 268 |
+| Cụm động từ (ID riêng) | 0 | 0 | 0 | 0 | 25 | 25 |
+| Tổng | 192 | 257 | 310 | 370 | 262 | 1.391 |
 
-1.129/7.000 mục có chỉnh sửa biên tập; chưa kiểm chứng mọi trường. 5.871 mục chưa có overlay.
+1.391/7.000 mục có chỉnh sửa biên tập; chưa kiểm chứng mọi trường. 5.609 mục chưa có overlay. Bốn cụm động từ dùng chung ID đã tính vào A2, không đếm hai lần.
 
 ## Phạm vi đợt 2a
 
@@ -34,9 +35,17 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - Kiểm tra 370 ID mới, hai câu song ngữ không rỗng mỗi mục, 759 overlay cũ giữ nguyên.
 - Đưa 2b và 2c trực tiếp vào main theo yêu cầu. Chưa chạy lint/test/build/browser.
 
+## Phạm vi đợt 2d
+
+- 94/94 từ bổ sung A1 và 72/72 collocation A1 của nguồn tương ứng; bộ A1 giao tiếp gốc và biến thể vùng miền vẫn cần kiểm tra.
+- 29 cụm động từ thuộc ba bộ đầu: 25 ID riêng và 4 ID dùng chung A2 (run out of, pick up, drop off, check in).
+- 67 từ A2 thuộc hai bài đầu của nguồn vocabulary; sửa Ms, bill, queen, chef, market, traffic, stamp và các mục đa nghĩa khác.
+- Hai câu song ngữ cho mỗi overlay mới (524 câu, 329 câu mới và 195 câu nguồn giữ lại). Không sửa 1.129 overlay cũ.
+- Kiểm tra JSON/ID/số câu; chưa chạy lint/test/build/browser.
+
 ## Các đợt tiếp theo
 
-1. Các bộ bổ sung A1 và A2: đối chiếu nghĩa theo từ loại, đơn giản hóa ví dụ và sửa dịch máy.
+1. Các bộ giao tiếp gốc/biến thể A1 còn lại, nguồn vocabulary A2 và các bộ A2: đối chiếu nghĩa theo từ loại, đơn giản hóa ví dụ và sửa dịch máy.
 2. B1/B2: kiểm tra cụm từ đi kèm, giới từ, cấu trúc và cách dùng theo ngữ cảnh.
 3. C1 và các mục đã có overlay: kiểm tra phần ví dụ, quan hệ từ, phát âm/biến thể còn lại. 
 4. Chỉ đánh dấu hoàn thành khi mọi trường đã được kiểm tra hoặc có lý do không áp dụng. Kiểm tra CEFR và phân bổ lại bộ thuộc giai đoạn 3.

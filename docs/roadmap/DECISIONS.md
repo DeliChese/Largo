@@ -168,6 +168,13 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - Theo yêu cầu trực tiếp của chủ dự án, 2b và 2c được đưa vào main bằng commit không force-push. Kiểm tra JSON, không sửa 759 overlay cũ. Chưa chạy lint/test/build/browser; cần kiểm tra trước triển khai thực tế.
 - Rollback bằng seed mới hơn chứa nội dung trước đó hoặc phục hồi backup tương ứng.
 
+## ADR-026 — Biên tập học liệu đợt 2d
+
+- Seed v17 thêm 262 overlay: 94 từ bổ sung A1, 72 collocation A1, 29 cụm động từ thuộc ba bộ đầu (4 ID dùng chung A2 và 25 ID riêng), 67 từ vocabulary A2. Tổng 1.391 ID; giữ ID, cấp, thành viên bộ và lịch ôn.
+- Ưu tiên quy tắc ghép cụm, đại từ trong phrasal verbs, nghĩa thông dụng và phân biệt từ dễ nhầm. Hai ví dụ song ngữ cho mỗi ID mới; giữ ví dụ riêng của biến thể vùng miền.
+- Đưa vào main theo hướng trực tiếp của đợt trước; kiểm tra JSON, đúng nhóm ID, hai ví dụ khác nhau và giữ nguyên 1.129 overlay cũ. Bổ sung test coverage/migration v16; chưa chạy lint/test/build/browser.
+- Rollback bằng seed mới hơn chứa nội dung trước đó hoặc backup tương ứng.
+
 ## Template ADR mới
 
 - ID/ngày/status:
