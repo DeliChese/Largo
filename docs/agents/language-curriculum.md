@@ -31,7 +31,7 @@ Dùng chung giao diện trong [`DecksView.tsx`](../../src/components/DecksView.t
 
 Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và dữ liệu học. Khi cập nhật danh mục đã phát hành, kiểm thử bản lưu cũ, thẻ đã xóa, khôi phục và chạy cập nhật hai lần.
 
-## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v25)
+## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v26)
 
 - Nghĩa tiếng Việt là một hoặc vài cách dịch ngắn, cùng nghĩa trọng tâm; không dùng toàn bộ hướng dẫn ngữ pháp hoặc ví dụ làm đáp án nghĩa.
 - Giải thích và cách dùng nằm trong `notes`: nêu sắc thái, cấu trúc, giới từ, văn phong hoặc phân biệt từ dễ nhầm. Không tự tạo quy tắc tuyệt đối khi có ngoại lệ.
@@ -64,3 +64,5 @@ Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và 
 - Đợt 2H.3 (seed v24): thêm 104 ID giao tiếp/expansion A2; đủ 1.297/1.297 ID A2 có overlay; tổng 2.653/7.000. Thêm 12 ID/12 nhóm nghĩa phụ. Kiểm tra JSON/ID, sửa lỗi kiểu test migration v23 CI phát hiện; chưa xác nhận CI v24 hoặc browser. Đợt sau 2I (B1). Xem [tiến độ](english-editorial-progress.md).
 
 - Đợt 2I.1 (seed v25): thêm 96 danh từ B1 nguồn chính, tổng 2.749/7.000; thêm 19 nhóm nghĩa phụ. Sửa 4 overlay cũ để phục hồi câu cloze và ngữ cảnh khác nhau, cập nhật kiểm thử sau CI v24 thất bại. Chưa xác nhận CI v25/browser. Còn 455 danh từ B1 nguồn chính. Xem [tiến độ](english-editorial-progress.md).
+
+- Đợt 2I.2 (seed v26): thêm 205 danh từ B1 công việc, du lịch, đời sống; 301/551 danh từ B1 nguồn chính, tổng 2.954/7.000. Thêm 38 ID/39 nhóm nghĩa phụ. CI v25 thành công; kiểm tra JSON/ID v26 đạt, chưa xác nhận CI v26/browser. Còn 250 danh từ B1 nguồn chính general. Xem [tiến độ](english-editorial-progress.md).

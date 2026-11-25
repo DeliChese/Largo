@@ -477,6 +477,22 @@
       ]
     }
   ],
+  "en-vocab-access": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "truy cập; tiếp cận",
+      "examples": [
+        {
+          "sentence": "You can access the file online.",
+          "translation": "Bạn có thể truy cập tệp trực tuyến."
+        },
+        {
+          "sentence": "Students access the library using a card.",
+          "translation": "Sinh viên vào thư viện bằng thẻ."
+        }
+      ]
+    }
+  ],
   "en-vocab-answer": [
     {
       "partOfSpeech": "Động từ",
@@ -492,6 +508,22 @@
         }
       ],
       "notes": "Answer + danh từ trực tiếp, không thêm to trước câu hỏi."
+    }
+  ],
+  "en-vocab-arrest": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "bắt giữ",
+      "examples": [
+        {
+          "sentence": "The police arrested the suspect.",
+          "translation": "Cảnh sát bắt giữ nghi phạm."
+        },
+        {
+          "sentence": "He was arrested yesterday.",
+          "translation": "Anh ấy bị bắt hôm qua."
+        }
+      ]
     }
   ],
   "en-vocab-back": [
@@ -524,6 +556,23 @@
       ]
     }
   ],
+  "en-vocab-benefit": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "có lợi; hưởng lợi",
+      "examples": [
+        {
+          "sentence": "Exercise benefits your health.",
+          "translation": "Tập thể dục có lợi cho sức khỏe."
+        },
+        {
+          "sentence": "Students benefit from feedback.",
+          "translation": "Sinh viên hưởng lợi từ phản hồi."
+        }
+      ],
+      "notes": "Benefit from + danh từ."
+    }
+  ],
   "en-vocab-book": [
     {
       "partOfSpeech": "Động từ",
@@ -541,6 +590,54 @@
       "notes": "Book a room/table/ticket."
     }
   ],
+  "en-vocab-bow": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "cúi đầu; cúi chào",
+      "examples": [
+        {
+          "sentence": "The actors bowed after the show.",
+          "translation": "Các diễn viên cúi chào sau buổi diễn."
+        },
+        {
+          "sentence": "He bowed politely to the audience.",
+          "translation": "Anh ấy lịch sự cúi chào khán giả."
+        }
+      ],
+      "notes": "Khác cách đọc của danh từ vĩ đàn.",
+      "phonetic": "/baʊ/"
+    },
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cái cung; nơ",
+      "examples": [
+        {
+          "sentence": "The museum displays an old bow.",
+          "translation": "Bảo tàng trưng bày một cây cung cổ."
+        },
+        {
+          "sentence": "She tied the ribbon in a bow.",
+          "translation": "Cô ấy thắt dải ruy băng thành nơ."
+        }
+      ]
+    }
+  ],
+  "en-vocab-broadcast": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "phát sóng",
+      "examples": [
+        {
+          "sentence": "The station broadcasts the news daily.",
+          "translation": "Đài phát tin tức hằng ngày."
+        },
+        {
+          "sentence": "The concert was broadcast live.",
+          "translation": "Buổi hòa nhạc được phát sóng trực tiếp."
+        }
+      ]
+    }
+  ],
   "en-vocab-call": [
     {
       "partOfSpeech": "Động từ",
@@ -553,6 +650,38 @@
         {
           "sentence": "They call their dog Max.",
           "translation": "Họ gọi con chó của họ là Max."
+        }
+      ]
+    }
+  ],
+  "en-vocab-capture": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "bắt giữ; ghi lại",
+      "examples": [
+        {
+          "sentence": "The camera captured a clear image.",
+          "translation": "Máy ảnh ghi lại hình ảnh rõ nét."
+        },
+        {
+          "sentence": "The team captured the escaped animal.",
+          "translation": "Đội đã bắt lại con vật trốn thoát."
+        }
+      ]
+    }
+  ],
+  "en-vocab-cell": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "buồng giam",
+      "examples": [
+        {
+          "sentence": "The prisoner returned to his cell.",
+          "translation": "Tù nhân trở về buồng giam."
+        },
+        {
+          "sentence": "The cell had a small window.",
+          "translation": "Buồng giam có một cửa sổ nhỏ."
         }
       ]
     }
@@ -607,6 +736,39 @@
       "phonetic": "/kloʊz/ (Mỹ); /kləʊz/ (Anh)"
     }
   ],
+  "en-vocab-collapse": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "sụp đổ; ngã quỵ",
+      "examples": [
+        {
+          "sentence": "The old shed collapsed in the storm.",
+          "translation": "Nhà kho cũ sập trong cơn bão."
+        },
+        {
+          "sentence": "She collapsed from exhaustion.",
+          "translation": "Cô ấy ngã quỵ vì kiệt sức."
+        }
+      ]
+    }
+  ],
+  "en-vocab-conflict": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "mâu thuẫn; xung đột",
+      "examples": [
+        {
+          "sentence": "Their schedules conflict.",
+          "translation": "Lịch trình của họ bị trùng nhau."
+        },
+        {
+          "sentence": "This rule conflicts with our agreement.",
+          "translation": "Quy định này mâu thuẫn với thỏa thuận của chúng tôi."
+        }
+      ],
+      "phonetic": "/kənˈflɪkt/"
+    }
+  ],
   "en-vocab-cook": [
     {
       "partOfSpeech": "Động từ",
@@ -639,6 +801,102 @@
       ]
     }
   ],
+  "en-vocab-crash": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "va chạm; bị sập",
+      "examples": [
+        {
+          "sentence": "The computer crashed during the meeting.",
+          "translation": "Máy tính bị sập trong cuộc họp."
+        },
+        {
+          "sentence": "The car crashed into a fence.",
+          "translation": "Ô tô va vào hàng rào."
+        }
+      ]
+    }
+  ],
+  "en-vocab-criminal": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "thuộc tội phạm; mang tính hình sự",
+      "examples": [
+        {
+          "sentence": "The police began a criminal investigation.",
+          "translation": "Cảnh sát bắt đầu điều tra hình sự."
+        },
+        {
+          "sentence": "The court handles criminal cases.",
+          "translation": "Tòa án xử lý các vụ án hình sự."
+        }
+      ]
+    }
+  ],
+  "en-vocab-crush": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nghiền; ép nát",
+      "examples": [
+        {
+          "sentence": "Crush the garlic before cooking.",
+          "translation": "Hãy nghiền tỏi trước khi nấu."
+        },
+        {
+          "sentence": "The heavy box crushed the flowers.",
+          "translation": "Chiếc hộp nặng đè nát hoa."
+        }
+      ]
+    }
+  ],
+  "en-vocab-cure": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chữa khỏi",
+      "examples": [
+        {
+          "sentence": "The treatment cured the infection.",
+          "translation": "Phương pháp điều trị đã chữa khỏi nhiễm trùng."
+        },
+        {
+          "sentence": "Not all diseases can be cured.",
+          "translation": "Không phải mọi bệnh đều chữa khỏi được."
+        }
+      ]
+    }
+  ],
+  "en-vocab-cycle": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đi xe đạp",
+      "examples": [
+        {
+          "sentence": "I cycle to work every day.",
+          "translation": "Tôi đi xe đạp đến chỗ làm mỗi ngày."
+        },
+        {
+          "sentence": "They cycled around the lake.",
+          "translation": "Họ đạp xe quanh hồ."
+        }
+      ]
+    }
+  ],
+  "en-vocab-damage": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "làm hư hại",
+      "examples": [
+        {
+          "sentence": "The flood damaged several houses.",
+          "translation": "Lũ lụt làm hư hại vài ngôi nhà."
+        },
+        {
+          "sentence": "Don't damage the equipment.",
+          "translation": "Đừng làm hỏng thiết bị."
+        }
+      ]
+    }
+  ],
   "en-vocab-date": [
     {
       "partOfSpeech": "Động từ",
@@ -651,6 +909,22 @@
         {
           "sentence": "Please date the form before signing it.",
           "translation": "Hãy ghi ngày trên biểu mẫu trước khi ký."
+        }
+      ]
+    }
+  ],
+  "en-vocab-document": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "ghi lại bằng tài liệu",
+      "examples": [
+        {
+          "sentence": "They documented the results.",
+          "translation": "Họ ghi lại kết quả bằng tài liệu."
+        },
+        {
+          "sentence": "The report documents the changes.",
+          "translation": "Báo cáo ghi lại các thay đổi."
         }
       ]
     }
@@ -848,6 +1122,54 @@
       ]
     }
   ],
+  "en-vocab-fuel": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "cung cấp nhiên liệu; thúc đẩy",
+      "examples": [
+        {
+          "sentence": "The truck is fueled at the station.",
+          "translation": "Xe tải được tiếp nhiên liệu tại trạm."
+        },
+        {
+          "sentence": "Curiosity fueled her research.",
+          "translation": "Sự tò mò thúc đẩy nghiên cứu của cô ấy."
+        }
+      ]
+    }
+  ],
+  "en-vocab-fund": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tài trợ",
+      "examples": [
+        {
+          "sentence": "The organization funds research.",
+          "translation": "Tổ chức tài trợ nghiên cứu."
+        },
+        {
+          "sentence": "The project was funded by donations.",
+          "translation": "Dự án được tài trợ bằng tiền quyên góp."
+        }
+      ]
+    }
+  ],
+  "en-vocab-gossip": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nói chuyện tầm phào",
+      "examples": [
+        {
+          "sentence": "They gossip about their neighbors.",
+          "translation": "Họ nói chuyện tầm phào về hàng xóm."
+        },
+        {
+          "sentence": "Stop gossiping about your classmates.",
+          "translation": "Đừng bàn tán về bạn cùng lớp nữa."
+        }
+      ]
+    }
+  ],
   "en-vocab-grave": [
     {
       "partOfSpeech": "Tính từ",
@@ -876,6 +1198,22 @@
         {
           "sentence": "The horse needs to be groomed.",
           "translation": "Con ngựa cần được chải lông."
+        }
+      ]
+    }
+  ],
+  "en-vocab-guide": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "hướng dẫn; dẫn đường",
+      "examples": [
+        {
+          "sentence": "The teacher guided us through the exercise.",
+          "translation": "Giáo viên hướng dẫn chúng tôi làm bài tập."
+        },
+        {
+          "sentence": "Signs guide visitors to the exit.",
+          "translation": "Biển chỉ dẫn khách đến lối ra."
         }
       ]
     }
@@ -944,6 +1282,22 @@
         }
       ],
       "notes": "Help thường không đếm được trong nghĩa này."
+    }
+  ],
+  "en-vocab-hunt": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "săn; tìm kiếm",
+      "examples": [
+        {
+          "sentence": "Owls hunt at night.",
+          "translation": "Cú săn mồi vào ban đêm."
+        },
+        {
+          "sentence": "We hunted for a missing key.",
+          "translation": "Chúng tôi tìm kiếm chìa khóa thất lạc."
+        }
+      ]
     }
   ],
   "en-vocab-ink": [
@@ -1043,6 +1397,22 @@
       ],
       "notes": "Khác danh từ lead nghĩa dẫn trước đọc /liːd/.",
       "phonetic": "/led/"
+    }
+  ],
+  "en-vocab-lecture": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "giảng bài; lên lớp ai",
+      "examples": [
+        {
+          "sentence": "She lectures on history.",
+          "translation": "Cô ấy giảng về lịch sử."
+        },
+        {
+          "sentence": "Don't lecture me about money.",
+          "translation": "Đừng lên lớp tôi về tiền bạc."
+        }
+      ]
     }
   ],
   "en-vocab-left": [
@@ -1208,6 +1578,22 @@
       ]
     }
   ],
+  "en-vocab-moral": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "thuộc đạo đức",
+      "examples": [
+        {
+          "sentence": "She faced a moral dilemma.",
+          "translation": "Cô ấy đối mặt một tình thế tiến thoái lưỡng nan về đạo đức."
+        },
+        {
+          "sentence": "We have a moral duty to help.",
+          "translation": "Chúng ta có nghĩa vụ đạo đức phải giúp đỡ."
+        }
+      ]
+    }
+  ],
   "en-vocab-name": [
     {
       "partOfSpeech": "Động từ",
@@ -1274,6 +1660,38 @@
       ]
     }
   ],
+  "en-vocab-organ": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "đàn organ",
+      "examples": [
+        {
+          "sentence": "He plays the organ at church.",
+          "translation": "Anh ấy chơi đàn organ ở nhà thờ."
+        },
+        {
+          "sentence": "The hall has a large pipe organ.",
+          "translation": "Hội trường có một cây đại phong cầm lớn."
+        }
+      ]
+    }
+  ],
+  "en-vocab-palm": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cây cọ",
+      "examples": [
+        {
+          "sentence": "A palm grew near the beach.",
+          "translation": "Một cây cọ mọc gần bãi biển."
+        },
+        {
+          "sentence": "The garden has several tall palms.",
+          "translation": "Khu vườn có vài cây cọ cao."
+        }
+      ]
+    }
+  ],
   "en-vocab-patient": [
     {
       "partOfSpeech": "Tính từ",
@@ -1321,6 +1739,22 @@
         }
       ],
       "notes": "Play football (không có the); play the piano."
+    }
+  ],
+  "en-vocab-poison": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đầu độc; làm nhiễm độc",
+      "examples": [
+        {
+          "sentence": "Pollution can poison the river.",
+          "translation": "Ô nhiễm có thể làm nhiễm độc dòng sông."
+        },
+        {
+          "sentence": "The food was poisoned by harmful bacteria.",
+          "translation": "Thức ăn bị nhiễm độc do vi khuẩn có hại."
+        }
+      ]
     }
   ],
   "en-vocab-powder": [
@@ -1389,6 +1823,38 @@
       ]
     }
   ],
+  "en-vocab-puzzle": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "làm bối rối",
+      "examples": [
+        {
+          "sentence": "The question puzzled me.",
+          "translation": "Câu hỏi làm tôi bối rối."
+        },
+        {
+          "sentence": "His answer puzzled the class.",
+          "translation": "Câu trả lời của anh ấy khiến cả lớp khó hiểu."
+        }
+      ]
+    }
+  ],
+  "en-vocab-race": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đua; chạy nhanh",
+      "examples": [
+        {
+          "sentence": "They race bicycles on weekends.",
+          "translation": "Họ đua xe đạp vào cuối tuần."
+        },
+        {
+          "sentence": "She raced to catch the bus.",
+          "translation": "Cô ấy chạy nhanh để kịp xe buýt."
+        }
+      ]
+    }
+  ],
   "en-vocab-rain": [
     {
       "partOfSpeech": "Động từ",
@@ -1424,6 +1890,39 @@
       "phonetic": "/ˈrekərd/ (Mỹ); /ˈrekɔːd/ (Anh)"
     }
   ],
+  "en-vocab-rescue": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "cứu; giải cứu",
+      "examples": [
+        {
+          "sentence": "The team rescued the trapped dog.",
+          "translation": "Đội cứu hộ giải cứu con chó mắc kẹt."
+        },
+        {
+          "sentence": "Firefighters rescued the residents.",
+          "translation": "Lính cứu hỏa cứu các cư dân."
+        }
+      ]
+    }
+  ],
+  "en-vocab-resort": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "phải dùng đến (resort to)",
+      "examples": [
+        {
+          "sentence": "We should not resort to insults.",
+          "translation": "Chúng ta không nên phải dùng đến lời xúc phạm."
+        },
+        {
+          "sentence": "They resorted to a temporary solution.",
+          "translation": "Họ phải dùng đến giải pháp tạm thời."
+        }
+      ],
+      "notes": "Resort to + danh từ/V-ing."
+    }
+  ],
   "en-vocab-respect": [
     {
       "partOfSpeech": "Động từ",
@@ -1436,6 +1935,38 @@
         {
           "sentence": "We respect each other's privacy.",
           "translation": "Chúng tôi tôn trọng sự riêng tư của nhau."
+        }
+      ]
+    }
+  ],
+  "en-vocab-rest": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nghỉ ngơi; đặt tựa",
+      "examples": [
+        {
+          "sentence": "You should rest after the journey.",
+          "translation": "Bạn nên nghỉ ngơi sau chuyến đi."
+        },
+        {
+          "sentence": "She rested her head on the pillow.",
+          "translation": "Cô ấy tựa đầu lên gối."
+        }
+      ]
+    }
+  ],
+  "en-vocab-reward": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "thưởng",
+      "examples": [
+        {
+          "sentence": "The school rewards good attendance.",
+          "translation": "Trường khen thưởng việc đi học đầy đủ."
+        },
+        {
+          "sentence": "They rewarded her for her work.",
+          "translation": "Họ thưởng cho cô ấy vì công việc đã làm."
         }
       ]
     }
@@ -1531,6 +2062,22 @@
         }
       ],
       "notes": "Run – ran – run; run a business."
+    }
+  ],
+  "en-vocab-score": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "ghi điểm; đạt điểm",
+      "examples": [
+        {
+          "sentence": "She scored two goals.",
+          "translation": "Cô ấy ghi hai bàn."
+        },
+        {
+          "sentence": "He scored eighty points on the test.",
+          "translation": "Anh ấy đạt tám mươi điểm trong bài kiểm tra."
+        }
+      ]
     }
   ],
   "en-vocab-shelter": [
@@ -1663,6 +2210,57 @@
       "notes": "Stop doing = ngừng việc đang làm; stop to do = dừng việc khác để làm việc này."
     }
   ],
+  "en-vocab-stress": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nhấn mạnh; gây căng thẳng",
+      "examples": [
+        {
+          "sentence": "The teacher stressed the importance of practice.",
+          "translation": "Giáo viên nhấn mạnh tầm quan trọng của việc luyện tập."
+        },
+        {
+          "sentence": "The workload stresses him out.",
+          "translation": "Khối lượng công việc khiến anh ấy căng thẳng."
+        }
+      ]
+    }
+  ],
+  "en-vocab-supply": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "cung cấp",
+      "examples": [
+        {
+          "sentence": "The company supplies schools with books.",
+          "translation": "Công ty cung cấp sách cho trường học."
+        },
+        {
+          "sentence": "We supply fresh water to the village.",
+          "translation": "Chúng tôi cung cấp nước sạch cho làng."
+        }
+      ],
+      "notes": "Supply someone with something; supply something to someone."
+    }
+  ],
+  "en-vocab-suspect": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nghi ngờ",
+      "examples": [
+        {
+          "sentence": "I suspect there is a mistake.",
+          "translation": "Tôi nghi có sai sót."
+        },
+        {
+          "sentence": "They suspected him of lying.",
+          "translation": "Họ nghi anh ấy nói dối."
+        }
+      ],
+      "notes": "Động từ nhấn âm hai, khác danh từ.",
+      "phonetic": "/səˈspekt/"
+    }
+  ],
   "en-vocab-taste": [
     {
       "partOfSpeech": "Động từ",
@@ -1743,6 +2341,24 @@
           "translation": "Anh ấy luyện tập cho cuộc đua mỗi ngày."
         }
       ]
+    }
+  ],
+  "en-vocab-transport": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "vận chuyển",
+      "examples": [
+        {
+          "sentence": "Trucks transport goods to the market.",
+          "translation": "Xe tải vận chuyển hàng hóa đến chợ."
+        },
+        {
+          "sentence": "The boxes were transported by train.",
+          "translation": "Các thùng hàng được vận chuyển bằng tàu."
+        }
+      ],
+      "notes": "Động từ thường nhấn âm hai.",
+      "phonetic": "/trænˈspɔːt/"
     }
   ],
   "en-vocab-trust": [
@@ -1906,6 +2522,22 @@
         }
       ],
       "notes": "Work nghĩa công việc nói chung không đếm được; a job là một công việc cụ thể."
+    }
+  ],
+  "en-vocab-wound": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "làm bị thương",
+      "examples": [
+        {
+          "sentence": "The accident wounded several people.",
+          "translation": "Tai nạn làm vài người bị thương."
+        },
+        {
+          "sentence": "His words wounded her feelings.",
+          "translation": "Lời nói của anh ấy làm tổn thương cảm xúc của cô ấy."
+        }
+      ]
     }
   ],
   "en-vocab-wrap": [

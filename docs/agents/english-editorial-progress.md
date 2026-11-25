@@ -2,7 +2,7 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2I.2 — B1 danh từ còn 455/551 chưa phủ (bắt đầu work-01/02, travel-01/02). Kiểm tra CI v25 trước khi sửa. Mốc hiện tại: Seed v25, 2.749 ID có overlay; 107 ID có 118 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2I.3 — 250 danh từ B1 còn lại thuộc general-01–17; kiểm tra CI v26 trước khi sửa. Mốc hiện tại: Seed v26, 2.954 ID có overlay; 301/551 danh từ B1; 145 ID có 157 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
@@ -112,6 +112,14 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - CI v24 [45538902900](https://github.com/DeliChese/Largo/actions/runs/45538902900): lint đạt, test thất bại 4 trường hợp, build bỏ qua. Sửa chủ đích 4 overlay cũ: make progress/run into thêm ví dụ chứa nguyên cụm cho cloze, take off/look up thay câu trùng ngữ cảnh. Giữ mọi trường còn lại của 4 overlay và nguyên vẹn 2.649 overlay khác. Sửa studyScope.test.ts: kiểm tra cấu trúc quan hệ từ thay quota số lượng đồng/trái nghĩa không còn phù hợp vì chủ động xóa quan hệ chưa xác minh; vẫn kiểm tra có quan hệ trong kho. Sửa studySnapshots.test.ts so sánh tập ID ôn khi hai hạn giống hệt nhau (không ép tie-break), giữ kiểm tra reviewCount và thẻ đã xóa. Không đổi SRS/planner.
 - JavaScript: kiểm tra 96 ID khớp nguồn, không trùng, JSON 2.749 khóa duy nhất, nghĩa và hai ví dụ song ngữ mỗi ID mới; bảo toàn 88 ID nghĩa phụ cũ, đúng 4 overlay cũ sửa có chủ đích. Thêm test độ phủ 2I.1 và migration v24; chưa xác nhận CI v25, chưa chạy browser hoặc migration thực tế. CI v24 đã thất bại nên chưa nghiệm thu.
 - Bàn giao: 2I.2 tiếp tục danh từ B1 work-01/02 (66), travel-01/02 (48), life-01/02/03 (91), sau đó general (250). Kiểm tra CI v25 trước khi mở rộng. Không chuyển 2J trước khi hoàn tất nhóm danh từ.
+
+## Phạm vi đợt 2I.2 (Seed v26)
+
+- CI Seed v25 [45539603482](https://github.com/DeliChese/Largo/actions/runs/45539603482) đã hoàn thành thành công; không có lỗi tồn đọng cần sửa ở đầu phiên.
+- 205 ID mới: work-01/02 (66), travel-01/02 (48), life-01/02/03 (91). B1 nguồn chính 301/950; danh từ 301/551, còn 250 thuộc general-01–17. Tổng 2.954/7.000 (42,20%), còn 4.046 ID chưa có overlay. Giữ nguyên 2.749 overlay cũ, ID, CEFR, bộ, dữ liệu nguồn và engine.
+- 410 cặp ví dụ chính, 2 cặp trùng nguyên văn nguồn trực tiếp được giữ, 408 cặp biên soạn/chỉnh lại. Thêm 38 ID/39 nhóm nghĩa phụ với 78 ví dụ; tổng 145 ID/157 nhóm. Sửa crash (không phải hét), economy (nền kinh tế), customs (hải quan), capture, parking, breath/breathe, professor, moral, ward, radiation, puzzle; phân biệt danh/động từ suspect, transport, conflict và các cách đọc bow. Không tạo quan hệ từ thiếu căn cứ.
+- Kiểm tra JavaScript: 205 ID mới đúng nguồn, khóa duy nhất, JSON 2.954 overlay, đủ hai ví dụ không rỗng mỗi ID mới; giữ nguyên 107 ID nghĩa phụ cũ. Bổ sung test độ phủ bảy bộ và migration v25 (SRS/Bloom, quan hệ cá nhân, thẻ đã xóa, todayWordIds, idempotence). Chưa xác nhận CI v26 tại thời điểm commit; chưa chạy browser, migration trên thiết bị hoặc kiểm định toàn bộ IPA/biến thể/quan hệ từ.
+- Bàn giao 2I.3: hoàn thiện 250 danh từ B1 thuộc 17 bài general theo nhãn nguồn, kiểm kê bằng ID; chưa chuyển 2J. Kiểm tra CI v26 trước khi mở rộng.
 
 ## Các đợt tiếp theo
 
