@@ -73,7 +73,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 2653);
+  assert.equal(editorialIds.size, 2749);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -297,8 +297,8 @@ test('v19 seed migration preserves saved progress for phase 2g content', () => {
 test('additional senses have existing IDs and distinct examples without changing the primary review answer', () => {
   const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
   assert.equal(byId.size, 7000);
-  assert.equal(Object.keys(englishAdditionalSenses).length, 88);
-  assert.equal(Object.values(englishAdditionalSenses).flat().length, 99);
+  assert.equal(Object.keys(englishAdditionalSenses).length, 107);
+  assert.equal(Object.values(englishAdditionalSenses).flat().length, 118);
   for (const [id, senses] of Object.entries(englishAdditionalSenses)) {
     const word = byId.get(id);
     assert.ok(word, id);
@@ -433,5 +433,34 @@ test('v23 seed migration preserves saved review state and adds A2 senses', () =>
   assert.equal(updated?.personalRelations, personalRelations);
   assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
   assert.ok(!migrated.words.some(item => item.id === "deck-en-a2-travel-delay"));
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2i.1 covers 96 B1 core nouns in people and daily life', () => {
+  const ids = ["en-vocab-marriage","en-vocab-respect","en-vocab-relationship","en-vocab-enemy","en-vocab-property","en-vocab-gentleman","en-vocab-liar","en-vocab-victory","en-vocab-neighborhood","en-vocab-punishment","en-vocab-champion","en-vocab-nephew","en-vocab-prayer","en-vocab-invitation","en-vocab-proposal","en-vocab-niece","en-vocab-misunderstanding","en-vocab-groom","en-vocab-excitement","en-vocab-mankind","en-vocab-protest","en-vocab-twin","en-vocab-household","en-vocab-haven","en-vocab-charge","en-vocab-jail","en-vocab-taste","en-vocab-lab","en-vocab-funeral","en-vocab-ocean","en-vocab-grave","en-vocab-studio","en-vocab-iron","en-vocab-governor","en-vocab-edge","en-vocab-pie","en-vocab-pot","en-vocab-ambulance","en-vocab-dump","en-vocab-device","en-vocab-alcohol","en-vocab-wire","en-vocab-dirt","en-vocab-basement","en-vocab-package","en-vocab-ceremony","en-vocab-gym","en-vocab-cave","en-vocab-tax","en-vocab-purse","en-vocab-exit","en-vocab-clinic","en-vocab-port","en-vocab-cage","en-vocab-wrap","en-vocab-goods","en-vocab-shelter","en-vocab-circus","en-vocab-hammer","en-vocab-necklace","en-vocab-powder","en-vocab-pork","en-vocab-brick","en-vocab-pub","en-vocab-needle","en-vocab-bacon","en-vocab-sheet","en-vocab-avenue","en-vocab-bureau","en-vocab-pillow","en-vocab-lighter","en-vocab-tissue","en-vocab-vessel","en-vocab-hut","en-vocab-cotton","en-vocab-carpet","en-vocab-silk","en-vocab-bin","en-vocab-feast","en-vocab-helmet","en-vocab-collar","en-vocab-folk","en-vocab-ginger","en-vocab-filling","en-vocab-appetite","en-vocab-candle","en-vocab-curtain","en-vocab-platform","en-vocab-harbor","en-vocab-fur","en-vocab-journal","en-vocab-ink","en-vocab-pond","en-vocab-peanut","en-vocab-bracelet","en-vocab-jar"];
+  const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  assert.equal(new Set(ids).size, 96);
+  for (const id of ids) {
+    const word = byId.get(id);
+    assert.ok(word, id);
+    assert.equal(word.partOfSpeech, 'Danh từ', id);
+    assert.equal(word.examples.length, 2, id);
+    assert.ok(word.examples.every(e => e.sentence.trim() && e.translation.trim()), id);
+  }
+  assert.equal(byId.get('en-vocab-nephew')?.meaning, 'cháu trai (con của anh/chị/em)');
+  assert.equal(byId.get('en-vocab-grave')?.additionalSenses?.[0]?.partOfSpeech, 'Tính từ');
+});
+
+test('v24 migration adds B1 senses while preserving review state', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-vocab-charge')!;
+  const { additionalSenses, ...old } = word;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const state = { version: 24, decks: INITIAL_DECKS, words: [{ ...old, srs, bloomLevel: 3 as const }] as VocabWord[], logs: [], profile: INITIAL_PROFILE };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.deepEqual(updated?.additionalSenses, additionalSenses);
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
   assert.equal(withCurrentSeed(migrated), migrated);
 });

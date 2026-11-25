@@ -557,6 +557,22 @@
       ]
     }
   ],
+  "en-vocab-charge": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tính phí",
+      "examples": [
+        {
+          "sentence": "They charge ten dollars for delivery.",
+          "translation": "Họ tính phí giao hàng mười đô la."
+        },
+        {
+          "sentence": "The shop charged me too much.",
+          "translation": "Cửa hàng tính tiền tôi quá cao."
+        }
+      ]
+    }
+  ],
   "en-vocab-clean": [
     {
       "partOfSpeech": "Động từ",
@@ -673,6 +689,38 @@
       "notes": "Drive – drove – driven."
     }
   ],
+  "en-vocab-dump": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đổ bỏ; vứt bỏ",
+      "examples": [
+        {
+          "sentence": "Don't dump rubbish here.",
+          "translation": "Đừng đổ rác ở đây."
+        },
+        {
+          "sentence": "Someone dumped the old sofa outside.",
+          "translation": "Có người vứt chiếc sofa cũ bên ngoài."
+        }
+      ]
+    }
+  ],
+  "en-vocab-exit": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "rời khỏi; thoát ra",
+      "examples": [
+        {
+          "sentence": "Please exit the building calmly.",
+          "translation": "Vui lòng bình tĩnh rời khỏi tòa nhà."
+        },
+        {
+          "sentence": "Click here to exit the program.",
+          "translation": "Bấm vào đây để thoát chương trình."
+        }
+      ]
+    }
+  ],
   "en-vocab-face": [
     {
       "partOfSpeech": "Động từ",
@@ -704,6 +752,22 @@
         }
       ],
       "notes": "Fast là cả tính từ và trạng từ; không dùng fastly."
+    }
+  ],
+  "en-vocab-filling": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "miếng trám răng",
+      "examples": [
+        {
+          "sentence": "I need a new filling.",
+          "translation": "Tôi cần trám răng mới."
+        },
+        {
+          "sentence": "The dentist replaced an old filling.",
+          "translation": "Nha sĩ thay miếng trám cũ."
+        }
+      ]
     }
   ],
   "en-vocab-fine": [
@@ -784,6 +848,70 @@
       ]
     }
   ],
+  "en-vocab-grave": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "nghiêm trọng",
+      "examples": [
+        {
+          "sentence": "It was a grave mistake.",
+          "translation": "Đó là một sai lầm nghiêm trọng."
+        },
+        {
+          "sentence": "The patient was in grave danger.",
+          "translation": "Bệnh nhân đang gặp nguy hiểm nghiêm trọng."
+        }
+      ]
+    }
+  ],
+  "en-vocab-groom": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chải chuốt; chăm sóc lông",
+      "examples": [
+        {
+          "sentence": "She grooms her dog every week.",
+          "translation": "Cô ấy chải lông cho chó mỗi tuần."
+        },
+        {
+          "sentence": "The horse needs to be groomed.",
+          "translation": "Con ngựa cần được chải lông."
+        }
+      ]
+    }
+  ],
+  "en-vocab-hammer": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đóng bằng búa; đập mạnh",
+      "examples": [
+        {
+          "sentence": "He hammered a nail into the wall.",
+          "translation": "Anh ấy đóng đinh vào tường."
+        },
+        {
+          "sentence": "Rain hammered against the windows.",
+          "translation": "Mưa đập mạnh vào cửa sổ."
+        }
+      ]
+    }
+  ],
+  "en-vocab-harbor": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nuôi dưỡng; ôm giữ cảm xúc",
+      "examples": [
+        {
+          "sentence": "She harbors no ill feelings toward him.",
+          "translation": "Cô ấy không ôm giữ ác cảm với anh ấy."
+        },
+        {
+          "sentence": "He harbored doubts about the plan.",
+          "translation": "Anh ấy vẫn nghi ngờ kế hoạch."
+        }
+      ]
+    }
+  ],
   "en-vocab-hard": [
     {
       "partOfSpeech": "Trạng từ",
@@ -816,6 +944,38 @@
         }
       ],
       "notes": "Help thường không đếm được trong nghĩa này."
+    }
+  ],
+  "en-vocab-ink": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "ký kết (thân mật)",
+      "examples": [
+        {
+          "sentence": "They inked a new deal.",
+          "translation": "Họ ký một thỏa thuận mới."
+        },
+        {
+          "sentence": "The company inked a contract with the supplier.",
+          "translation": "Công ty ký hợp đồng với nhà cung cấp."
+        }
+      ]
+    }
+  ],
+  "en-vocab-iron": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "ủi; là quần áo",
+      "examples": [
+        {
+          "sentence": "I iron my shirts on Sunday.",
+          "translation": "Tôi ủi áo sơ mi vào Chủ nhật."
+        },
+        {
+          "sentence": "She ironed her dress before the party.",
+          "translation": "Cô ấy là váy trước bữa tiệc."
+        }
+      ]
     }
   ],
   "en-vocab-kind": [
@@ -1163,6 +1323,22 @@
       "notes": "Play football (không có the); play the piano."
     }
   ],
+  "en-vocab-powder": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "phủ bột hoặc phấn",
+      "examples": [
+        {
+          "sentence": "She powdered her face.",
+          "translation": "Cô ấy đánh phấn lên mặt."
+        },
+        {
+          "sentence": "The cook powdered the cake with sugar.",
+          "translation": "Đầu bếp rắc đường bột lên bánh."
+        }
+      ]
+    }
+  ],
   "en-vocab-present": [
     {
       "partOfSpeech": "Tính từ",
@@ -1195,6 +1371,22 @@
       ],
       "notes": "Động từ nhấn âm hai, khác danh từ/tính từ.",
       "phonetic": "/prɪˈzent/"
+    }
+  ],
+  "en-vocab-protest": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "phản đối; biểu tình",
+      "examples": [
+        {
+          "sentence": "They protested against the new rule.",
+          "translation": "Họ phản đối quy định mới."
+        },
+        {
+          "sentence": "She protested that the decision was unfair.",
+          "translation": "Cô ấy phản đối rằng quyết định đó không công bằng."
+        }
+      ]
     }
   ],
   "en-vocab-rain": [
@@ -1230,6 +1422,22 @@
       ],
       "notes": "Danh từ nhấn âm đầu, khác động từ nhấn âm hai.",
       "phonetic": "/ˈrekərd/ (Mỹ); /ˈrekɔːd/ (Anh)"
+    }
+  ],
+  "en-vocab-respect": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tôn trọng",
+      "examples": [
+        {
+          "sentence": "I respect your decision.",
+          "translation": "Tôi tôn trọng quyết định của bạn."
+        },
+        {
+          "sentence": "We respect each other's privacy.",
+          "translation": "Chúng tôi tôn trọng sự riêng tư của nhau."
+        }
+      ]
     }
   ],
   "en-vocab-right": [
@@ -1323,6 +1531,22 @@
         }
       ],
       "notes": "Run – ran – run; run a business."
+    }
+  ],
+  "en-vocab-shelter": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "che chở; trú ẩn",
+      "examples": [
+        {
+          "sentence": "The trees shelter us from the wind.",
+          "translation": "Cây che gió cho chúng tôi."
+        },
+        {
+          "sentence": "We sheltered under a bridge.",
+          "translation": "Chúng tôi trú dưới cầu."
+        }
+      ]
     }
   ],
   "en-vocab-shop": [
@@ -1439,6 +1663,38 @@
       "notes": "Stop doing = ngừng việc đang làm; stop to do = dừng việc khác để làm việc này."
     }
   ],
+  "en-vocab-taste": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nếm; có vị",
+      "examples": [
+        {
+          "sentence": "Taste the soup before serving it.",
+          "translation": "Hãy nếm súp trước khi dọn ra."
+        },
+        {
+          "sentence": "This tea tastes bitter.",
+          "translation": "Trà này có vị đắng."
+        }
+      ]
+    }
+  ],
+  "en-vocab-tax": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đánh thuế",
+      "examples": [
+        {
+          "sentence": "The government taxes income.",
+          "translation": "Chính phủ đánh thuế thu nhập."
+        },
+        {
+          "sentence": "Some goods are taxed at a higher rate.",
+          "translation": "Một số hàng hóa bị đánh thuế cao hơn."
+        }
+      ]
+    }
+  ],
   "en-vocab-tear": [
     {
       "partOfSpeech": "Động từ",
@@ -1455,6 +1711,22 @@
       ],
       "notes": "Tear – tore – torn; khác tear nghĩa nước mắt.",
       "phonetic": "/ter/ (Mỹ); /teə/ (Anh)"
+    }
+  ],
+  "en-vocab-tissue": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "mô (sinh học)",
+      "examples": [
+        {
+          "sentence": "Muscle tissue can repair itself.",
+          "translation": "Mô cơ có thể tự phục hồi."
+        },
+        {
+          "sentence": "The doctor took a sample of tissue.",
+          "translation": "Bác sĩ lấy mẫu mô."
+        }
+      ]
     }
   ],
   "en-vocab-train": [
@@ -1505,6 +1777,22 @@
       ],
       "notes": "Danh từ kết thúc bằng âm /s/; động từ use kết thúc bằng /z/.",
       "phonetic": "/juːs/"
+    }
+  ],
+  "en-vocab-vessel": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "mạch máu; ống dẫn (sinh học)",
+      "examples": [
+        {
+          "sentence": "Blood vessels carry blood through the body.",
+          "translation": "Mạch máu dẫn máu đi khắp cơ thể."
+        },
+        {
+          "sentence": "A small blood vessel burst.",
+          "translation": "Một mạch máu nhỏ bị vỡ."
+        }
+      ]
     }
   ],
   "en-vocab-visit": [
@@ -1618,6 +1906,22 @@
         }
       ],
       "notes": "Work nghĩa công việc nói chung không đếm được; a job là một công việc cụ thể."
+    }
+  ],
+  "en-vocab-wrap": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "bọc; gói",
+      "examples": [
+        {
+          "sentence": "Wrap the gift in paper.",
+          "translation": "Hãy gói quà bằng giấy."
+        },
+        {
+          "sentence": "She wrapped a scarf around her neck.",
+          "translation": "Cô ấy quàng khăn quanh cổ."
+        }
+      ]
     }
   ]
 }

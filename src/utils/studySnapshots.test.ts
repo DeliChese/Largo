@@ -61,7 +61,8 @@ test('reviewed English cards appear in daily reviews and deleted starter cards s
   assert.ok(!scope.some(({ id }) => id === DELETED_ENGLISH_CARD));
   const plan = getDailyStudyPlan(scope, state.profile, state.settings.dailyNewWordLimit, SNAPSHOT_TIME, state.words);
   assert.equal(plan.reviewCount, 2);
-  assert.deepEqual(plan.words.slice(0, 2).map(({ id }) => id), [REGIONAL_CARD, CORE_ENGLISH_CARD]);
+  // Both fixture cards have identical due times; the planner does not promise a tie-break order.
+  assert.deepEqual(new Set(plan.words.slice(0, 2).map(({ id }) => id)), new Set([REGIONAL_CARD, CORE_ENGLISH_CARD]));
 });
 
 test('both regional forms share progress regardless of the accent preference', () => {

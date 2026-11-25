@@ -125,8 +125,16 @@ test('the expanded catalog has 7,000 unique entries and covers all curriculum ty
   assert.equal(getScopedWords(ENGLISH_WORDS, ENGLISH_DECKS, 'en').length, 7_000);
   assert.ok(ENGLISH_WORDS.every(({ examples }) => examples.some(({ sentence }) => sentence.trim())));
   assert.ok(ENGLISH_WORDS.filter(({ examples }) => examples.some(({ translation }) => translation.trim())).length > 6_100);
-  assert.ok(ENGLISH_WORDS.filter(({ synonyms }) => synonyms.length > 0).length > 700);
-  assert.ok(ENGLISH_WORDS.filter(({ antonyms }) => antonyms.length > 0).length > 300);
+  // Editorial review intentionally removes unverified relations; quantity is not a quality gate.
+  for (const word of ENGLISH_WORDS) {
+    for (const relations of [word.synonyms, word.antonyms]) {
+      assert.ok(Array.isArray(relations), word.id);
+      assert.ok(relations.every(relation => typeof relation === 'string' && relation.trim()), word.id);
+    }
+  }
+  assert.deepEqual(ENGLISH_WORDS.find(word => word.id === 'en-vocab-marriage')?.synonyms, []);
+  assert.ok(ENGLISH_WORDS.some(word => word.synonyms.length > 0));
+  assert.ok(ENGLISH_WORDS.some(word => word.antonyms.length > 0));
   const phrases = getScopedWords(ENGLISH_WORDS, ENGLISH_DECKS.filter(({ collection }) => collection === 'phrases'), 'en');
   assert.deepEqual(new Set(phrases.map(({ partOfSpeech }) => partOfSpeech)), new Set(['Cụm danh từ', 'Cụm tính từ']));
   assert.ok(phrases.every(({ examples }) => examples[0]?.translation));
