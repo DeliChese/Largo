@@ -30,3 +30,13 @@ Dùng chung giao diện trong [`DecksView.tsx`](../../src/components/DecksView.t
 - Ghi nguồn cho tiêu đề, thứ tự bài và danh mục từ. Chỉ rõ phần nào do Largo biên soạn và phạm vi đã đối chiếu.
 
 Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và dữ liệu học. Khi cập nhật danh mục đã phát hành, kiểm thử bản lưu cũ, thẻ đã xóa, khôi phục và chạy cập nhật hai lần.
+
+## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v14)
+
+- Nghĩa tiếng Việt là một hoặc vài cách dịch ngắn, cùng nghĩa trọng tâm; không dùng toàn bộ hướng dẫn ngữ pháp hoặc ví dụ làm đáp án nghĩa.
+- Giải thích và cách dùng nằm trong `notes`: nêu sắc thái, cấu trúc, giới từ, văn phong hoặc phân biệt từ dễ nhầm. Không tự tạo quy tắc tuyệt đối khi có ngoại lệ.
+- Cụm từ đi kèm phải tự nhiên và đúng nghĩa đang dạy; mỗi ví dụ có bản dịch cùng ngữ cảnh. Ưu tiên câu ngắn, từ nền tảng dễ hiểu ở A1–A2 và câu minh họa sắc thái ở B2–C1.
+- Bản biên tập do Largo viết nằm ở [English/englishEditorial.json](../../English/englishEditorial.json), khóa bằng ID hiện hành, ưu tiên hơn enrichment khi cùng trường. Không chỉnh tệp nguồn lớn bằng thao tác thay chữ hàng loạt; đối chiếu từng nghĩa và ngữ cảnh. Chỉ thêm ghi chú khi có thông tin hữu ích.
+- Nhóm chủ đề thống nhất bằng [englishCurriculum.ts](../../src/data/englishCurriculum.ts); trong cùng cấp ưu tiên từ vựng → giao tiếp → collocations → cụm danh/tính từ → cụm động từ → biến thể. Giữ cấp và thành viên đã phát hành; bài nhiều chủ đề không được gán nhãn hẹp tùy tiện.
+- Bài tập nhỏ nên chọn 8–12 thẻ mới cùng chủ đề, học nghĩa trước rồi mới luyện ghép cụm, nhớ lại và đặt câu; không bắt buộc thay đổi giới hạn ôn hoặc thuật toán SRS.
+- Đợt 1: 184 mục C1 và 8 mục A1. Đợt 2a (seed v14): bổ sung 84 mục C1, 112 mục A1 và 61 mục B2 (công nghệ, kinh tế). Tổng 449 ID có overlay: 268 C1, 120 A1, 61 B2. C1 đã phủ toàn bộ nghĩa/ghi chú, ví dụ chỉ sửa chọn lọc; chưa kiểm chứng toàn bộ ví dụ hoặc quan hệ từ. Các mục còn lại chưa được rà soát đầy đủ; không coi đây là chứng nhận CEFR hoặc xác minh từ điển độc lập.

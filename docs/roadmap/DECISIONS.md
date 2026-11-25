@@ -140,6 +140,21 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - Đấu trường hỗ trợ đấu bot, tiếp sức 60 giây và hai người cùng thiết bị. Các luật chạy với danh mục cục bộ. Thẻ được lưu từ game dùng lại ID nếu đã có trong thư viện.
 - Rollback giao diện bằng mã đọc được seed v12. Khi quay về mã v11, dùng bản sao lưu tương ứng trước cập nhật. Schema IndexedDB và định dạng backup v2 tiếp tục dùng cấu trúc hiện hành.
 
+## ADR-022 — Chuẩn học liệu tiếng Anh nghĩa trước, cách dùng sau
+
+- Ngày 2026-11-25. Phạm vi theo yêu cầu chủ dự án: nội dung học tiếng Anh và thứ tự trình bày thẻ. Không thay đổi SRS, Bloom, game, API, tài khoản, schema IndexedDB hoặc backup.
+- Biên tập nghĩa và ghi chú qua overlay theo ID; giữ dữ liệu nguồn, dùng lại ID từ/thẻ/bộ, cấp và thành viên của bộ. Chuẩn hóa nhãn nhóm và thứ tự loại học liệu trong cấp, không tự chuyển cấp hoặc đổi số lượng thẻ.
+- Seed v13 dùng cơ chế cập nhật hiện có để áp dụng nội dung cho bản lưu v12, giữ SRS, Bloom, quan hệ cá nhân và các thẻ đã xóa. Cần chạy bộ test migration trước merge; chưa kiểm tra browser hoặc npm trong phiên connector.
+- Đợt đầu: 184 mục C1, 8 mục A1; rà soát những mục còn lại theo từng chủ đề và cập nhật overlay sau khi đối chiếu ngôn ngữ. Không tuyên bố toàn bộ 7.000 mục đã được kiểm chứng.
+- Rollback: không merge PR nếu chưa đạt test; nếu đã phát hành, khôi phục học liệu cũ với một seed version mới hơn (giữ ID), hoặc phục hồi backup tương ứng trước khi hạ phiên bản.
+
+## ADR-023 — Biên tập học liệu đợt 2a
+
+- Ngày 2026-11-25. Seed v14 bổ sung 257 ID vào overlay hiện có: 84 C1, 112 A1 và 61 B2. Tổng 449 ID; giữ số lượng và ID thẻ, cấp và thành viên bộ.
+- C1 hoàn tất phủ nghĩa/ghi chú (268/268). A1 thay 112 cặp ví dụ theo nghĩa cơ bản và loại bỏ danh sách quan hệ từ chưa xác minh ở các ID này. B2 biên tập nghĩa và giải thích cho hai bộ công nghệ và kinh tế. Ví dụ và quan hệ từ ở C1/B2 chưa được kiểm chứng toàn bộ.
+- Ví dụ đã biên tập được ưu tiên trong hai locale nếu từ hiển thị không đổi; giữ nguyên ví dụ của từ có biến thể chính tả hoặc từ riêng.
+- Thêm test phạm vi C1, tính nhất quán ví dụ hai locale và migration v13. Chưa chạy lint/test/build/browser. Giữ PR draft; rollback bằng phiên bản seed mới hơn chứa nội dung trước đó hoặc backup trước cập nhật.
+
 ## Template ADR mới
 
 - ID/ngày/status:

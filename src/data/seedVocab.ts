@@ -19,7 +19,7 @@ export const LANGUAGE_LABELS: Record<LanguageCode, { name: string; native: strin
 const ENGLISH_DATA_VERSION = 2;
 const ENGLISH_CURRICULUM_VERSION = 7;
 const ENGLISH_PHRASES_VERSION = 8;
-export const CURRENT_DATA_VERSION = 12;
+export const CURRENT_DATA_VERSION = 14;
 
 export const INITIAL_DECKS: VocabDeck[] = [...ENGLISH_DECKS];
 
