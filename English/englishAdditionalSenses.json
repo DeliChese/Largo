@@ -1,0 +1,1178 @@
+{
+  "deck-en-a1-conversation-mean": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "xấu tính; keo kiệt",
+      "examples": [
+        {
+          "sentence": "Don't be mean to your sister.",
+          "translation": "Đừng xấu tính với em gái."
+        },
+        {
+          "sentence": "He is mean with money.",
+          "translation": "Anh ấy keo kiệt về tiền bạc."
+        }
+      ],
+      "notes": "Mean to someone = đối xử không tử tế."
+    }
+  ],
+  "deck-en-a1-everyday-change": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "thay đổi; đổi",
+      "examples": [
+        {
+          "sentence": "I need to change my clothes.",
+          "translation": "Tôi cần thay quần áo."
+        },
+        {
+          "sentence": "Can we change the date?",
+          "translation": "Chúng ta đổi ngày được không?"
+        }
+      ]
+    }
+  ],
+  "en-vocab-answer": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "trả lời; đáp lại",
+      "examples": [
+        {
+          "sentence": "Please answer the question.",
+          "translation": "Hãy trả lời câu hỏi."
+        },
+        {
+          "sentence": "She answered the phone.",
+          "translation": "Cô ấy nghe điện thoại."
+        }
+      ],
+      "notes": "Answer + danh từ trực tiếp, không thêm to trước câu hỏi."
+    }
+  ],
+  "en-vocab-back": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "lưng; mặt sau",
+      "examples": [
+        {
+          "sentence": "My back hurts.",
+          "translation": "Tôi đau lưng."
+        },
+        {
+          "sentence": "Write your name on the back of the card.",
+          "translation": "Hãy viết tên lên mặt sau thẻ."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "ủng hộ; lùi",
+      "examples": [
+        {
+          "sentence": "I back your plan.",
+          "translation": "Tôi ủng hộ kế hoạch của bạn."
+        },
+        {
+          "sentence": "He backed the car into the garage.",
+          "translation": "Anh ấy lùi xe vào ga ra."
+        }
+      ]
+    }
+  ],
+  "en-vocab-book": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đặt trước",
+      "examples": [
+        {
+          "sentence": "I'd like to book a room.",
+          "translation": "Tôi muốn đặt phòng."
+        },
+        {
+          "sentence": "We booked two tickets online.",
+          "translation": "Chúng tôi đặt trước hai vé trực tuyến."
+        }
+      ],
+      "notes": "Book a room/table/ticket."
+    }
+  ],
+  "en-vocab-call": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "gọi; gọi điện; đặt tên",
+      "examples": [
+        {
+          "sentence": "I'll call you tonight.",
+          "translation": "Tối nay tôi sẽ gọi cho bạn."
+        },
+        {
+          "sentence": "They call their dog Max.",
+          "translation": "Họ gọi con chó của họ là Max."
+        }
+      ]
+    }
+  ],
+  "en-vocab-clean": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "làm sạch; dọn dẹp",
+      "examples": [
+        {
+          "sentence": "I clean my room every week.",
+          "translation": "Tôi dọn phòng mỗi tuần."
+        },
+        {
+          "sentence": "Please clean the table.",
+          "translation": "Hãy lau bàn."
+        }
+      ]
+    }
+  ],
+  "en-vocab-close": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đóng; kết thúc",
+      "examples": [
+        {
+          "sentence": "Please close the door.",
+          "translation": "Hãy đóng cửa."
+        },
+        {
+          "sentence": "The shop closes at six.",
+          "translation": "Cửa hàng đóng cửa lúc sáu giờ."
+        }
+      ],
+      "notes": "Động từ kết thúc bằng âm /z/; tính từ close (gần) kết thúc bằng /s/.",
+      "phonetic": "/kloʊz/ (Mỹ); /kləʊz/ (Anh)"
+    }
+  ],
+  "en-vocab-cook": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nấu ăn",
+      "examples": [
+        {
+          "sentence": "I cook dinner every day.",
+          "translation": "Tôi nấu bữa tối mỗi ngày."
+        },
+        {
+          "sentence": "She cooked rice for lunch.",
+          "translation": "Cô ấy nấu cơm cho bữa trưa."
+        }
+      ]
+    }
+  ],
+  "en-vocab-count": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "số đếm; tổng số",
+      "examples": [
+        {
+          "sentence": "Keep a count of the visitors.",
+          "translation": "Hãy ghi lại số khách."
+        },
+        {
+          "sentence": "The final count was fifty.",
+          "translation": "Tổng số cuối cùng là năm mươi."
+        }
+      ]
+    }
+  ],
+  "en-vocab-date": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "hẹn hò; ghi ngày tháng",
+      "examples": [
+        {
+          "sentence": "They dated for a year.",
+          "translation": "Họ hẹn hò một năm."
+        },
+        {
+          "sentence": "Please date the form before signing it.",
+          "translation": "Hãy ghi ngày trên biểu mẫu trước khi ký."
+        }
+      ]
+    }
+  ],
+  "en-vocab-drink": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "uống",
+      "examples": [
+        {
+          "sentence": "I drink water every morning.",
+          "translation": "Tôi uống nước mỗi sáng."
+        },
+        {
+          "sentence": "She drank a cup of tea.",
+          "translation": "Cô ấy uống một tách trà."
+        }
+      ],
+      "notes": "Drink – drank – drunk."
+    }
+  ],
+  "en-vocab-drive": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "lái xe; chở bằng xe",
+      "examples": [
+        {
+          "sentence": "Can you drive a car?",
+          "translation": "Bạn biết lái ô tô không?"
+        },
+        {
+          "sentence": "He drove me to the station.",
+          "translation": "Anh ấy lái xe đưa tôi đến ga."
+        }
+      ],
+      "notes": "Drive – drove – driven."
+    }
+  ],
+  "en-vocab-face": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đối mặt; hướng về",
+      "examples": [
+        {
+          "sentence": "We face a difficult problem.",
+          "translation": "Chúng tôi đối mặt với một vấn đề khó."
+        },
+        {
+          "sentence": "The window faces the sea.",
+          "translation": "Cửa sổ hướng ra biển."
+        }
+      ]
+    }
+  ],
+  "en-vocab-fast": [
+    {
+      "partOfSpeech": "Trạng từ",
+      "meaning": "nhanh",
+      "examples": [
+        {
+          "sentence": "Don't drive so fast.",
+          "translation": "Đừng lái xe nhanh như vậy."
+        },
+        {
+          "sentence": "She learns fast.",
+          "translation": "Cô ấy học nhanh."
+        }
+      ],
+      "notes": "Fast là cả tính từ và trạng từ; không dùng fastly."
+    }
+  ],
+  "en-vocab-fine": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "tiền phạt",
+      "examples": [
+        {
+          "sentence": "He paid a parking fine.",
+          "translation": "Anh ấy đóng tiền phạt đỗ xe."
+        },
+        {
+          "sentence": "There is a fine for breaking the rule.",
+          "translation": "Có khoản tiền phạt nếu vi phạm quy định."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "phạt tiền",
+      "examples": [
+        {
+          "sentence": "They fined him for parking there.",
+          "translation": "Họ phạt tiền anh ấy vì đỗ xe ở đó."
+        },
+        {
+          "sentence": "The company was fined.",
+          "translation": "Công ty bị phạt tiền."
+        }
+      ]
+    }
+  ],
+  "en-vocab-fish": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "câu cá; đánh bắt cá",
+      "examples": [
+        {
+          "sentence": "We fish in the lake.",
+          "translation": "Chúng tôi câu cá ở hồ."
+        },
+        {
+          "sentence": "He likes fishing on weekends.",
+          "translation": "Anh ấy thích câu cá cuối tuần."
+        }
+      ]
+    }
+  ],
+  "en-vocab-fix": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "sửa; khắc phục",
+      "examples": [
+        {
+          "sentence": "Can you fix my bike?",
+          "translation": "Bạn sửa xe đạp giúp tôi được không?"
+        },
+        {
+          "sentence": "We fixed the problem.",
+          "translation": "Chúng tôi đã khắc phục vấn đề."
+        }
+      ]
+    }
+  ],
+  "en-vocab-free": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "giải phóng; thả ra",
+      "examples": [
+        {
+          "sentence": "They freed the bird.",
+          "translation": "Họ thả con chim ra."
+        },
+        {
+          "sentence": "This will free some space on your phone.",
+          "translation": "Việc này sẽ giải phóng một ít dung lượng điện thoại."
+        }
+      ]
+    }
+  ],
+  "en-vocab-hard": [
+    {
+      "partOfSpeech": "Trạng từ",
+      "meaning": "chăm chỉ; mạnh",
+      "examples": [
+        {
+          "sentence": "He works hard every day.",
+          "translation": "Anh ấy làm việc chăm chỉ mỗi ngày."
+        },
+        {
+          "sentence": "Push the door hard.",
+          "translation": "Hãy đẩy cửa mạnh."
+        }
+      ],
+      "notes": "Hardly nghĩa hầu như không, không phải trạng từ của hard theo nghĩa chăm chỉ."
+    }
+  ],
+  "en-vocab-help": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "sự giúp đỡ",
+      "examples": [
+        {
+          "sentence": "Thank you for your help.",
+          "translation": "Cảm ơn bạn đã giúp đỡ."
+        },
+        {
+          "sentence": "I need some help with this task.",
+          "translation": "Tôi cần giúp đỡ với nhiệm vụ này."
+        }
+      ],
+      "notes": "Help thường không đếm được trong nghĩa này."
+    }
+  ],
+  "en-vocab-kind": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "tử tế; tốt bụng",
+      "examples": [
+        {
+          "sentence": "She is very kind to me.",
+          "translation": "Cô ấy rất tử tế với tôi."
+        },
+        {
+          "sentence": "That was a kind thing to do.",
+          "translation": "Đó là một việc làm tốt bụng."
+        }
+      ],
+      "notes": "Kind to someone."
+    }
+  ],
+  "en-vocab-land": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "đất; đất liền",
+      "examples": [
+        {
+          "sentence": "They bought some land.",
+          "translation": "Họ mua một ít đất."
+        },
+        {
+          "sentence": "The sailors finally reached land.",
+          "translation": "Các thủy thủ cuối cùng cũng đến đất liền."
+        }
+      ]
+    }
+  ],
+  "en-vocab-lead": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "dẫn dắt; dẫn đến",
+      "examples": [
+        {
+          "sentence": "She leads the team.",
+          "translation": "Cô ấy dẫn dắt đội."
+        },
+        {
+          "sentence": "This path leads to the river.",
+          "translation": "Con đường này dẫn ra sông."
+        }
+      ],
+      "notes": "Lead – led – led.",
+      "phonetic": "/liːd/"
+    },
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "chì (kim loại)",
+      "examples": [
+        {
+          "sentence": "Lead is a heavy metal.",
+          "translation": "Chì là một kim loại nặng."
+        },
+        {
+          "sentence": "Old paint may contain lead.",
+          "translation": "Sơn cũ có thể chứa chì."
+        }
+      ],
+      "notes": "Khác danh từ lead nghĩa dẫn trước đọc /liːd/.",
+      "phonetic": "/led/"
+    }
+  ],
+  "en-vocab-left": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "bên trái",
+      "examples": [
+        {
+          "sentence": "The station is on the left.",
+          "translation": "Nhà ga ở bên trái."
+        },
+        {
+          "sentence": "Look to your left.",
+          "translation": "Hãy nhìn sang bên trái."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Trạng từ",
+      "meaning": "về phía trái",
+      "examples": [
+        {
+          "sentence": "Turn left at the lights.",
+          "translation": "Hãy rẽ trái ở đèn giao thông."
+        },
+        {
+          "sentence": "Move left a little.",
+          "translation": "Hãy dịch sang trái một chút."
+        }
+      ],
+      "notes": "Left còn là dạng quá khứ/quá khứ phân từ của leave, không phải cùng nghĩa."
+    }
+  ],
+  "en-vocab-light": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "ánh sáng; đèn",
+      "examples": [
+        {
+          "sentence": "Turn on the light.",
+          "translation": "Hãy bật đèn."
+        },
+        {
+          "sentence": "The room gets plenty of light.",
+          "translation": "Căn phòng nhận nhiều ánh sáng."
+        }
+      ],
+      "notes": "A light là một chiếc đèn; light nghĩa ánh sáng thường không đếm được."
+    },
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "thắp; châm lửa",
+      "examples": [
+        {
+          "sentence": "She lit a candle.",
+          "translation": "Cô ấy thắp một ngọn nến."
+        },
+        {
+          "sentence": "He lit the lamp.",
+          "translation": "Anh ấy thắp đèn."
+        }
+      ],
+      "notes": "Light – lit/lighted – lit/lighted."
+    }
+  ],
+  "en-vocab-like": [
+    {
+      "partOfSpeech": "Giới từ",
+      "meaning": "giống; như",
+      "examples": [
+        {
+          "sentence": "She looks like her mother.",
+          "translation": "Cô ấy trông giống mẹ."
+        },
+        {
+          "sentence": "It tastes like lemon.",
+          "translation": "Nó có vị giống chanh vàng."
+        }
+      ],
+      "notes": "Like + danh từ/đại từ để so sánh; khác động từ like nghĩa thích."
+    }
+  ],
+  "en-vocab-live": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "trực tiếp; còn sống",
+      "examples": [
+        {
+          "sentence": "We watched a live show.",
+          "translation": "Chúng tôi xem một buổi biểu diễn trực tiếp."
+        },
+        {
+          "sentence": "They sell live fish.",
+          "translation": "Họ bán cá sống."
+        }
+      ],
+      "notes": "Tính từ live đọc /laɪv/, khác động từ live /lɪv/.",
+      "phonetic": "/laɪv/"
+    }
+  ],
+  "en-vocab-look": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nhìn; trông có vẻ",
+      "examples": [
+        {
+          "sentence": "Look at this picture.",
+          "translation": "Hãy nhìn bức ảnh này."
+        },
+        {
+          "sentence": "You look tired.",
+          "translation": "Bạn trông có vẻ mệt."
+        }
+      ],
+      "notes": "Look at + vật; look + tính từ."
+    }
+  ],
+  "en-vocab-love": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "yêu; rất thích",
+      "examples": [
+        {
+          "sentence": "I love my family.",
+          "translation": "Tôi yêu gia đình mình."
+        },
+        {
+          "sentence": "She loves reading.",
+          "translation": "Cô ấy rất thích đọc sách."
+        }
+      ]
+    }
+  ],
+  "en-vocab-mark": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đánh dấu; chấm điểm",
+      "examples": [
+        {
+          "sentence": "Mark the correct answer.",
+          "translation": "Hãy đánh dấu đáp án đúng."
+        },
+        {
+          "sentence": "The teacher marked our tests.",
+          "translation": "Giáo viên chấm bài kiểm tra của chúng tôi."
+        }
+      ]
+    }
+  ],
+  "en-vocab-match": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "hợp với; khớp",
+      "examples": [
+        {
+          "sentence": "Your shoes match your bag.",
+          "translation": "Giày hợp với túi của bạn."
+        },
+        {
+          "sentence": "The two names don't match.",
+          "translation": "Hai tên không khớp nhau."
+        }
+      ]
+    }
+  ],
+  "en-vocab-name": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đặt tên; nêu tên",
+      "examples": [
+        {
+          "sentence": "They named the baby Anna.",
+          "translation": "Họ đặt tên em bé là Anna."
+        },
+        {
+          "sentence": "Can you name three fruits?",
+          "translation": "Bạn kể tên ba loại trái cây được không?"
+        }
+      ]
+    }
+  ],
+  "en-vocab-offer": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đề nghị; cung cấp",
+      "examples": [
+        {
+          "sentence": "She offered to help.",
+          "translation": "Cô ấy đề nghị giúp đỡ."
+        },
+        {
+          "sentence": "The hotel offers free breakfast.",
+          "translation": "Khách sạn cung cấp bữa sáng miễn phí."
+        }
+      ],
+      "notes": "Offer to do; offer someone something."
+    }
+  ],
+  "en-vocab-open": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "mở; khai trương",
+      "examples": [
+        {
+          "sentence": "Open your book, please.",
+          "translation": "Vui lòng mở sách."
+        },
+        {
+          "sentence": "They opened a new shop.",
+          "translation": "Họ mở một cửa hàng mới."
+        }
+      ],
+      "notes": "Động từ chỉ hành động; tính từ open chỉ trạng thái đang mở."
+    }
+  ],
+  "en-vocab-order": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "đơn đặt hàng; thứ tự; mệnh lệnh",
+      "examples": [
+        {
+          "sentence": "Your order is ready.",
+          "translation": "Đơn hàng của bạn đã sẵn sàng."
+        },
+        {
+          "sentence": "Put the words in the correct order.",
+          "translation": "Hãy sắp xếp các từ đúng thứ tự."
+        }
+      ]
+    }
+  ],
+  "en-vocab-patient": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "kiên nhẫn",
+      "examples": [
+        {
+          "sentence": "Be patient with the children.",
+          "translation": "Hãy kiên nhẫn với bọn trẻ."
+        },
+        {
+          "sentence": "You need to be patient.",
+          "translation": "Bạn cần kiên nhẫn."
+        }
+      ]
+    }
+  ],
+  "en-vocab-plant": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "trồng; gieo",
+      "examples": [
+        {
+          "sentence": "We planted a tree.",
+          "translation": "Chúng tôi trồng một cây."
+        },
+        {
+          "sentence": "Plant the seeds in spring.",
+          "translation": "Hãy gieo hạt vào mùa xuân."
+        }
+      ]
+    }
+  ],
+  "en-vocab-play": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chơi; biểu diễn; chơi nhạc",
+      "examples": [
+        {
+          "sentence": "The children play outside.",
+          "translation": "Bọn trẻ chơi bên ngoài."
+        },
+        {
+          "sentence": "She plays the piano.",
+          "translation": "Cô ấy chơi đàn piano."
+        }
+      ],
+      "notes": "Play football (không có the); play the piano."
+    }
+  ],
+  "en-vocab-present": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "có mặt; hiện tại",
+      "examples": [
+        {
+          "sentence": "All students are present.",
+          "translation": "Tất cả học sinh đều có mặt."
+        },
+        {
+          "sentence": "We discussed the present situation.",
+          "translation": "Chúng tôi thảo luận tình hình hiện tại."
+        }
+      ],
+      "notes": "Present chỉ hiện tại thường đứng trước danh từ; present nghĩa có mặt thường sau be.",
+      "phonetic": "/ˈprezənt/"
+    },
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "trình bày; trao tặng",
+      "examples": [
+        {
+          "sentence": "She will present her idea tomorrow.",
+          "translation": "Cô ấy sẽ trình bày ý tưởng ngày mai."
+        },
+        {
+          "sentence": "They presented him with an award.",
+          "translation": "Họ trao giải thưởng cho anh ấy."
+        }
+      ],
+      "notes": "Động từ nhấn âm hai, khác danh từ/tính từ.",
+      "phonetic": "/prɪˈzent/"
+    }
+  ],
+  "en-vocab-rain": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "mưa",
+      "examples": [
+        {
+          "sentence": "It rained yesterday.",
+          "translation": "Hôm qua trời mưa."
+        },
+        {
+          "sentence": "It's raining outside.",
+          "translation": "Bên ngoài trời đang mưa."
+        }
+      ],
+      "notes": "Dùng chủ ngữ giả it."
+    }
+  ],
+  "en-vocab-record": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "bản ghi; hồ sơ; kỷ lục",
+      "examples": [
+        {
+          "sentence": "Keep a record of your expenses.",
+          "translation": "Hãy lưu lại các khoản chi tiêu."
+        },
+        {
+          "sentence": "She broke the school record.",
+          "translation": "Cô ấy phá kỷ lục của trường."
+        }
+      ],
+      "notes": "Danh từ nhấn âm đầu, khác động từ nhấn âm hai.",
+      "phonetic": "/ˈrekərd/ (Mỹ); /ˈrekɔːd/ (Anh)"
+    }
+  ],
+  "en-vocab-right": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "quyền; bên phải",
+      "examples": [
+        {
+          "sentence": "Everyone has the right to learn.",
+          "translation": "Mọi người có quyền học tập."
+        },
+        {
+          "sentence": "The bank is on your right.",
+          "translation": "Ngân hàng ở bên phải bạn."
+        }
+      ],
+      "notes": "Have the right to do."
+    },
+    {
+      "partOfSpeech": "Trạng từ",
+      "meaning": "về bên phải; đúng",
+      "examples": [
+        {
+          "sentence": "Turn right at the corner.",
+          "translation": "Hãy rẽ phải ở góc đường."
+        },
+        {
+          "sentence": "You guessed right.",
+          "translation": "Bạn đoán đúng."
+        }
+      ]
+    }
+  ],
+  "en-vocab-round": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "tròn",
+      "examples": [
+        {
+          "sentence": "We sat at a round table.",
+          "translation": "Chúng tôi ngồi ở bàn tròn."
+        },
+        {
+          "sentence": "The clock is round.",
+          "translation": "Chiếc đồng hồ có hình tròn."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "vòng; lượt",
+      "examples": [
+        {
+          "sentence": "She won the first round.",
+          "translation": "Cô ấy thắng vòng đầu tiên."
+        },
+        {
+          "sentence": "We played another round of the game.",
+          "translation": "Chúng tôi chơi thêm một lượt trò chơi."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Giới từ",
+      "meaning": "quanh; vòng quanh",
+      "examples": [
+        {
+          "sentence": "We walked round the lake.",
+          "translation": "Chúng tôi đi bộ quanh hồ."
+        },
+        {
+          "sentence": "The children sat round the table.",
+          "translation": "Bọn trẻ ngồi quanh bàn."
+        }
+      ],
+      "notes": "Thường dùng trong Anh-Anh; around phổ biến ở cả hai vùng."
+    }
+  ],
+  "en-vocab-run": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chạy; vận hành; điều hành",
+      "examples": [
+        {
+          "sentence": "He runs every morning.",
+          "translation": "Anh ấy chạy bộ mỗi sáng."
+        },
+        {
+          "sentence": "She runs a small business.",
+          "translation": "Cô ấy điều hành một doanh nghiệp nhỏ."
+        }
+      ],
+      "notes": "Run – ran – run; run a business."
+    }
+  ],
+  "en-vocab-shop": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "mua sắm",
+      "examples": [
+        {
+          "sentence": "We shop for food on Sundays.",
+          "translation": "Chúng tôi mua thực phẩm vào Chủ nhật."
+        },
+        {
+          "sentence": "She likes shopping online.",
+          "translation": "Cô ấy thích mua sắm trực tuyến."
+        }
+      ]
+    }
+  ],
+  "en-vocab-show": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "buổi biểu diễn; chương trình",
+      "examples": [
+        {
+          "sentence": "We watched a TV show.",
+          "translation": "Chúng tôi xem một chương trình truyền hình."
+        },
+        {
+          "sentence": "The show starts at eight.",
+          "translation": "Buổi biểu diễn bắt đầu lúc tám giờ."
+        }
+      ]
+    }
+  ],
+  "en-vocab-sink": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chìm; làm chìm",
+      "examples": [
+        {
+          "sentence": "The boat began to sink.",
+          "translation": "Con thuyền bắt đầu chìm."
+        },
+        {
+          "sentence": "The stone sank to the bottom.",
+          "translation": "Viên đá chìm xuống đáy."
+        }
+      ],
+      "notes": "Sink – sank – sunk."
+    }
+  ],
+  "en-vocab-snow": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tuyết rơi",
+      "examples": [
+        {
+          "sentence": "It snowed last night.",
+          "translation": "Tối qua tuyết rơi."
+        },
+        {
+          "sentence": "It may snow tomorrow.",
+          "translation": "Ngày mai có thể có tuyết."
+        }
+      ],
+      "notes": "Dùng chủ ngữ giả it."
+    }
+  ],
+  "en-vocab-sound": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nghe có vẻ; phát ra âm thanh",
+      "examples": [
+        {
+          "sentence": "That sounds good.",
+          "translation": "Nghe hay đấy."
+        },
+        {
+          "sentence": "The alarm sounded at noon.",
+          "translation": "Chuông báo reo lúc trưa."
+        }
+      ],
+      "notes": "Sound + tính từ; sound like + danh từ."
+    },
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "vững chắc; hợp lý",
+      "examples": [
+        {
+          "sentence": "That's sound advice.",
+          "translation": "Đó là lời khuyên hợp lý."
+        },
+        {
+          "sentence": "The bridge is structurally sound.",
+          "translation": "Kết cấu cây cầu vững chắc."
+        }
+      ]
+    }
+  ],
+  "en-vocab-stop": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "dừng; ngừng",
+      "examples": [
+        {
+          "sentence": "The bus stopped here.",
+          "translation": "Xe buýt dừng ở đây."
+        },
+        {
+          "sentence": "Please stop talking.",
+          "translation": "Vui lòng ngừng nói."
+        }
+      ],
+      "notes": "Stop doing = ngừng việc đang làm; stop to do = dừng việc khác để làm việc này."
+    }
+  ],
+  "en-vocab-tear": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "xé; rách",
+      "examples": [
+        {
+          "sentence": "Don't tear the paper.",
+          "translation": "Đừng xé giấy."
+        },
+        {
+          "sentence": "She tore her shirt.",
+          "translation": "Cô ấy làm rách áo."
+        }
+      ],
+      "notes": "Tear – tore – torn; khác tear nghĩa nước mắt.",
+      "phonetic": "/ter/ (Mỹ); /teə/ (Anh)"
+    }
+  ],
+  "en-vocab-train": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "huấn luyện; luyện tập",
+      "examples": [
+        {
+          "sentence": "She trains new employees.",
+          "translation": "Cô ấy đào tạo nhân viên mới."
+        },
+        {
+          "sentence": "He trains for a race every day.",
+          "translation": "Anh ấy luyện tập cho cuộc đua mỗi ngày."
+        }
+      ]
+    }
+  ],
+  "en-vocab-trust": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "niềm tin; sự tin tưởng",
+      "examples": [
+        {
+          "sentence": "Trust takes time to build.",
+          "translation": "Cần thời gian để xây dựng niềm tin."
+        },
+        {
+          "sentence": "She earned my trust.",
+          "translation": "Cô ấy giành được sự tin tưởng của tôi."
+        }
+      ]
+    }
+  ],
+  "en-vocab-use": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "việc sử dụng; công dụng",
+      "examples": [
+        {
+          "sentence": "This room is for staff use only.",
+          "translation": "Phòng này chỉ dành cho nhân viên sử dụng."
+        },
+        {
+          "sentence": "The tool has many uses.",
+          "translation": "Dụng cụ có nhiều công dụng."
+        }
+      ],
+      "notes": "Danh từ kết thúc bằng âm /s/; động từ use kết thúc bằng /z/.",
+      "phonetic": "/juːs/"
+    }
+  ],
+  "en-vocab-visit": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "thăm; ghé thăm",
+      "examples": [
+        {
+          "sentence": "We visit our grandparents every week.",
+          "translation": "Chúng tôi thăm ông bà mỗi tuần."
+        },
+        {
+          "sentence": "She visited the museum yesterday.",
+          "translation": "Hôm qua cô ấy đến thăm bảo tàng."
+        }
+      ]
+    }
+  ],
+  "en-vocab-walk": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đi bộ; đi dạo",
+      "examples": [
+        {
+          "sentence": "I walk to school.",
+          "translation": "Tôi đi bộ đến trường."
+        },
+        {
+          "sentence": "We walked along the river.",
+          "translation": "Chúng tôi đi bộ dọc sông."
+        }
+      ]
+    }
+  ],
+  "en-vocab-watch": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "xem; theo dõi",
+      "examples": [
+        {
+          "sentence": "We watch TV after dinner.",
+          "translation": "Chúng tôi xem TV sau bữa tối."
+        },
+        {
+          "sentence": "Watch the road carefully.",
+          "translation": "Hãy quan sát đường cẩn thận."
+        }
+      ],
+      "notes": "Watch nhấn mạnh việc theo dõi trong một khoảng thời gian."
+    }
+  ],
+  "en-vocab-water": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tưới nước",
+      "examples": [
+        {
+          "sentence": "Please water the plants.",
+          "translation": "Hãy tưới cây."
+        },
+        {
+          "sentence": "She waters the garden every morning.",
+          "translation": "Cô ấy tưới vườn mỗi sáng."
+        }
+      ]
+    }
+  ],
+  "en-vocab-well": [
+    {
+      "partOfSpeech": "Trạng từ",
+      "meaning": "tốt; giỏi",
+      "examples": [
+        {
+          "sentence": "She speaks English well.",
+          "translation": "Cô ấy nói tiếng Anh tốt."
+        },
+        {
+          "sentence": "The machine works well.",
+          "translation": "Máy hoạt động tốt."
+        }
+      ],
+      "notes": "Good là tính từ; well thường là trạng từ nhưng cũng là tính từ chỉ sức khỏe."
+    },
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "giếng",
+      "examples": [
+        {
+          "sentence": "They get water from a well.",
+          "translation": "Họ lấy nước từ giếng."
+        },
+        {
+          "sentence": "The old well is dry.",
+          "translation": "Giếng cũ đã cạn."
+        }
+      ]
+    }
+  ],
+  "en-vocab-work": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "công việc; việc làm",
+      "examples": [
+        {
+          "sentence": "I have a lot of work today.",
+          "translation": "Hôm nay tôi có nhiều việc."
+        },
+        {
+          "sentence": "She goes to work by bus.",
+          "translation": "Cô ấy đi làm bằng xe buýt."
+        }
+      ],
+      "notes": "Work nghĩa công việc nói chung không đếm được; a job là một công việc cụ thể."
+    }
+  ]
+}

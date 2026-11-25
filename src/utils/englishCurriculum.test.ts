@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import englishEditorial from '../../English/englishEditorial.json' with { type: 'json' };
+import englishAdditionalSenses from '../../English/englishAdditionalSenses.json' with { type: 'json' };
 import { ENGLISH_DECKS, ENGLISH_WORDS } from '../data/englishDecks';
 import { getEnglishStudyWord } from './englishStudy';
 import { englishLearningCategory, englishLearningOrder } from '../data/englishCurriculum';
@@ -287,6 +288,54 @@ test('v19 seed migration preserves saved progress for phase 2g content', () => {
   assert.equal(updated?.bloomLevel, 3);
   assert.equal(updated?.personalRelations, personalRelations);
   assert.ok(!migrated.words.some(item => item.id === 'en-vocab-cent'));
+  assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('additional senses have existing IDs and distinct examples without changing the primary review answer', () => {
+  const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  assert.equal(byId.size, 7000);
+  assert.equal(Object.keys(englishAdditionalSenses).length, 61);
+  assert.equal(Object.values(englishAdditionalSenses).flat().length, 72);
+  for (const [id, senses] of Object.entries(englishAdditionalSenses)) {
+    const word = byId.get(id);
+    assert.ok(word, id);
+    assert.deepEqual(word.additionalSenses, senses, id);
+    assert.ok(senses.every(sense => sense.partOfSpeech.trim() && sense.meaning.trim() &&
+      sense.examples.length === 2 && sense.examples.every(example => example.sentence.trim() && example.translation.trim())), id);
+    assert.equal(word.meaning, englishEditorial[id as keyof typeof englishEditorial].meaning, id);
+  }
+  const book = byId.get('en-vocab-book')!;
+  assert.equal(book.partOfSpeech, 'Danh từ');
+  assert.equal(book.meaning, 'sách; cuốn sách');
+  assert.equal(book.additionalSenses?.[0]?.partOfSpeech, 'Động từ');
+  assert.equal(book.additionalSenses?.[0]?.meaning, 'đặt trước');
+  assert.equal(byId.get('en-vocab-live')?.additionalSenses?.[0]?.phonetic, '/laɪv/');
+  assert.equal(byId.get('en-vocab-use')?.additionalSenses?.[0]?.phonetic, '/juːs/');
+  assert.equal(getEnglishStudyWord(book, 'en-GB').additionalSenses, book.additionalSenses);
+  assert.equal(getEnglishStudyWord({ ...book, englishForms: { 'en-GB': { term: 'different term' } } }, 'en-GB').additionalSenses, undefined);
+});
+
+test('v20 migration adds secondary senses without creating review IDs or resetting progress', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-vocab-book')!;
+  const { additionalSenses, ...old } = word;
+  const srs = { ...word.srs, repetitions: 5, lastReviewedAt: 123 };
+  const personalRelations = { synonyms: ['personal'], antonyms: [] };
+  const state = {
+    version: 20, decks: INITIAL_DECKS,
+    words: [{ ...old, srs, bloomLevel: 3 as const, personalRelations }],
+    logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] },
+  };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.equal(updated?.meaning, word.meaning);
+  assert.deepEqual(updated?.additionalSenses, additionalSenses);
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
+  assert.equal(updated?.personalRelations, personalRelations);
+  assert.ok(!migrated.words.some(item => item.id === 'en-vocab-watch'));
   assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
   assert.equal(withCurrentSeed(migrated), migrated);
 });

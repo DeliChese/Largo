@@ -27,6 +27,7 @@ import { EnglishVariantDetails } from './EnglishVariantDetails';
 import { EMPTY_EXAMPLES, EMPTY_RELATIONS, ExampleFields, RelationFields } from './WordFormFields';
 import { WordRelations } from './WordRelations';
 import { WordExamples } from './WordExamples';
+import { WordAdditionalSenses } from './WordAdditionalSenses';
 import { WordExampleGenerator } from './WordExampleGenerator';
 import { describeMastery, type WordMastery } from '../utils/mastery';
 
@@ -200,6 +201,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
         (phoneticQuery && compactPhonetic(w.phonetic).includes(phoneticQuery)) ||
         searchable(w.meaning).includes(q) ||
         searchable(w.notes ?? '').includes(q) ||
+        w.additionalSenses?.some(sense => [sense.partOfSpeech, sense.meaning, sense.notes ?? ''].some(value => searchable(value).includes(q))) ||
         [w.synonyms, w.antonyms, w.personalRelations?.synonyms, w.personalRelations?.antonyms]
           .some((terms) => terms?.some((term) => searchable(term).includes(q))) ||
         w.collocations.some((c) => searchable(c.phrase).includes(q) || searchable(c.meaning).includes(q)) ||
@@ -569,7 +571,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                           <div className="deck-term">
                             <h3 lang={englishLocale}>{word.term}</h3>
                           </div>
-                          <p className="deck-word-meta">{[word.phonetic, word.partOfSpeech].filter(Boolean).join(' · ')}</p>
+                          <p className="deck-word-meta">{[word.phonetic, word.additionalSenses?.length ? 'Từ loại chính: ' + word.partOfSpeech : word.partOfSpeech].filter(Boolean).join(' · ')}</p>
                           <p className="deck-word-meaning"><span className="sr-only">Nghĩa · </span>{word.meaning}</p>
                         </div>
                         <div className="deck-word-actions">
@@ -605,10 +607,11 @@ export const DecksView: React.FC<DecksViewProps> = ({
                       )}
                       {word.examples.length > 0 && (
                         <div className="deck-usage">
-                          <h4>Ví dụ</h4>
+                          <h4>{word.additionalSenses?.length ? 'Ví dụ nghĩa chính' : 'Ví dụ'}</h4>
                           <WordExamples examples={word.examples.slice(0, 2)} speechRate={speechRate} />
                         </div>
                       )}
+                      <WordAdditionalSenses word={word} speechRate={speechRate} />
                       <WordRelations word={word} />
                       <WordExampleGenerator key={englishLocale + ':' + word.term} word={word} locale={englishLocale}
                         level={sourceDeck ? getDeckStudyLevel(sourceDeck) : undefined} speechRate={speechRate} />

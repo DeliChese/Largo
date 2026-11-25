@@ -160,3 +160,16 @@ test('preview rejects corrupted, ambiguous and future backup data', async () => 
   const [deck, ...decks] = state.decks;
   await reject({ ...backup, snapshot: { ...backup.snapshot, decks: [{ ...deck, nativeName: 12 }, ...decks] } });
 });
+
+
+test('backup round-trip retains optional additional lexical senses', async () => {
+  const fixture = reviewedStudySnapshot('en-US');
+  const book = INITIAL_WORDS.find(word => word.id === 'en-vocab-book')!;
+  const state = {
+    ...fixture, version: CURRENT_DATA_VERSION, decks: INITIAL_DECKS,
+    words: [book],
+  };
+  const backup = createBackup(state, {}, new Date(0));
+  const preview = await previewBackup(new Blob([JSON.stringify(backup)]));
+  assert.deepEqual(preview.state.words.find(word => word.id === book.id)?.additionalSenses, book.additionalSenses);
+});

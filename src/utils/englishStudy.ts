@@ -28,6 +28,8 @@ export function getEnglishStudyWord(word: VocabWord, locale: EnglishLocale): Voc
     phonetic: form?.phonetic ?? (hasRegionalPhonetic || termChanged ? '' : word.phonetic),
     collocations: form?.collocations ?? (termChanged ? [] : word.collocations),
     examples: form?.examples ?? (termChanged ? [] : word.examples),
+    // These senses are authored for the canonical headword; do not attach them to a different regional term.
+    additionalSenses: termChanged ? undefined : word.additionalSenses,
   };
 }
 

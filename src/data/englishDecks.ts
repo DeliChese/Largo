@@ -7,8 +7,9 @@ import englishExpansion from '../../English/englishExpansion.json' with { type: 
 import englishExtraVocabulary from '../../English/englishExtraVocabulary.json' with { type: 'json' };
 import englishOpposites from '../../English/englishOpposites.json' with { type: 'json' };
 import englishEditorial from '../../English/englishEditorial.json' with { type: 'json' };
+import englishAdditionalSenses from '../../English/englishAdditionalSenses.json' with { type: 'json' };
 import { englishLearningCategory, englishLearningOrder } from './englishCurriculum';
-import type { CollocationItem, DeckCollection, EnglishLocale, EnglishWordForms, ExampleSentence, VocabDeck, VocabWord } from '../types/vocab';
+import type { CollocationItem, DeckCollection, EnglishAdditionalSense, EnglishLocale, EnglishWordForms, ExampleSentence, VocabDeck, VocabWord } from '../types/vocab';
 import { createInitialSRS } from '../utils/srsBloom';
 import { ENGLISH_COLLOCATION_POS } from '../utils/englishStudy';
 
@@ -60,6 +61,7 @@ interface EnglishEnrichment {
 const enrichment: Record<string, EnglishEnrichment> = englishEnrichment;
 // Reviewed content takes precedence over generated/imported enrichment; IDs are unchanged.
 const editorial: Record<string, Partial<Pick<EnglishCardSeed, 'meaning' | 'partOfSpeech' | 'notes' | 'examples' | 'collocations' | 'synonyms' | 'antonyms'>>> = englishEditorial;
+const additionalSenses: Record<string, EnglishAdditionalSense[]> = englishAdditionalSenses;
 const englishOppositesByTerm = new Map<string, string>();
 for (const [first, second] of englishOpposites) {
   englishOppositesByTerm.set(first, second);
@@ -782,6 +784,7 @@ function createEnglishCard(id: string, deckId: string, card: EnglishCardSeed): V
     ...card,
     ...reviewed,
     englishForms,
+    ...(additionalSenses[id] && { additionalSenses: additionalSenses[id] }),
     id,
     deckId,
     language: 'en',

@@ -31,12 +31,14 @@ Dùng chung giao diện trong [`DecksView.tsx`](../../src/components/DecksView.t
 
 Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và dữ liệu học. Khi cập nhật danh mục đã phát hành, kiểm thử bản lưu cũ, thẻ đã xóa, khôi phục và chạy cập nhật hai lần.
 
-## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v20)
+## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v21)
 
 - Nghĩa tiếng Việt là một hoặc vài cách dịch ngắn, cùng nghĩa trọng tâm; không dùng toàn bộ hướng dẫn ngữ pháp hoặc ví dụ làm đáp án nghĩa.
 - Giải thích và cách dùng nằm trong `notes`: nêu sắc thái, cấu trúc, giới từ, văn phong hoặc phân biệt từ dễ nhầm. Không tự tạo quy tắc tuyệt đối khi có ngoại lệ.
 - Cụm từ đi kèm phải tự nhiên và đúng nghĩa đang dạy; mỗi ví dụ có bản dịch cùng ngữ cảnh. Ưu tiên câu ngắn, từ nền tảng dễ hiểu ở A1–A2 và câu minh họa sắc thái ở B2–C1.
 - Bản biên tập do Largo viết nằm ở [English/englishEditorial.json](../../English/englishEditorial.json), khóa bằng ID hiện hành, ưu tiên hơn enrichment khi cùng trường. Không chỉnh tệp nguồn lớn bằng thao tác thay chữ hàng loạt; đối chiếu từng nghĩa và ngữ cảnh. Chỉ thêm ghi chú khi có thông tin hữu ích.
+- Từ có nhiều từ loại hoặc nghĩa đồng tự: trường `partOfSpeech`, `meaning`, `examples` vẫn dạy nghĩa chính của thẻ. Không gộp "sách; đặt phòng" dưới nhãn Danh từ hoặc dùng câu động từ minh họa nghĩa danh từ. Thêm các nghĩa thông dụng khác vào [English/englishAdditionalSenses.json](../../English/englishAdditionalSenses.json) theo ID hiện có, mỗi nhóm có `partOfSpeech`, `meaning`, `examples` (hai câu song ngữ), `notes` và `phonetic` khi cần. Nếu cùng từ loại nhưng khác hẳn nghĩa/cách đọc, tách nhóm; không thêm nghĩa hiếm chỉ để đủ số lượng. Ví dụ: book (Danh từ: sách; Động từ: đặt trước); light (Tính từ: nhẹ; Danh từ: ánh sáng; Động từ: thắp); record (Động từ: ghi lại; Danh từ: hồ sơ/kỷ lục, khác trọng âm).
+- `additionalSenses` là nội dung tham khảo, không phải đáp án chính hoặc thẻ mới. Giữ CEFR, ID, bộ, dữ liệu ôn và các ví dụ chính; không tự chia tiến độ theo nghĩa. Giao diện hiển thị các nhóm riêng; không suy diễn nghĩa bổ sung sang headword vùng miền khác. Thống kê số ID có nghĩa bổ sung và số nhóm riêng khỏi độ phủ overlay. Việc đánh giá riêng từng nghĩa cần một thiết kế và migration khác.
 - Nhóm chủ đề thống nhất bằng [englishCurriculum.ts](../../src/data/englishCurriculum.ts); trong cùng cấp ưu tiên từ vựng → giao tiếp → collocations → cụm danh/tính từ → cụm động từ → biến thể. Giữ cấp và thành viên đã phát hành; bài nhiều chủ đề không được gán nhãn hẹp tùy tiện.
 - Bài tập nhỏ nên chọn 8–12 thẻ mới cùng chủ đề, học nghĩa trước rồi mới luyện ghép cụm, nhớ lại và đặt câu; không bắt buộc thay đổi giới hạn ôn hoặc thuật toán SRS.
 - Đợt 1: 184 mục C1 và 8 mục A1. Đợt 2a (seed v14): bổ sung 84 mục C1, 112 mục A1 và 61 mục B2 (công nghệ, kinh tế). Tổng 449 ID có overlay: 268 C1, 120 A1, 61 B2. C1 đã phủ toàn bộ nghĩa/ghi chú, ví dụ chỉ sửa chọn lọc; chưa kiểm chứng toàn bộ ví dụ hoặc quan hệ từ. Các mục còn lại chưa được rà soát đầy đủ; không coi đây là chứng nhận CEFR hoặc xác minh từ điển độc lập.
@@ -52,3 +54,5 @@ Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và 
 - Đợt 2f (seed v19): thêm 271 ID nguồn chính A2 thuộc general-01–07; A2 nguồn chính 551/900, toàn A2 555/1.297. Tổng 1.911/7.000 ID có overlay (27,30%). Sửa nghĩa/từ loại, dạng phân từ, động từ khuyết thiếu, cấu trúc ngữ pháp và từ đa nghĩa; hai câu song ngữ/mục. Bảo toàn 1.640 overlay cũ, kiểm tra JSON và ID; chưa chạy lint/test/build/browser. Xem [tiến độ](english-editorial-progress.md).
 
 - Đợt 2g (seed v20): thêm 349 ID nguồn chính A2 thuộc general-08–16; hoàn thành độ phủ 900/900 nguồn chính, toàn A2 904/1.297. Tổng 2.260/7.000 ID có overlay (32,29%). Hai câu song ngữ/mục, bảo toàn 1.911 overlay cũ; kiểm tra JSON/ID, chưa chạy lint/test/build/browser. Xem [tiến độ](english-editorial-progress.md).
+
+- Bổ sung sau 2g (seed v21): 61 ID A1–A2 có 72 nhóm nghĩa bổ sung theo từ loại (144 ví dụ song ngữ), không thay đổi 2.260 overlay chính hoặc số thẻ. Thêm hiển thị, tra cứu, schema backup và test; chưa chạy lint/test/build/browser. Áp dụng quy chuẩn này từ 2H và rà lại toàn kho trong 2Y.

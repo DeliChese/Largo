@@ -24,6 +24,7 @@ Ví dụ dòng trong bản đồ bài. Dùng lại ID và số bài đã phát h
 - [ ] Chốt nguồn, cấp độ và phiên bản. Kiểm tra bài đầu, bài cuối, số thứ tự, tiêu đề và phạm vi từ ở từng bài.
 - [ ] Xác nhận nhãn chủ đề và tiêu đề phù hợp với [quy chuẩn thư viện](language-curriculum.md). Dùng lại nhóm có cùng nội dung.
 - [ ] Đối chiếu ID, nghĩa và cách đọc của thẻ dùng lại. Làm rõ ví dụ, bản dịch và nguồn của mục mới.
+- [ ] Với từ tiếng Anh đa từ loại: kiểm tra nhãn chính khớp nghĩa/ví dụ chính; bổ sung nghĩa thông dụng khác theo nhóm `additionalSenses`, mỗi nhóm có từ loại, nghĩa và hai ví dụ riêng; ghi cách đọc khi khác (record, live, close...). Không trộn vào đáp án chính hoặc thêm ID chỉ vì khác từ loại.
 - [ ] Kiểm tra cách dữ liệu sẽ đến người học mới và bản lưu đã có tiến độ. Giữ bộ cá nhân, lịch ôn, Bloom, lịch sử và thẻ đã xóa.
 
 ## Checklist kiểm thử
@@ -31,5 +32,6 @@ Ví dụ dòng trong bản đồ bài. Dùng lại ID và số bài đã phát h
 - [ ] Kiểm tra lọc theo ngôn ngữ, phiên bản nếu có, cấp độ và loại học liệu. Kiểm tra nhóm chủ đề ở danh mục.
 - [ ] Tìm bằng tiêu đề tiếng Việt và tiêu đề gốc nếu có. Mở bài và đối chiếu số thẻ, thứ tự, nghĩa và ví dụ.
 - [ ] Mở cả danh mục và chi tiết bài ở màn hình rộng và hẹp. Kiểm tra nhãn cấp khi đang xem tất cả, xuống dòng của tiêu đề dài và nút học bài.
+- [ ] Kiểm tra nghĩa bổ sung hiện đúng nhóm ở thư viện và flashcard, tìm kiếm được, không làm đổi đáp án chính, không gán cho headword vùng miền khác; kiểm tra backup giữ dữ liệu.
 - [ ] Dùng fixture để kiểm tra cập nhật lặp, khôi phục bản lưu và dữ liệu học đã có. Ghi cách rollback và phạm vi chưa kiểm tra.
 - [ ] Chạy `npm run lint`, `npm test`, `npm run build` và ghi kết quả cùng URL giao diện đã quan sát. Xem [hướng dẫn kiểm chứng](verification.md).

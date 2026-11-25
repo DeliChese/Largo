@@ -2,7 +2,7 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2H (393 ID A2 còn thiếu: extra, collocations, giao tiếp, regional, expansion; chia đợt con nếu cần). Mốc hiện tại: Seed v20, 2.260 ID có overlay; chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2H (393 ID A2 còn thiếu: extra, collocations, giao tiếp, regional, expansion; chia đợt con nếu cần). Mốc hiện tại: Seed v21, 2.260 ID có overlay; 61 thẻ có nghĩa bổ sung theo từ loại; chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
@@ -72,6 +72,15 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - 698 câu song ngữ trong overlay mới, đều khác cặp câu/bản dịch nguồn trực tiếp theo so sánh chính xác. Nội dung biên soạn Largo, chưa đối chiếu độc lập mọi trường.
 - Kiểm tra API/JavaScript: 349 ID mới khớp chín bài nguồn, không trùng 1.911 overlay cũ; JSON 2.260 khóa duy nhất, nội dung toàn bộ overlay cũ giữ nguyên, mỗi ID mới có hai ví dụ song ngữ không rỗng. Cập nhật assertion số overlay, chuyển assertion lịch sử 2F sang ngưỡng tối thiểu, bổ sung test độ phủ 900 ID A2 nguồn chính và migration v19. Chưa chạy lint/test/build/browser hoặc migration thực tế.
 - Bàn giao 2H: 393 ID A2 còn thiếu overlay, thuộc extra/collocations/giao tiếp/regional/expansion. Kiểm kê ID chưa phủ theo bộ, không đếm trùng bốn ID phrasal đã biên tập; chia đợt 2H.1/2H.2 nếu cần theo quy mô 250–350 ID. Không sửa CEFR hoặc thành viên bộ. Độ phủ overlay chưa phải nghiệm thu.
+
+## Bổ sung sau 2G: nghĩa theo từ loại (Seed v21)
+
+- Phát hiện từ đồng tự có nhiều từ loại và cách dùng nhưng thẻ chỉ có một `partOfSpeech`, `meaning` và nhóm ví dụ chính. Ví dụ book (danh từ sách; động từ đặt trước), light (tính từ nhẹ; danh từ ánh sáng/đèn; động từ thắp), record (động từ ghi lại; danh từ hồ sơ/kỷ lục, khác trọng âm).
+- Thêm trường tùy chọn `VocabWord.additionalSenses` và [dữ liệu biên tập riêng](../../English/englishAdditionalSenses.json), khóa bằng ID hiện có. Mỗi nghĩa bổ sung chứa từ loại, nghĩa ngắn, hai ví dụ song ngữ, ghi chú/cấu trúc và cách đọc khi khác nghĩa chính. Các thẻ đồng tự cùng từ loại nhưng khác cách đọc/nghĩa (lead /liːd/ và /led/) cũng có thể tách nhóm.
+- Đợt đầu: 61 ID A1–A2 đã có overlay, 72 nhóm nghĩa bổ sung, 144 câu song ngữ mới; không tăng số ID có overlay (vẫn 2.260/7.000). Không đổi nghĩa chính, ví dụ chính, CEFR, bộ, ID hoặc số thẻ. Nghĩa bổ sung chỉ để tham khảo; không ghép vào đáp án quiz/flashcard ngược, không tự tạo SRS/Bloom riêng.
+- Giao diện chi tiết thẻ và mặt đáp án flashcard hiển thị nhóm nghĩa riêng; tìm kiếm thư viện hỗ trợ từ loại/nghĩa/ghi chú bổ sung. Không áp dụng tự động cho biến thể vùng miền có headword khác. Bổ sung kiểm tra dữ liệu backup và test hồi quy seed v20, đối chiếu dữ liệu và round-trip backup; chưa chạy lint/test/build/browser, chưa kiểm tra giao diện hay migration thực tế.
+- Kể từ 2H, kiểm tra nghĩa có thuộc đúng từ loại chính không, bổ sung các từ loại thông dụng khác khi có căn cứ, không liệt kê mọi nghĩa hiếm. Ghi tiến độ riêng (ID có additionalSenses, số nhóm nghĩa, ví dụ) và mở rộng rà soát A1–C1 trong 2Y; chưa tuyên bố đủ tất cả từ loại của 7.000 thẻ.
+- Đợt tiếp theo vẫn là 2H, dự kiến Seed v22 nếu cập nhật học liệu; còn 393 ID A2 chưa có overlay.
 
 ## Các đợt tiếp theo
 

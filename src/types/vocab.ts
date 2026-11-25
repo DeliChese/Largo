@@ -74,6 +74,15 @@ export interface SRSState {
   lastIntensiveAt?: number;
 }
 
+/** An additional lexical sense; never a separate review item or accepted answer by default. */
+export interface EnglishAdditionalSense {
+  partOfSpeech: string;
+  meaning: string;
+  phonetic?: string;
+  notes?: string;
+  examples: ExampleSentence[];
+}
+
 export interface VocabWord extends LexicalRelations {
   id: string;
   deckId: string;
@@ -83,6 +92,7 @@ export interface VocabWord extends LexicalRelations {
   meaning: string;
   language: LanguageCode;
   englishForms?: EnglishWordForms;
+  additionalSenses?: EnglishAdditionalSense[];
   collocations: CollocationItem[];
   examples: ExampleSentence[];
   personalRelations?: LexicalRelations;

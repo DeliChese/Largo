@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronDown, Focus, Maximiz
 import type { FormEvent, KeyboardEvent as ReactKeyboardEvent } from 'react';
 import type { AppSettings, ReviewQuality, StudySessionMode, VocabWord } from '../types/vocab';
 import { WordExamples } from './WordExamples';
+import { WordAdditionalSenses } from './WordAdditionalSenses';
 import { WordExampleGenerator } from './WordExampleGenerator';
 import { WordRelations } from './WordRelations';
 import { SentenceAiFeedback } from './SentenceAiFeedback';
@@ -458,7 +459,7 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
                 {canSpeakPrompt && word.phonetic && <p className="recall-reading">{word.phonetic}</p>}
                 {flipped && <p className="recall-answer"><span className="sr-only">Nghĩa · </span>{word.meaning}</p>}
                 {flipped && word.partOfSpeech && (
-                  <p className="recall-meta">{word.partOfSpeech}</p>
+                  <p className="recall-meta">{word.additionalSenses?.length ? 'Từ loại chính · ' : ''}{word.partOfSpeech}</p>
                 )}
               </div>
 
@@ -488,7 +489,9 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
                   )}
                   {word.collocations.filter((item) => item !== phraseInUse)
                     .map((item, i) => <p key={i}><strong lang={language}>{item.phrase}</strong> · {item.meaning}</p>)}
+                  {Boolean(word.additionalSenses?.length) && <p><strong>Ví dụ nghĩa chính</strong></p>}
                   <WordExamples examples={word.examples.slice(0, 2)} speechRate={settings.speechRate} />
+                  <WordAdditionalSenses word={word} speechRate={settings.speechRate} />
                   <WordRelations word={word} />
                   <WordExampleGenerator key={word.id} word={word} locale={language} level={session.level}
                     speechRate={settings.speechRate} />
