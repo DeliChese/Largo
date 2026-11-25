@@ -31,7 +31,7 @@
 | 2H | Đã phủ 393 ID (v24); A2 1.297/1.297, chưa nghiệm thu | A2 extra, collocations, giao tiếp, regional, expansion chưa phủ; bổ sung nghĩa/từ loại khác phù hợp |
 | 2I | Đã phủ 551/551 danh từ nguồn chính B1 (v27); chưa nghiệm thu | B1 nguồn chính: danh từ |
 | 2J | Đã phủ 104/104 động từ nguồn chính B1 (v28); chưa nghiệm thu | B1 nguồn chính: động từ |
-| 2K | Chưa làm | B1 nguồn chính: tính từ, trạng từ và các mục nguồn chính còn lại |
+| 2K | Đang làm: 147/295 (2K.1, v29); còn 148 ID general-09–17 | B1 nguồn chính: tính từ, trạng từ và các mục nguồn chính còn lại |
 | 2L | Chưa làm | B1 extra |
 | 2M | Chưa làm | B1 collocations, giao tiếp, regional |
 | 2N | Chưa làm | B1 expansion |

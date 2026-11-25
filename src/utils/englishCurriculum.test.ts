@@ -73,7 +73,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 3308);
+  assert.equal(editorialIds.size, 3455);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -297,8 +297,8 @@ test('v19 seed migration preserves saved progress for phase 2g content', () => {
 test('additional senses have existing IDs and distinct examples without changing the primary review answer', () => {
   const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
   assert.equal(byId.size, 7000);
-  assert.equal(Object.keys(englishAdditionalSenses).length, 240);
-  assert.equal(Object.values(englishAdditionalSenses).flat().length, 252);
+  assert.equal(Object.keys(englishAdditionalSenses).length, 268);
+  assert.equal(Object.values(englishAdditionalSenses).flat().length, 288);
   for (const [id, senses] of Object.entries(englishAdditionalSenses)) {
     const word = byId.get(id);
     assert.ok(word, id);
@@ -572,5 +572,41 @@ test('v27 migration preserves review state and adds B1 permit noun sense', () =>
   assert.equal(updated?.personalRelations, personalRelations);
   assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
   assert.ok(!migrated.words.some(item => item.id === 'en-vocab-lay'));
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2K.1 covers 147 B1 core adjectives, adverbs and conjunctions', () => {
+  const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  const ids = ["en-vocab-more","en-vocab-last","en-vocab-through","en-vocab-since","en-vocab-until","en-vocab-working","en-vocab-least","en-vocab-able","en-vocab-stupid","en-vocab-sometimes","en-vocab-serious","en-vocab-scared","en-vocab-till","en-vocab-calm","en-vocab-absolutely","en-vocab-worth","en-vocab-amazing","en-vocab-weird","en-vocab-chief","en-vocab-general","en-vocab-completely","en-vocab-totally","en-vocab-definitely","en-vocab-unless","en-vocab-near","en-vocab-entire","en-vocab-paid","en-vocab-whether","en-vocab-proud","en-vocab-drunk","en-vocab-honest","en-vocab-involved","en-vocab-obviously","en-vocab-huge","en-vocab-holy","en-vocab-stuck","en-vocab-immediately","en-vocab-suddenly","en-vocab-otherwise","en-vocab-awesome","en-vocab-innocent","en-vocab-gay","en-vocab-guilty","en-vocab-pregnant","en-vocab-waste","en-vocab-written","en-vocab-ridiculous","en-vocab-responsible","en-vocab-main","en-vocab-blind","en-vocab-hanging","en-vocab-somehow","en-vocab-loud","en-vocab-horrible","en-vocab-prepared","en-vocab-incredible","en-vocab-honestly","en-vocab-fake","en-vocab-concerned","en-vocab-nowhere","en-vocab-jealous","en-vocab-aware","en-vocab-surely","en-vocab-total","en-vocab-lately","en-vocab-whenever","en-vocab-tiny","en-vocab-insane","en-vocab-naked","en-vocab-hidden","en-vocab-personally","en-vocab-barely","en-vocab-legal","en-vocab-rough","en-vocab-obvious","en-vocab-complicated","en-vocab-burning","en-vocab-giant","en-vocab-eventually","en-vocab-ashamed","en-vocab-positive","en-vocab-useless","en-vocab-scary","en-vocab-disgusting","en-vocab-pure","en-vocab-aside","en-vocab-firm","en-vocab-central","en-vocab-christian","en-vocab-capable","en-vocab-unbelievable","en-vocab-curious","en-vocab-former","en-vocab-desperate","en-vocab-dramatic","en-vocab-properly","en-vocab-directly","en-vocab-silent","en-vocab-fallen","en-vocab-precious","en-vocab-ordinary","en-vocab-exact","en-vocab-rare","en-vocab-mass","en-vocab-nasty","en-vocab-leading","en-vocab-engaged","en-vocab-sharp","en-vocab-sometime","en-vocab-gorgeous","en-vocab-normally","en-vocab-current","en-vocab-beloved","en-vocab-mental","en-vocab-secure","en-vocab-highly","en-vocab-emotional","en-vocab-entirely","en-vocab-extraordinary","en-vocab-solid","en-vocab-naturally","en-vocab-terrific","en-vocab-impressive","en-vocab-urgent","en-vocab-unique","en-vocab-cruel","en-vocab-massive","en-vocab-bound","en-vocab-flash","en-vocab-hopefully","en-vocab-rolling","en-vocab-steady","en-vocab-particularly","en-vocab-joint","en-vocab-civil","en-vocab-miserable","en-vocab-embarrassed","en-vocab-terribly","en-vocab-nuclear","en-vocab-aboard","en-vocab-selfish","en-vocab-financial","en-vocab-painful","en-vocab-plain","en-vocab-sacred","en-vocab-valuable","en-vocab-distant"];
+  assert.equal(new Set(ids).size, 147);
+  for (const id of ids) {
+    const word = byId.get(id);
+    assert.ok(word, id);
+    assert.ok(Object.prototype.hasOwnProperty.call(englishEditorial, id), id);
+    assert.equal(word.examples.length, 2, id);
+    assert.ok(word.examples.every(e => e.sentence.trim() && e.translation.trim()), id);
+  }
+  assert.match(byId.get('en-vocab-gay')?.meaning ?? '', /đồng tính/);
+  assert.match(byId.get('en-vocab-sometime')?.notes ?? '', /sometimes/);
+  assert.match(byId.get('en-vocab-worth')?.notes ?? '', /V-ing/);
+  assert.equal(byId.get('en-vocab-since')?.additionalSenses?.length, 2);
+});
+
+test('v28 migration preserves review state and adds B1 since senses', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-vocab-since')!;
+  const { additionalSenses, ...old } = word;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const personalRelations = { synonyms: ['personal'], antonyms: [] };
+  const state = { version: 28, decks: INITIAL_DECKS, words: [{ ...old, srs, bloomLevel: 3 as const, personalRelations }] as VocabWord[], logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] } };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.deepEqual(updated?.additionalSenses, additionalSenses);
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
+  assert.equal(updated?.personalRelations, personalRelations);
+  assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
+  assert.ok(!migrated.words.some(item => item.id === 'en-vocab-worth'));
   assert.equal(withCurrentSeed(migrated), migrated);
 });

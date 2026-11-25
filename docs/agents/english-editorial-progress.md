@@ -2,7 +2,7 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2K — 295 ID B1 nguồn chính (235 tính từ, 54 trạng từ, 6 liên từ); kiểm tra CI v28 trước khi sửa. Mốc hiện tại: Seed v28, 3.308 ID có overlay; 551/551 danh từ, 104/104 động từ B1; 240 ID có 252 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2K.2 — 148 ID B1 nguồn chính general-09–17 (127 tính từ, 20 trạng từ, 1 liên từ); kiểm tra CI v29 trước khi sửa. Mốc hiện tại: Seed v29, 3.455 ID có overlay; B1 nguồn chính 802/950; 268 ID có 288 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
@@ -136,6 +136,14 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - 208 ví dụ chính: 1 câu trùng nguyên văn nguồn trực tiếp (bản dịch do Largo biên soạn), 207 câu viết mới/chỉnh lại. Thêm 31 ID/31 nhóm nghĩa phụ danh từ (62 ví dụ song ngữ); tổng 240 ID/252 nhóm. Sửa lay/lie, fetch, bore, soil, transfer, attend, react, approve/approve of, deny, commit, permit, assure/ensure; làm rõ cấu trúc giới từ và dạng bất quy tắc. Không bổ sung quan hệ từ chưa xác minh.
 - Kiểm tra JavaScript: 104 ID duy nhất khớp nguồn, 104/104 động từ có overlay, hai ví dụ song ngữ không rỗng mỗi mục; kiểm tra khóa JSON cấp gốc không trùng, bảo toàn 3.204 overlay và 209 ID nghĩa phụ trước đó. Thêm test độ phủ và migration v27 (SRS/Bloom, quan hệ cá nhân, thẻ đã xóa, todayWordIds, idempotence). Chưa chạy npm lint/test/build cục bộ; CI v28 cần xác nhận sau commit. Chưa kiểm tra browser, migration thực tế, toàn bộ IPA, biến thể, quan hệ từ.
 - Bàn giao 2K: kiểm kê lại 295 ID còn lại B1 nguồn chính (235 tính từ, 54 trạng từ, 6 liên từ), chia đợt nếu cần. Kiểm tra CI v28 trước khi sửa.
+
+## Phạm vi đợt 2K.1 (Seed v29)
+
+- CI Seed v28 [45542122605](https://github.com/DeliChese/Largo/actions/runs/45542122605) thành công.
+- 147 ID mới (34 trạng từ, 5 liên từ, 108 tính từ), toàn bộ mục chưa phủ thuộc B1 nguồn chính general-01–08. B1 nguồn chính 802/950; toàn kho 3.455/7.000 (49,36%), còn 3.545 ID thiếu overlay. Giữ nguyên 3.308 overlay cũ, ID, CEFR, bộ, nguồn và engine.
+- 294 ví dụ chính: 0 câu trùng nguồn trực tiếp (bản dịch biên soạn), 294 câu viết mới/chỉnh lại. Thêm 28 ID/36 nhóm nghĩa phụ (72 ví dụ); tổng 268 ID/288 nhóm. Sửa gay (đồng tính, nghĩa hiện đại), pregnant (mang thai, không phải nghén), terrific, otherwise, working, bound, rolling, directly, properly; phân biệt sometime/sometimes/some time, worth + V-ing, unless, since/until, ashamed/embarrassed, capable of/able to; tách các nghĩa danh từ, động từ, giới từ và liên từ thông dụng. Không xác nhận quan hệ từ hoặc IPA chưa đối chiếu.
+- Kiểm tra JavaScript: JSON hợp lệ, khóa cấp gốc duy nhất, 147 ID đúng nguồn, đủ hai ví dụ song ngữ mỗi mục, bảo toàn 3.308 overlay và 240 ID nghĩa phụ cũ. Thêm test độ phủ 2K.1 và migration v28 (SRS/Bloom, quan hệ cá nhân, thẻ đã xóa, todayWordIds, idempotence). Chưa chạy npm lint/test/build cục bộ, CI v29 chưa xác nhận tại thời điểm commit, chưa chạy browser/migration thực tế.
+- Bàn giao 2K.2: còn 148 ID general-09–17 (127 tính từ, 20 trạng từ, 1 liên từ); kiểm tra CI v29 trước khi sửa. Không chuyển 2L trước khi đủ 950/950 ID B1 nguồn chính.
 
 ## Các đợt tiếp theo
 

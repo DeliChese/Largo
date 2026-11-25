@@ -11182,6 +11182,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-able": {
+    "meaning": "có khả năng; có thể",
+    "notes": "Be able to + động từ nguyên mẫu; không dùng able doing.",
+    "examples": [
+      {
+        "sentence": "Are you able to swim?",
+        "translation": "Bạn có biết bơi không?"
+      },
+      {
+        "sentence": "She will be able to join us tomorrow.",
+        "translation": "Ngày mai cô ấy sẽ có thể tham gia cùng chúng ta."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-aboard": {
+    "meaning": "lên tàu; trên tàu",
+    "notes": "Go aboard/get aboard; aboard cũng là giới từ trước phương tiện.",
+    "examples": [
+      {
+        "sentence": "Everyone is aboard now.",
+        "translation": "Bây giờ mọi người đã lên tàu."
+      },
+      {
+        "sentence": "The passengers stepped aboard.",
+        "translation": "Hành khách bước lên tàu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-about": {
     "meaning": "về; liên quan đến",
     "examples": [
@@ -11238,6 +11270,22 @@
       {
         "sentence": "The plants died in the absence of water.",
         "translation": "Cây chết vì thiếu nước."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-absolutely": {
+    "meaning": "hoàn toàn; tuyệt đối",
+    "notes": "Thường nhấn mạnh tính từ hoặc sự đồng ý mạnh.",
+    "examples": [
+      {
+        "sentence": "You are absolutely right.",
+        "translation": "Bạn hoàn toàn đúng."
+      },
+      {
+        "sentence": "The room was absolutely silent.",
+        "translation": "Căn phòng hoàn toàn im lặng."
       }
     ],
     "synonyms": [],
@@ -12182,6 +12230,22 @@
     "notes": "Dạng hiện tại của be dùng với I.",
     "partOfSpeech": "Động từ"
   },
+  "en-vocab-amazing": {
+    "meaning": "đáng kinh ngạc; tuyệt vời",
+    "notes": "Amazing gây kinh ngạc; amazed diễn tả cảm xúc người trải nghiệm.",
+    "examples": [
+      {
+        "sentence": "That was an amazing performance.",
+        "translation": "Đó là một màn trình diễn tuyệt vời."
+      },
+      {
+        "sentence": "We saw an amazing view from the hill.",
+        "translation": "Chúng tôi thấy một cảnh đẹp đáng kinh ngạc từ ngọn đồi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-ambition": {
     "meaning": "hoài bão; tham vọng",
     "examples": [
@@ -13086,6 +13150,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-ashamed": {
+    "meaning": "xấu hổ; hổ thẹn",
+    "notes": "Ashamed of something/doing; ashamed to do; thường liên quan lỗi hoặc hành vi.",
+    "examples": [
+      {
+        "sentence": "He is ashamed of his behaviour.",
+        "translation": "Anh ấy xấu hổ về hành vi của mình."
+      },
+      {
+        "sentence": "Do not be ashamed to ask for help.",
+        "translation": "Đừng xấu hổ khi nhờ giúp đỡ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-aside": {
+    "meaning": "sang một bên",
+    "notes": "Step aside; put something aside = để sang một bên hoặc dành dụm.",
+    "examples": [
+      {
+        "sentence": "Please step aside to let her pass.",
+        "translation": "Vui lòng bước sang một bên để cô ấy đi qua."
+      },
+      {
+        "sentence": "Set the papers aside for now.",
+        "translation": "Tạm thời để giấy tờ sang một bên."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-ask": {
     "meaning": "hỏi; yêu cầu",
     "examples": [
@@ -13486,6 +13582,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-aware": {
+    "meaning": "nhận thức được; biết",
+    "notes": "Be aware of something; aware that + mệnh đề.",
+    "examples": [
+      {
+        "sentence": "Are you aware of the risks?",
+        "translation": "Bạn có biết các rủi ro không?"
+      },
+      {
+        "sentence": "I was aware that we were late.",
+        "translation": "Tôi biết chúng tôi đã muộn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-away": {
     "meaning": "ra xa; đi khỏi",
     "examples": [
@@ -13496,6 +13608,22 @@
       {
         "sentence": "She lives far away.",
         "translation": "Cô ấy sống ở xa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-awesome": {
+    "meaning": "tuyệt vời; ấn tượng",
+    "notes": "Rất thông dụng, thân mật, nhất là Anh–Mỹ; cũng có nghĩa gây choáng ngợp.",
+    "examples": [
+      {
+        "sentence": "We had an awesome time.",
+        "translation": "Chúng tôi đã có khoảng thời gian tuyệt vời."
+      },
+      {
+        "sentence": "That is an awesome idea.",
+        "translation": "Đó là một ý tưởng tuyệt vời."
       }
     ],
     "synonyms": [],
@@ -13766,6 +13894,22 @@
       {
         "sentence": "He cooked the fish on the barbecue.",
         "translation": "Anh ấy nướng cá trên bếp nướng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-barely": {
+    "meaning": "chỉ vừa đủ; hầu như không",
+    "notes": "Barely mang nghĩa gần phủ định; barely enough = chỉ vừa đủ.",
+    "examples": [
+      {
+        "sentence": "I can barely hear you.",
+        "translation": "Tôi hầu như không nghe được bạn."
+      },
+      {
+        "sentence": "We had barely enough money for lunch.",
+        "translation": "Chúng tôi chỉ vừa đủ tiền ăn trưa."
       }
     ],
     "synonyms": [],
@@ -14411,6 +14555,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-beloved": {
+    "meaning": "yêu quý; thân yêu",
+    "notes": "Beloved thường trang trọng hoặc giàu cảm xúc, dùng trước danh từ.",
+    "examples": [
+      {
+        "sentence": "She returned to her beloved hometown.",
+        "translation": "Cô ấy trở về quê hương yêu dấu."
+      },
+      {
+        "sentence": "The author was a beloved teacher.",
+        "translation": "Tác giả là một giáo viên được yêu quý."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-below": {
     "meaning": "ở dưới; phía dưới",
     "examples": [
@@ -14790,6 +14950,22 @@
       {
         "sentence": "Having supportive friends is a blessing.",
         "translation": "Có bạn bè hỗ trợ là một điều may mắn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-blind": {
+    "meaning": "mù; không nhận ra",
+    "notes": "Be blind to a problem = không nhận ra vấn đề; dùng tôn trọng khi nói về người khiếm thị.",
+    "examples": [
+      {
+        "sentence": "The guide dog helps a blind person cross the road.",
+        "translation": "Chó dẫn đường giúp người khiếm thị qua đường."
+      },
+      {
+        "sentence": "He was blind to the risks.",
+        "translation": "Anh ấy không nhận ra các rủi ro."
       }
     ],
     "synonyms": [],
@@ -15186,6 +15362,22 @@
       {
         "sentence": "It is not easy to bounce back after failure.",
         "translation": "Không dễ vực dậy sau thất bại."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-bound": {
+    "meaning": "chắc chắn sẽ; hướng đến; bị ràng buộc",
+    "notes": "Bound to do = chắc sẽ; bound for = hướng đến; bound by = bị ràng buộc bởi.",
+    "examples": [
+      {
+        "sentence": "You are bound to make mistakes when learning.",
+        "translation": "Bạn chắc chắn sẽ mắc lỗi khi học."
+      },
+      {
+        "sentence": "The train is bound for London.",
+        "translation": "Tàu đang đi về phía London."
       }
     ],
     "synonyms": [],
@@ -15827,6 +16019,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-burning": {
+    "meaning": "đang cháy; cấp thiết; nóng rát",
+    "notes": "Burning building; burning question = câu hỏi cấp thiết.",
+    "examples": [
+      {
+        "sentence": "Smoke rose from the burning building.",
+        "translation": "Khói bốc lên từ tòa nhà đang cháy."
+      },
+      {
+        "sentence": "She felt a burning pain in her throat.",
+        "translation": "Cô ấy cảm thấy đau rát trong cổ họng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-burst": {
     "meaning": "nổ tung; vỡ; bùng phát",
     "notes": "Burst–burst–burst; burst into tears/laughter = òa khóc/bật cười.",
@@ -16131,6 +16339,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-calm": {
+    "meaning": "bình tĩnh; yên ả",
+    "notes": "Stay/keep calm; a calm sea = biển lặng.",
+    "examples": [
+      {
+        "sentence": "Try to stay calm during the interview.",
+        "translation": "Hãy cố giữ bình tĩnh trong cuộc phỏng vấn."
+      },
+      {
+        "sentence": "The sea is calm today.",
+        "translation": "Hôm nay biển lặng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-camera": {
     "meaning": "máy ảnh; máy quay",
     "examples": [
@@ -16248,6 +16472,22 @@
       {
         "sentence": "The candle burned all evening.",
         "translation": "Ngọn nến cháy suốt buổi tối."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-capable": {
+    "meaning": "có khả năng",
+    "notes": "Capable of + danh từ/V-ing; khác able to + động từ.",
+    "examples": [
+      {
+        "sentence": "She is capable of managing the team.",
+        "translation": "Cô ấy có khả năng quản lý đội."
+      },
+      {
+        "sentence": "This machine is capable of lifting heavy loads.",
+        "translation": "Máy này có khả năng nâng tải nặng."
       }
     ],
     "synonyms": [],
@@ -16630,6 +16870,22 @@
       }
     ],
     "notes": "Cent là đơn vị tiền; percent là phần trăm.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-central": {
+    "meaning": "ở trung tâm; chủ chốt",
+    "notes": "Central to something = thiết yếu đối với điều gì.",
+    "examples": [
+      {
+        "sentence": "Our hotel has a central location.",
+        "translation": "Khách sạn của chúng tôi nằm ở vị trí trung tâm."
+      },
+      {
+        "sentence": "Trust is central to a good partnership.",
+        "translation": "Niềm tin là yếu tố chủ chốt của quan hệ hợp tác tốt."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -17120,6 +17376,22 @@
     "antonyms": [],
     "notes": "A chicken là con gà; chicken chỉ thịt gà thường không đếm được."
   },
+  "en-vocab-chief": {
+    "meaning": "chính; đứng đầu",
+    "notes": "Chief reason = lý do chính; chief engineer = kỹ sư trưởng.",
+    "examples": [
+      {
+        "sentence": "Cost is our chief concern.",
+        "translation": "Chi phí là mối quan tâm chính của chúng tôi."
+      },
+      {
+        "sentence": "She is the chief engineer.",
+        "translation": "Cô ấy là kỹ sư trưởng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-child": {
     "meaning": "trẻ em; đứa trẻ",
     "examples": [
@@ -17206,6 +17478,22 @@
       {
         "sentence": "She chose a red dress.",
         "translation": "Cô ấy chọn một chiếc váy đỏ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-christian": {
+    "meaning": "thuộc Kitô giáo",
+    "notes": "Viết hoa Christian; cũng dùng như danh từ chỉ tín đồ Kitô giáo.",
+    "examples": [
+      {
+        "sentence": "They visited a Christian church.",
+        "translation": "Họ đến thăm một nhà thờ Kitô giáo."
+      },
+      {
+        "sentence": "Christmas is a Christian holiday.",
+        "translation": "Giáng sinh là một ngày lễ Kitô giáo."
       }
     ],
     "synonyms": [],
@@ -17311,6 +17599,22 @@
       {
         "sentence": "The city has many parks.",
         "translation": "Thành phố có nhiều công viên."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-civil": {
+    "meaning": "dân sự; lịch sự",
+    "notes": "Civil law = luật dân sự; be civil to someone = cư xử lịch sự.",
+    "examples": [
+      {
+        "sentence": "She works in civil engineering.",
+        "translation": "Cô ấy làm trong ngành kỹ thuật xây dựng dân dụng."
+      },
+      {
+        "sentence": "Please be civil to your neighbours.",
+        "translation": "Xin hãy cư xử lịch sự với hàng xóm."
       }
     ],
     "synonyms": [],
@@ -18223,6 +18527,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-completely": {
+    "meaning": "hoàn toàn",
+    "notes": "Bổ nghĩa động từ hoặc tính từ; completely different = hoàn toàn khác.",
+    "examples": [
+      {
+        "sentence": "I completely forgot the date.",
+        "translation": "Tôi quên hẳn ngày đó."
+      },
+      {
+        "sentence": "The two answers are completely different.",
+        "translation": "Hai câu trả lời hoàn toàn khác nhau."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-complicated": {
+    "meaning": "phức tạp; rắc rối",
+    "notes": "Dùng khi khó hiểu hoặc có nhiều phần liên quan.",
+    "examples": [
+      {
+        "sentence": "This is a complicated problem.",
+        "translation": "Đây là một vấn đề phức tạp."
+      },
+      {
+        "sentence": "The instructions look complicated.",
+        "translation": "Hướng dẫn trông có vẻ rắc rối."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-compliment": {
     "meaning": "lời khen",
     "examples": [
@@ -18294,6 +18630,22 @@
       {
         "sentence": "She expressed concern about the delay.",
         "translation": "Cô ấy bày tỏ lo ngại về sự chậm trễ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-concerned": {
+    "meaning": "lo lắng; có liên quan",
+    "notes": "Concerned about = lo về; people concerned = những người liên quan.",
+    "examples": [
+      {
+        "sentence": "I am concerned about your health.",
+        "translation": "Tôi lo cho sức khỏe của bạn."
+      },
+      {
+        "sentence": "The people concerned received a letter.",
+        "translation": "Những người liên quan đã nhận được thư."
       }
     ],
     "synonyms": [],
@@ -19262,6 +19614,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-cruel": {
+    "meaning": "tàn nhẫn; độc ác",
+    "notes": "Cruel to someone/animals; cruelty = sự tàn nhẫn.",
+    "examples": [
+      {
+        "sentence": "It is cruel to hurt animals.",
+        "translation": "Làm đau động vật là tàn nhẫn."
+      },
+      {
+        "sentence": "She received a cruel message.",
+        "translation": "Cô ấy nhận được một tin nhắn độc ác."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-cruise": {
     "meaning": "chuyến du ngoạn bằng tàu",
     "examples": [
@@ -19363,6 +19731,38 @@
       {
         "sentence": "I opened the book out of curiosity.",
         "translation": "Tôi mở cuốn sách vì tò mò."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-curious": {
+    "meaning": "tò mò; kỳ lạ",
+    "notes": "Curious about something; curious to know.",
+    "examples": [
+      {
+        "sentence": "I am curious about your new job.",
+        "translation": "Tôi tò mò về công việc mới của bạn."
+      },
+      {
+        "sentence": "She was curious to know what happened.",
+        "translation": "Cô ấy tò mò muốn biết chuyện gì xảy ra."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-current": {
+    "meaning": "hiện tại; hiện hành",
+    "notes": "Current address/version; khác actual (thực tế).",
+    "examples": [
+      {
+        "sentence": "What is your current address?",
+        "translation": "Địa chỉ hiện tại của bạn là gì?"
+      },
+      {
+        "sentence": "The current rules apply to everyone.",
+        "translation": "Các quy định hiện hành áp dụng cho mọi người."
       }
     ],
     "synonyms": [],
@@ -19994,6 +20394,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-definitely": {
+    "meaning": "chắc chắn; nhất định",
+    "notes": "Chỉ mức độ chắc chắn cao; khác possibly (có thể).",
+    "examples": [
+      {
+        "sentence": "I will definitely call you.",
+        "translation": "Tôi chắc chắn sẽ gọi cho bạn."
+      },
+      {
+        "sentence": "This is definitely the right address.",
+        "translation": "Đây chắc chắn là địa chỉ đúng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-degree": {
     "meaning": "độ; bằng cấp; mức độ",
     "examples": [
@@ -20294,6 +20710,22 @@
       {
         "sentence": "He sits at his desk every morning.",
         "translation": "Anh ấy ngồi ở bàn làm việc mỗi sáng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-desperate": {
+    "meaning": "tuyệt vọng; rất cần",
+    "notes": "Desperate for something; desperate to do.",
+    "examples": [
+      {
+        "sentence": "They were desperate for clean water.",
+        "translation": "Họ rất cần nước sạch."
+      },
+      {
+        "sentence": "She was desperate to find her lost dog.",
+        "translation": "Cô ấy nóng lòng tuyệt vọng tìm con chó bị lạc."
       }
     ],
     "synonyms": [],
@@ -20698,6 +21130,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-directly": {
+    "meaning": "trực tiếp; ngay",
+    "notes": "Directly to someone/place; cũng có nghĩa ngay sau hoặc lập tức trong một số ngữ cảnh.",
+    "examples": [
+      {
+        "sentence": "Send the file directly to me.",
+        "translation": "Hãy gửi tệp trực tiếp cho tôi."
+      },
+      {
+        "sentence": "The hotel is directly opposite the station.",
+        "translation": "Khách sạn nằm ngay đối diện nhà ga."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-director": {
     "meaning": "giám đốc; đạo diễn",
     "examples": [
@@ -20896,6 +21344,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-disgusting": {
+    "meaning": "ghê tởm; kinh tởm",
+    "notes": "Disgusting gây ghê tởm; disgusted là cảm thấy ghê tởm.",
+    "examples": [
+      {
+        "sentence": "The food had a disgusting smell.",
+        "translation": "Thức ăn có mùi kinh tởm."
+      },
+      {
+        "sentence": "His behaviour was disgusting.",
+        "translation": "Hành vi của anh ấy thật đáng ghê tởm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-dish": {
     "meaning": "đĩa; món ăn",
     "examples": [
@@ -20936,6 +21400,22 @@
       {
         "sentence": "We walked a short distance.",
         "translation": "Chúng tôi đi bộ một đoạn ngắn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-distant": {
+    "meaning": "xa; xa cách",
+    "notes": "Distant place/relative; distant manner = thái độ xa cách.",
+    "examples": [
+      {
+        "sentence": "We saw a distant mountain.",
+        "translation": "Chúng tôi nhìn thấy một ngọn núi ở xa."
+      },
+      {
+        "sentence": "He seemed distant during the meeting.",
+        "translation": "Anh ấy có vẻ xa cách trong cuộc họp."
       }
     ],
     "synonyms": [],
@@ -21277,6 +21757,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-dramatic": {
+    "meaning": "kịch tính; mạnh mẽ; rõ rệt",
+    "notes": "Dramatic change = thay đổi lớn, dễ nhận thấy; cũng liên quan kịch.",
+    "examples": [
+      {
+        "sentence": "There was a dramatic increase in prices.",
+        "translation": "Giá tăng mạnh."
+      },
+      {
+        "sentence": "The film has a dramatic ending.",
+        "translation": "Bộ phim có kết thúc đầy kịch tính."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-draw": {
     "meaning": "vẽ",
     "examples": [
@@ -21473,6 +21969,22 @@
       }
     ],
     "notes": "Drug có thể chỉ thuốc điều trị, không chỉ ma túy.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-drunk": {
+    "meaning": "say rượu",
+    "notes": "Drunk thường mô tả người sau khi uống rượu; không dùng cho người chỉ uống nước.",
+    "examples": [
+      {
+        "sentence": "He was too drunk to drive.",
+        "translation": "Anh ấy quá say để lái xe."
+      },
+      {
+        "sentence": "The man looked drunk.",
+        "translation": "Người đàn ông trông có vẻ say rượu."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -21976,6 +22488,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-embarrassed": {
+    "meaning": "ngượng ngùng; xấu hổ",
+    "notes": "Embarrassed about/by something; embarrassing gây ngượng.",
+    "examples": [
+      {
+        "sentence": "She felt embarrassed about her mistake.",
+        "translation": "Cô ấy thấy ngượng vì lỗi của mình."
+      },
+      {
+        "sentence": "I was embarrassed to ask the question.",
+        "translation": "Tôi ngượng khi đặt câu hỏi đó."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-embarrassing": {
     "meaning": "gây ngượng ngùng; đáng xấu hổ",
     "examples": [
@@ -22017,6 +22545,22 @@
       {
         "sentence": "She showed little emotion during the speech.",
         "translation": "Cô ấy ít bộc lộ cảm xúc trong bài phát biểu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-emotional": {
+    "meaning": "thuộc cảm xúc; dễ xúc động",
+    "notes": "Emotional support; emotional moment; không nhất thiết tiêu cực.",
+    "examples": [
+      {
+        "sentence": "She needed emotional support.",
+        "translation": "Cô ấy cần sự hỗ trợ về mặt tinh thần."
+      },
+      {
+        "sentence": "It was an emotional reunion.",
+        "translation": "Đó là cuộc đoàn tụ đầy xúc động."
       }
     ],
     "synonyms": [],
@@ -22159,6 +22703,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-engaged": {
+    "meaning": "đính hôn; bận; tham gia",
+    "notes": "Engaged to someone = đính hôn; engaged in an activity = đang tham gia.",
+    "examples": [
+      {
+        "sentence": "She is engaged to her childhood friend.",
+        "translation": "Cô ấy đính hôn với bạn thời thơ ấu."
+      },
+      {
+        "sentence": "The students were actively engaged in discussion.",
+        "translation": "Sinh viên tích cực tham gia thảo luận."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-engine": {
     "meaning": "động cơ",
     "examples": [
@@ -22280,6 +22840,38 @@
       }
     ],
     "notes": "Thường không đếm được.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-entire": {
+    "meaning": "toàn bộ; trọn vẹn",
+    "notes": "Entire đứng trước danh từ; the entire day = cả ngày.",
+    "examples": [
+      {
+        "sentence": "I spent the entire day studying.",
+        "translation": "Tôi dành cả ngày để học."
+      },
+      {
+        "sentence": "The entire team joined the meeting.",
+        "translation": "Toàn bộ đội tham gia cuộc họp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-entirely": {
+    "meaning": "hoàn toàn; toàn bộ",
+    "notes": "Entirely khác partly (một phần).",
+    "examples": [
+      {
+        "sentence": "The decision is entirely yours.",
+        "translation": "Quyết định hoàn toàn thuộc về bạn."
+      },
+      {
+        "sentence": "I am not entirely sure.",
+        "translation": "Tôi không hoàn toàn chắc chắn."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -22509,6 +23101,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-eventually": {
+    "meaning": "cuối cùng; sau một thời gian",
+    "notes": "Eventually chỉ kết quả sau thời gian hoặc nhiều nỗ lực; không có nghĩa có thể.",
+    "examples": [
+      {
+        "sentence": "We eventually found the missing key.",
+        "translation": "Cuối cùng chúng tôi tìm được chìa khóa bị mất."
+      },
+      {
+        "sentence": "The bus eventually arrived.",
+        "translation": "Cuối cùng xe buýt cũng đến."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-ever": {
     "meaning": "đã từng; bao giờ",
     "examples": [
@@ -22552,6 +23160,22 @@
       }
     ],
     "notes": "Không đếm được; a piece of evidence.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-exact": {
+    "meaning": "chính xác; đúng y",
+    "notes": "Exact amount/time; exactly là trạng từ.",
+    "examples": [
+      {
+        "sentence": "What is the exact amount?",
+        "translation": "Số tiền chính xác là bao nhiêu?"
+      },
+      {
+        "sentence": "I cannot remember the exact date.",
+        "translation": "Tôi không nhớ ngày chính xác."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -22982,6 +23606,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-extraordinary": {
+    "meaning": "phi thường; khác thường",
+    "notes": "Extraordinary achievement; có thể mô tả điều rất đáng chú ý.",
+    "examples": [
+      {
+        "sentence": "She showed extraordinary courage.",
+        "translation": "Cô ấy thể hiện lòng can đảm phi thường."
+      },
+      {
+        "sentence": "We heard an extraordinary story.",
+        "translation": "Chúng tôi nghe một câu chuyện khác thường."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-extremely": {
     "meaning": "cực kỳ; hết sức",
     "examples": [
@@ -23133,6 +23773,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-fake": {
+    "meaning": "giả; không thật",
+    "notes": "Fake document/smile; counterfeit thường chỉ hàng giả hoặc tiền giả.",
+    "examples": [
+      {
+        "sentence": "The police found a fake passport.",
+        "translation": "Cảnh sát tìm thấy một hộ chiếu giả."
+      },
+      {
+        "sentence": "She gave him a fake smile.",
+        "translation": "Cô ấy nở một nụ cười giả tạo với anh ấy."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-fall": {
     "meaning": "rơi; ngã",
     "examples": [
@@ -23146,6 +23802,22 @@
       }
     ],
     "notes": "Fall – fell – fallen.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-fallen": {
+    "meaning": "đã rơi; đã ngã",
+    "notes": "Fallen dùng trước danh từ hoặc là phân từ quá khứ của fall.",
+    "examples": [
+      {
+        "sentence": "We cleared the fallen leaves.",
+        "translation": "Chúng tôi dọn lá rụng."
+      },
+      {
+        "sentence": "A fallen tree blocked the road.",
+        "translation": "Một cây đổ chắn đường."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -23774,6 +24446,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-financial": {
+    "meaning": "thuộc tài chính",
+    "notes": "Financial advice/difficulty; financially là trạng từ.",
+    "examples": [
+      {
+        "sentence": "She needs financial advice.",
+        "translation": "Cô ấy cần tư vấn tài chính."
+      },
+      {
+        "sentence": "The company has financial problems.",
+        "translation": "Công ty gặp vấn đề tài chính."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-find": {
     "meaning": "tìm thấy; phát hiện",
     "examples": [
@@ -23860,6 +24548,22 @@
       {
         "sentence": "There was a fire in the kitchen.",
         "translation": "Có một đám cháy trong bếp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-firm": {
+    "meaning": "chắc; kiên quyết",
+    "notes": "Firm grip; firm decision; danh từ firm = công ty.",
+    "examples": [
+      {
+        "sentence": "Keep a firm grip on the handle.",
+        "translation": "Hãy nắm chắc tay cầm."
+      },
+      {
+        "sentence": "She made a firm decision.",
+        "translation": "Cô ấy đưa ra quyết định kiên quyết."
       }
     ],
     "synonyms": [],
@@ -23966,6 +24670,22 @@
       {
         "sentence": "We saw a flag outside the school.",
         "translation": "Chúng tôi thấy một lá cờ bên ngoài trường học."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-flash": {
+    "meaning": "hào nhoáng; phô trương",
+    "notes": "Tính từ thân mật, chủ yếu Anh–Anh; flash car/clothes.",
+    "examples": [
+      {
+        "sentence": "He bought a flash car.",
+        "translation": "Anh ấy mua một chiếc xe hào nhoáng."
+      },
+      {
+        "sentence": "She dislikes flash clothes.",
+        "translation": "Cô ấy không thích quần áo phô trương."
       }
     ],
     "synonyms": [],
@@ -24380,6 +25100,22 @@
       {
         "sentence": "Music is a form of art.",
         "translation": "Âm nhạc là một hình thức nghệ thuật."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-former": {
+    "meaning": "trước đây; cựu",
+    "notes": "Former teacher = giáo viên trước đây; the former = người/vật thứ nhất trong hai đối tượng.",
+    "examples": [
+      {
+        "sentence": "He is a former employee.",
+        "translation": "Anh ấy là cựu nhân viên."
+      },
+      {
+        "sentence": "We met at my former school.",
+        "translation": "Chúng tôi gặp nhau tại trường cũ của tôi."
       }
     ],
     "synonyms": [],
@@ -25021,6 +25757,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-gay": {
+    "meaning": "đồng tính",
+    "notes": "Nghĩa hiện đại phổ biến chỉ xu hướng đồng tính, thường nói về nam giới; nghĩa vui vẻ thuộc cách dùng cũ hoặc văn chương.",
+    "examples": [
+      {
+        "sentence": "He is openly gay.",
+        "translation": "Anh ấy công khai là người đồng tính."
+      },
+      {
+        "sentence": "The film tells the story of a gay couple.",
+        "translation": "Bộ phim kể câu chuyện về một cặp đôi đồng tính."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-gene": {
     "meaning": "gen",
     "examples": [
@@ -25031,6 +25783,22 @@
       {
         "sentence": "Scientists studied the gene in the laboratory.",
         "translation": "Các nhà khoa học nghiên cứu gen trong phòng thí nghiệm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-general": {
+    "meaning": "chung; tổng quát",
+    "notes": "General khác specific (cụ thể); in general = nhìn chung.",
+    "examples": [
+      {
+        "sentence": "We discussed the general plan.",
+        "translation": "Chúng tôi thảo luận kế hoạch chung."
+      },
+      {
+        "sentence": "This guide gives a general overview.",
+        "translation": "Hướng dẫn này cung cấp cái nhìn tổng quan."
       }
     ],
     "synonyms": [],
@@ -25122,6 +25890,22 @@
       {
         "sentence": "He dressed as a ghost.",
         "translation": "Anh ấy hóa trang thành ma."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-giant": {
+    "meaning": "khổng lồ",
+    "notes": "Giant thường đứng trước danh từ; a giant company.",
+    "examples": [
+      {
+        "sentence": "We stood beside a giant statue.",
+        "translation": "Chúng tôi đứng cạnh một bức tượng khổng lồ."
+      },
+      {
+        "sentence": "A giant wave hit the shore.",
+        "translation": "Một con sóng khổng lồ ập vào bờ."
       }
     ],
     "synonyms": [],
@@ -25429,6 +26213,22 @@
       {
         "sentence": "The truck carries goods to the market.",
         "translation": "Xe tải chở hàng hóa đến chợ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-gorgeous": {
+    "meaning": "tuyệt đẹp; lộng lẫy",
+    "notes": "Thường dùng để khen ngoại hình, cảnh vật hoặc đồ vật.",
+    "examples": [
+      {
+        "sentence": "The garden looks gorgeous in spring.",
+        "translation": "Khu vườn trông tuyệt đẹp vào mùa xuân."
+      },
+      {
+        "sentence": "She wore a gorgeous dress.",
+        "translation": "Cô ấy mặc một chiếc váy lộng lẫy."
       }
     ],
     "synonyms": [],
@@ -25905,6 +26705,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-guilty": {
+    "meaning": "có tội; cảm thấy có lỗi",
+    "notes": "Guilty of a crime; feel guilty about something.",
+    "examples": [
+      {
+        "sentence": "The court found him guilty of theft.",
+        "translation": "Tòa xác định anh ấy phạm tội trộm cắp."
+      },
+      {
+        "sentence": "I feel guilty about forgetting her birthday.",
+        "translation": "Tôi cảm thấy có lỗi vì quên sinh nhật cô ấy."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-guitar": {
     "meaning": "đàn ghi-ta",
     "examples": [
@@ -26096,6 +26912,22 @@
       {
         "sentence": "The curtains hang to the floor.",
         "translation": "Rèm rủ xuống tận sàn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-hanging": {
+    "meaning": "treo; lơ lửng",
+    "notes": "Dùng trước danh từ, chỉ vật được treo hoặc rủ xuống.",
+    "examples": [
+      {
+        "sentence": "We bought a hanging basket for the garden.",
+        "translation": "Chúng tôi mua một giỏ treo cho khu vườn."
+      },
+      {
+        "sentence": "The room has a hanging lamp.",
+        "translation": "Căn phòng có đèn treo."
       }
     ],
     "synonyms": [],
@@ -26636,6 +27468,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-hidden": {
+    "meaning": "ẩn; bị che giấu",
+    "notes": "Hidden costs = chi phí ẩn; phân từ của hide.",
+    "examples": [
+      {
+        "sentence": "We found a hidden door.",
+        "translation": "Chúng tôi tìm thấy một cánh cửa ẩn."
+      },
+      {
+        "sentence": "Watch out for hidden charges.",
+        "translation": "Hãy chú ý các khoản phí ẩn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-hide": {
     "meaning": "giấu; trốn",
     "examples": [
@@ -26661,6 +27509,22 @@
       {
         "sentence": "The price is too high.",
         "translation": "Giá quá cao."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-highly": {
+    "meaning": "rất; ở mức độ cao",
+    "notes": "Highly recommended/skilled; high chỉ độ cao trong cách dùng trạng từ khác.",
+    "examples": [
+      {
+        "sentence": "This book is highly recommended.",
+        "translation": "Cuốn sách này rất đáng được giới thiệu."
+      },
+      {
+        "sentence": "The task requires highly skilled workers.",
+        "translation": "Công việc đòi hỏi lao động có tay nghề cao."
       }
     ],
     "synonyms": [],
@@ -26820,6 +27684,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-holy": {
+    "meaning": "linh thiêng; thánh",
+    "notes": "Thường dùng trong ngữ cảnh tôn giáo; holy place/day.",
+    "examples": [
+      {
+        "sentence": "This is a holy place for many people.",
+        "translation": "Đây là nơi linh thiêng đối với nhiều người."
+      },
+      {
+        "sentence": "They gathered on a holy day.",
+        "translation": "Họ tụ họp vào một ngày lễ thiêng liêng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-home": {
     "meaning": "nhà; nơi ở",
     "examples": [
@@ -26835,6 +27715,38 @@
     "synonyms": [],
     "antonyms": [],
     "notes": "Go home không dùng to trước home."
+  },
+  "en-vocab-honest": {
+    "meaning": "thành thật; trung thực",
+    "notes": "Be honest with someone/about something; h câm trong honest.",
+    "examples": [
+      {
+        "sentence": "Please be honest with me.",
+        "translation": "Xin hãy thành thật với tôi."
+      },
+      {
+        "sentence": "She gave an honest answer.",
+        "translation": "Cô ấy đưa ra câu trả lời trung thực."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-honestly": {
+    "meaning": "thành thật; thật sự",
+    "notes": "Honestly bổ nghĩa cách nói hoặc nhấn mạnh sự chân thành.",
+    "examples": [
+      {
+        "sentence": "Please answer honestly.",
+        "translation": "Xin hãy trả lời thành thật."
+      },
+      {
+        "sentence": "Honestly, I do not know the answer.",
+        "translation": "Thật sự tôi không biết câu trả lời."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-vocab-honesty": {
     "meaning": "sự trung thực",
@@ -26928,6 +27840,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-hopefully": {
+    "meaning": "hy vọng là; một cách đầy hy vọng",
+    "notes": "Thường đứng đầu câu để diễn tả điều mong muốn.",
+    "examples": [
+      {
+        "sentence": "Hopefully, the weather will improve.",
+        "translation": "Hy vọng thời tiết sẽ tốt lên."
+      },
+      {
+        "sentence": "She looked at the door hopefully.",
+        "translation": "Cô ấy nhìn về phía cửa đầy hy vọng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-horn": {
     "meaning": "sừng; còi",
     "examples": [
@@ -26938,6 +27866,22 @@
       {
         "sentence": "The driver sounded the horn.",
         "translation": "Tài xế bấm còi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-horrible": {
+    "meaning": "kinh khủng; rất khó chịu",
+    "notes": "Horrible thường bộc lộ cảm xúc tiêu cực mạnh.",
+    "examples": [
+      {
+        "sentence": "We had horrible weather on holiday.",
+        "translation": "Chúng tôi gặp thời tiết rất tệ trong kỳ nghỉ."
+      },
+      {
+        "sentence": "There was a horrible smell in the kitchen.",
+        "translation": "Có mùi rất khó chịu trong bếp."
       }
     ],
     "synonyms": [],
@@ -27119,6 +28063,22 @@
       {
         "sentence": "They hugged each other.",
         "translation": "Họ ôm nhau."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-huge": {
+    "meaning": "khổng lồ; rất lớn",
+    "notes": "Dùng cho kích thước hoặc mức độ; a huge difference.",
+    "examples": [
+      {
+        "sentence": "A huge tree stood beside the road.",
+        "translation": "Một cây khổng lồ đứng bên đường."
+      },
+      {
+        "sentence": "This change made a huge difference.",
+        "translation": "Thay đổi này tạo ra khác biệt rất lớn."
       }
     ],
     "synonyms": [],
@@ -27519,6 +28479,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-immediately": {
+    "meaning": "ngay lập tức",
+    "notes": "Không có độ trễ đáng kể; khác eventually.",
+    "examples": [
+      {
+        "sentence": "Please call me immediately.",
+        "translation": "Xin hãy gọi cho tôi ngay lập tức."
+      },
+      {
+        "sentence": "She immediately noticed the mistake.",
+        "translation": "Cô ấy lập tức nhận ra lỗi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-impact": {
     "meaning": "tác động; ảnh hưởng",
     "examples": [
@@ -27625,6 +28601,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-impressive": {
+    "meaning": "ấn tượng",
+    "notes": "Impressive gây ấn tượng; impressed là cảm thấy ấn tượng.",
+    "examples": [
+      {
+        "sentence": "She gave an impressive presentation.",
+        "translation": "Cô ấy có bài thuyết trình ấn tượng."
+      },
+      {
+        "sentence": "The building is impressive from outside.",
+        "translation": "Tòa nhà nhìn từ bên ngoài rất ấn tượng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-improve": {
     "meaning": "cải thiện; tiến bộ",
     "examples": [
@@ -27726,6 +28718,22 @@
       {
         "sentence": "We need to increase production.",
         "translation": "Chúng ta cần tăng sản lượng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-incredible": {
+    "meaning": "khó tin; tuyệt vời",
+    "notes": "Có thể biểu thị điều khó tin hoặc đáng kinh ngạc.",
+    "examples": [
+      {
+        "sentence": "She told us an incredible story.",
+        "translation": "Cô ấy kể cho chúng tôi một câu chuyện khó tin."
+      },
+      {
+        "sentence": "The view was incredible.",
+        "translation": "Cảnh đẹp thật tuyệt vời."
       }
     ],
     "synonyms": [],
@@ -27893,6 +28901,38 @@
       {
         "sentence": "She tried to find inner peace.",
         "translation": "Cô ấy cố tìm sự bình yên trong tâm hồn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-innocent": {
+    "meaning": "vô tội; ngây thơ",
+    "notes": "Innocent of a crime = không phạm tội đó; innocent mistake = lỗi vô ý.",
+    "examples": [
+      {
+        "sentence": "The court found him innocent.",
+        "translation": "Tòa xác định anh ấy vô tội."
+      },
+      {
+        "sentence": "It was an innocent mistake.",
+        "translation": "Đó là một lỗi vô ý."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-insane": {
+    "meaning": "điên rồ; cực kỳ vô lý",
+    "notes": "Thân mật khi chỉ việc vô lý; tránh dùng như nhãn xúc phạm người có vấn đề sức khỏe tâm thần.",
+    "examples": [
+      {
+        "sentence": "The ticket prices are insane.",
+        "translation": "Giá vé thật vô lý."
+      },
+      {
+        "sentence": "That sounds like an insane plan.",
+        "translation": "Đó nghe như một kế hoạch điên rồ."
       }
     ],
     "synonyms": [],
@@ -28296,6 +29336,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-involved": {
+    "meaning": "tham gia; liên quan",
+    "notes": "Be involved in something; involved with someone/something.",
+    "examples": [
+      {
+        "sentence": "Everyone involved in the project received an email.",
+        "translation": "Mọi người tham gia dự án đều nhận được email."
+      },
+      {
+        "sentence": "Are you involved in the decision?",
+        "translation": "Bạn có tham gia vào quyết định đó không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-iron": {
     "meaning": "sắt",
     "examples": [
@@ -28448,6 +29504,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-jealous": {
+    "meaning": "ghen tuông; ghen tị",
+    "notes": "Jealous of someone/something; có thể chỉ ghen vì quan hệ hoặc vì điều người khác có.",
+    "examples": [
+      {
+        "sentence": "He is jealous of his friend's success.",
+        "translation": "Anh ấy ghen tị với thành công của bạn mình."
+      },
+      {
+        "sentence": "She felt jealous when he talked to his ex.",
+        "translation": "Cô ấy ghen khi anh ấy nói chuyện với người yêu cũ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-job": {
     "meaning": "công việc; việc làm",
     "examples": [
@@ -28473,6 +29545,22 @@
       {
         "sentence": "She joined a music club.",
         "translation": "Cô ấy tham gia câu lạc bộ âm nhạc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-joint": {
+    "meaning": "chung; phối hợp",
+    "notes": "Joint decision/account; jointly = cùng nhau.",
+    "examples": [
+      {
+        "sentence": "We made a joint decision.",
+        "translation": "Chúng tôi đưa ra quyết định chung."
+      },
+      {
+        "sentence": "They opened a joint bank account.",
+        "translation": "Họ mở một tài khoản ngân hàng chung."
       }
     ],
     "synonyms": [],
@@ -29176,6 +30264,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-last": {
+    "meaning": "lần cuối; gần đây nhất",
+    "notes": "Last thường đứng trước động từ chính hoặc sau tân ngữ khi chỉ lần cuối.",
+    "examples": [
+      {
+        "sentence": "When did you last see her?",
+        "translation": "Lần cuối bạn gặp cô ấy là khi nào?"
+      },
+      {
+        "sentence": "I saw him last on Monday.",
+        "translation": "Lần cuối tôi gặp anh ấy là hôm thứ Hai."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-late": {
     "meaning": "muộn; trễ",
     "examples": [
@@ -29186,6 +30290,22 @@
       {
         "sentence": "The bus is late.",
         "translation": "Xe buýt đến trễ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-lately": {
+    "meaning": "gần đây",
+    "notes": "Thường dùng với hiện tại hoàn thành hoặc trạng thái kéo dài gần đây; khác late (muộn).",
+    "examples": [
+      {
+        "sentence": "I have been busy lately.",
+        "translation": "Gần đây tôi khá bận."
+      },
+      {
+        "sentence": "Have you seen him lately?",
+        "translation": "Gần đây bạn có gặp anh ấy không?"
       }
     ],
     "synonyms": [],
@@ -29344,6 +30464,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-leading": {
+    "meaning": "hàng đầu; chủ đạo",
+    "notes": "Leading expert/company; khác lead (dẫn dắt).",
+    "examples": [
+      {
+        "sentence": "She is a leading expert in the field.",
+        "translation": "Cô ấy là chuyên gia hàng đầu trong lĩnh vực này."
+      },
+      {
+        "sentence": "It is a leading software company.",
+        "translation": "Đó là công ty phần mềm hàng đầu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-league": {
     "meaning": "liên đoàn; giải đấu theo hệ thống",
     "examples": [
@@ -29385,6 +30521,22 @@
       {
         "sentence": "She learned to swim.",
         "translation": "Cô ấy đã học bơi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-least": {
+    "meaning": "ít nhất; kém nhất",
+    "notes": "The least + tính từ/trạng từ; at least = ít nhất.",
+    "examples": [
+      {
+        "sentence": "Which route is least expensive?",
+        "translation": "Tuyến đường nào ít tốn kém nhất?"
+      },
+      {
+        "sentence": "This option is the least useful.",
+        "translation": "Phương án này ít hữu ích nhất."
       }
     ],
     "synonyms": [],
@@ -29445,6 +30597,22 @@
       {
         "sentence": "The dog has four legs.",
         "translation": "Con chó có bốn chân."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-legal": {
+    "meaning": "hợp pháp; thuộc pháp luật",
+    "notes": "Legal khác illegal; legal advice = tư vấn pháp lý.",
+    "examples": [
+      {
+        "sentence": "Is it legal to park here?",
+        "translation": "Đỗ xe ở đây có hợp pháp không?"
+      },
+      {
+        "sentence": "She needs legal advice.",
+        "translation": "Cô ấy cần tư vấn pháp lý."
       }
     ],
     "synonyms": [],
@@ -30155,6 +31323,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-loud": {
+    "meaning": "to; ồn",
+    "notes": "A loud sound; loud music; loudly là dạng trạng từ thường dùng.",
+    "examples": [
+      {
+        "sentence": "The music is too loud.",
+        "translation": "Nhạc quá to."
+      },
+      {
+        "sentence": "A loud noise woke me up.",
+        "translation": "Một tiếng động lớn đánh thức tôi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-loudly": {
     "meaning": "to; lớn tiếng",
     "examples": [
@@ -30428,6 +31612,22 @@
     "synonyms": [],
     "antonyms": [],
     "notes": "Mail không có nghĩa bưu điện; post office là bưu điện."
+  },
+  "en-vocab-main": {
+    "meaning": "chính; chủ yếu",
+    "notes": "Thường đứng trước danh từ; main reason/entrance.",
+    "examples": [
+      {
+        "sentence": "What is the main reason for your decision?",
+        "translation": "Lý do chính cho quyết định của bạn là gì?"
+      },
+      {
+        "sentence": "Meet me at the main entrance.",
+        "translation": "Hãy gặp tôi ở lối vào chính."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-vocab-mainly": {
     "meaning": "chủ yếu",
@@ -30755,6 +31955,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-mass": {
+    "meaning": "quy mô lớn; hàng loạt",
+    "notes": "Mass production/transport; thường đứng trước danh từ.",
+    "examples": [
+      {
+        "sentence": "The product is ready for mass production.",
+        "translation": "Sản phẩm đã sẵn sàng để sản xuất hàng loạt."
+      },
+      {
+        "sentence": "The event attracted mass media attention.",
+        "translation": "Sự kiện thu hút sự chú ý của truyền thông đại chúng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-massive": {
+    "meaning": "rất lớn; đồ sộ",
+    "notes": "Massive building/amount; nhấn mạnh quy mô hoặc mức độ.",
+    "examples": [
+      {
+        "sentence": "A massive rock blocked the path.",
+        "translation": "Một tảng đá khổng lồ chắn lối đi."
+      },
+      {
+        "sentence": "The project requires a massive investment.",
+        "translation": "Dự án cần khoản đầu tư rất lớn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-match": {
     "meaning": "trận đấu; que diêm",
     "examples": [
@@ -31006,6 +32238,22 @@
       {
         "sentence": "This photo brings back memories.",
         "translation": "Bức ảnh này gợi lại những ký ức."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-mental": {
+    "meaning": "thuộc tâm trí; tinh thần",
+    "notes": "Mental health/ability; tránh dùng mental như lời miệt thị.",
+    "examples": [
+      {
+        "sentence": "Sleep is important for mental health.",
+        "translation": "Giấc ngủ quan trọng đối với sức khỏe tinh thần."
+      },
+      {
+        "sentence": "The game requires mental effort.",
+        "translation": "Trò chơi đòi hỏi nỗ lực trí óc."
       }
     ],
     "synonyms": [],
@@ -31264,6 +32512,22 @@
       {
         "sentence": "There is a mirror in the bathroom.",
         "translation": "Có một chiếc gương trong phòng tắm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-miserable": {
+    "meaning": "khốn khổ; rất buồn",
+    "notes": "Miserable weather = thời tiết rất tệ; feel miserable.",
+    "examples": [
+      {
+        "sentence": "He felt miserable after the argument.",
+        "translation": "Anh ấy cảm thấy rất buồn sau cuộc cãi vã."
+      },
+      {
+        "sentence": "We spent a miserable night in the rain.",
+        "translation": "Chúng tôi trải qua một đêm khổ sở dưới mưa."
       }
     ],
     "synonyms": [],
@@ -31614,6 +32878,22 @@
       {
         "sentence": "The teacher asked us to explain the moral.",
         "translation": "Giáo viên yêu cầu chúng tôi giải thích bài học đạo đức."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-more": {
+    "meaning": "hơn; nhiều hơn",
+    "notes": "Dùng more + tính từ dài/trạng từ hoặc more sau động từ.",
+    "examples": [
+      {
+        "sentence": "This exercise is more difficult.",
+        "translation": "Bài tập này khó hơn."
+      },
+      {
+        "sentence": "You should read more.",
+        "translation": "Bạn nên đọc nhiều hơn."
       }
     ],
     "synonyms": [],
@@ -32090,6 +33370,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-naked": {
+    "meaning": "khỏa thân; trần trụi",
+    "notes": "Naked eye = mắt thường, không cần dụng cụ.",
+    "examples": [
+      {
+        "sentence": "The baby was naked after the bath.",
+        "translation": "Em bé không mặc quần áo sau khi tắm."
+      },
+      {
+        "sentence": "The star is visible to the naked eye.",
+        "translation": "Có thể nhìn thấy ngôi sao bằng mắt thường."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-name": {
     "meaning": "tên; tên gọi",
     "examples": [
@@ -32113,6 +33409,22 @@
       {
         "sentence": "The baby needs a nap.",
         "translation": "Em bé cần ngủ một lát."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-nasty": {
+    "meaning": "khó chịu; xấu tính; nghiêm trọng",
+    "notes": "Nasty comment/smell/injury; thường mang sắc thái tiêu cực.",
+    "examples": [
+      {
+        "sentence": "That was a nasty comment.",
+        "translation": "Đó là lời bình luận ác ý."
+      },
+      {
+        "sentence": "He got a nasty cut on his hand.",
+        "translation": "Anh ấy bị một vết cắt khá nặng ở tay."
       }
     ],
     "synonyms": [],
@@ -32178,6 +33490,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-naturally": {
+    "meaning": "một cách tự nhiên; dĩ nhiên",
+    "notes": "Có thể chỉ cách thức tự nhiên hoặc điều dễ hiểu.",
+    "examples": [
+      {
+        "sentence": "The plant grows naturally in this area.",
+        "translation": "Loài cây mọc tự nhiên ở khu vực này."
+      },
+      {
+        "sentence": "Naturally, she was worried.",
+        "translation": "Dĩ nhiên cô ấy lo lắng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-nature": {
     "meaning": "thiên nhiên; bản chất",
     "examples": [
@@ -32188,6 +33516,22 @@
       {
         "sentence": "What is the nature of the problem?",
         "translation": "Bản chất của vấn đề là gì?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-near": {
+    "meaning": "gần; cận kề",
+    "notes": "Near future = tương lai gần; near dùng như giới từ trước địa điểm.",
+    "examples": [
+      {
+        "sentence": "We hope to meet in the near future.",
+        "translation": "Chúng tôi hy vọng gặp nhau trong tương lai gần."
+      },
+      {
+        "sentence": "The end is near.",
+        "translation": "Kết thúc đã cận kề."
       }
     ],
     "synonyms": [],
@@ -32590,6 +33934,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-normally": {
+    "meaning": "thường; trong điều kiện bình thường",
+    "notes": "Normally diễn tả thói quen hoặc tình trạng thông thường.",
+    "examples": [
+      {
+        "sentence": "I normally get up at seven.",
+        "translation": "Tôi thường thức dậy lúc bảy giờ."
+      },
+      {
+        "sentence": "The machine is working normally again.",
+        "translation": "Máy đã hoạt động bình thường trở lại."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-north": {
     "meaning": "ở phía bắc; hướng bắc",
     "examples": [
@@ -32711,6 +34071,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-nowhere": {
+    "meaning": "không nơi nào; chẳng đâu cả",
+    "notes": "Nowhere đã mang nghĩa phủ định; nowhere to go.",
+    "examples": [
+      {
+        "sentence": "There was nowhere to sit.",
+        "translation": "Không có chỗ nào để ngồi."
+      },
+      {
+        "sentence": "The path leads nowhere.",
+        "translation": "Con đường chẳng dẫn tới đâu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-nuclear": {
+    "meaning": "thuộc hạt nhân",
+    "notes": "Nuclear energy/power; nuclear family = gia đình hạt nhân.",
+    "examples": [
+      {
+        "sentence": "The country uses nuclear energy.",
+        "translation": "Quốc gia sử dụng năng lượng hạt nhân."
+      },
+      {
+        "sentence": "They work at a nuclear power plant.",
+        "translation": "Họ làm việc tại một nhà máy điện hạt nhân."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-number": {
     "meaning": "số; con số",
     "examples": [
@@ -32796,6 +34188,38 @@
       {
         "sentence": "All visitors must observe the safety rules.",
         "translation": "Mọi khách tham quan phải tuân thủ quy định an toàn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-obvious": {
+    "meaning": "rõ ràng; hiển nhiên",
+    "notes": "Obvious to someone; it is obvious that...",
+    "examples": [
+      {
+        "sentence": "The mistake was obvious.",
+        "translation": "Lỗi đó rất rõ ràng."
+      },
+      {
+        "sentence": "It is obvious that we need help.",
+        "translation": "Rõ ràng chúng ta cần giúp đỡ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-obviously": {
+    "meaning": "rõ ràng; hiển nhiên",
+    "notes": "Diễn tả điều người nói xem là rõ; có thể nghe thiếu tế nhị khi nói với người chưa biết.",
+    "examples": [
+      {
+        "sentence": "He was obviously tired.",
+        "translation": "Rõ ràng anh ấy đã mệt."
+      },
+      {
+        "sentence": "Obviously, we need more information.",
+        "translation": "Rõ ràng chúng ta cần thêm thông tin."
       }
     ],
     "synonyms": [],
@@ -33239,6 +34663,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-ordinary": {
+    "meaning": "bình thường; thông thường",
+    "notes": "Ordinary people/day; out of the ordinary = khác thường.",
+    "examples": [
+      {
+        "sentence": "It was an ordinary day at work.",
+        "translation": "Đó là một ngày làm việc bình thường."
+      },
+      {
+        "sentence": "The story is about ordinary people.",
+        "translation": "Câu chuyện nói về những người bình thường."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-organ": {
     "meaning": "cơ quan (trong cơ thể)",
     "examples": [
@@ -33294,6 +34734,22 @@
       {
         "sentence": "The charity supports orphans.",
         "translation": "Tổ chức từ thiện hỗ trợ trẻ mồ côi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-otherwise": {
+    "meaning": "nếu không; về mặt khác",
+    "notes": "Otherwise có thể chỉ hậu quả nếu điều kiện trước không được đáp ứng hoặc khía cạnh khác.",
+    "examples": [
+      {
+        "sentence": "Leave now, otherwise you will miss the bus.",
+        "translation": "Đi ngay, nếu không bạn sẽ lỡ xe buýt."
+      },
+      {
+        "sentence": "The room is small but otherwise comfortable.",
+        "translation": "Căn phòng nhỏ nhưng ngoài ra khá thoải mái."
       }
     ],
     "synonyms": [],
@@ -33543,6 +34999,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-paid": {
+    "meaning": "được trả tiền; có lương",
+    "notes": "Paid leave = nghỉ có lương; paid job = công việc có lương.",
+    "examples": [
+      {
+        "sentence": "She has a paid internship.",
+        "translation": "Cô ấy có kỳ thực tập được trả lương."
+      },
+      {
+        "sentence": "We receive ten days of paid leave.",
+        "translation": "Chúng tôi được nghỉ phép có lương mười ngày."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-pain": {
     "meaning": "cơn đau; sự đau đớn",
     "examples": [
@@ -33553,6 +35025,22 @@
       {
         "sentence": "The pain gradually went away.",
         "translation": "Cơn đau dần biến mất."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-painful": {
+    "meaning": "đau đớn; gây đau",
+    "notes": "Painful injury/memory; có thể chỉ đau thể chất hoặc tinh thần.",
+    "examples": [
+      {
+        "sentence": "Walking was painful after the injury.",
+        "translation": "Đi bộ gây đau sau chấn thương."
+      },
+      {
+        "sentence": "It was a painful memory.",
+        "translation": "Đó là một ký ức đau buồn."
       }
     ],
     "synonyms": [],
@@ -33781,6 +35269,22 @@
       {
         "sentence": "A part of the machine is broken.",
         "translation": "Một bộ phận của máy bị hỏng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-particularly": {
+    "meaning": "đặc biệt; nhất là",
+    "notes": "Particularly nhấn mạnh một phần hoặc trường hợp cụ thể.",
+    "examples": [
+      {
+        "sentence": "I particularly like this song.",
+        "translation": "Tôi đặc biệt thích bài hát này."
+      },
+      {
+        "sentence": "The road is particularly dangerous at night.",
+        "translation": "Con đường đặc biệt nguy hiểm vào ban đêm."
       }
     ],
     "synonyms": [],
@@ -34318,6 +35822,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-personally": {
+    "meaning": "đích thân; theo ý kiến cá nhân",
+    "notes": "Personally có thể chỉ trực tiếp làm hoặc nêu quan điểm riêng.",
+    "examples": [
+      {
+        "sentence": "I will personally check the report.",
+        "translation": "Tôi sẽ đích thân kiểm tra báo cáo."
+      },
+      {
+        "sentence": "Personally, I prefer the first option.",
+        "translation": "Cá nhân tôi thích phương án đầu tiên hơn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-philosophy": {
     "meaning": "triết học; triết lý",
     "examples": [
@@ -34720,6 +36240,22 @@
       {
         "sentence": "Is there a place to sit?",
         "translation": "Có chỗ nào để ngồi không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-plain": {
+    "meaning": "đơn giản; không trang trí; rõ ràng",
+    "notes": "Plain clothes/food; plain language = ngôn ngữ dễ hiểu.",
+    "examples": [
+      {
+        "sentence": "She wore a plain white shirt.",
+        "translation": "Cô ấy mặc áo sơ mi trắng trơn."
+      },
+      {
+        "sentence": "Please explain it in plain language.",
+        "translation": "Xin hãy giải thích bằng ngôn ngữ đơn giản."
       }
     ],
     "synonyms": [],
@@ -35286,6 +36822,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-positive": {
+    "meaning": "tích cực; dương tính; chắc chắn",
+    "notes": "Positive attitude; positive test result; positive that = chắc chắn rằng.",
+    "examples": [
+      {
+        "sentence": "Try to keep a positive attitude.",
+        "translation": "Hãy cố giữ thái độ tích cực."
+      },
+      {
+        "sentence": "The test result was positive.",
+        "translation": "Kết quả xét nghiệm là dương tính."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-possession": {
     "meaning": "sự sở hữu; tài sản cá nhân",
     "examples": [
@@ -35513,6 +37065,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-precious": {
+    "meaning": "quý giá; quý báu",
+    "notes": "Precious time/memory; precious metal = kim loại quý.",
+    "examples": [
+      {
+        "sentence": "Time is precious when you are busy.",
+        "translation": "Thời gian rất quý giá khi bạn bận."
+      },
+      {
+        "sentence": "This photo holds precious memories.",
+        "translation": "Bức ảnh này lưu giữ những kỷ niệm quý báu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-precise": {
     "meaning": "chính xác; cụ thể",
     "examples": [
@@ -35544,6 +37112,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-pregnant": {
+    "meaning": "mang thai",
+    "notes": "Be pregnant with a child; không đồng nghĩa với nghén.",
+    "examples": [
+      {
+        "sentence": "My sister is pregnant.",
+        "translation": "Chị gái tôi đang mang thai."
+      },
+      {
+        "sentence": "She was six months pregnant.",
+        "translation": "Cô ấy mang thai được sáu tháng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-prepare": {
     "meaning": "chuẩn bị",
     "examples": [
@@ -35557,6 +37141,22 @@
       }
     ],
     "notes": "Prepare something; prepare for something; prepare to do.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-prepared": {
+    "meaning": "đã chuẩn bị; sẵn sàng",
+    "notes": "Be prepared for something/to do.",
+    "examples": [
+      {
+        "sentence": "Are you prepared for the exam?",
+        "translation": "Bạn đã chuẩn bị cho kỳ thi chưa?"
+      },
+      {
+        "sentence": "We are prepared to help if necessary.",
+        "translation": "Chúng tôi sẵn sàng giúp nếu cần."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -36152,6 +37752,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-properly": {
+    "meaning": "đúng cách; chỉnh tề",
+    "notes": "Do something properly; work properly = hoạt động đúng.",
+    "examples": [
+      {
+        "sentence": "Please wash your hands properly.",
+        "translation": "Hãy rửa tay đúng cách."
+      },
+      {
+        "sentence": "The printer is not working properly.",
+        "translation": "Máy in không hoạt động đúng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-property": {
     "meaning": "tài sản; bất động sản",
     "notes": "Property không đếm được khi chỉ tài sản nói chung; a property có thể là bất động sản.",
@@ -36242,6 +37858,22 @@
       {
         "sentence": "She left the meeting in protest.",
         "translation": "Cô ấy rời cuộc họp để phản đối."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-proud": {
+    "meaning": "tự hào",
+    "notes": "Proud of someone/something; proud to do.",
+    "examples": [
+      {
+        "sentence": "I am proud of my sister.",
+        "translation": "Tôi tự hào về chị gái mình."
+      },
+      {
+        "sentence": "They are proud to represent their school.",
+        "translation": "Họ tự hào được đại diện cho trường."
       }
     ],
     "synonyms": [],
@@ -36382,6 +38014,22 @@
       {
         "sentence": "They adopted a puppy from a shelter.",
         "translation": "Họ nhận nuôi chó con từ trại cứu hộ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-pure": {
+    "meaning": "tinh khiết; thuần túy",
+    "notes": "Pure water; pure luck = hoàn toàn do may mắn.",
+    "examples": [
+      {
+        "sentence": "The bottle contains pure water.",
+        "translation": "Chai chứa nước tinh khiết."
+      },
+      {
+        "sentence": "It was pure luck that we met.",
+        "translation": "Chúng tôi gặp nhau hoàn toàn do may mắn."
       }
     ],
     "synonyms": [],
@@ -36780,6 +38428,22 @@
       {
         "sentence": "I heard a sharp rap on the door.",
         "translation": "Tôi nghe một tiếng gõ nhanh và mạnh vào cửa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-rare": {
+    "meaning": "hiếm; tái (thịt)",
+    "notes": "Rare animal/event; rare steak = bít tết tái.",
+    "examples": [
+      {
+        "sentence": "This bird is very rare.",
+        "translation": "Loài chim này rất hiếm."
+      },
+      {
+        "sentence": "He ordered a rare steak.",
+        "translation": "Anh ấy gọi bít tết tái."
       }
     ],
     "synonyms": [],
@@ -37707,6 +39371,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-responsible": {
+    "meaning": "có trách nhiệm; chịu trách nhiệm",
+    "notes": "Responsible for something/doing; responsible person = người có trách nhiệm.",
+    "examples": [
+      {
+        "sentence": "Who is responsible for this project?",
+        "translation": "Ai chịu trách nhiệm cho dự án này?"
+      },
+      {
+        "sentence": "She is a responsible employee.",
+        "translation": "Cô ấy là nhân viên có trách nhiệm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-rest": {
     "meaning": "sự nghỉ ngơi",
     "examples": [
@@ -37913,6 +39593,22 @@
       {
         "sentence": "Can you give me a ride?",
         "translation": "Bạn cho tôi đi nhờ xe được không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-ridiculous": {
+    "meaning": "lố bịch; vô lý",
+    "notes": "Ridiculous price/idea; có thể thể hiện sự chê bai mạnh.",
+    "examples": [
+      {
+        "sentence": "That price is ridiculous.",
+        "translation": "Mức giá đó thật vô lý."
+      },
+      {
+        "sentence": "I looked ridiculous in that hat.",
+        "translation": "Tôi trông thật lố bịch với chiếc mũ ấy."
       }
     ],
     "synonyms": [],
@@ -38132,6 +39828,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-rolling": {
+    "meaning": "nhấp nhô; liên tục luân phiên",
+    "notes": "Rolling hills = đồi nhấp nhô; rolling schedule = lịch được cập nhật liên tục.",
+    "examples": [
+      {
+        "sentence": "We drove through rolling hills.",
+        "translation": "Chúng tôi lái xe qua những ngọn đồi nhấp nhô."
+      },
+      {
+        "sentence": "The team uses a rolling schedule.",
+        "translation": "Đội sử dụng lịch cập nhật liên tục."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-romance": {
     "meaning": "chuyện tình; sự lãng mạn",
     "examples": [
@@ -38232,6 +39944,22 @@
       {
         "sentence": "The garden has red roses.",
         "translation": "Khu vườn có hoa hồng đỏ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-rough": {
+    "meaning": "gồ ghề; khó khăn; sơ bộ",
+    "notes": "Rough surface; rough day; rough estimate.",
+    "examples": [
+      {
+        "sentence": "The road is rough here.",
+        "translation": "Đường ở đây gồ ghề."
+      },
+      {
+        "sentence": "Can you give me a rough estimate?",
+        "translation": "Bạn có thể đưa ra ước tính sơ bộ không?"
       }
     ],
     "synonyms": [],
@@ -38430,6 +40158,22 @@
       {
         "sentence": "We left before the morning rush.",
         "translation": "Chúng tôi rời đi trước giờ cao điểm buổi sáng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-sacred": {
+    "meaning": "thiêng liêng; linh thiêng",
+    "notes": "Sacred place/text; có thể chỉ điều được coi là rất quan trọng.",
+    "examples": [
+      {
+        "sentence": "Visitors must respect this sacred site.",
+        "translation": "Khách tham quan phải tôn trọng địa điểm linh thiêng này."
+      },
+      {
+        "sentence": "The river is sacred to the local community.",
+        "translation": "Con sông linh thiêng đối với cộng đồng địa phương."
       }
     ],
     "synonyms": [],
@@ -38787,6 +40531,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-scared": {
+    "meaning": "sợ hãi",
+    "notes": "Scared of + danh từ/V-ing; scared to do; scary là thứ gây sợ.",
+    "examples": [
+      {
+        "sentence": "He is scared of spiders.",
+        "translation": "Anh ấy sợ nhện."
+      },
+      {
+        "sentence": "I was scared to open the door.",
+        "translation": "Tôi sợ mở cửa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-scary": {
+    "meaning": "đáng sợ",
+    "notes": "Scary là thứ gây sợ; scared là cảm xúc sợ.",
+    "examples": [
+      {
+        "sentence": "That was a scary film.",
+        "translation": "Đó là một bộ phim đáng sợ."
+      },
+      {
+        "sentence": "The strange noise sounded scary.",
+        "translation": "Tiếng động lạ nghe đáng sợ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-scene": {
     "meaning": "cảnh; hiện trường",
     "examples": [
@@ -39073,6 +40849,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-secure": {
+    "meaning": "an toàn; chắc chắn",
+    "notes": "Secure password; secure job; secure attachment.",
+    "examples": [
+      {
+        "sentence": "Keep your documents in a secure place.",
+        "translation": "Hãy giữ giấy tờ ở nơi an toàn."
+      },
+      {
+        "sentence": "She wants a secure job.",
+        "translation": "Cô ấy muốn một công việc ổn định."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-security": {
     "meaning": "an ninh; sự an toàn, ổn định",
     "examples": [
@@ -39160,6 +40952,22 @@
       {
         "sentence": "She has a strong sense of self.",
         "translation": "Cô ấy có ý thức rõ về bản thân."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-selfish": {
+    "meaning": "ích kỷ",
+    "notes": "Selfish mô tả hành vi ưu tiên mình mà thiếu quan tâm người khác.",
+    "examples": [
+      {
+        "sentence": "It was selfish to take all the food.",
+        "translation": "Lấy hết thức ăn là ích kỷ."
+      },
+      {
+        "sentence": "Do not be selfish with your time.",
+        "translation": "Đừng ích kỷ với thời gian của mình."
       }
     ],
     "synonyms": [],
@@ -39268,6 +41076,22 @@
       {
         "sentence": "The book is part of a series.",
         "translation": "Cuốn sách thuộc một bộ sách."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-serious": {
+    "meaning": "nghiêm trọng; nghiêm túc",
+    "notes": "A serious problem; be serious about something = nghiêm túc với việc gì.",
+    "examples": [
+      {
+        "sentence": "This is a serious problem.",
+        "translation": "Đây là một vấn đề nghiêm trọng."
+      },
+      {
+        "sentence": "Are you serious about your studies?",
+        "translation": "Bạn có nghiêm túc với việc học không?"
       }
     ],
     "synonyms": [],
@@ -39495,6 +41319,22 @@
       {
         "sentence": "I share a room with my sister.",
         "translation": "Tôi ở chung phòng với chị gái."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-sharp": {
+    "meaning": "sắc; sắc nét; đột ngột",
+    "notes": "Sharp knife/pain/increase; sharp at a time = đúng giờ trong cách dùng trạng từ.",
+    "examples": [
+      {
+        "sentence": "Be careful with that sharp knife.",
+        "translation": "Cẩn thận với con dao sắc đó."
+      },
+      {
+        "sentence": "There was a sharp rise in prices.",
+        "translation": "Giá tăng đột ngột."
       }
     ],
     "synonyms": [],
@@ -40031,6 +41871,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-silent": {
+    "meaning": "im lặng; không phát ra tiếng",
+    "notes": "Remain silent; silent letter = chữ cái câm.",
+    "examples": [
+      {
+        "sentence": "The class fell silent.",
+        "translation": "Lớp học trở nên im lặng."
+      },
+      {
+        "sentence": "The letter k is silent in know.",
+        "translation": "Chữ k trong know không được phát âm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-silk": {
     "meaning": "lụa; tơ tằm",
     "examples": [
@@ -40118,6 +41974,22 @@
       {
         "sentence": "She explained it simply.",
         "translation": "Cô ấy giải thích một cách đơn giản."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-since": {
+    "meaning": "kể từ khi; vì",
+    "notes": "Since + mệnh đề chỉ mốc bắt đầu hoặc nguyên nhân; since khác for + khoảng thời gian.",
+    "examples": [
+      {
+        "sentence": "I have lived here since I left school.",
+        "translation": "Tôi sống ở đây từ khi rời trường."
+      },
+      {
+        "sentence": "Since you are here, we can start.",
+        "translation": "Vì bạn đã ở đây, chúng ta có thể bắt đầu."
       }
     ],
     "synonyms": [],
@@ -40792,6 +42664,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-solid": {
+    "meaning": "rắn; chắc chắn",
+    "notes": "Solid material/evidence; solid plan = kế hoạch vững chắc.",
+    "examples": [
+      {
+        "sentence": "Ice is solid water.",
+        "translation": "Băng là nước ở thể rắn."
+      },
+      {
+        "sentence": "We need solid evidence.",
+        "translation": "Chúng ta cần bằng chứng chắc chắn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-solution": {
     "meaning": "giải pháp; dung dịch",
     "examples": [
@@ -40832,6 +42720,54 @@
       {
         "sentence": "Someday, you'll understand.",
         "translation": "Một ngày nào đó bạn sẽ hiểu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-somehow": {
+    "meaning": "bằng cách nào đó; không hiểu sao",
+    "notes": "Chỉ cách thức chưa rõ hoặc lý do khó giải thích.",
+    "examples": [
+      {
+        "sentence": "We will solve this somehow.",
+        "translation": "Chúng ta sẽ giải quyết việc này bằng cách nào đó."
+      },
+      {
+        "sentence": "Somehow, I knew she was right.",
+        "translation": "Không hiểu sao tôi biết cô ấy đúng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-sometime": {
+    "meaning": "vào lúc nào đó",
+    "notes": "Sometime = thời điểm không xác định; sometimes = đôi khi; some time = một khoảng thời gian.",
+    "examples": [
+      {
+        "sentence": "Let's meet sometime next week.",
+        "translation": "Hãy gặp nhau lúc nào đó tuần tới."
+      },
+      {
+        "sentence": "She called sometime after lunch.",
+        "translation": "Cô ấy gọi vào một lúc nào đó sau bữa trưa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-sometimes": {
+    "meaning": "đôi khi; thỉnh thoảng",
+    "notes": "Sometimes = tần suất; sometime = lúc nào đó; some time = một khoảng thời gian.",
+    "examples": [
+      {
+        "sentence": "I sometimes walk to work.",
+        "translation": "Tôi đôi khi đi bộ đến chỗ làm."
+      },
+      {
+        "sentence": "She is sometimes late for class.",
+        "translation": "Cô ấy thỉnh thoảng đến lớp muộn."
       }
     ],
     "synonyms": [],
@@ -41533,6 +43469,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-steady": {
+    "meaning": "ổn định; đều đặn; vững",
+    "notes": "Steady progress/speed; keep something steady.",
+    "examples": [
+      {
+        "sentence": "She is making steady progress.",
+        "translation": "Cô ấy đang tiến bộ đều đặn."
+      },
+      {
+        "sentence": "Keep your hands steady.",
+        "translation": "Hãy giữ tay thật vững."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-steak": {
     "meaning": "miếng thịt cắt dày; bít tết",
     "examples": [
@@ -41987,6 +43939,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-stuck": {
+    "meaning": "mắc kẹt; bị dính",
+    "notes": "Be/get stuck in traffic; stuck on a problem = chưa giải được vấn đề.",
+    "examples": [
+      {
+        "sentence": "We are stuck in traffic.",
+        "translation": "Chúng tôi đang mắc kẹt vì tắc đường."
+      },
+      {
+        "sentence": "The drawer is stuck.",
+        "translation": "Ngăn kéo bị kẹt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-student": {
     "meaning": "học sinh; sinh viên",
     "examples": [
@@ -42045,6 +44013,22 @@
       }
     ],
     "notes": "Thân mật, không đếm được; không dùng stuffs theo nghĩa này.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-stupid": {
+    "meaning": "ngốc nghếch; thiếu suy nghĩ",
+    "notes": "Mang sắc thái xúc phạm khi dùng với người; có thể nói a stupid mistake.",
+    "examples": [
+      {
+        "sentence": "That was a stupid mistake.",
+        "translation": "Đó là một lỗi ngớ ngẩn."
+      },
+      {
+        "sentence": "It would be stupid to ignore the warning.",
+        "translation": "Phớt lờ lời cảnh báo là thiếu suy nghĩ."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -42134,6 +44118,22 @@
       {
         "sentence": "There was a sudden change in the weather.",
         "translation": "Thời tiết thay đổi đột ngột."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-suddenly": {
+    "meaning": "đột nhiên; bất ngờ",
+    "notes": "Mô tả sự thay đổi xảy ra nhanh, ngoài dự đoán.",
+    "examples": [
+      {
+        "sentence": "The lights suddenly went out.",
+        "translation": "Đèn đột nhiên tắt."
+      },
+      {
+        "sentence": "Suddenly, someone knocked on the door.",
+        "translation": "Bất ngờ có người gõ cửa."
       }
     ],
     "synonyms": [],
@@ -42394,6 +44394,22 @@
       {
         "sentence": "Are you sure about that?",
         "translation": "Bạn có chắc về điều đó không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-surely": {
+    "meaning": "hẳn là; chắc hẳn",
+    "notes": "Thường diễn tả điều mong người nghe đồng ý hoặc khó tin là ngược lại.",
+    "examples": [
+      {
+        "sentence": "Surely we can find a better solution.",
+        "translation": "Hẳn chúng ta có thể tìm được giải pháp tốt hơn."
+      },
+      {
+        "sentence": "Surely you remember her name.",
+        "translation": "Chắc hẳn bạn nhớ tên cô ấy."
       }
     ],
     "synonyms": [],
@@ -43312,6 +45328,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-terribly": {
+    "meaning": "rất; một cách tồi tệ",
+    "notes": "Có thể nhấn mạnh terribly sorry hoặc mô tả việc làm rất tệ.",
+    "examples": [
+      {
+        "sentence": "I am terribly sorry.",
+        "translation": "Tôi vô cùng xin lỗi."
+      },
+      {
+        "sentence": "The team played terribly.",
+        "translation": "Đội đã chơi rất tệ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-terrific": {
+    "meaning": "tuyệt vời; rất lớn",
+    "notes": "Nghĩa khen phổ biến trong giao tiếp; terrific speed = tốc độ rất lớn.",
+    "examples": [
+      {
+        "sentence": "You did a terrific job.",
+        "translation": "Bạn đã làm rất tốt."
+      },
+      {
+        "sentence": "We had a terrific evening.",
+        "translation": "Chúng tôi có một buổi tối tuyệt vời."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-terror": {
     "meaning": "nỗi kinh hoàng",
     "examples": [
@@ -43726,6 +45774,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-through": {
+    "meaning": "xuyên qua; từ đầu đến cuối",
+    "notes": "Trạng từ không cần tân ngữ ngay sau through; read something through = đọc hết.",
+    "examples": [
+      {
+        "sentence": "The gate is open, so you can walk through.",
+        "translation": "Cổng mở rồi, bạn có thể đi qua."
+      },
+      {
+        "sentence": "Read the instructions through before you start.",
+        "translation": "Hãy đọc hết hướng dẫn trước khi bắt đầu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-throw": {
     "meaning": "cú ném; lượt ném",
     "examples": [
@@ -43861,6 +45925,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-till": {
+    "meaning": "cho đến khi",
+    "notes": "Till dùng giống until, phổ biến trong giao tiếp.",
+    "examples": [
+      {
+        "sentence": "Wait till I get back.",
+        "translation": "Hãy đợi đến khi tôi quay lại."
+      },
+      {
+        "sentence": "Stay here till the rain stops.",
+        "translation": "Ở đây cho đến khi mưa tạnh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-time": {
     "meaning": "thời gian; lần",
     "examples": [
@@ -43887,6 +45967,22 @@
       {
         "sentence": "She opened a tin of beans.",
         "translation": "Cô ấy mở một hộp đậu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-tiny": {
+    "meaning": "rất nhỏ; tí hon",
+    "notes": "Tiny nhấn mạnh kích thước rất nhỏ.",
+    "examples": [
+      {
+        "sentence": "A tiny insect landed on my hand.",
+        "translation": "Một con côn trùng tí hon đậu trên tay tôi."
+      },
+      {
+        "sentence": "They live in a tiny apartment.",
+        "translation": "Họ sống trong một căn hộ rất nhỏ."
       }
     ],
     "synonyms": [],
@@ -44145,6 +46241,38 @@
       {
         "sentence": "Let's toss a coin to decide.",
         "translation": "Hãy tung đồng xu để quyết định."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-total": {
+    "meaning": "tổng cộng; toàn bộ",
+    "notes": "Total cost/number; total silence = hoàn toàn im lặng.",
+    "examples": [
+      {
+        "sentence": "What is the total cost?",
+        "translation": "Tổng chi phí là bao nhiêu?"
+      },
+      {
+        "sentence": "The room fell into total silence.",
+        "translation": "Căn phòng chìm vào sự im lặng hoàn toàn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-totally": {
+    "meaning": "hoàn toàn",
+    "notes": "Totally thường dùng trong giao tiếp để nhấn mạnh.",
+    "examples": [
+      {
+        "sentence": "I totally agree with you.",
+        "translation": "Tôi hoàn toàn đồng ý với bạn."
+      },
+      {
+        "sentence": "The building looks totally different now.",
+        "translation": "Tòa nhà bây giờ trông hoàn toàn khác."
       }
     ],
     "synonyms": [],
@@ -44829,6 +46957,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-unbelievable": {
+    "meaning": "khó tin; không thể tin nổi",
+    "notes": "Có thể dùng để nhấn mạnh điều rất tốt hoặc rất tệ.",
+    "examples": [
+      {
+        "sentence": "The story sounds unbelievable.",
+        "translation": "Câu chuyện nghe khó tin."
+      },
+      {
+        "sentence": "They sold an unbelievable number of tickets.",
+        "translation": "Họ bán được số vé nhiều đến khó tin."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-uncle": {
     "meaning": "chú; bác; cậu; dượng",
     "examples": [
@@ -44951,6 +47095,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-unique": {
+    "meaning": "độc nhất; độc đáo",
+    "notes": "Unique to a place/person = chỉ có ở nơi/người đó.",
+    "examples": [
+      {
+        "sentence": "Each student has a unique ID.",
+        "translation": "Mỗi sinh viên có một mã định danh riêng."
+      },
+      {
+        "sentence": "The artist has a unique style.",
+        "translation": "Nghệ sĩ có phong cách độc đáo."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-unit": {
     "meaning": "đơn vị; bài học",
     "examples": [
@@ -45012,6 +47172,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-unless": {
+    "meaning": "trừ khi; nếu không",
+    "notes": "Unless gần nghĩa if...not; tránh phủ định thêm khi không cần.",
+    "examples": [
+      {
+        "sentence": "We cannot start unless everyone is ready.",
+        "translation": "Chúng ta không thể bắt đầu trừ khi mọi người đã sẵn sàng."
+      },
+      {
+        "sentence": "Unless it rains, we will walk home.",
+        "translation": "Nếu trời không mưa, chúng ta sẽ đi bộ về."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-unlike": {
     "meaning": "không giống nhau",
     "examples": [
@@ -45038,6 +47214,22 @@
       {
         "sentence": "It was an unpleasant experience.",
         "translation": "Đó là một trải nghiệm khó chịu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-until": {
+    "meaning": "cho đến khi",
+    "notes": "Until + mệnh đề; khi nói tương lai thường dùng hiện tại trong mệnh đề thời gian.",
+    "examples": [
+      {
+        "sentence": "Wait until the light turns green.",
+        "translation": "Hãy đợi đến khi đèn chuyển xanh."
+      },
+      {
+        "sentence": "I won't leave until you return.",
+        "translation": "Tôi sẽ không đi cho đến khi bạn quay lại."
       }
     ],
     "synonyms": [],
@@ -45103,6 +47295,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-urgent": {
+    "meaning": "khẩn cấp; cấp bách",
+    "notes": "Urgent request/action; cần chú ý ngay.",
+    "examples": [
+      {
+        "sentence": "We received an urgent message.",
+        "translation": "Chúng tôi nhận được tin nhắn khẩn cấp."
+      },
+      {
+        "sentence": "The roof needs urgent repairs.",
+        "translation": "Mái nhà cần sửa chữa gấp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-use": {
     "meaning": "dùng; sử dụng",
     "examples": [
@@ -45149,6 +47357,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-useless": {
+    "meaning": "vô dụng; không hữu ích",
+    "notes": "Useless for something; it is useless to do.",
+    "examples": [
+      {
+        "sentence": "This broken tool is useless.",
+        "translation": "Dụng cụ hỏng này vô dụng."
+      },
+      {
+        "sentence": "The map is useless without street names.",
+        "translation": "Bản đồ không hữu ích nếu không có tên đường."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-usual": {
     "meaning": "thường lệ; thông thường",
     "examples": [
@@ -45189,6 +47413,22 @@
       {
         "sentence": "We walked through the valley.",
         "translation": "Chúng tôi đi bộ qua thung lũng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-valuable": {
+    "meaning": "có giá trị; quý giá",
+    "notes": "Valuable advice/experience; không chỉ có giá trị tiền bạc.",
+    "examples": [
+      {
+        "sentence": "She gave me valuable advice.",
+        "translation": "Cô ấy cho tôi lời khuyên quý giá."
+      },
+      {
+        "sentence": "Keep valuable items in a safe place.",
+        "translation": "Hãy giữ đồ có giá trị ở nơi an toàn."
       }
     ],
     "synonyms": [],
@@ -45741,6 +47981,22 @@
     "antonyms": [],
     "notes": "Danh từ trong a wash; động từ wash nghĩa là giặt, rửa."
   },
+  "en-vocab-waste": {
+    "meaning": "bị bỏ phí; phế thải",
+    "notes": "Dùng trước danh từ trong waste material/waste land; waste cũng thường là danh từ hoặc động từ.",
+    "examples": [
+      {
+        "sentence": "The factory recycles waste material.",
+        "translation": "Nhà máy tái chế vật liệu phế thải."
+      },
+      {
+        "sentence": "Waste paper goes into this bin.",
+        "translation": "Giấy bỏ đi được cho vào thùng này."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-watch": {
     "meaning": "đồng hồ đeo tay",
     "examples": [
@@ -46016,6 +48272,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-weird": {
+    "meaning": "kỳ lạ; kỳ quặc",
+    "notes": "Thân mật; strange trung tính hơn trong nhiều ngữ cảnh.",
+    "examples": [
+      {
+        "sentence": "I heard a weird noise upstairs.",
+        "translation": "Tôi nghe một tiếng động kỳ lạ trên tầng."
+      },
+      {
+        "sentence": "It feels weird to be here alone.",
+        "translation": "Ở đây một mình có cảm giác kỳ lạ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-welcome": {
     "meaning": "chào đón",
     "examples": [
@@ -46169,6 +48441,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-whenever": {
+    "meaning": "bất cứ lúc nào",
+    "notes": "Có thể đứng độc lập khi thời điểm đã rõ; thường dùng như liên từ whenever + mệnh đề.",
+    "examples": [
+      {
+        "sentence": "We can meet whenever.",
+        "translation": "Chúng ta có thể gặp bất cứ lúc nào."
+      },
+      {
+        "sentence": "Come whenever; I will be at home all day.",
+        "translation": "Hãy đến lúc nào cũng được, tôi sẽ ở nhà cả ngày."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-where": {
     "meaning": "ở đâu; đi đâu",
     "examples": [
@@ -46179,6 +48467,22 @@
       {
         "sentence": "Where are you going?",
         "translation": "Bạn đang đi đâu?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-whether": {
+    "meaning": "liệu... hay không; dù... hay",
+    "notes": "Whether thường dùng trong câu hỏi gián tiếp và whether...or; whether to do.",
+    "examples": [
+      {
+        "sentence": "I do not know whether he is coming.",
+        "translation": "Tôi không biết liệu anh ấy có đến không."
+      },
+      {
+        "sentence": "We must decide whether to stay or leave.",
+        "translation": "Chúng ta phải quyết định ở lại hay rời đi."
       }
     ],
     "synonyms": [],
@@ -46595,6 +48899,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-working": {
+    "meaning": "đang hoạt động; thuộc công việc",
+    "notes": "A working device = thiết bị hoạt động; working hours = giờ làm việc.",
+    "examples": [
+      {
+        "sentence": "We need a working printer.",
+        "translation": "Chúng ta cần một máy in hoạt động được."
+      },
+      {
+        "sentence": "My working hours end at five.",
+        "translation": "Giờ làm việc của tôi kết thúc lúc năm giờ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-world": {
     "meaning": "thế giới",
     "examples": [
@@ -46670,6 +48990,22 @@
       }
     ],
     "notes": "Bad – worse – worst.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-worth": {
+    "meaning": "đáng; trị giá",
+    "notes": "Be worth + danh từ/số tiền/V-ing; không dùng worth to do.",
+    "examples": [
+      {
+        "sentence": "This book is worth reading.",
+        "translation": "Cuốn sách này đáng đọc."
+      },
+      {
+        "sentence": "The ring is worth fifty dollars.",
+        "translation": "Chiếc nhẫn trị giá năm mươi đô la."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -46773,6 +49109,22 @@
       {
         "sentence": "I can't read your writing.",
         "translation": "Tôi không đọc được chữ viết của bạn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-written": {
+    "meaning": "bằng văn bản; được viết",
+    "notes": "Written agreement = thỏa thuận bằng văn bản; phân từ quá khứ của write.",
+    "examples": [
+      {
+        "sentence": "We need written permission.",
+        "translation": "Chúng ta cần sự cho phép bằng văn bản."
+      },
+      {
+        "sentence": "Please submit a written report.",
+        "translation": "Vui lòng nộp báo cáo bằng văn bản."
       }
     ],
     "synonyms": [],

@@ -477,6 +477,22 @@
       ]
     }
   ],
+  "en-vocab-aboard": [
+    {
+      "partOfSpeech": "Giới từ",
+      "meaning": "trên; lên (phương tiện)",
+      "examples": [
+        {
+          "sentence": "We stepped aboard the train.",
+          "translation": "Chúng tôi bước lên tàu."
+        },
+        {
+          "sentence": "There were twenty people aboard the boat.",
+          "translation": "Có hai mươi người trên thuyền."
+        }
+      ]
+    }
+  ],
   "en-vocab-access": [
     {
       "partOfSpeech": "Động từ",
@@ -721,6 +737,22 @@
       "notes": "Make/place a bet."
     }
   ],
+  "en-vocab-blind": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "làm mù; làm lóa mắt",
+      "examples": [
+        {
+          "sentence": "Bright light can blind a driver temporarily.",
+          "translation": "Ánh sáng mạnh có thể làm tài xế lóa mắt tạm thời."
+        },
+        {
+          "sentence": "Do not let anger blind you to the facts.",
+          "translation": "Đừng để cơn giận khiến bạn không thấy sự thật."
+        }
+      ]
+    }
+  ],
   "en-vocab-book": [
     {
       "partOfSpeech": "Động từ",
@@ -866,6 +898,36 @@
       ]
     }
   ],
+  "en-vocab-calm": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "làm dịu; trấn tĩnh",
+      "examples": [
+        {
+          "sentence": "The music helped calm the baby.",
+          "translation": "Âm nhạc giúp dỗ em bé bình tĩnh."
+        },
+        {
+          "sentence": "Try to calm yourself before speaking.",
+          "translation": "Hãy cố trấn tĩnh trước khi nói."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "sự yên tĩnh; bình thản",
+      "examples": [
+        {
+          "sentence": "We enjoyed the calm of the evening.",
+          "translation": "Chúng tôi tận hưởng sự yên tĩnh của buổi tối."
+        },
+        {
+          "sentence": "A sense of calm returned.",
+          "translation": "Cảm giác bình thản trở lại."
+        }
+      ]
+    }
+  ],
   "en-vocab-capture": [
     {
       "partOfSpeech": "Động từ",
@@ -942,6 +1004,38 @@
         {
           "sentence": "She chased after the bus.",
           "translation": "Cô ấy chạy đuổi theo xe buýt."
+        }
+      ]
+    }
+  ],
+  "en-vocab-chief": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "người đứng đầu",
+      "examples": [
+        {
+          "sentence": "The police chief spoke to reporters.",
+          "translation": "Cảnh sát trưởng nói chuyện với phóng viên."
+        },
+        {
+          "sentence": "The fire chief arrived at the scene.",
+          "translation": "Chỉ huy cứu hỏa đến hiện trường."
+        }
+      ]
+    }
+  ],
+  "en-vocab-christian": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "tín đồ Kitô giáo",
+      "examples": [
+        {
+          "sentence": "She is a Christian.",
+          "translation": "Cô ấy là tín đồ Kitô giáo."
+        },
+        {
+          "sentence": "Many Christians celebrate Christmas.",
+          "translation": "Nhiều tín đồ Kitô giáo đón Giáng sinh."
         }
       ]
     }
@@ -1255,6 +1349,22 @@
       ]
     }
   ],
+  "en-vocab-current": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "dòng điện; dòng chảy",
+      "examples": [
+        {
+          "sentence": "A strong current pulled the boat away.",
+          "translation": "Dòng nước mạnh kéo chiếc thuyền đi."
+        },
+        {
+          "sentence": "The wire carries an electric current.",
+          "translation": "Dây dẫn mang dòng điện."
+        }
+      ]
+    }
+  ],
   "en-vocab-cycle": [
     {
       "partOfSpeech": "Động từ",
@@ -1546,6 +1656,36 @@
       ]
     }
   ],
+  "en-vocab-fake": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "giả vờ; làm giả",
+      "examples": [
+        {
+          "sentence": "He tried to fake a smile.",
+          "translation": "Anh ấy cố giả vờ mỉm cười."
+        },
+        {
+          "sentence": "They tried to fake the signature.",
+          "translation": "Họ cố làm giả chữ ký."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "đồ giả; kẻ giả mạo",
+      "examples": [
+        {
+          "sentence": "The painting is a fake.",
+          "translation": "Bức tranh là đồ giả."
+        },
+        {
+          "sentence": "Experts identified the watch as a fake.",
+          "translation": "Các chuyên gia xác định chiếc đồng hồ là hàng giả."
+        }
+      ]
+    }
+  ],
   "en-vocab-fast": [
     {
       "partOfSpeech": "Trạng từ",
@@ -1625,6 +1765,22 @@
       ]
     }
   ],
+  "en-vocab-firm": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "công ty",
+      "examples": [
+        {
+          "sentence": "She works for a law firm.",
+          "translation": "Cô ấy làm cho một công ty luật."
+        },
+        {
+          "sentence": "The firm employs fifty people.",
+          "translation": "Công ty có năm mươi nhân viên."
+        }
+      ]
+    }
+  ],
   "en-vocab-fish": [
     {
       "partOfSpeech": "Động từ",
@@ -1657,6 +1813,36 @@
       ]
     }
   ],
+  "en-vocab-flash": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "tia chớp; ánh lóe",
+      "examples": [
+        {
+          "sentence": "A flash of light woke me.",
+          "translation": "Một ánh chớp đánh thức tôi."
+        },
+        {
+          "sentence": "Turn off the camera flash.",
+          "translation": "Hãy tắt đèn flash của máy ảnh."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "lóe sáng; nháy",
+      "examples": [
+        {
+          "sentence": "The lights flash when the alarm starts.",
+          "translation": "Đèn nháy khi báo động bắt đầu."
+        },
+        {
+          "sentence": "Do not flash your headlights at other drivers.",
+          "translation": "Đừng nháy đèn pha vào các tài xế khác."
+        }
+      ]
+    }
+  ],
   "en-vocab-flow": [
     {
       "partOfSpeech": "Động từ",
@@ -1671,6 +1857,23 @@
           "translation": "Giao thông lưu thông suôn sẻ."
         }
       ]
+    }
+  ],
+  "en-vocab-former": [
+    {
+      "partOfSpeech": "Đại từ",
+      "meaning": "người hoặc vật thứ nhất trong hai đối tượng",
+      "examples": [
+        {
+          "sentence": "Of tea and coffee, I prefer the former.",
+          "translation": "Trong trà và cà phê, tôi thích thứ nhất hơn."
+        },
+        {
+          "sentence": "Both plans are possible, but the former is cheaper.",
+          "translation": "Cả hai kế hoạch đều khả thi, nhưng kế hoạch thứ nhất rẻ hơn."
+        }
+      ],
+      "notes": "Luôn dùng the former."
     }
   ],
   "en-vocab-free": [
@@ -1737,6 +1940,22 @@
       ]
     }
   ],
+  "en-vocab-general": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "tướng quân đội",
+      "examples": [
+        {
+          "sentence": "The general inspected the troops.",
+          "translation": "Vị tướng thị sát binh lính."
+        },
+        {
+          "sentence": "She became a general.",
+          "translation": "Bà trở thành một vị tướng."
+        }
+      ]
+    }
+  ],
   "en-vocab-gesture": [
     {
       "partOfSpeech": "Động từ",
@@ -1749,6 +1968,22 @@
         {
           "sentence": "She gestured for us to sit down.",
           "translation": "Cô ấy ra hiệu chúng tôi ngồi xuống."
+        }
+      ]
+    }
+  ],
+  "en-vocab-giant": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "người khổng lồ; tổ chức lớn",
+      "examples": [
+        {
+          "sentence": "The story features a friendly giant.",
+          "translation": "Câu chuyện có một người khổng lồ thân thiện."
+        },
+        {
+          "sentence": "The company is a technology giant.",
+          "translation": "Công ty là một tập đoàn công nghệ lớn."
         }
       ]
     }
@@ -1996,6 +2231,22 @@
       ]
     }
   ],
+  "en-vocab-joint": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "khớp; mối nối",
+      "examples": [
+        {
+          "sentence": "My knee joint hurts.",
+          "translation": "Khớp gối của tôi đau."
+        },
+        {
+          "sentence": "Check the joint between the pipes.",
+          "translation": "Kiểm tra mối nối giữa các ống."
+        }
+      ]
+    }
+  ],
   "en-vocab-kind": [
     {
       "partOfSpeech": "Tính từ",
@@ -2025,6 +2276,22 @@
         {
           "sentence": "The sailors finally reached land.",
           "translation": "Các thủy thủ cuối cùng cũng đến đất liền."
+        }
+      ]
+    }
+  ],
+  "en-vocab-last": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "cuối cùng; trước (vừa qua)",
+      "examples": [
+        {
+          "sentence": "This is the last question.",
+          "translation": "Đây là câu hỏi cuối cùng."
+        },
+        {
+          "sentence": "I saw her last week.",
+          "translation": "Tôi gặp cô ấy tuần trước."
         }
       ]
     }
@@ -2306,6 +2573,22 @@
       ]
     }
   ],
+  "en-vocab-mass": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "khối lượng; khối; số lượng lớn",
+      "examples": [
+        {
+          "sentence": "The mass of the object is two kilograms.",
+          "translation": "Khối lượng của vật là hai kilôgam."
+        },
+        {
+          "sentence": "A mass of clouds filled the sky.",
+          "translation": "Một khối mây lớn phủ kín bầu trời."
+        }
+      ]
+    }
+  ],
   "en-vocab-match": [
     {
       "partOfSpeech": "Động từ",
@@ -2370,6 +2653,22 @@
       ]
     }
   ],
+  "en-vocab-more": [
+    {
+      "partOfSpeech": "Từ hạn định",
+      "meaning": "nhiều hơn; thêm",
+      "examples": [
+        {
+          "sentence": "We need more chairs.",
+          "translation": "Chúng ta cần thêm ghế."
+        },
+        {
+          "sentence": "She has more time today.",
+          "translation": "Hôm nay cô ấy có nhiều thời gian hơn."
+        }
+      ]
+    }
+  ],
   "en-vocab-mount": [
     {
       "partOfSpeech": "Động từ",
@@ -2414,6 +2713,36 @@
         {
           "sentence": "I sometimes nap in the afternoon.",
           "translation": "Đôi khi tôi ngủ một lát vào buổi chiều."
+        }
+      ]
+    }
+  ],
+  "en-vocab-near": [
+    {
+      "partOfSpeech": "Giới từ",
+      "meaning": "gần",
+      "examples": [
+        {
+          "sentence": "I live near the station.",
+          "translation": "Tôi sống gần nhà ga."
+        },
+        {
+          "sentence": "The keys are near the door.",
+          "translation": "Chìa khóa ở gần cửa."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Trạng từ",
+      "meaning": "gần; lại gần",
+      "examples": [
+        {
+          "sentence": "Come near so you can see.",
+          "translation": "Hãy lại gần để bạn có thể nhìn thấy."
+        },
+        {
+          "sentence": "The storm is drawing near.",
+          "translation": "Cơn bão đang đến gần."
         }
       ]
     }
@@ -2599,6 +2928,22 @@
         }
       ],
       "notes": "PIN viết hoa là mã số cá nhân, khác nghĩa."
+    }
+  ],
+  "en-vocab-plain": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "đồng bằng",
+      "examples": [
+        {
+          "sentence": "A wide plain lay beyond the hills.",
+          "translation": "Một đồng bằng rộng nằm bên kia đồi."
+        },
+        {
+          "sentence": "The river flows across the plain.",
+          "translation": "Con sông chảy qua đồng bằng."
+        }
+      ]
     }
   ],
   "en-vocab-plant": [
@@ -3125,6 +3470,23 @@
       "notes": "Risk + V-ing."
     }
   ],
+  "en-vocab-rough": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "phác thảo; làm thô",
+      "examples": [
+        {
+          "sentence": "Let's rough out the plan first.",
+          "translation": "Hãy phác thảo kế hoạch trước."
+        },
+        {
+          "sentence": "We can rough out a design on paper.",
+          "translation": "Chúng ta có thể phác thảo thiết kế trên giấy."
+        }
+      ],
+      "notes": "Thường dùng rough out."
+    }
+  ],
   "en-vocab-round": [
     {
       "partOfSpeech": "Tính từ",
@@ -3231,6 +3593,22 @@
         {
           "sentence": "The cat scratched the door.",
           "translation": "Con mèo cào cửa."
+        }
+      ]
+    }
+  ],
+  "en-vocab-secure": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "bảo đảm; cố định; giành được",
+      "examples": [
+        {
+          "sentence": "Secure the ladder before climbing.",
+          "translation": "Hãy cố định thang trước khi leo."
+        },
+        {
+          "sentence": "She hopes to secure a new job.",
+          "translation": "Cô ấy hy vọng tìm được việc mới."
         }
       ]
     }
@@ -3347,6 +3725,36 @@
       ]
     }
   ],
+  "en-vocab-since": [
+    {
+      "partOfSpeech": "Giới từ",
+      "meaning": "kể từ",
+      "examples": [
+        {
+          "sentence": "I have lived here since June.",
+          "translation": "Tôi sống ở đây từ tháng Sáu."
+        },
+        {
+          "sentence": "We have known each other since childhood.",
+          "translation": "Chúng tôi quen nhau từ thuở nhỏ."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Trạng từ",
+      "meaning": "từ đó đến nay",
+      "examples": [
+        {
+          "sentence": "He left on Monday and has not called since.",
+          "translation": "Anh ấy đi hôm thứ Hai và từ đó chưa gọi."
+        },
+        {
+          "sentence": "I have not seen her since.",
+          "translation": "Từ đó tôi chưa gặp cô ấy."
+        }
+      ]
+    }
+  ],
   "en-vocab-sink": [
     {
       "partOfSpeech": "Động từ",
@@ -3428,6 +3836,22 @@
         }
       ],
       "notes": "Thường không đếm được."
+    }
+  ],
+  "en-vocab-solid": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "chất rắn",
+      "examples": [
+        {
+          "sentence": "Ice is a solid.",
+          "translation": "Băng là chất rắn."
+        },
+        {
+          "sentence": "Water can change from a liquid to a solid.",
+          "translation": "Nước có thể chuyển từ chất lỏng sang chất rắn."
+        }
+      ]
     }
   ],
   "en-vocab-sort": [
@@ -3741,6 +4165,53 @@
       "phonetic": "/ter/ (Mỹ); /teə/ (Anh)"
     }
   ],
+  "en-vocab-through": [
+    {
+      "partOfSpeech": "Giới từ",
+      "meaning": "qua; xuyên qua; suốt",
+      "examples": [
+        {
+          "sentence": "We walked through the park.",
+          "translation": "Chúng tôi đi qua công viên."
+        },
+        {
+          "sentence": "She worked through the night.",
+          "translation": "Cô ấy làm việc suốt đêm."
+        }
+      ]
+    }
+  ],
+  "en-vocab-till": [
+    {
+      "partOfSpeech": "Giới từ",
+      "meaning": "cho đến",
+      "examples": [
+        {
+          "sentence": "I work till six.",
+          "translation": "Tôi làm đến sáu giờ."
+        },
+        {
+          "sentence": "We waited till noon.",
+          "translation": "Chúng tôi đợi đến trưa."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "ngăn kéo đựng tiền; quầy tính tiền",
+      "examples": [
+        {
+          "sentence": "She put the money in the till.",
+          "translation": "Cô ấy bỏ tiền vào ngăn kéo thu ngân."
+        },
+        {
+          "sentence": "Pay at the till.",
+          "translation": "Hãy thanh toán tại quầy thu ngân."
+        }
+      ],
+      "notes": "Thường dùng trong Anh–Anh."
+    }
+  ],
   "en-vocab-tissue": [
     {
       "partOfSpeech": "Danh từ",
@@ -3769,6 +4240,36 @@
         {
           "sentence": "He won the toss.",
           "translation": "Anh ấy thắng lượt tung đồng xu."
+        }
+      ]
+    }
+  ],
+  "en-vocab-total": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "tổng số",
+      "examples": [
+        {
+          "sentence": "What is the total?",
+          "translation": "Tổng số là bao nhiêu?"
+        },
+        {
+          "sentence": "The total came to sixty dollars.",
+          "translation": "Tổng cộng là sáu mươi đô la."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "có tổng là; cộng lại",
+      "examples": [
+        {
+          "sentence": "The costs total two hundred dollars.",
+          "translation": "Chi phí tổng cộng hai trăm đô la."
+        },
+        {
+          "sentence": "Please total the figures in this column.",
+          "translation": "Hãy cộng các số trong cột này."
         }
       ]
     }
@@ -3889,6 +4390,22 @@
       ]
     }
   ],
+  "en-vocab-until": [
+    {
+      "partOfSpeech": "Giới từ",
+      "meaning": "cho đến (mốc thời gian)",
+      "examples": [
+        {
+          "sentence": "The shop is open until nine.",
+          "translation": "Cửa hàng mở đến chín giờ."
+        },
+        {
+          "sentence": "Stay here until Friday.",
+          "translation": "Hãy ở đây đến thứ Sáu."
+        }
+      ]
+    }
+  ],
   "en-vocab-use": [
     {
       "partOfSpeech": "Danh từ",
@@ -3971,6 +4488,36 @@
       ]
     }
   ],
+  "en-vocab-waste": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "rác thải; sự lãng phí",
+      "examples": [
+        {
+          "sentence": "The city collects household waste.",
+          "translation": "Thành phố thu gom rác sinh hoạt."
+        },
+        {
+          "sentence": "This is a waste of time.",
+          "translation": "Đây là sự lãng phí thời gian."
+        }
+      ]
+    },
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "lãng phí",
+      "examples": [
+        {
+          "sentence": "Do not waste water.",
+          "translation": "Đừng lãng phí nước."
+        },
+        {
+          "sentence": "We cannot waste another minute.",
+          "translation": "Chúng ta không thể lãng phí thêm một phút."
+        }
+      ]
+    }
+  ],
   "en-vocab-watch": [
     {
       "partOfSpeech": "Động từ",
@@ -4031,6 +4578,22 @@
         {
           "sentence": "The old well is dry.",
           "translation": "Giếng cũ đã cạn."
+        }
+      ]
+    }
+  ],
+  "en-vocab-whenever": [
+    {
+      "partOfSpeech": "Liên từ",
+      "meaning": "bất cứ khi nào; mỗi khi",
+      "examples": [
+        {
+          "sentence": "Call me whenever you need help.",
+          "translation": "Hãy gọi cho tôi bất cứ khi nào bạn cần giúp đỡ."
+        },
+        {
+          "sentence": "She smiles whenever she sees the dog.",
+          "translation": "Cô ấy mỉm cười mỗi khi thấy con chó."
         }
       ]
     }
