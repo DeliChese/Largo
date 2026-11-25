@@ -73,7 +73,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 3913);
+  assert.equal(editorialIds.size, 4021);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -297,8 +297,8 @@ test('v19 seed migration preserves saved progress for phase 2g content', () => {
 test('additional senses have existing IDs and distinct examples without changing the primary review answer', () => {
   const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
   assert.equal(byId.size, 7000);
-  assert.equal(Object.keys(englishAdditionalSenses).length, 339);
-  assert.equal(Object.values(englishAdditionalSenses).flat().length, 363);
+  assert.equal(Object.keys(englishAdditionalSenses).length, 340);
+  assert.equal(Object.values(englishAdditionalSenses).flat().length, 364);
   for (const [id, senses] of Object.entries(englishAdditionalSenses)) {
     const word = byId.get(id);
     assert.ok(word, id);
@@ -719,5 +719,48 @@ test('v31 migration preserves review state and adds B1 extra filter verb sense',
   assert.equal(updated?.personalRelations, personalRelations);
   assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
   assert.ok(!migrated.words.some(item => item.id === 'en-extra-freezer-de0660ea5a'));
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2M covers 108 B1 collocation, starter and regional IDs in both locales', () => {
+  const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  const ids = ["en-phrase-monitor-progress","en-phrase-pay-attention","en-phrase-develop-a-skill","en-phrase-gain-confidence","en-phrase-gain-experience","en-phrase-set-a-goal","en-phrase-complete-a-task","en-phrase-revise-for-an-exam","en-phrase-take-a-course","en-phrase-get-feedback","en-phrase-do-research","en-phrase-give-an-example","en-phrase-make-a-point","en-phrase-draw-a-conclusion","en-phrase-raise-a-question","en-phrase-learn-from-a-mistake","en-phrase-keep-a-record","en-phrase-tell-the-difference","en-phrase-meet-a-deadline","en-phrase-miss-a-deadline","en-phrase-make-a-decision","en-phrase-take-responsibility","en-phrase-solve-a-problem","en-phrase-deal-with-a-problem","en-phrase-make-an-effort","en-phrase-make-a-change","en-phrase-ahead-of-schedule","en-phrase-under-pressure","en-phrase-come-up-with-an-idea","en-phrase-offer-someone-a-job","en-phrase-run-a-business","en-phrase-meet-with-a-client","en-phrase-give-a-presentation","en-phrase-reach-an-agreement","en-phrase-make-a-complaint","en-phrase-make-a-profit","en-phrase-take-someone-s-advice","en-phrase-offer-support","en-phrase-lose-contact","en-phrase-make-a-good-impression","en-phrase-show-respect","en-phrase-build-trust","en-phrase-keep-a-promise","en-phrase-have-an-argument","en-phrase-hurt-someone-s-feelings","en-phrase-raise-your-voice","en-phrase-lose-your-temper","en-phrase-stay-calm","en-phrase-cause-concern","en-phrase-start-a-conversation","en-phrase-make-an-excuse","en-phrase-run-out-of-patience","en-phrase-tell-the-truth","en-phrase-stay-in-contact","en-phrase-do-volunteer-work","en-phrase-raise-money","en-phrase-provide-a-service","en-phrase-heavy-traffic","en-phrase-make-a-journey","en-phrase-public-transport","en-phrase-save-energy","en-phrase-reduce-waste","en-phrase-take-action","en-phrase-change-your-mind","en-phrase-take-a-risk","en-phrase-take-care-of","en-phrase-miss-an-opportunity","en-phrase-accept-an-offer","en-phrase-a-reasonable-price","en-phrase-find-a-way","en-phrase-set-priorities","en-phrase-show-an-interest","deck-en-b1-discussion-priority","deck-en-b1-discussion-feedback","deck-en-b1-discussion-reliable","deck-en-b1-discussion-trade-off","deck-en-b1-discussion-clarify","deck-en-b1-discussion-reschedule","deck-en-b1-discussion-bring-up","deck-en-b1-discussion-work-out","deck-en-b1-discussion-figure-out","deck-en-b1-discussion-rule-out","deck-en-b1-discussion-as-far-as-i-know","deck-en-b1-discussion-i-m-leaning-toward","deck-en-b1-communication-perspective","deck-en-b1-communication-compromise","deck-en-b1-communication-outcome","deck-en-b1-communication-drawback","deck-en-b1-communication-justify","deck-en-b1-communication-emphasize","deck-en-b1-communication-efficient","deck-en-b1-communication-point-out","deck-en-b1-communication-follow-through","deck-en-b1-communication-in-the-long-run","deck-en-b1-communication-on-the-other-hand","deck-en-b1-communication-what-i-mean-is","en-regional-behavior","en-regional-practice","en-regional-license","en-regional-math","en-regional-tire","en-regional-trunk","en-regional-hood","en-regional-round-trip-ticket","en-regional-one-way-ticket","en-regional-zip-code","en-regional-vacation","en-regional-program"];
+  assert.equal(new Set(ids).size, 108);
+  for (const id of ids) {
+    const word = byId.get(id);
+    assert.ok(word, id);
+    assert.ok(Object.prototype.hasOwnProperty.call(englishEditorial, id), id);
+    for (const locale of ['en-GB', 'en-US'] as const) {
+      const localized = getEnglishStudyWord(word, locale);
+      assert.equal(localized.examples.length, 2, id + ' ' + locale);
+      assert.ok(localized.examples.every(e => e.sentence.trim() && e.translation.trim()), id);
+    }
+  }
+  const variants = [{"id":"en-phrase-revise-for-an-exam","locale":"en-US","term":"study for an exam"},{"id":"en-phrase-public-transport","locale":"en-US","term":"public transportation"},{"id":"en-regional-behavior","locale":"en-GB","term":"behaviour"},{"id":"en-regional-practice","locale":"en-GB","term":"practise"},{"id":"en-regional-license","locale":"en-GB","term":"licence"},{"id":"en-regional-math","locale":"en-GB","term":"maths"},{"id":"en-regional-tire","locale":"en-GB","term":"tyre"},{"id":"en-regional-trunk","locale":"en-GB","term":"boot"},{"id":"en-regional-hood","locale":"en-GB","term":"bonnet"},{"id":"en-regional-round-trip-ticket","locale":"en-GB","term":"return ticket"},{"id":"en-regional-one-way-ticket","locale":"en-GB","term":"single ticket"},{"id":"en-regional-zip-code","locale":"en-GB","term":"postcode"},{"id":"en-regional-vacation","locale":"en-GB","term":"holiday"},{"id":"en-regional-program","locale":"en-GB","term":"programme"}] as const;
+  for (const { id, locale, term } of variants) {
+    const localized = getEnglishStudyWord(byId.get(id)!, locale);
+    assert.equal(localized.term, term, id);
+    assert.ok(localized.examples.every(e => e.sentence.toLowerCase().includes(term.toLowerCase())), id);
+  }
+  assert.equal(byId.get('deck-en-b1-communication-compromise')?.additionalSenses?.[0]?.partOfSpeech, 'Động từ');
+});
+
+test('v32 migration preserves review state and locale examples on B1 regional licence', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-regional-license')!;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const personalRelations = { synonyms: ['personal'], antonyms: [] };
+  const state = { version: 32, decks: INITIAL_DECKS, words: [{ ...word, englishForms: undefined, srs, bloomLevel: 3 as const, personalRelations }] as VocabWord[], logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] } };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.ok(updated);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.equal(getEnglishStudyWord(updated, 'en-GB').term, 'licence');
+  assert.equal(getEnglishStudyWord(updated, 'en-GB').examples.length, 2);
+  assert.equal(updated.srs, srs);
+  assert.equal(updated.bloomLevel, 3);
+  assert.equal(updated.personalRelations, personalRelations);
+  assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
+  assert.ok(!migrated.words.some(item => item.id === 'en-regional-math'));
   assert.equal(withCurrentSeed(migrated), migrated);
 });

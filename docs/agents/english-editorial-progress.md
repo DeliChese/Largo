@@ -2,7 +2,7 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2M — kiểm kê B1 collocations (72 mục nguồn), regional (12 mục nguồn) và giao tiếp gốc trong englishDecks.ts, trừ ID đã có overlay; kiểm tra CI v32 trước khi sửa. Mốc hiện tại: Seed v32, 3.913 ID có overlay; B1 nguồn chính 950/950, extra 310/310; 339 ID có 363 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2N — kiểm kê B1 expansion trong englishExpansion.json, trừ overlay hiện có và ID hợp nhất; kiểm tra CI v33 trước khi sửa. Mốc hiện tại: Seed v33, 4.021 ID có overlay; B1 nguồn chính 950/950, extra 310/310, collocations 72/72, giao tiếp 24/24, regional 12/12; 340 ID có 364 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
@@ -168,6 +168,15 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - 310 ví dụ chính: 0 cặp nguồn giữ nguyên, 40 câu nguồn được dịch/chỉnh bản dịch, 270 câu biên soạn/chỉnh lại. Thêm 22 ID/23 nhóm nghĩa phụ (46 ví dụ); tổng 339 ID/363 nhóm. Sửa freezer (tủ/ngăn đông), determination (quyết tâm), edition (ấn bản), membership (tư cách thành viên), apparent (rõ ràng/có vẻ), gravy (nước xốt thịt), gorilla (khỉ đột), departure (khởi hành), hazard (mối nguy), server (máy chủ/nhân viên phục vụ); phân biệt arise/raise, specially/especially, historic/historical, imaginary/imaginative, immigration/emigration, railroad/railway, visa/passport, flavor/flavour, diaper/nappy. Không xác nhận IPA/quan hệ từ chưa đối chiếu; không thay dữ liệu vùng miền.
 - Kiểm tra JavaScript: JSON hợp lệ, khóa cấp gốc duy nhất, 155 ID mới đúng nguồn, đủ hai ví dụ song ngữ mỗi mục; 310/310 ID B1 extra có overlay; bảo toàn 3.758 overlay và 317 ID nghĩa phụ cũ. Thêm test độ phủ toàn bộ B1 extra và migration v31 (SRS/Bloom, quan hệ cá nhân, thẻ đã xóa, todayWordIds, idempotence). Chưa chạy npm lint/test/build cục bộ; CI v32 chưa xác nhận tại thời điểm commit; chưa chạy browser/migration thực tế.
 - Bàn giao 2M: kiểm kê 72 mục collocations B1 từ bốn bài study/office/relationships/community, 12 mục regional B1 và các ID giao tiếp gốc trong englishDecks.ts; kiểm tra ID hợp nhất/trùng trước khi xác định tổng chưa phủ. Kiểm tra CI v32 trước khi sửa. Không chuyển 2N trước khi phủ hết phạm vi 2M.
+
+## Phạm vi đợt 2M (Seed v33)
+
+- CI Seed v32 [45550044696](https://github.com/DeliChese/Largo/actions/runs/45550044696) thành công.
+- 108 ID mới: collocations 72 (study/office/relationships/community, 18 mỗi bài), giao tiếp gốc 24 (discussion/communication, 12 mỗi bài), regional 12. B1 nguồn chính 950/950 và extra 310/310 giữ nguyên. Toàn kho 4.021/7.000 (57,44%), còn 2.979 ID thiếu overlay; giữ nguyên 3.913 overlay cũ, ID, CEFR, bộ, nguồn gốc và engine.
+- 216 ví dụ chính: giữ 72 cặp nguồn collocations và 12 cặp nguồn regional; 132 cặp giao tiếp/collocations/regional được biên soạn, giữ hoặc chỉnh lại; thêm 1 ID/1 nhóm nghĩa phụ động từ compromise (2 ví dụ), tổng 340 ID/364 nhóm. Làm rõ pay attention to, take responsibility for, tell the difference between, reach an agreement, make a profit, trade-off, efficient/effective; phrasal separability bring up, work out, figure out, rule out, point out; follow through on.
+- Phạm vi locale: dùng formExamples hiện có trong English/englishEnrichment.json cho 14 ID (2 collocations revise for an exam/public transport: en-US; 12 regional: en-GB), 28 cặp ví dụ locale gồm 14 cặp nguồn và 14 cặp biên soạn thêm. Bảo toàn trường enrichment khác, không sửa schema/IPA/dữ liệu nguồn. Hai locale dự kiến có hai ví dụ theo cơ chế merge; thêm test xác minh runtime. Chưa xác nhận IPA và quan hệ từ toàn trường.
+- Kiểm tra JavaScript: JSON hợp lệ, khóa cấp gốc duy nhất, 108 ID đúng nguồn, hai ví dụ song ngữ khác nhau mỗi overlay, 14 nhóm locale chứa đúng cụm từ, bảo toàn 3.913 overlay và 339 ID nghĩa phụ cũ, enrichment ngoài phạm vi không đổi. Thêm test độ phủ/locale và migration v32 (SRS/Bloom, quan hệ cá nhân, thẻ đã xóa, todayWordIds, idempotence). Chưa chạy npm lint/test/build cục bộ; CI v33 chưa xác nhận khi commit; chưa chạy browser/migration thực tế.
+- Bàn giao 2N: kiểm kê B1 expansion từ blob đầy đủ, đối chiếu ID thực tế và phần đã phủ trước khi sửa. Kiểm tra CI v33 trước khi bắt đầu.
 
 ## Các đợt tiếp theo
 

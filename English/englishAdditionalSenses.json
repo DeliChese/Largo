@@ -101,6 +101,23 @@
       "notes": "Update someone on + chủ đề."
     }
   ],
+  "deck-en-b1-communication-compromise": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "thỏa hiệp; làm tổn hại",
+      "notes": "Compromise on an issue = nhượng bộ về một vấn đề; compromise security = làm suy giảm an toàn.",
+      "examples": [
+        {
+          "sentence": "Both sides agreed to compromise.",
+          "translation": "Cả hai bên đồng ý nhượng bộ."
+        },
+        {
+          "sentence": "Do not compromise the safety of the team.",
+          "translation": "Đừng làm ảnh hưởng đến sự an toàn của đội."
+        }
+      ]
+    }
+  ],
   "en-extra-academic-b8a98203ec": [
     {
       "partOfSpeech": "Danh từ",

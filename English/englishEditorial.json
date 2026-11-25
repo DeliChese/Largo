@@ -760,6 +760,390 @@
     "synonyms": [],
     "antonyms": []
   },
+  "deck-en-b1-communication-compromise": {
+    "meaning": "sự thỏa hiệp; giải pháp dung hòa",
+    "notes": "Reach a compromise with someone/on something; thường mỗi bên nhượng bộ một phần.",
+    "examples": [
+      {
+        "sentence": "Both teams finally reached a compromise.",
+        "translation": "Cuối cùng cả hai nhóm đạt thỏa hiệp."
+      },
+      {
+        "sentence": "We need a compromise that works for everyone.",
+        "translation": "Chúng ta cần giải pháp dung hòa phù hợp với mọi người."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-communication-drawback": {
+    "meaning": "hạn chế; điểm bất lợi",
+    "notes": "A drawback of something; main/major drawback.",
+    "examples": [
+      {
+        "sentence": "The main drawback is the cost.",
+        "translation": "Hạn chế chính là chi phí."
+      },
+      {
+        "sentence": "One drawback of working remotely is the lack of face-to-face contact.",
+        "translation": "Một hạn chế của làm việc từ xa là thiếu tiếp xúc trực tiếp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-communication-efficient": {
+    "meaning": "hiệu quả; ít lãng phí nguồn lực",
+    "notes": "Efficient nhấn mạnh tiết kiệm nguồn lực; effective nhấn mạnh đạt kết quả mong muốn.",
+    "examples": [
+      {
+        "sentence": "We need a more efficient workflow.",
+        "translation": "Chúng ta cần quy trình làm việc hiệu quả hơn."
+      },
+      {
+        "sentence": "This machine is more energy efficient than the old one.",
+        "translation": "Máy này sử dụng năng lượng hiệu quả hơn máy cũ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-communication-emphasize": {
+    "meaning": "nhấn mạnh",
+    "notes": "Emphasize a point/that; emphasise thường gặp ở Anh–Anh.",
+    "examples": [
+      {
+        "sentence": "Let me emphasize a key point before we vote.",
+        "translation": "Để tôi nhấn mạnh một ý chính trước khi biểu quyết."
+      },
+      {
+        "sentence": "The teacher wants to emphasize the importance of practice.",
+        "translation": "Giáo viên muốn nhấn mạnh tầm quan trọng của luyện tập."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-communication-follow-through": {
+    "meaning": "thực hiện đến cùng; làm trọn cam kết",
+    "notes": "Follow through on a promise/plan; trong thể thao cũng chỉ động tác tiếp nối.",
+    "examples": [
+      {
+        "sentence": "A good teammate will always follow through on a promise.",
+        "translation": "Đồng đội đáng tin luôn làm trọn điều đã hứa."
+      },
+      {
+        "sentence": "We made a plan, but we need to follow through.",
+        "translation": "Chúng ta đã lập kế hoạch, nhưng cần thực hiện đến cùng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-communication-in-the-long-run": {
+    "meaning": "về lâu dài",
+    "notes": "Chỉ kết quả sau thời gian dài; khác in the short term.",
+    "examples": [
+      {
+        "sentence": "Writing clear notes saves time in the long run.",
+        "translation": "Ghi chép rõ ràng giúp tiết kiệm thời gian về lâu dài."
+      },
+      {
+        "sentence": "Regular maintenance costs less in the long run.",
+        "translation": "Bảo trì thường xuyên ít tốn kém hơn về lâu dài."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-communication-justify": {
+    "meaning": "chứng minh là hợp lý; biện minh",
+    "notes": "Justify something/doing something; justify a decision to someone.",
+    "examples": [
+      {
+        "sentence": "We need clear numbers to justify the cost of the upgrade.",
+        "translation": "Chúng ta cần số liệu rõ ràng để chứng minh chi phí nâng cấp hợp lý."
+      },
+      {
+        "sentence": "How can you justify spending so much money?",
+        "translation": "Bạn giải thích thế nào để việc chi nhiều tiền như vậy là hợp lý?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-communication-on-the-other-hand": {
+    "meaning": "mặt khác; xét khía cạnh đối lập",
+    "notes": "Đối chiếu hai khía cạnh; on the one hand ... on the other hand.",
+    "examples": [
+      {
+        "sentence": "The new tool is quick; on the other hand, it takes time to learn.",
+        "translation": "Công cụ mới rất nhanh; mặt khác, cần thời gian làm quen."
+      },
+      {
+        "sentence": "The flat is small. On the other hand, it is close to work.",
+        "translation": "Căn hộ nhỏ. Mặt khác, nó gần nơi làm việc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-communication-outcome": {
+    "meaning": "kết quả cuối cùng",
+    "notes": "Outcome of a process/event; expected outcome = kết quả kỳ vọng.",
+    "examples": [
+      {
+        "sentence": "The expected outcome is a faster sign-up process.",
+        "translation": "Kết quả kỳ vọng là quy trình đăng ký nhanh hơn."
+      },
+      {
+        "sentence": "We cannot predict the outcome of the meeting.",
+        "translation": "Chúng ta không thể dự đoán kết quả cuộc họp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-communication-perspective": {
+    "meaning": "góc nhìn; cách nhìn nhận",
+    "notes": "From someone's perspective; perspective on something.",
+    "examples": [
+      {
+        "sentence": "From my perspective, a slower rollout is much safer.",
+        "translation": "Theo góc nhìn của tôi, triển khai chậm hơn sẽ an toàn hơn."
+      },
+      {
+        "sentence": "The discussion gave me a new perspective on the problem.",
+        "translation": "Cuộc thảo luận cho tôi góc nhìn mới về vấn đề."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-communication-point-out": {
+    "meaning": "chỉ ra; lưu ý",
+    "notes": "Tách được: point it out; point out that + mệnh đề.",
+    "examples": [
+      {
+        "sentence": "Thank you for taking time to point out a flaw in the schedule.",
+        "translation": "Cảm ơn bạn đã dành thời gian chỉ ra thiếu sót trong lịch trình."
+      },
+      {
+        "sentence": "If you see an error, please point it out.",
+        "translation": "Nếu thấy lỗi, xin hãy chỉ ra."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-communication-what-i-mean-is": {
+    "meaning": "ý tôi là; điều tôi muốn nói là",
+    "notes": "What I mean is (that) + mệnh đề; dùng để giải thích lại ý.",
+    "examples": [
+      {
+        "sentence": "What I mean is that we should test the draft first.",
+        "translation": "Ý tôi là chúng ta nên thử bản nháp trước."
+      },
+      {
+        "sentence": "What I mean is that we need more time.",
+        "translation": "Ý tôi là chúng ta cần thêm thời gian."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-discussion-as-far-as-i-know": {
+    "meaning": "theo những gì tôi biết",
+    "notes": "Giới hạn mức chắc chắn của người nói; thường đứng đầu câu, theo sau dấu phẩy.",
+    "examples": [
+      {
+        "sentence": "As far as I know, the deadline hasn't changed.",
+        "translation": "Theo tôi biết, hạn chót chưa thay đổi."
+      },
+      {
+        "sentence": "As far as I know, the shop is still open.",
+        "translation": "Theo tôi biết, cửa hàng vẫn mở."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-discussion-bring-up": {
+    "meaning": "đề cập; nêu ra; nuôi dạy",
+    "notes": "Tách được: bring a topic up, bring it up; bring up a child = nuôi dạy.",
+    "examples": [
+      {
+        "sentence": "I'd like to bring up a concern before we start.",
+        "translation": "Tôi muốn nêu điều lo ngại trước khi bắt đầu."
+      },
+      {
+        "sentence": "If you have a question, bring it up at the meeting.",
+        "translation": "Nếu có câu hỏi, hãy nêu ra tại cuộc họp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-discussion-clarify": {
+    "meaning": "làm rõ; giải thích cho rõ",
+    "notes": "Clarify a point/meaning; clarify what/why.",
+    "examples": [
+      {
+        "sentence": "Could you clarify one point before we finish?",
+        "translation": "Bạn làm rõ một ý trước khi chúng ta kết thúc được không?"
+      },
+      {
+        "sentence": "Please clarify what you mean by success.",
+        "translation": "Xin giải thích rõ bạn hiểu thành công là gì."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-discussion-feedback": {
+    "meaning": "phản hồi; góp ý",
+    "notes": "Không đếm được; feedback on something/from someone.",
+    "examples": [
+      {
+        "sentence": "I'd like to ask for feedback on my presentation.",
+        "translation": "Tôi muốn xin góp ý về bài thuyết trình."
+      },
+      {
+        "sentence": "We received useful feedback from the users.",
+        "translation": "Chúng tôi nhận phản hồi hữu ích từ người dùng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-discussion-figure-out": {
+    "meaning": "tìm ra; hiểu ra",
+    "notes": "Tách được: figure it out; figure out how/why/what.",
+    "examples": [
+      {
+        "sentence": "We need to figure out what happened to the file.",
+        "translation": "Chúng ta cần tìm hiểu chuyện gì xảy ra với tệp."
+      },
+      {
+        "sentence": "I cannot figure out how this lock works.",
+        "translation": "Tôi không hiểu khóa này hoạt động thế nào."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-discussion-i-m-leaning-toward": {
+    "meaning": "tôi đang nghiêng về; thiên về",
+    "notes": "Lean toward(s) + danh từ/V-ing; toward phổ biến Anh–Mỹ, towards phổ biến Anh–Anh.",
+    "examples": [
+      {
+        "sentence": "I'm leaning toward moving the call to Friday.",
+        "translation": "Tôi nghiêng về việc chuyển cuộc gọi sang thứ Sáu."
+      },
+      {
+        "sentence": "I'm leaning toward the cheaper option.",
+        "translation": "Tôi nghiêng về phương án rẻ hơn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-discussion-priority": {
+    "meaning": "việc ưu tiên; mức độ ưu tiên",
+    "notes": "Top priority; give priority to; priority over.",
+    "examples": [
+      {
+        "sentence": "Our top priority is to finish the first draft.",
+        "translation": "Ưu tiên hàng đầu của chúng tôi là hoàn thành bản nháp đầu tiên."
+      },
+      {
+        "sentence": "Safety must take priority over speed.",
+        "translation": "An toàn phải được ưu tiên hơn tốc độ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-discussion-reliable": {
+    "meaning": "đáng tin cậy",
+    "notes": "Reliable source/person/service; rely on là động từ tương ứng.",
+    "examples": [
+      {
+        "sentence": "Can we find a reliable source for these figures?",
+        "translation": "Chúng ta tìm được nguồn đáng tin cho các số liệu này không?"
+      },
+      {
+        "sentence": "The bus service is usually reliable.",
+        "translation": "Dịch vụ xe buýt thường đáng tin cậy."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-discussion-reschedule": {
+    "meaning": "đổi lịch; dời sang thời điểm khác",
+    "notes": "Reschedule something for a new time; khác cancel.",
+    "examples": [
+      {
+        "sentence": "Can we reschedule the meeting for Thursday?",
+        "translation": "Chúng ta dời cuộc họp sang thứ Năm được không?"
+      },
+      {
+        "sentence": "I need to reschedule my appointment.",
+        "translation": "Tôi cần đổi lịch cuộc hẹn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-discussion-rule-out": {
+    "meaning": "loại trừ một khả năng",
+    "notes": "Tách được: rule it out; rule out a possibility.",
+    "examples": [
+      {
+        "sentence": "Can we rule out a mistake in the data?",
+        "translation": "Chúng ta có thể loại trừ khả năng sai sót trong dữ liệu không?"
+      },
+      {
+        "sentence": "We cannot rule out further delays.",
+        "translation": "Chúng ta không thể loại trừ khả năng chậm trễ thêm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-discussion-trade-off": {
+    "meaning": "sự đánh đổi",
+    "notes": "A trade-off between A and B; được một mặt nhưng mất mặt khác.",
+    "examples": [
+      {
+        "sentence": "There is a trade-off between price and quality.",
+        "translation": "Có sự đánh đổi giữa giá và chất lượng."
+      },
+      {
+        "sentence": "Every design involves a trade-off between speed and accuracy.",
+        "translation": "Mọi thiết kế đều có sự đánh đổi giữa tốc độ và độ chính xác."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-b1-discussion-work-out": {
+    "meaning": "tìm ra cách giải quyết; tính ra; tập thể dục",
+    "notes": "Tách được: work it out; không tân ngữ có thể chỉ tập thể dục hoặc diễn ra tốt đẹp.",
+    "examples": [
+      {
+        "sentence": "Let's work out a solution we can all accept.",
+        "translation": "Hãy tìm giải pháp mọi người đều chấp nhận."
+      },
+      {
+        "sentence": "I work out three times a week.",
+        "translation": "Tôi tập thể dục ba lần một tuần."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-academic-b8a98203ec": {
     "meaning": "thuộc học thuật; thuộc giáo dục",
     "notes": "Academic research/year; academic success không nhất thiết là điểm số.",
@@ -13565,6 +13949,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-a-reasonable-price": {
+    "meaning": "mức giá hợp lý",
+    "notes": "At/for a reasonable price; reasonable không nhất thiết rẻ nhất.",
+    "examples": [
+      {
+        "sentence": "The shop repairs phones for a reasonable price.",
+        "translation": "Cửa hàng sửa điện thoại với mức giá hợp lý."
+      },
+      {
+        "sentence": "We found a good room at a reasonable price.",
+        "translation": "Chúng tôi tìm được phòng tốt với giá phải chăng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-a-slice-of-bread": {
     "meaning": "một lát bánh mì",
     "notes": "Bread thường không đếm được; slice chỉ một lát.",
@@ -13581,6 +13981,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-accept-an-offer": {
+    "meaning": "chấp nhận lời đề nghị",
+    "notes": "Accept an offer from someone; accept khác except (ngoại trừ).",
+    "examples": [
+      {
+        "sentence": "Read the terms before you accept an offer.",
+        "translation": "Hãy đọc các điều khoản trước khi chấp nhận đề nghị."
+      },
+      {
+        "sentence": "She decided to accept an offer from a local company.",
+        "translation": "Cô ấy quyết định chấp nhận lời mời từ một công ty địa phương."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-after-school": {
     "meaning": "sau giờ học",
     "notes": "School ở đây chỉ hoạt động học tập, không cần the.",
@@ -13592,6 +14008,22 @@
       {
         "sentence": "I do my homework after school.",
         "translation": "Tôi làm bài tập sau giờ học."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-ahead-of-schedule": {
+    "meaning": "sớm hơn kế hoạch",
+    "notes": "Finish ahead of schedule; behind schedule = chậm tiến độ.",
+    "examples": [
+      {
+        "sentence": "The team finished the repairs ahead of schedule.",
+        "translation": "Nhóm đã sửa chữa xong sớm hơn kế hoạch."
+      },
+      {
+        "sentence": "The building was completed ahead of schedule.",
+        "translation": "Tòa nhà hoàn thành sớm hơn kế hoạch."
       }
     ],
     "synonyms": [],
@@ -13818,6 +14250,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-build-trust": {
+    "meaning": "xây dựng lòng tin",
+    "notes": "Build trust with/between people; earn someone's trust = giành lòng tin.",
+    "examples": [
+      {
+        "sentence": "It takes time to build trust in a new team.",
+        "translation": "Cần thời gian để xây dựng lòng tin trong một nhóm mới."
+      },
+      {
+        "sentence": "Honest communication helps build trust.",
+        "translation": "Giao tiếp trung thực giúp xây dựng lòng tin."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-bus-stop": {
     "meaning": "trạm dừng xe buýt",
     "notes": "Khác bus station, nơi tập trung nhiều tuyến hoặc điểm đầu cuối.",
@@ -13882,6 +14330,70 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-cause-concern": {
+    "meaning": "gây lo ngại",
+    "notes": "Cause concern among someone; concern about something.",
+    "examples": [
+      {
+        "sentence": "The long delay could cause concern among passengers.",
+        "translation": "Sự chậm trễ kéo dài có thể khiến hành khách lo ngại."
+      },
+      {
+        "sentence": "The delays cause concern among customers.",
+        "translation": "Việc chậm trễ gây lo ngại cho khách hàng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-change-your-mind": {
+    "meaning": "đổi ý",
+    "notes": "Change one's mind about something; sở hữu từ thay theo chủ ngữ.",
+    "examples": [
+      {
+        "sentence": "You can change your mind before you pay.",
+        "translation": "Bạn có thể đổi ý trước khi thanh toán."
+      },
+      {
+        "sentence": "You can change your mind at any time.",
+        "translation": "Bạn có thể đổi ý bất cứ lúc nào."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-come-up-with-an-idea": {
+    "meaning": "nghĩ ra một ý tưởng",
+    "notes": "Come up with + ý tưởng/giải pháp; cụm không tách.",
+    "examples": [
+      {
+        "sentence": "Can you come up with an idea for the next event?",
+        "translation": "Bạn nghĩ ra ý tưởng nào cho sự kiện tới được không?"
+      },
+      {
+        "sentence": "We need to come up with an idea for the presentation.",
+        "translation": "Chúng ta cần nghĩ ra ý tưởng cho bài thuyết trình."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-complete-a-task": {
+    "meaning": "hoàn thành nhiệm vụ",
+    "notes": "Complete nhấn mạnh hoàn tất; carry out a task = thực hiện nhiệm vụ.",
+    "examples": [
+      {
+        "sentence": "Read the instructions before you complete a task.",
+        "translation": "Hãy đọc hướng dẫn trước khi thực hiện xong một nhiệm vụ."
+      },
+      {
+        "sentence": "You have ten minutes to complete a task like this.",
+        "translation": "Bạn có mười phút để hoàn thành nhiệm vụ như thế này."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-cook-dinner": {
     "meaning": "nấu bữa tối",
     "notes": "Cook nhấn mạnh việc nấu, không phải việc ăn.",
@@ -13914,6 +14426,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-deal-with-a-problem": {
+    "meaning": "xử lý một vấn đề",
+    "notes": "Cụm không tách: deal with it; không nhất thiết giải quyết triệt để.",
+    "examples": [
+      {
+        "sentence": "Here's how we deal with a problem like this.",
+        "translation": "Đây là cách chúng tôi xử lý vấn đề kiểu này."
+      },
+      {
+        "sentence": "She knows how to deal with a problem calmly.",
+        "translation": "Cô ấy biết cách xử lý vấn đề bình tĩnh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-develop-a-skill": {
+    "meaning": "phát triển một kỹ năng",
+    "notes": "Develop a skill through practice; acquire a skill = tiếp thu kỹ năng.",
+    "examples": [
+      {
+        "sentence": "It takes practice to develop a skill like public speaking.",
+        "translation": "Cần luyện tập để phát triển kỹ năng như nói trước đám đông."
+      },
+      {
+        "sentence": "You can develop a skill through regular practice.",
+        "translation": "Bạn có thể phát triển kỹ năng bằng cách luyện tập đều đặn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-do-homework": {
     "meaning": "làm bài tập về nhà",
     "notes": "Dùng do, không dùng make; homework không đếm được.",
@@ -13930,6 +14474,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-do-research": {
+    "meaning": "tìm hiểu, nghiên cứu",
+    "notes": "Do research on/into a topic; research thường không đếm được.",
+    "examples": [
+      {
+        "sentence": "We need to do research before choosing a topic.",
+        "translation": "Chúng ta cần tìm hiểu trước khi chọn đề tài."
+      },
+      {
+        "sentence": "We need to do research on the local market.",
+        "translation": "Chúng ta cần nghiên cứu thị trường địa phương."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-do-some-exercise": {
     "meaning": "tập thể dục một chút",
     "examples": [
@@ -13940,6 +14500,38 @@
       {
         "sentence": "We do some exercise in the park.",
         "translation": "Chúng tôi tập thể dục một chút trong công viên."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-do-volunteer-work": {
+    "meaning": "làm việc tình nguyện",
+    "notes": "Do volunteer work for an organisation; work thường không đếm được.",
+    "examples": [
+      {
+        "sentence": "I do volunteer work at a food bank on Saturdays.",
+        "translation": "Tôi làm tình nguyện tại ngân hàng thực phẩm vào thứ Bảy."
+      },
+      {
+        "sentence": "Many students do volunteer work at weekends.",
+        "translation": "Nhiều sinh viên làm tình nguyện vào cuối tuần."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-draw-a-conclusion": {
+    "meaning": "rút ra kết luận",
+    "notes": "Draw a conclusion from evidence; tránh jump to conclusions.",
+    "examples": [
+      {
+        "sentence": "We should compare both results before we draw a conclusion.",
+        "translation": "Ta nên so sánh cả hai kết quả trước khi rút ra kết luận."
+      },
+      {
+        "sentence": "We cannot draw a conclusion from one result.",
+        "translation": "Chúng ta không thể kết luận chỉ từ một kết quả."
       }
     ],
     "synonyms": [],
@@ -14024,6 +14616,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-find-a-way": {
+    "meaning": "tìm ra cách",
+    "notes": "Find a way to do something; find a way around a problem.",
+    "examples": [
+      {
+        "sentence": "We need to find a way to reuse these old boxes.",
+        "translation": "Chúng ta cần tìm cách dùng lại những chiếc hộp cũ này."
+      },
+      {
+        "sentence": "We must find a way to finish on time.",
+        "translation": "Chúng ta phải tìm cách hoàn thành đúng hạn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-follow-the-instructions": {
     "meaning": "làm theo hướng dẫn",
     "examples": [
@@ -14102,6 +14710,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-gain-confidence": {
+    "meaning": "trở nên tự tin hơn",
+    "notes": "Gain confidence in doing something; confidence thường không đếm được.",
+    "examples": [
+      {
+        "sentence": "Small successes help learners gain confidence.",
+        "translation": "Những thành công nhỏ giúp người học tự tin hơn."
+      },
+      {
+        "sentence": "Speaking in small groups helps you gain confidence.",
+        "translation": "Nói trong nhóm nhỏ giúp bạn tự tin hơn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-gain-experience": {
+    "meaning": "tích lũy kinh nghiệm",
+    "notes": "Gain experience in a field; experience chỉ kinh nghiệm thường không đếm được.",
+    "examples": [
+      {
+        "sentence": "You can gain experience by volunteering at local events.",
+        "translation": "Bạn có thể tích lũy kinh nghiệm bằng cách làm tình nguyện ở các sự kiện địa phương."
+      },
+      {
+        "sentence": "An internship is a good way to gain experience.",
+        "translation": "Thực tập là cách tốt để tích lũy kinh nghiệm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-get-a-headache": {
     "meaning": "bị đau đầu",
     "examples": [
@@ -14148,6 +14788,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-get-feedback": {
+    "meaning": "nhận góp ý",
+    "notes": "Get feedback on something/from someone; feedback không đếm được.",
+    "examples": [
+      {
+        "sentence": "You'll get feedback on your first recording next week.",
+        "translation": "Bạn sẽ nhận góp ý về bản ghi âm đầu tiên vào tuần sau."
+      },
+      {
+        "sentence": "Ask your teacher how to get feedback on your writing.",
+        "translation": "Hỏi giáo viên cách nhận góp ý về bài viết."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-get-some-rest": {
     "meaning": "nghỉ ngơi một chút",
     "examples": [
@@ -14173,6 +14829,38 @@
       {
         "sentence": "We gave our teacher a gift.",
         "translation": "Chúng tôi tặng giáo viên một món quà."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-give-a-presentation": {
+    "meaning": "thuyết trình",
+    "notes": "Give a presentation on something/to an audience.",
+    "examples": [
+      {
+        "sentence": "I have to give a presentation to my team tomorrow.",
+        "translation": "Ngày mai tôi phải thuyết trình trước nhóm."
+      },
+      {
+        "sentence": "She will give a presentation on renewable energy.",
+        "translation": "Cô ấy sẽ thuyết trình về năng lượng tái tạo."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-give-an-example": {
+    "meaning": "đưa ra ví dụ",
+    "notes": "Give an example of something; give someone an example.",
+    "examples": [
+      {
+        "sentence": "Could you give an example of how to use this word?",
+        "translation": "Bạn cho một ví dụ về cách dùng từ này được không?"
+      },
+      {
+        "sentence": "Could you give an example of a polite request?",
+        "translation": "Bạn có thể đưa ví dụ về lời đề nghị lịch sự không?"
       }
     ],
     "synonyms": [],
@@ -14397,6 +15085,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-have-an-argument": {
+    "meaning": "cãi nhau",
+    "notes": "Have an argument with someone about something; argument cũng nghĩa lập luận.",
+    "examples": [
+      {
+        "sentence": "They sometimes have an argument about money.",
+        "translation": "Đôi khi họ cãi nhau về chuyện tiền bạc."
+      },
+      {
+        "sentence": "I do not want to have an argument with my sister.",
+        "translation": "Tôi không muốn cãi nhau với chị gái."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-have-breakfast": {
     "meaning": "ăn sáng",
     "notes": "Have + bữa ăn, thường không dùng mạo từ: have breakfast/lunch/dinner.",
@@ -14477,6 +15181,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-heavy-traffic": {
+    "meaning": "giao thông đông đúc",
+    "notes": "Traffic không đếm được; traffic jam = vụ ùn tắc.",
+    "examples": [
+      {
+        "sentence": "We got to the airport late because of heavy traffic.",
+        "translation": "Chúng tôi đến sân bay muộn vì đường quá đông."
+      },
+      {
+        "sentence": "We were late because of heavy traffic.",
+        "translation": "Chúng tôi đến muộn vì giao thông đông đúc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-hurt-someone-s-feelings": {
+    "meaning": "làm ai đó buồn hoặc tổn thương",
+    "notes": "Hurt–hurt–hurt; feelings thường số nhiều trong cụm.",
+    "examples": [
+      {
+        "sentence": "A careless joke can hurt someone's feelings.",
+        "translation": "Một câu đùa thiếu suy nghĩ có thể làm ai đó tổn thương."
+      },
+      {
+        "sentence": "I did not mean to hurt her feelings.",
+        "translation": "Tôi không có ý làm cô ấy tổn thương."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-in-class": {
     "meaning": "trong giờ học",
     "notes": "In class chỉ đang tham gia buổi học; in the classroom chỉ vị trí.",
@@ -14503,6 +15239,38 @@
       {
         "sentence": "He keeps a diary of his travels.",
         "translation": "Anh ấy viết nhật ký về các chuyến đi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-keep-a-promise": {
+    "meaning": "giữ lời hứa",
+    "notes": "Keep a promise; break a promise = thất hứa.",
+    "examples": [
+      {
+        "sentence": "I know she will keep a promise once she makes it.",
+        "translation": "Tôi biết cô ấy đã hứa thì sẽ giữ lời."
+      },
+      {
+        "sentence": "You can build trust if you keep a promise.",
+        "translation": "Bạn có thể xây dựng lòng tin nếu giữ lời hứa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-keep-a-record": {
+    "meaning": "lưu lại thông tin, ghi chép lại",
+    "notes": "Keep a record of something; record là danh từ.",
+    "examples": [
+      {
+        "sentence": "I keep a record of the books I finish.",
+        "translation": "Tôi lưu lại danh sách những cuốn sách mình đọc xong."
+      },
+      {
+        "sentence": "Please keep a record of your expenses.",
+        "translation": "Vui lòng ghi chép các khoản chi."
       }
     ],
     "synonyms": [],
@@ -14554,6 +15322,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-learn-from-a-mistake": {
+    "meaning": "rút kinh nghiệm từ một sai lầm",
+    "notes": "Learn from mistakes; không dùng learn by a mistake theo nghĩa này.",
+    "examples": [
+      {
+        "sentence": "It's easier to learn from a mistake if you know what went wrong.",
+        "translation": "Bạn dễ rút kinh nghiệm hơn nếu biết mình sai ở đâu."
+      },
+      {
+        "sentence": "It is important to learn from a mistake rather than hide it.",
+        "translation": "Điều quan trọng là rút kinh nghiệm từ sai lầm thay vì che giấu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-listen-to-music": {
     "meaning": "nghe nhạc",
     "notes": "Listen to + đối tượng; không bỏ to.",
@@ -14586,6 +15370,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-lose-contact": {
+    "meaning": "mất liên lạc",
+    "notes": "Lose contact with someone; stay in contact = giữ liên lạc.",
+    "examples": [
+      {
+        "sentence": "It's easy to lose contact with friends after moving away.",
+        "translation": "Sau khi chuyển đi, người ta dễ mất liên lạc với bạn bè."
+      },
+      {
+        "sentence": "We do not want to lose contact with our old classmates.",
+        "translation": "Chúng tôi không muốn mất liên lạc với bạn học cũ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-lose-weight": {
     "meaning": "giảm cân",
     "examples": [
@@ -14596,6 +15396,22 @@
       {
         "sentence": "He wants to lose weight gradually.",
         "translation": "Anh ấy muốn giảm cân từ từ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-lose-your-temper": {
+    "meaning": "mất bình tĩnh, nổi nóng",
+    "notes": "Lose your temper with someone; keep your temper = kiềm chế nóng giận.",
+    "examples": [
+      {
+        "sentence": "It's easy to lose your temper when you're tired.",
+        "translation": "Khi mệt, bạn dễ nổi nóng."
+      },
+      {
+        "sentence": "Try not to lose your temper when things go wrong.",
+        "translation": "Hãy cố không nổi nóng khi mọi việc trục trặc."
       }
     ],
     "synonyms": [],
@@ -14626,6 +15442,86 @@
       {
         "sentence": "Turn right when you reach the main road.",
         "translation": "Rẽ phải khi đến đường chính."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-make-a-change": {
+    "meaning": "thực hiện một thay đổi",
+    "notes": "Make a change to something; make changes to a plan.",
+    "examples": [
+      {
+        "sentence": "We need to make a change to the schedule.",
+        "translation": "Chúng tôi cần điều chỉnh lịch."
+      },
+      {
+        "sentence": "We need to make a change to our budget.",
+        "translation": "Chúng ta cần điều chỉnh ngân sách."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-make-a-complaint": {
+    "meaning": "gửi khiếu nại, phàn nàn chính thức",
+    "notes": "Make a complaint about something/to someone; complain là động từ.",
+    "examples": [
+      {
+        "sentence": "You can make a complaint if the service was poor.",
+        "translation": "Bạn có thể khiếu nại nếu dịch vụ kém."
+      },
+      {
+        "sentence": "You can make a complaint to the manager.",
+        "translation": "Bạn có thể khiếu nại với quản lý."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-make-a-decision": {
+    "meaning": "đưa ra quyết định",
+    "notes": "Make a decision about/on something; decide là động từ.",
+    "examples": [
+      {
+        "sentence": "We need more information before we make a decision.",
+        "translation": "Chúng tôi cần thêm thông tin trước khi quyết định."
+      },
+      {
+        "sentence": "We must make a decision before Friday.",
+        "translation": "Chúng ta phải đưa ra quyết định trước thứ Sáu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-make-a-good-impression": {
+    "meaning": "tạo ấn tượng tốt",
+    "notes": "Make a good impression on someone; first impression = ấn tượng đầu tiên.",
+    "examples": [
+      {
+        "sentence": "Listening well helps you make a good impression.",
+        "translation": "Biết lắng nghe giúp bạn tạo ấn tượng tốt."
+      },
+      {
+        "sentence": "Try to make a good impression on your first day.",
+        "translation": "Hãy cố tạo ấn tượng tốt trong ngày đầu tiên."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-make-a-journey": {
+    "meaning": "thực hiện một chuyến đi",
+    "notes": "Make a journey to/from a place; take a trip thường tự nhiên trong giao tiếp.",
+    "examples": [
+      {
+        "sentence": "We make a journey to the coast every spring.",
+        "translation": "Mùa xuân nào chúng tôi cũng đi một chuyến ra bờ biển."
+      },
+      {
+        "sentence": "They had to make a journey across the mountains.",
+        "translation": "Họ phải thực hiện chuyến đi qua vùng núi."
       }
     ],
     "synonyms": [],
@@ -14671,6 +15567,38 @@
       {
         "sentence": "We need to make a plan for tomorrow.",
         "translation": "Chúng ta cần lập kế hoạch cho ngày mai."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-make-a-point": {
+    "meaning": "nêu một luận điểm",
+    "notes": "Make a point about something; make a point of doing = chủ ý luôn làm.",
+    "examples": [
+      {
+        "sentence": "Use a short example to make a point clearly.",
+        "translation": "Hãy dùng một ví dụ ngắn để nêu rõ luận điểm."
+      },
+      {
+        "sentence": "She used a story to make a point about teamwork.",
+        "translation": "Cô ấy dùng một câu chuyện để nêu luận điểm về làm việc nhóm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-make-a-profit": {
+    "meaning": "thu được lợi nhuận",
+    "notes": "Make a profit on something; profit khác revenue (doanh thu).",
+    "examples": [
+      {
+        "sentence": "Small shops need steady sales to make a profit.",
+        "translation": "Các cửa hàng nhỏ cần doanh số ổn định để có lãi."
+      },
+      {
+        "sentence": "The shop needs more customers to make a profit.",
+        "translation": "Cửa hàng cần thêm khách để có lãi."
       }
     ],
     "synonyms": [],
@@ -14756,6 +15684,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-make-an-effort": {
+    "meaning": "cố gắng, bỏ công sức",
+    "notes": "Make an effort to do something.",
+    "examples": [
+      {
+        "sentence": "Please make an effort to arrive a few minutes early.",
+        "translation": "Bạn cố gắng đến sớm vài phút nhé."
+      },
+      {
+        "sentence": "You should make an effort to listen carefully.",
+        "translation": "Bạn nên cố gắng lắng nghe cẩn thận."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-make-an-excuse": {
+    "meaning": "viện cớ; đưa ra lời bào chữa",
+    "notes": "Make an excuse for something; excuse cũng có thể là lý do chính đáng.",
+    "examples": [
+      {
+        "sentence": "If you can't go, say so instead of trying to make an excuse.",
+        "translation": "Nếu không đi được, cứ nói thật thay vì viện cớ."
+      },
+      {
+        "sentence": "Do not make an excuse for being late every day.",
+        "translation": "Đừng ngày nào cũng viện cớ đến muộn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-make-coffee": {
     "meaning": "pha cà phê",
     "notes": "Make dùng khi chuẩn bị đồ uống.",
@@ -14804,6 +15764,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-meet-a-deadline": {
+    "meaning": "kịp hạn chót",
+    "notes": "Hoàn thành không muộn hơn hạn chót; miss a deadline = trễ hạn.",
+    "examples": [
+      {
+        "sentence": "We moved two meetings so we could meet a deadline.",
+        "translation": "Chúng tôi dời hai cuộc họp để kịp hạn chót."
+      },
+      {
+        "sentence": "We need extra help to meet a deadline this tight.",
+        "translation": "Chúng tôi cần hỗ trợ thêm để kịp hạn chót gấp như vậy."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-meet-a-friend": {
     "meaning": "gặp một người bạn",
     "notes": "Meet có thể chỉ gặp theo hẹn hoặc gặp lần đầu.",
@@ -14820,6 +15796,54 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-meet-with-a-client": {
+    "meaning": "gặp khách hàng để trao đổi",
+    "notes": "Meet with thường chỉ cuộc gặp có mục đích; meet a client cũng tự nhiên.",
+    "examples": [
+      {
+        "sentence": "I'll meet with a client to discuss the new order.",
+        "translation": "Tôi sẽ gặp khách hàng để trao đổi về đơn hàng mới."
+      },
+      {
+        "sentence": "I will meet with a client on Monday.",
+        "translation": "Tôi sẽ gặp một khách hàng để trao đổi vào thứ Hai."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-miss-a-deadline": {
+    "meaning": "trễ hạn chót",
+    "notes": "Miss a deadline khác extend a deadline (gia hạn).",
+    "examples": [
+      {
+        "sentence": "Tell your manager if you are likely to miss a deadline.",
+        "translation": "Hãy báo cho quản lý nếu bạn có khả năng trễ hạn."
+      },
+      {
+        "sentence": "You may miss a deadline if you start too late.",
+        "translation": "Bạn có thể trễ hạn nếu bắt đầu quá muộn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-miss-an-opportunity": {
+    "meaning": "bỏ lỡ cơ hội",
+    "notes": "Miss an opportunity to do; seize an opportunity = nắm bắt cơ hội.",
+    "examples": [
+      {
+        "sentence": "Don't miss an opportunity to practise with a partner.",
+        "translation": "Đừng bỏ lỡ cơ hội luyện tập với bạn học."
+      },
+      {
+        "sentence": "Do not miss an opportunity to ask questions.",
+        "translation": "Đừng bỏ lỡ cơ hội đặt câu hỏi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-miss-the-bus": {
     "meaning": "lỡ xe buýt",
     "notes": "Miss = không kịp lên phương tiện.",
@@ -14831,6 +15855,54 @@
       {
         "sentence": "He missed the bus this morning.",
         "translation": "Sáng nay anh ấy bị lỡ xe buýt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-monitor-progress": {
+    "meaning": "theo dõi tiến độ",
+    "notes": "Monitor progress towards a goal; khác make progress (tiến bộ).",
+    "examples": [
+      {
+        "sentence": "The teacher uses short quizzes to monitor progress.",
+        "translation": "Giáo viên dùng những bài kiểm tra ngắn để theo dõi tiến độ."
+      },
+      {
+        "sentence": "We monitor progress through weekly reports.",
+        "translation": "Chúng tôi theo dõi tiến độ qua báo cáo hằng tuần."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-offer-someone-a-job": {
+    "meaning": "mời ai đó vào làm việc",
+    "notes": "Offer someone a job hoặc offer a job to someone.",
+    "examples": [
+      {
+        "sentence": "We always check references before we offer someone a job.",
+        "translation": "Chúng tôi luôn kiểm tra người tham chiếu trước khi mời ai vào làm."
+      },
+      {
+        "sentence": "The company offered Maya a job after the interview.",
+        "translation": "Công ty mời Maya vào làm sau cuộc phỏng vấn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-offer-support": {
+    "meaning": "đề nghị hỗ trợ",
+    "notes": "Offer support to someone; support thường không đếm được.",
+    "examples": [
+      {
+        "sentence": "We'll offer support to anyone who is new to the team.",
+        "translation": "Chúng tôi sẽ hỗ trợ bất kỳ ai mới vào nhóm."
+      },
+      {
+        "sentence": "The group will offer support to new students.",
+        "translation": "Nhóm sẽ hỗ trợ các sinh viên mới."
       }
     ],
     "synonyms": [],
@@ -14929,6 +16001,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-pay-attention": {
+    "meaning": "chú ý",
+    "notes": "Pay attention to + danh từ/V-ing, không dùng on.",
+    "examples": [
+      {
+        "sentence": "Please pay attention to how the words link together.",
+        "translation": "Hãy chú ý cách các từ nối âm với nhau."
+      },
+      {
+        "sentence": "Please pay attention to the instructions.",
+        "translation": "Vui lòng chú ý đến hướng dẫn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-pay-by-card": {
     "meaning": "thanh toán bằng thẻ",
     "notes": "By card chỉ phương thức thanh toán.",
@@ -14992,6 +16080,70 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-provide-a-service": {
+    "meaning": "cung cấp dịch vụ",
+    "notes": "Provide a service to/for someone; provide someone with something.",
+    "examples": [
+      {
+        "sentence": "The centre will provide a service for older residents.",
+        "translation": "Trung tâm sẽ cung cấp dịch vụ cho cư dân cao tuổi."
+      },
+      {
+        "sentence": "The centre can provide a service for older residents.",
+        "translation": "Trung tâm có thể cung cấp dịch vụ cho cư dân cao tuổi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-public-transport": {
+    "meaning": "phương tiện; hệ thống giao thông công cộng",
+    "notes": "Anh–Anh public transport; Anh–Mỹ public transportation; không đếm được.",
+    "examples": [
+      {
+        "sentence": "More people use public transport when buses run late into the evening.",
+        "translation": "Nhiều người đi phương tiện công cộng hơn khi xe buýt chạy đến tối muộn."
+      },
+      {
+        "sentence": "I use public transport to get to work.",
+        "translation": "Tôi đi phương tiện công cộng đến chỗ làm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-raise-a-question": {
+    "meaning": "nêu ra một câu hỏi",
+    "notes": "Raise a question about something; ask a question thường là trực tiếp hỏi.",
+    "examples": [
+      {
+        "sentence": "I'd like to raise a question about the last slide.",
+        "translation": "Tôi muốn nêu một câu hỏi về trang chiếu cuối."
+      },
+      {
+        "sentence": "The findings raise a question about the original theory.",
+        "translation": "Các phát hiện đặt ra câu hỏi về lý thuyết ban đầu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-raise-money": {
+    "meaning": "gây quỹ",
+    "notes": "Raise money for a cause; earn money = kiếm tiền qua lao động.",
+    "examples": [
+      {
+        "sentence": "Our school will raise money for the local library.",
+        "translation": "Trường chúng tôi sẽ gây quỹ cho thư viện địa phương."
+      },
+      {
+        "sentence": "We organised an event to raise money for the library.",
+        "translation": "Chúng tôi tổ chức sự kiện gây quỹ cho thư viện."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-raise-your-hand": {
     "meaning": "giơ tay",
     "notes": "Raise cần tân ngữ; raise your hand để xin phát biểu.",
@@ -15003,6 +16155,38 @@
       {
         "sentence": "Please raise your hand to speak.",
         "translation": "Hãy giơ tay để phát biểu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-raise-your-voice": {
+    "meaning": "cao giọng",
+    "notes": "Raise your voice at someone thường thể hiện tức giận.",
+    "examples": [
+      {
+        "sentence": "You don't need to raise your voice for me to hear you.",
+        "translation": "Bạn không cần cao giọng thì tôi vẫn nghe được."
+      },
+      {
+        "sentence": "Please do not raise your voice during the discussion.",
+        "translation": "Xin đừng cao giọng trong cuộc thảo luận."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-reach-an-agreement": {
+    "meaning": "đạt được thỏa thuận",
+    "notes": "Reach an agreement with someone/on something.",
+    "examples": [
+      {
+        "sentence": "After two long meetings, we hope to reach an agreement today.",
+        "translation": "Sau hai cuộc họp dài, chúng tôi hy vọng hôm nay sẽ đạt được thỏa thuận."
+      },
+      {
+        "sentence": "The two sides hope to reach an agreement soon.",
+        "translation": "Hai bên hy vọng sớm đạt thỏa thuận."
       }
     ],
     "synonyms": [],
@@ -15040,6 +16224,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-reduce-waste": {
+    "meaning": "giảm rác thải; giảm lãng phí",
+    "notes": "Reduce waste by reusing materials; waste thường không đếm được.",
+    "examples": [
+      {
+        "sentence": "We can reduce waste by bringing our own containers.",
+        "translation": "Chúng ta có thể giảm rác thải bằng cách tự mang hộp đựng."
+      },
+      {
+        "sentence": "The school wants to reduce waste in the cafeteria.",
+        "translation": "Trường muốn giảm rác thải ở căng tin."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-revise-for-an-exam": {
+    "meaning": "ôn tập cho kỳ thi",
+    "notes": "Anh–Anh revise for an exam; Anh–Mỹ study for an exam.",
+    "examples": [
+      {
+        "sentence": "I use short quizzes to revise for an exam.",
+        "translation": "Tôi dùng các bài trắc nghiệm ngắn để ôn thi."
+      },
+      {
+        "sentence": "I usually revise for an exam with a friend.",
+        "translation": "Tôi thường ôn thi cùng một người bạn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-ride-a-bicycle": {
     "meaning": "đi xe đạp",
     "notes": "Ride a bike cũng thông dụng.",
@@ -15056,6 +16272,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-run-a-business": {
+    "meaning": "điều hành doanh nghiệp",
+    "notes": "Run = quản lý/vận hành; start a business = thành lập doanh nghiệp.",
+    "examples": [
+      {
+        "sentence": "It takes patience to run a business with a small team.",
+        "translation": "Điều hành doanh nghiệp với một đội nhỏ đòi hỏi sự kiên nhẫn."
+      },
+      {
+        "sentence": "It is difficult to run a business without a clear plan.",
+        "translation": "Điều hành doanh nghiệp mà không có kế hoạch rõ ràng rất khó."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-run-out-of-patience": {
+    "meaning": "hết kiên nhẫn",
+    "notes": "Run out of + nguồn lực; run out of patience with someone.",
+    "examples": [
+      {
+        "sentence": "Customers will run out of patience if nobody answers.",
+        "translation": "Khách hàng sẽ hết kiên nhẫn nếu chẳng ai trả lời."
+      },
+      {
+        "sentence": "You may run out of patience if the problem continues.",
+        "translation": "Bạn có thể hết kiên nhẫn nếu vấn đề tiếp diễn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-save-a-file": {
     "meaning": "lưu tệp",
     "examples": [
@@ -15066,6 +16314,22 @@
       {
         "sentence": "Don't forget to save the file.",
         "translation": "Đừng quên lưu tệp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-save-energy": {
+    "meaning": "tiết kiệm năng lượng",
+    "notes": "Save energy by doing something; cũng có thể chỉ giữ sức.",
+    "examples": [
+      {
+        "sentence": "Switch off unused lights to save energy.",
+        "translation": "Tắt đèn không dùng đến để tiết kiệm năng lượng."
+      },
+      {
+        "sentence": "We can save energy by using efficient appliances.",
+        "translation": "Chúng ta có thể tiết kiệm năng lượng bằng thiết bị hiệu suất cao."
       }
     ],
     "synonyms": [],
@@ -15179,6 +16443,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-set-a-goal": {
+    "meaning": "đặt mục tiêu",
+    "notes": "Set a goal for yourself; achieve a goal = đạt mục tiêu.",
+    "examples": [
+      {
+        "sentence": "Before the course, set a goal you can actually achieve.",
+        "translation": "Trước khóa học, hãy đặt một mục tiêu bạn có thể đạt được."
+      },
+      {
+        "sentence": "Let's set a goal for next month.",
+        "translation": "Hãy đặt mục tiêu cho tháng tới."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-set-an-alarm": {
     "meaning": "đặt báo thức",
     "notes": "Set an alarm for + giờ cần báo thức.",
@@ -15195,6 +16475,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-set-priorities": {
+    "meaning": "xác định các việc cần ưu tiên",
+    "notes": "Set priorities for something; prioritise/prioritize là động từ.",
+    "examples": [
+      {
+        "sentence": "The community group met to set priorities for the year.",
+        "translation": "Nhóm cộng đồng họp để xác định các việc cần ưu tiên trong năm."
+      },
+      {
+        "sentence": "It helps to set priorities at the start of the week.",
+        "translation": "Xác định việc ưu tiên đầu tuần rất hữu ích."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-set-the-table": {
     "meaning": "bày bàn ăn",
     "notes": "Chuẩn bị đĩa, dao, thìa và các vật dụng trước bữa ăn.",
@@ -15206,6 +16502,38 @@
       {
         "sentence": "The children help set the table.",
         "translation": "Bọn trẻ giúp bày bàn ăn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-show-an-interest": {
+    "meaning": "tỏ ra quan tâm, hứng thú",
+    "notes": "Show an interest in something/doing something.",
+    "examples": [
+      {
+        "sentence": "Few residents show an interest until a service is cut.",
+        "translation": "Ít cư dân quan tâm cho đến khi dịch vụ bị cắt."
+      },
+      {
+        "sentence": "She began to show an interest in science.",
+        "translation": "Cô ấy bắt đầu tỏ ra hứng thú với khoa học."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-show-respect": {
+    "meaning": "thể hiện sự tôn trọng",
+    "notes": "Show respect for someone/something; respect thường không đếm được.",
+    "examples": [
+      {
+        "sentence": "You can show respect by letting others finish speaking.",
+        "translation": "Bạn có thể thể hiện sự tôn trọng bằng cách để người khác nói hết câu."
+      },
+      {
+        "sentence": "We should show respect for different opinions.",
+        "translation": "Chúng ta nên tôn trọng các quan điểm khác nhau."
       }
     ],
     "synonyms": [],
@@ -15236,6 +16564,22 @@
       {
         "sentence": "He skipped class without telling his teacher.",
         "translation": "Anh ấy bỏ tiết mà không báo giáo viên."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-solve-a-problem": {
+    "meaning": "giải quyết một vấn đề",
+    "notes": "Solve nhấn mạnh tìm lời giải; deal with nhấn mạnh xử lý.",
+    "examples": [
+      {
+        "sentence": "Sometimes a new idea can solve a problem quickly.",
+        "translation": "Đôi khi một ý tưởng mới có thể giải quyết vấn đề rất nhanh."
+      },
+      {
+        "sentence": "We worked together to solve a problem with the software.",
+        "translation": "Chúng tôi cùng giải quyết một vấn đề của phần mềm."
       }
     ],
     "synonyms": [],
@@ -15272,6 +16616,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-start-a-conversation": {
+    "meaning": "bắt chuyện",
+    "notes": "Start a conversation with someone/about a topic.",
+    "examples": [
+      {
+        "sentence": "Asking about the event is a good way to start a conversation.",
+        "translation": "Hỏi về sự kiện là một cách hay để bắt chuyện."
+      },
+      {
+        "sentence": "A simple question can help start a conversation.",
+        "translation": "Một câu hỏi đơn giản có thể giúp bắt đầu cuộc trò chuyện."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-start-the-lesson": {
     "meaning": "bắt đầu bài học",
     "notes": "Start là bắt đầu; finish the lesson là kết thúc bài học.",
@@ -15283,6 +16643,38 @@
       {
         "sentence": "Let's start the lesson now.",
         "translation": "Chúng ta bắt đầu bài học ngay nhé."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-stay-calm": {
+    "meaning": "giữ bình tĩnh",
+    "notes": "Stay + tính từ calm; keep calm gần nghĩa.",
+    "examples": [
+      {
+        "sentence": "Take a slow breath and try to stay calm.",
+        "translation": "Hãy thở chậm và cố giữ bình tĩnh."
+      },
+      {
+        "sentence": "It is hard to stay calm under pressure.",
+        "translation": "Thật khó giữ bình tĩnh khi chịu áp lực."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-stay-in-contact": {
+    "meaning": "duy trì liên lạc",
+    "notes": "Stay in contact with someone; keep in touch gần nghĩa.",
+    "examples": [
+      {
+        "sentence": "We use a group chat to stay in contact.",
+        "translation": "Chúng tôi dùng nhóm chat để giữ liên lạc."
+      },
+      {
+        "sentence": "We plan to stay in contact after graduation.",
+        "translation": "Chúng tôi dự định giữ liên lạc sau khi tốt nghiệp."
       }
     ],
     "synonyms": [],
@@ -15333,6 +16725,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-take-a-course": {
+    "meaning": "tham gia một khóa học",
+    "notes": "Take a course in a subject; enrol in a course = đăng ký khóa học.",
+    "examples": [
+      {
+        "sentence": "I'd like to take a course in graphic design.",
+        "translation": "Tôi muốn tham gia một khóa học thiết kế đồ họa."
+      },
+      {
+        "sentence": "She wants to take a course in photography.",
+        "translation": "Cô ấy muốn tham gia khóa học nhiếp ảnh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-take-a-deep-breath": {
     "meaning": "hít một hơi thật sâu",
     "examples": [
@@ -15364,6 +16772,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-take-a-risk": {
+    "meaning": "chấp nhận rủi ro; mạo hiểm",
+    "notes": "Take a risk by doing something; take the risk of doing.",
+    "examples": [
+      {
+        "sentence": "She decided to take a risk and try a new job.",
+        "translation": "Cô ấy quyết định chấp nhận rủi ro để thử một công việc mới."
+      },
+      {
+        "sentence": "Sometimes you need to take a risk to learn something new.",
+        "translation": "Đôi khi cần chấp nhận rủi ro để học điều mới."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-take-a-shower": {
     "meaning": "tắm vòi sen",
     "notes": "Take a shower phổ biến trong Anh-Mỹ; have a shower cũng tự nhiên.",
@@ -15375,6 +16799,22 @@
       {
         "sentence": "I want to take a shower now.",
         "translation": "Bây giờ tôi muốn tắm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-take-action": {
+    "meaning": "hành động",
+    "notes": "Take action to do/about/on something; action thường không đếm được trong cụm.",
+    "examples": [
+      {
+        "sentence": "Residents want the council to take action on noise.",
+        "translation": "Cư dân muốn hội đồng địa phương xử lý tiếng ồn."
+      },
+      {
+        "sentence": "We need to take action to prevent further damage.",
+        "translation": "Chúng ta cần hành động để ngăn thiệt hại thêm."
       }
     ],
     "synonyms": [],
@@ -15396,6 +16836,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-take-care-of": {
+    "meaning": "chăm sóc; lo liệu",
+    "notes": "Take care of someone/something; take care of it, không tách cụm.",
+    "examples": [
+      {
+        "sentence": "Can you take care of the plants while we're away?",
+        "translation": "Bạn trông nom cây giúp chúng tôi khi chúng tôi đi vắng được không?"
+      },
+      {
+        "sentence": "Can you take care of the arrangements?",
+        "translation": "Bạn có thể lo liệu việc sắp xếp không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-take-medicine": {
     "meaning": "dùng thuốc; uống thuốc",
     "notes": "Cách dùng thuốc tùy loại và chỉ dẫn.",
@@ -15407,6 +16863,38 @@
       {
         "sentence": "He takes his medicine every morning.",
         "translation": "Anh ấy uống thuốc mỗi sáng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-take-responsibility": {
+    "meaning": "nhận trách nhiệm; chịu trách nhiệm",
+    "notes": "Take responsibility for something/doing; không dùng of.",
+    "examples": [
+      {
+        "sentence": "The manager should take responsibility for the mistake.",
+        "translation": "Người quản lý nên nhận trách nhiệm về sai sót đó."
+      },
+      {
+        "sentence": "Everyone should take responsibility for their own work.",
+        "translation": "Mọi người nên chịu trách nhiệm về công việc của mình."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-take-someone-s-advice": {
+    "meaning": "nghe theo lời khuyên của ai",
+    "notes": "Advice không đếm được; advise là động từ.",
+    "examples": [
+      {
+        "sentence": "It can be hard to take someone's advice when you're upset.",
+        "translation": "Khi đang bực, bạn có thể khó nghe theo lời khuyên của người khác."
+      },
+      {
+        "sentence": "I took my teacher's advice and revised the essay.",
+        "translation": "Tôi nghe lời khuyên của giáo viên và sửa bài luận."
       }
     ],
     "synonyms": [],
@@ -15443,6 +16931,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-phrase-tell-the-difference": {
+    "meaning": "phân biệt được",
+    "notes": "Tell the difference between A and B; tell ở đây nghĩa nhận ra.",
+    "examples": [
+      {
+        "sentence": "Can you tell the difference between these two sounds?",
+        "translation": "Bạn có phân biệt được hai âm này không?"
+      },
+      {
+        "sentence": "Can you tell the difference between these two colours?",
+        "translation": "Bạn có phân biệt được hai màu này không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-phrase-tell-the-time": {
     "meaning": "biết xem giờ",
     "notes": "Tell the time là đọc và hiểu giờ trên đồng hồ; tell someone the time là nói giờ cho ai.",
@@ -15454,6 +16958,22 @@
       {
         "sentence": "Can your daughter tell the time?",
         "translation": "Con gái bạn đã biết xem giờ chưa?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-tell-the-truth": {
+    "meaning": "nói thật",
+    "notes": "Tell the truth about something/to someone; tell a lie = nói dối.",
+    "examples": [
+      {
+        "sentence": "Please tell the truth about what happened.",
+        "translation": "Hãy nói thật về chuyện đã xảy ra."
+      },
+      {
+        "sentence": "You need to tell the truth even if it is uncomfortable.",
+        "translation": "Bạn cần nói sự thật ngay cả khi điều đó khiến bạn khó chịu."
       }
     ],
     "synonyms": [],
@@ -15501,6 +17021,22 @@
       {
         "sentence": "Turn right at the next corner.",
         "translation": "Rẽ phải ở góc phố tiếp theo."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-phrase-under-pressure": {
+    "meaning": "chịu áp lực",
+    "notes": "Work under pressure; put pressure on someone = gây áp lực.",
+    "examples": [
+      {
+        "sentence": "Some people find it hard to think clearly under pressure.",
+        "translation": "Một số người khó suy nghĩ rõ ràng khi chịu áp lực."
+      },
+      {
+        "sentence": "She remains calm under pressure.",
+        "translation": "Cô ấy vẫn bình tĩnh khi chịu áp lực."
       }
     ],
     "synonyms": [],
@@ -15743,6 +17279,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-regional-behavior": {
+    "meaning": "hành vi; cách cư xử",
+    "notes": "Anh–Anh behaviour; Anh–Mỹ behavior. Thường không đếm được khi chỉ cách cư xử nói chung.",
+    "examples": [
+      {
+        "sentence": "We discussed the children's behavior in class.",
+        "translation": "Chúng tôi trao đổi về cách cư xử của bọn trẻ trong lớp."
+      },
+      {
+        "sentence": "Her behavior at the meeting was polite.",
+        "translation": "Cách cư xử của cô ấy tại cuộc họp rất lịch sự."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-regional-candy": {
     "meaning": "kẹo",
     "examples": [
@@ -15903,6 +17455,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-regional-hood": {
+    "meaning": "nắp ca-pô ô tô",
+    "notes": "Bonnet (Anh–Anh), hood (Anh–Mỹ) trong ngữ cảnh ô tô; hood còn là mũ trùm.",
+    "examples": [
+      {
+        "sentence": "Could you open the hood so I can check the engine?",
+        "translation": "Bạn mở nắp ca-pô để tôi kiểm tra động cơ được không?"
+      },
+      {
+        "sentence": "The mechanic lifted the hood.",
+        "translation": "Thợ sửa xe mở nắp ca-pô."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-regional-license": {
+    "meaning": "giấy phép",
+    "notes": "Danh từ licence (Anh–Anh), license (Anh–Mỹ); động từ license dùng ở cả hai.",
+    "examples": [
+      {
+        "sentence": "You need a license to run this kind of business.",
+        "translation": "Bạn cần giấy phép để kinh doanh loại hình này."
+      },
+      {
+        "sentence": "You must renew your license next year.",
+        "translation": "Bạn phải gia hạn giấy phép vào năm tới."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-regional-line": {
     "meaning": "hàng người đang chờ",
     "notes": "Anh–Mỹ wait in line; Anh–Anh queue.",
@@ -15914,6 +17498,22 @@
       {
         "sentence": "We waited in line for tickets.",
         "translation": "Chúng tôi xếp hàng chờ mua vé."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-regional-math": {
+    "meaning": "môn toán; toán học",
+    "notes": "Maths (Anh–Anh), math (Anh–Mỹ); thường đi với động từ số ít.",
+    "examples": [
+      {
+        "sentence": "I found math much easier once I started drawing diagrams.",
+        "translation": "Tôi thấy toán dễ hơn nhiều khi bắt đầu vẽ sơ đồ."
+      },
+      {
+        "sentence": "Math is my favorite subject.",
+        "translation": "Toán là môn học yêu thích của tôi."
       }
     ],
     "synonyms": [],
@@ -15951,6 +17551,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-regional-one-way-ticket": {
+    "meaning": "vé một chiều",
+    "notes": "Single ticket (Anh–Anh), one-way ticket (Anh–Mỹ); không bao gồm chiều về.",
+    "examples": [
+      {
+        "sentence": "I'd like a one-way ticket to the airport.",
+        "translation": "Tôi muốn mua vé một chiều đến sân bay."
+      },
+      {
+        "sentence": "She bought a one-way ticket to the city.",
+        "translation": "Cô ấy mua vé một chiều đến thành phố."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-regional-pants": {
     "meaning": "quần dài",
     "examples": [
@@ -15978,6 +17594,54 @@
       {
         "sentence": "The parking lot is full.",
         "translation": "Bãi đỗ xe đã đầy."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-regional-practice": {
+    "meaning": "luyện tập; thực hành",
+    "notes": "Động từ: Anh–Anh practise, Anh–Mỹ practice. Danh từ practice dùng ở cả hai.",
+    "examples": [
+      {
+        "sentence": "I practice speaking English on my way to work.",
+        "translation": "Tôi luyện nói tiếng Anh trên đường đi làm."
+      },
+      {
+        "sentence": "I practice playing the piano every day.",
+        "translation": "Tôi luyện chơi đàn piano mỗi ngày."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-regional-program": {
+    "meaning": "chương trình (sự kiện; truyền hình; phần mềm)",
+    "notes": "Programme (Anh–Anh), program (Anh–Mỹ) cho sự kiện/truyền hình; phần mềm thường viết program ở cả hai.",
+    "examples": [
+      {
+        "sentence": "The final program includes a talk on language learning.",
+        "translation": "Chương trình cuối có buổi nói chuyện về học ngôn ngữ."
+      },
+      {
+        "sentence": "The program starts at seven.",
+        "translation": "Chương trình bắt đầu lúc bảy giờ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-regional-round-trip-ticket": {
+    "meaning": "vé khứ hồi",
+    "notes": "Return ticket (Anh–Anh), round-trip ticket (Anh–Mỹ); bao gồm chiều đi và về.",
+    "examples": [
+      {
+        "sentence": "A round-trip ticket is cheaper than two separate tickets.",
+        "translation": "Một vé khứ hồi rẻ hơn hai vé mua riêng."
+      },
+      {
+        "sentence": "I'd like a round-trip ticket to Boston.",
+        "translation": "Tôi muốn mua vé khứ hồi đến Boston."
       }
     ],
     "synonyms": [],
@@ -16063,6 +17727,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-regional-tire": {
+    "meaning": "lốp xe",
+    "notes": "Tyre (Anh–Anh), tire (Anh–Mỹ); động từ tire (làm mệt) dùng ở cả hai.",
+    "examples": [
+      {
+        "sentence": "We had to replace a tire before the trip.",
+        "translation": "Chúng tôi phải thay một chiếc lốp trước chuyến đi."
+      },
+      {
+        "sentence": "The car has a flat tire.",
+        "translation": "Ô tô bị xẹp lốp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-regional-trash": {
     "meaning": "rác",
     "notes": "Anh–Mỹ trash; Anh–Anh rubbish. Trash không đếm được trong nghĩa này.",
@@ -16090,6 +17770,54 @@
       {
         "sentence": "A truck delivered the furniture.",
         "translation": "Một chiếc xe tải chở đồ nội thất đến."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-regional-trunk": {
+    "meaning": "cốp ô tô",
+    "notes": "Boot (Anh–Anh), trunk (Anh–Mỹ) trong ngữ cảnh ô tô; thân cây/giày ủng là các nghĩa khác.",
+    "examples": [
+      {
+        "sentence": "Put your bags in the trunk before you get in.",
+        "translation": "Hãy bỏ túi vào cốp trước khi lên xe."
+      },
+      {
+        "sentence": "We left the luggage in the trunk.",
+        "translation": "Chúng tôi để hành lý trong cốp xe."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-regional-vacation": {
+    "meaning": "kỳ nghỉ",
+    "notes": "Holiday (Anh–Anh), vacation (Anh–Mỹ) khi nói kỳ nghỉ; holiday cũng chỉ ngày lễ ở Mỹ.",
+    "examples": [
+      {
+        "sentence": "We're planning a short vacation in September.",
+        "translation": "Chúng tôi đang lên kế hoạch cho kỳ nghỉ ngắn vào tháng Chín."
+      },
+      {
+        "sentence": "We spent our vacation by the sea.",
+        "translation": "Chúng tôi trải qua kỳ nghỉ bên biển."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-regional-zip-code": {
+    "meaning": "mã bưu chính",
+    "notes": "Postcode (Anh–Anh); ZIP code là hệ thống mã bưu chính Hoa Kỳ.",
+    "examples": [
+      {
+        "sentence": "Add the ZIP code to the end of the address.",
+        "translation": "Hãy thêm mã bưu chính vào cuối địa chỉ."
+      },
+      {
+        "sentence": "Please enter your ZIP code in the form.",
+        "translation": "Vui lòng điền mã bưu chính vào biểu mẫu."
       }
     ],
     "synonyms": [],
