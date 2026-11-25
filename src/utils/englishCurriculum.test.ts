@@ -73,7 +73,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 3204);
+  assert.equal(editorialIds.size, 3308);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -297,8 +297,8 @@ test('v19 seed migration preserves saved progress for phase 2g content', () => {
 test('additional senses have existing IDs and distinct examples without changing the primary review answer', () => {
   const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
   assert.equal(byId.size, 7000);
-  assert.equal(Object.keys(englishAdditionalSenses).length, 209);
-  assert.equal(Object.values(englishAdditionalSenses).flat().length, 221);
+  assert.equal(Object.keys(englishAdditionalSenses).length, 240);
+  assert.equal(Object.values(englishAdditionalSenses).flat().length, 252);
   for (const [id, senses] of Object.entries(englishAdditionalSenses)) {
     const word = byId.get(id);
     assert.ok(word, id);
@@ -535,5 +535,42 @@ test('v26 migration preserves review state and adds B1 refuse verb sense', () =>
   assert.equal(updated?.personalRelations, personalRelations);
   assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
   assert.ok(!migrated.words.some(item => item.id === 'en-vocab-passion'));
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2J covers all 104 B1 core verbs', () => {
+  const b1Decks = new Set(ENGLISH_DECKS.filter(deck => deck.level === 'b1').map(deck => deck.id));
+  const verbs = ENGLISH_WORDS.filter(word => b1Decks.has(word.deckId) && word.id.startsWith('en-vocab-') && word.partOfSpeech === 'Động từ');
+  assert.equal(verbs.length, 104);
+  const byId = new Map(verbs.map(word => [word.id, word]));
+  for (const id of ["en-vocab-hang","en-vocab-bet","en-vocab-beat","en-vocab-suppose","en-vocab-forgive","en-vocab-protect","en-vocab-swear","en-vocab-stick","en-vocab-dare","en-vocab-prove","en-vocab-grab","en-vocab-support","en-vocab-rid","en-vocab-owe","en-vocab-witness","en-vocab-deserve","en-vocab-lay","en-vocab-afford","en-vocab-settle","en-vocab-bless","en-vocab-scare","en-vocab-assume","en-vocab-deliver","en-vocab-suffer","en-vocab-remove","en-vocab-warn","en-vocab-convince","en-vocab-drag","en-vocab-shift","en-vocab-defend","en-vocab-hire","en-vocab-commit","en-vocab-intend","en-vocab-ignore","en-vocab-advance","en-vocab-deny","en-vocab-behave","en-vocab-transfer","en-vocab-recall","en-vocab-defeat","en-vocab-bust","en-vocab-arrange","en-vocab-launch","en-vocab-insist","en-vocab-attend","en-vocab-confirm","en-vocab-inform","en-vocab-cancel","en-vocab-gain","en-vocab-proceed","en-vocab-interrupt","en-vocab-fetch","en-vocab-resist","en-vocab-respond","en-vocab-stretch","en-vocab-pin","en-vocab-punish","en-vocab-tend","en-vocab-propose","en-vocab-connect","en-vocab-maintain","en-vocab-heal","en-vocab-abandon","en-vocab-soil","en-vocab-recover","en-vocab-affect","en-vocab-counter","en-vocab-require","en-vocab-permit","en-vocab-burst","en-vocab-spoil","en-vocab-announce","en-vocab-drown","en-vocab-approve","en-vocab-bump","en-vocab-stare","en-vocab-determine","en-vocab-rely","en-vocab-shave","en-vocab-toss","en-vocab-react","en-vocab-swell","en-vocab-volunteer","en-vocab-bleed","en-vocab-observe","en-vocab-compete","en-vocab-overcome","en-vocab-locate","en-vocab-examine","en-vocab-declare","en-vocab-ensure","en-vocab-associate","en-vocab-negotiate","en-vocab-bore","en-vocab-disappoint","en-vocab-expose","en-vocab-accompany","en-vocab-repay","en-vocab-cough","en-vocab-assist","en-vocab-contain","en-vocab-leap","en-vocab-bounce","en-vocab-engage"]) {
+    const word = byId.get(id);
+    assert.ok(word, id);
+    assert.ok(Object.prototype.hasOwnProperty.call(englishEditorial, id), id);
+    assert.equal(word.examples.length, 2, id);
+    assert.ok(word.examples.every(e => e.sentence.trim() && e.translation.trim()), id);
+  }
+  assert.match(byId.get('en-vocab-lay')?.notes ?? '', /laid/);
+  assert.match(byId.get('en-vocab-fetch')?.meaning ?? '', /mang về/);
+  assert.match(byId.get('en-vocab-approve')?.notes ?? '', /approve of/);
+  assert.equal(byId.get('en-vocab-permit')?.additionalSenses?.[0]?.partOfSpeech, 'Danh từ');
+});
+
+test('v27 migration preserves review state and adds B1 permit noun sense', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-vocab-permit')!;
+  const { additionalSenses, ...old } = word;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const personalRelations = { synonyms: ['personal'], antonyms: [] };
+  const state = { version: 27, decks: INITIAL_DECKS, words: [{ ...old, srs, bloomLevel: 3 as const, personalRelations }] as VocabWord[], logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] } };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.deepEqual(updated?.additionalSenses, additionalSenses);
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
+  assert.equal(updated?.personalRelations, personalRelations);
+  assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
+  assert.ok(!migrated.words.some(item => item.id === 'en-vocab-lay'));
   assert.equal(withCurrentSeed(migrated), migrated);
 });

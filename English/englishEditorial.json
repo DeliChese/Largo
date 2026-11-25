@@ -11151,6 +11151,22 @@
     "antonyms": [],
     "notes": "Đứng trước danh từ đếm được số ít bắt đầu bằng âm phụ âm; an trước âm nguyên âm."
   },
+  "en-vocab-abandon": {
+    "meaning": "từ bỏ; bỏ rơi",
+    "notes": "Abandon a plan/project/person; sắc thái dứt bỏ hoặc để lại không chăm sóc.",
+    "examples": [
+      {
+        "sentence": "We had to abandon the plan.",
+        "translation": "Chúng tôi buộc phải từ bỏ kế hoạch."
+      },
+      {
+        "sentence": "Never abandon a pet when you move.",
+        "translation": "Đừng bao giờ bỏ rơi thú cưng khi chuyển nhà."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-ability": {
     "meaning": "khả năng; năng lực",
     "examples": [
@@ -11301,6 +11317,22 @@
       }
     ],
     "notes": "By accident = vô tình; on purpose = cố ý.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-accompany": {
+    "meaning": "đi cùng; đi kèm",
+    "notes": "Accompany someone to a place; không cần with trước tân ngữ.",
+    "examples": [
+      {
+        "sentence": "Could you accompany me to the station?",
+        "translation": "Bạn có thể đi cùng tôi đến nhà ga không?"
+      },
+      {
+        "sentence": "A salad can accompany the main dish.",
+        "translation": "Một đĩa salad có thể ăn kèm món chính."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -11535,6 +11567,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-advance": {
+    "meaning": "tiến lên; thúc đẩy",
+    "notes": "Advance towards a goal; advance knowledge = mở rộng tri thức.",
+    "examples": [
+      {
+        "sentence": "The group began to advance towards the gate.",
+        "translation": "Nhóm bắt đầu tiến về phía cổng."
+      },
+      {
+        "sentence": "This research could advance our understanding.",
+        "translation": "Nghiên cứu này có thể nâng cao hiểu biết của chúng ta."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-advanced": {
     "meaning": "nâng cao; tiên tiến",
     "examples": [
@@ -11644,6 +11692,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-affect": {
+    "meaning": "ảnh hưởng đến",
+    "notes": "Affect thường là động từ; effect thường là danh từ chỉ tác động/kết quả.",
+    "examples": [
+      {
+        "sentence": "Lack of sleep can affect your memory.",
+        "translation": "Thiếu ngủ có thể ảnh hưởng đến trí nhớ."
+      },
+      {
+        "sentence": "Will the changes affect our schedule?",
+        "translation": "Những thay đổi có ảnh hưởng đến lịch của chúng ta không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-affection": {
     "meaning": "tình cảm; sự yêu mến",
     "examples": [
@@ -11654,6 +11718,22 @@
       {
         "sentence": "He spoke of his hometown with affection.",
         "translation": "Anh ấy nói về quê hương với sự yêu mến."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-afford": {
+    "meaning": "có khả năng chi trả; có đủ điều kiện",
+    "notes": "Can/cannot afford something/to do; thường dùng với can/could.",
+    "examples": [
+      {
+        "sentence": "We cannot afford a new car.",
+        "translation": "Chúng tôi không đủ tiền mua xe mới."
+      },
+      {
+        "sentence": "I cannot afford to miss another class.",
+        "translation": "Tôi không thể để mình bỏ lỡ thêm một buổi học."
       }
     ],
     "synonyms": [],
@@ -12315,6 +12395,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-announce": {
+    "meaning": "thông báo; công bố",
+    "notes": "Announce something to someone hoặc announce that; không dùng announce someone something.",
+    "examples": [
+      {
+        "sentence": "They will announce the results tomorrow.",
+        "translation": "Họ sẽ công bố kết quả vào ngày mai."
+      },
+      {
+        "sentence": "We are ready to announce the new schedule.",
+        "translation": "Chúng tôi sẵn sàng công bố lịch mới."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-announcement": {
     "meaning": "thông báo; lời công bố",
     "examples": [
@@ -12685,6 +12781,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-approve": {
+    "meaning": "phê duyệt; tán thành",
+    "notes": "Approve a plan = phê duyệt; approve of something/doing = tán thành.",
+    "examples": [
+      {
+        "sentence": "The manager must approve the request.",
+        "translation": "Quản lý phải phê duyệt yêu cầu."
+      },
+      {
+        "sentence": "I do not approve of wasting food.",
+        "translation": "Tôi không tán thành việc lãng phí thức ăn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-april": {
     "meaning": "tháng Tư",
     "examples": [
@@ -12817,6 +12929,22 @@
       {
         "sentence": "Is anyone around?",
         "translation": "Có ai ở quanh đây không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-arrange": {
+    "meaning": "sắp xếp; thu xếp",
+    "notes": "Arrange something; arrange to do; arrange for someone to do.",
+    "examples": [
+      {
+        "sentence": "Arrange the chairs in a circle.",
+        "translation": "Hãy xếp ghế thành vòng tròn."
+      },
+      {
+        "sentence": "Can you arrange for someone to pick me up?",
+        "translation": "Bạn có thể thu xếp để ai đó đón tôi không?"
       }
     ],
     "synonyms": [],
@@ -13005,6 +13133,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-assist": {
+    "meaning": "hỗ trợ; giúp đỡ",
+    "notes": "Assist someone with something/in doing; trang trọng hơn help.",
+    "examples": [
+      {
+        "sentence": "Can you assist me with this form?",
+        "translation": "Bạn có thể hỗ trợ tôi điền mẫu này không?"
+      },
+      {
+        "sentence": "Volunteers assist visitors at the entrance.",
+        "translation": "Các tình nguyện viên hỗ trợ khách tại lối vào."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-assistance": {
     "meaning": "sự hỗ trợ; giúp đỡ",
     "notes": "Assistance không đếm được.",
@@ -13037,6 +13181,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-associate": {
+    "meaning": "liên hệ; liên tưởng; giao du",
+    "notes": "Associate A with B; associate with someone = giao du với ai.",
+    "examples": [
+      {
+        "sentence": "People often associate this smell with home.",
+        "translation": "Người ta thường liên tưởng mùi này với mái nhà."
+      },
+      {
+        "sentence": "Do not associate success with money alone.",
+        "translation": "Đừng chỉ gắn thành công với tiền bạc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-association": {
     "meaning": "hiệp hội; sự liên hệ",
     "examples": [
@@ -13047,6 +13207,22 @@
       {
         "sentence": "There is an association between the two ideas.",
         "translation": "Có sự liên hệ giữa hai ý tưởng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-assume": {
+    "meaning": "cho rằng; giả định",
+    "notes": "Assume (that) khi chưa có đủ bằng chứng; assume responsibility = đảm nhận trách nhiệm.",
+    "examples": [
+      {
+        "sentence": "Do not assume that everyone agrees.",
+        "translation": "Đừng cho rằng ai cũng đồng ý."
+      },
+      {
+        "sentence": "Let's assume the figures are correct.",
+        "translation": "Hãy giả định rằng các số liệu là đúng."
       }
     ],
     "synonyms": [],
@@ -13107,6 +13283,22 @@
       {
         "sentence": "She made an attempt to climb the hill.",
         "translation": "Cô ấy thử leo lên đồi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-attend": {
+    "meaning": "tham dự; đi học",
+    "notes": "Attend a meeting/class không dùng to; attend to = chăm lo/xử lý.",
+    "examples": [
+      {
+        "sentence": "I must attend a meeting at nine.",
+        "translation": "Tôi phải dự cuộc họp lúc chín giờ."
+      },
+      {
+        "sentence": "All students must attend the course.",
+        "translation": "Tất cả sinh viên phải tham gia khóa học."
       }
     ],
     "synonyms": [],
@@ -13881,6 +14073,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-beat": {
+    "meaning": "đánh; đập; đánh bại",
+    "notes": "Beat–beat–beaten; beat an opponent nhưng win a game.",
+    "examples": [
+      {
+        "sentence": "Beat the eggs in a bowl.",
+        "translation": "Hãy đánh trứng trong một cái bát."
+      },
+      {
+        "sentence": "Our team hopes to beat theirs.",
+        "translation": "Đội chúng tôi hy vọng đánh bại đội họ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-beautiful": {
     "meaning": "đẹp",
     "examples": [
@@ -14074,6 +14282,22 @@
       {
         "sentence": "She accepted the award on his behalf.",
         "translation": "Cô ấy nhận giải thay anh ấy."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-behave": {
+    "meaning": "cư xử; hành xử",
+    "notes": "Behave well/badly; behave yourself = cư xử cho đúng mực.",
+    "examples": [
+      {
+        "sentence": "Please behave politely at the meeting.",
+        "translation": "Hãy cư xử lịch sự tại cuộc họp."
+      },
+      {
+        "sentence": "Children learn how to behave in public.",
+        "translation": "Trẻ em học cách cư xử nơi công cộng."
       }
     ],
     "synonyms": [],
@@ -14295,6 +14519,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-bet": {
+    "meaning": "cá cược; tin chắc",
+    "notes": "Bet on + người/vật; I bet (that) diễn tả sự tin chắc trong giao tiếp.",
+    "examples": [
+      {
+        "sentence": "Never bet money you cannot lose.",
+        "translation": "Đừng bao giờ cá cược số tiền mà bạn không thể chấp nhận mất."
+      },
+      {
+        "sentence": "I bet she knows the answer.",
+        "translation": "Tôi tin chắc cô ấy biết câu trả lời."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-better": {
     "meaning": "tốt hơn",
     "examples": [
@@ -14503,6 +14743,38 @@
       {
         "sentence": "She put a blanket over the child.",
         "translation": "Cô ấy đắp chăn cho đứa trẻ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-bleed": {
+    "meaning": "chảy máu",
+    "notes": "Bleed–bled–bled; bleed from a wound.",
+    "examples": [
+      {
+        "sentence": "A small cut can bleed for several minutes.",
+        "translation": "Một vết cắt nhỏ có thể chảy máu vài phút."
+      },
+      {
+        "sentence": "Her gums sometimes bleed when she brushes her teeth.",
+        "translation": "Nướu của cô ấy đôi khi chảy máu lúc đánh răng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-bless": {
+    "meaning": "ban phúc; chúc phúc",
+    "notes": "Bless you! thường nói khi ai đó hắt hơi; be blessed with = may mắn có.",
+    "examples": [
+      {
+        "sentence": "May God bless your family.",
+        "translation": "Cầu Chúa ban phúc cho gia đình bạn."
+      },
+      {
+        "sentence": "The priest will bless the couple.",
+        "translation": "Vị linh mục sẽ chúc phúc cho đôi vợ chồng."
       }
     ],
     "synonyms": [],
@@ -14766,6 +15038,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-bore": {
+    "meaning": "làm chán; khoan",
+    "notes": "Bore someone = làm ai chán; bore a hole = khoan lỗ; bore cũng là quá khứ của bear.",
+    "examples": [
+      {
+        "sentence": "Long speeches often bore the audience.",
+        "translation": "Những bài phát biểu dài thường làm khán giả chán."
+      },
+      {
+        "sentence": "Use this tool to bore a hole in the wood.",
+        "translation": "Dùng dụng cụ này để khoan một lỗ trên gỗ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-bored": {
     "meaning": "chán",
     "examples": [
@@ -14882,6 +15170,22 @@
       {
         "sentence": "The key is at the bottom of the bag.",
         "translation": "Chìa khóa ở đáy túi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-bounce": {
+    "meaning": "nảy; bật lại",
+    "notes": "Bounce off a surface; bounce a ball; bounce back = hồi phục sau khó khăn.",
+    "examples": [
+      {
+        "sentence": "Watch the ball bounce off the wall.",
+        "translation": "Hãy nhìn quả bóng nảy khỏi tường."
+      },
+      {
+        "sentence": "It is not easy to bounce back after failure.",
+        "translation": "Không dễ vực dậy sau thất bại."
       }
     ],
     "synonyms": [],
@@ -15446,6 +15750,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-bump": {
+    "meaning": "va; đụng",
+    "notes": "Bump into someone = tình cờ gặp hoặc va vào; bump something against something.",
+    "examples": [
+      {
+        "sentence": "Try not to bump your head.",
+        "translation": "Cố đừng để đầu va vào đâu."
+      },
+      {
+        "sentence": "I often bump into my neighbours at the market.",
+        "translation": "Tôi thường tình cờ gặp hàng xóm ở chợ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-bunch": {
     "meaning": "bó; chùm; nhóm",
     "examples": [
@@ -15502,6 +15822,22 @@
       {
         "sentence": "The burn healed slowly.",
         "translation": "Vết bỏng lành dần."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-burst": {
+    "meaning": "nổ tung; vỡ; bùng phát",
+    "notes": "Burst–burst–burst; burst into tears/laughter = òa khóc/bật cười.",
+    "examples": [
+      {
+        "sentence": "The balloon may burst in the heat.",
+        "translation": "Quả bóng bay có thể nổ trong nhiệt độ cao."
+      },
+      {
+        "sentence": "She began to burst into tears.",
+        "translation": "Cô ấy bắt đầu òa khóc."
       }
     ],
     "synonyms": [],
@@ -15580,6 +15916,22 @@
       }
     ],
     "notes": "Businessperson là cách nói không chỉ giới tính.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-bust": {
+    "meaning": "làm vỡ; phá hỏng (thân mật)",
+    "notes": "Bust–bust/busted–bust/busted; go bust = phá sản, trong đó bust là tính từ.",
+    "examples": [
+      {
+        "sentence": "Do not bust the lock by forcing it.",
+        "translation": "Đừng làm hỏng khóa bằng cách cố mở mạnh."
+      },
+      {
+        "sentence": "The police hope to bust the gang.",
+        "translation": "Cảnh sát hy vọng triệt phá băng nhóm."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -15854,6 +16206,22 @@
     "synonyms": [],
     "antonyms": [],
     "notes": "Can + động từ nguyên mẫu không to; không thêm s ở ngôi thứ ba."
+  },
+  "en-vocab-cancel": {
+    "meaning": "hủy bỏ",
+    "notes": "Cancel an appointment/order; cancelled/cancelled (UK), canceled/canceled (US).",
+    "examples": [
+      {
+        "sentence": "I need to cancel my appointment.",
+        "translation": "Tôi cần hủy cuộc hẹn."
+      },
+      {
+        "sentence": "Heavy rain may force us to cancel the trip.",
+        "translation": "Mưa lớn có thể khiến chúng tôi phải hủy chuyến đi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-vocab-cancer": {
     "meaning": "ung thư",
@@ -17641,6 +18009,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-commit": {
+    "meaning": "cam kết; phạm (tội)",
+    "notes": "Commit to something/doing something; commit a crime = phạm tội.",
+    "examples": [
+      {
+        "sentence": "We must commit to reducing waste.",
+        "translation": "Chúng ta phải cam kết giảm rác thải."
+      },
+      {
+        "sentence": "No one should commit a crime for money.",
+        "translation": "Không ai nên phạm tội vì tiền."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-commitment": {
     "meaning": "sự cam kết; sự tận tâm",
     "examples": [
@@ -17759,6 +18143,22 @@
       }
     ],
     "notes": "Compare A with/to B; cách dùng có thể chồng lấn.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-compete": {
+    "meaning": "cạnh tranh; thi đấu",
+    "notes": "Compete with/against someone; compete for a prize; compete in an event.",
+    "examples": [
+      {
+        "sentence": "Small shops compete with large stores.",
+        "translation": "Cửa hàng nhỏ cạnh tranh với cửa hàng lớn."
+      },
+      {
+        "sentence": "She will compete in the final race.",
+        "translation": "Cô ấy sẽ thi đấu ở cuộc đua cuối."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -17990,6 +18390,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-confirm": {
+    "meaning": "xác nhận",
+    "notes": "Confirm something/that; confirm a booking = xác nhận đặt chỗ.",
+    "examples": [
+      {
+        "sentence": "Please confirm your booking by email.",
+        "translation": "Vui lòng xác nhận đặt chỗ qua email."
+      },
+      {
+        "sentence": "Can you confirm that the date is correct?",
+        "translation": "Bạn có thể xác nhận ngày đó là đúng không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-conflict": {
     "meaning": "sự xung đột; mâu thuẫn",
     "examples": [
@@ -18031,6 +18447,22 @@
       {
         "sentence": "There was confusion about the meeting time.",
         "translation": "Có sự nhầm lẫn về giờ họp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-connect": {
+    "meaning": "kết nối; liên hệ",
+    "notes": "Connect A to/with B; connect with people = tạo sự gắn kết.",
+    "examples": [
+      {
+        "sentence": "Connect your phone to the charger.",
+        "translation": "Hãy kết nối điện thoại với bộ sạc."
+      },
+      {
+        "sentence": "These buses connect the two towns.",
+        "translation": "Những xe buýt này kết nối hai thị trấn."
       }
     ],
     "synonyms": [],
@@ -18092,6 +18524,22 @@
       {
         "sentence": "Avoid contact with the hot surface.",
         "translation": "Tránh tiếp xúc với bề mặt nóng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-contain": {
+    "meaning": "chứa; bao gồm; kiềm chế",
+    "notes": "Contain something = chứa hoặc kiểm soát để không lan rộng; include = bao gồm một phần.",
+    "examples": [
+      {
+        "sentence": "These drinks contain added sugar.",
+        "translation": "Những đồ uống này chứa đường bổ sung."
+      },
+      {
+        "sentence": "Firefighters worked to contain the fire.",
+        "translation": "Lính cứu hỏa đã cố gắng khống chế đám cháy."
       }
     ],
     "synonyms": [],
@@ -18169,6 +18617,22 @@
       {
         "sentence": "I enjoyed our conversation.",
         "translation": "Tôi thích cuộc trò chuyện của chúng ta."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-convince": {
+    "meaning": "thuyết phục; làm tin",
+    "notes": "Convince someone that/of something; convince someone to do = thuyết phục làm.",
+    "examples": [
+      {
+        "sentence": "How can I convince you that it is safe?",
+        "translation": "Làm sao tôi có thể thuyết phục bạn rằng việc đó an toàn?"
+      },
+      {
+        "sentence": "We tried to convince him to stay.",
+        "translation": "Chúng tôi đã cố thuyết phục anh ấy ở lại."
       }
     ],
     "synonyms": [],
@@ -18356,6 +18820,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-cough": {
+    "meaning": "ho",
+    "notes": "Cough into your elbow; cough up = ho ra; cough cũng là danh từ.",
+    "examples": [
+      {
+        "sentence": "Cover your mouth when you cough.",
+        "translation": "Hãy che miệng khi ho."
+      },
+      {
+        "sentence": "Cold air sometimes makes me cough.",
+        "translation": "Không khí lạnh đôi khi làm tôi ho."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-could": {
     "meaning": "có thể; đã có thể",
     "examples": [
@@ -18396,6 +18876,22 @@
       {
         "sentence": "Every vote counts.",
         "translation": "Mỗi lá phiếu đều có ý nghĩa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-counter": {
+    "meaning": "đáp trả; chống lại",
+    "notes": "Counter an argument/threat with something; danh từ counter là quầy hoặc dụng cụ đếm.",
+    "examples": [
+      {
+        "sentence": "We need evidence to counter that claim.",
+        "translation": "Chúng ta cần bằng chứng để bác lại lời khẳng định đó."
+      },
+      {
+        "sentence": "Exercise can help counter the effects of stress.",
+        "translation": "Tập thể dục có thể giúp chống lại tác động của căng thẳng."
       }
     ],
     "synonyms": [],
@@ -19145,6 +19641,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-dare": {
+    "meaning": "dám",
+    "notes": "Dare (to) do; don't dare (to) do; dare someone to do = thách ai làm.",
+    "examples": [
+      {
+        "sentence": "I do not dare to ask him.",
+        "translation": "Tôi không dám hỏi anh ấy."
+      },
+      {
+        "sentence": "Would you dare to speak in public?",
+        "translation": "Bạn có dám nói trước đám đông không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-dark": {
     "meaning": "tối; sẫm màu",
     "examples": [
@@ -19388,6 +19900,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-declare": {
+    "meaning": "tuyên bố; khai báo",
+    "notes": "Declare that; declare goods at customs = khai báo hàng hóa với hải quan.",
+    "examples": [
+      {
+        "sentence": "They will declare the winner tonight.",
+        "translation": "Họ sẽ công bố người chiến thắng tối nay."
+      },
+      {
+        "sentence": "You must declare these goods at customs.",
+        "translation": "Bạn phải khai báo những hàng hóa này tại hải quan."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-deed": {
     "meaning": "việc làm; hành động; văn tự",
     "examples": [
@@ -19434,6 +19962,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-defeat": {
+    "meaning": "đánh bại",
+    "notes": "Defeat an opponent; win a match/election; defeat cũng là danh từ.",
+    "examples": [
+      {
+        "sentence": "They hope to defeat the champions.",
+        "translation": "Họ hy vọng đánh bại nhà vô địch."
+      },
+      {
+        "sentence": "The army failed to defeat its enemy.",
+        "translation": "Quân đội không đánh bại được đối phương."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-defend": {
+    "meaning": "bảo vệ; biện hộ",
+    "notes": "Defend someone/something against/from; defend a decision = bảo vệ quyết định.",
+    "examples": [
+      {
+        "sentence": "The lawyer will defend her client.",
+        "translation": "Luật sư sẽ bào chữa cho thân chủ."
+      },
+      {
+        "sentence": "He tried to defend his decision.",
+        "translation": "Anh ấy cố bảo vệ quyết định của mình."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-degree": {
     "meaning": "độ; bằng cấp; mức độ",
     "examples": [
@@ -19459,6 +20019,22 @@
       {
         "sentence": "We had a delicious meal.",
         "translation": "Chúng tôi có một bữa ăn ngon."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-deliver": {
+    "meaning": "giao; chuyển phát; trình bày",
+    "notes": "Deliver something to someone; deliver a speech = phát biểu.",
+    "examples": [
+      {
+        "sentence": "They deliver groceries to our door.",
+        "translation": "Họ giao thực phẩm đến tận cửa nhà chúng tôi."
+      },
+      {
+        "sentence": "She will deliver a speech tomorrow.",
+        "translation": "Cô ấy sẽ phát biểu vào ngày mai."
       }
     ],
     "synonyms": [],
@@ -19519,6 +20095,22 @@
       {
         "sentence": "The dentist checked my teeth.",
         "translation": "Nha sĩ kiểm tra răng của tôi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-deny": {
+    "meaning": "phủ nhận; từ chối cho",
+    "notes": "Deny doing/that; deny someone access to something.",
+    "examples": [
+      {
+        "sentence": "He will not deny that he made a mistake.",
+        "translation": "Anh ấy sẽ không phủ nhận rằng mình đã mắc lỗi."
+      },
+      {
+        "sentence": "The rules deny visitors access to this room.",
+        "translation": "Quy định không cho khách vào phòng này."
       }
     ],
     "synonyms": [],
@@ -19630,6 +20222,22 @@
     "synonyms": [],
     "antonyms": [],
     "notes": "Desert danh từ nhấn âm đầu; dessert nghĩa là món tráng miệng."
+  },
+  "en-vocab-deserve": {
+    "meaning": "xứng đáng",
+    "notes": "Deserve something/to do; deserve to be heard = đáng được lắng nghe.",
+    "examples": [
+      {
+        "sentence": "You deserve a break after all that work.",
+        "translation": "Bạn xứng đáng được nghỉ sau ngần ấy công việc."
+      },
+      {
+        "sentence": "Everyone deserves to be treated fairly.",
+        "translation": "Mọi người đều xứng đáng được đối xử công bằng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-vocab-design": {
     "meaning": "thiết kế; kiểu dáng",
@@ -19777,6 +20385,22 @@
       {
         "sentence": "She hired a private detective.",
         "translation": "Cô ấy thuê thám tử tư."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-determine": {
+    "meaning": "xác định; quyết định",
+    "notes": "Determine whether/how; be determined to do = quyết tâm làm.",
+    "examples": [
+      {
+        "sentence": "We need to determine the cause of the problem.",
+        "translation": "Chúng ta cần xác định nguyên nhân của vấn đề."
+      },
+      {
+        "sentence": "Your choices can determine your future.",
+        "translation": "Các lựa chọn có thể quyết định tương lai của bạn."
       }
     ],
     "synonyms": [],
@@ -20145,6 +20769,22 @@
       {
         "sentence": "My keys have disappeared.",
         "translation": "Chìa khóa của tôi biến mất rồi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-disappoint": {
+    "meaning": "làm thất vọng",
+    "notes": "Disappoint someone; disappointed with/about/in; disappointing = gây thất vọng.",
+    "examples": [
+      {
+        "sentence": "I hope I do not disappoint you.",
+        "translation": "Tôi hy vọng không làm bạn thất vọng."
+      },
+      {
+        "sentence": "The results may disappoint some customers.",
+        "translation": "Kết quả có thể khiến một số khách hàng thất vọng."
       }
     ],
     "synonyms": [],
@@ -20606,6 +21246,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-drag": {
+    "meaning": "kéo lê",
+    "notes": "Drag something along/across; drag and drop = kéo và thả.",
+    "examples": [
+      {
+        "sentence": "Do not drag the chair across the floor.",
+        "translation": "Đừng kéo lê ghế trên sàn."
+      },
+      {
+        "sentence": "Drag the file into this folder.",
+        "translation": "Hãy kéo tệp vào thư mục này."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-drama": {
     "meaning": "kịch; tác phẩm kịch tính",
     "examples": [
@@ -20783,6 +21439,22 @@
       {
         "sentence": "She dropped her keys.",
         "translation": "Cô ấy làm rơi chìa khóa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-drown": {
+    "meaning": "chết đuối; làm chết đuối",
+    "notes": "Drown là chìm ngập nước đến chết; drown out = át tiếng.",
+    "examples": [
+      {
+        "sentence": "A weak swimmer can drown in deep water.",
+        "translation": "Người bơi yếu có thể chết đuối ở vùng nước sâu."
+      },
+      {
+        "sentence": "Loud music can drown out conversation.",
+        "translation": "Nhạc lớn có thể át tiếng trò chuyện."
       }
     ],
     "synonyms": [],
@@ -21471,6 +22143,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-engage": {
+    "meaning": "tham gia; thu hút",
+    "notes": "Engage in an activity; engage with people/ideas; engage someone = thu hút sự chú ý.",
+    "examples": [
+      {
+        "sentence": "Students should engage in discussion.",
+        "translation": "Sinh viên nên tham gia thảo luận."
+      },
+      {
+        "sentence": "Good stories engage young readers.",
+        "translation": "Những câu chuyện hay thu hút độc giả nhỏ tuổi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-engine": {
     "meaning": "động cơ",
     "examples": [
@@ -21544,6 +22232,22 @@
       }
     ],
     "notes": "Tính từ/trạng từ + enough; enough + danh từ.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-ensure": {
+    "meaning": "bảo đảm",
+    "notes": "Ensure that + mệnh đề; ensure safety; assure someone = trấn an/khẳng định với ai.",
+    "examples": [
+      {
+        "sentence": "Check the doors to ensure everyone's safety.",
+        "translation": "Hãy kiểm tra cửa để bảo đảm an toàn cho mọi người."
+      },
+      {
+        "sentence": "We must ensure that the data is correct.",
+        "translation": "Chúng ta phải bảo đảm dữ liệu chính xác."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -21881,6 +22585,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-examine": {
+    "meaning": "kiểm tra; xem xét kỹ",
+    "notes": "Examine a patient/document; examine something closely.",
+    "examples": [
+      {
+        "sentence": "The doctor will examine your knee.",
+        "translation": "Bác sĩ sẽ kiểm tra đầu gối của bạn."
+      },
+      {
+        "sentence": "Please examine the document carefully.",
+        "translation": "Vui lòng xem xét kỹ tài liệu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-example": {
     "meaning": "ví dụ",
     "examples": [
@@ -22195,6 +22915,22 @@
       {
         "sentence": "The factory investigated the explosion.",
         "translation": "Nhà máy điều tra vụ nổ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-expose": {
+    "meaning": "phơi bày; để tiếp xúc",
+    "notes": "Expose someone/something to a risk; expose a lie = vạch trần lời nói dối.",
+    "examples": [
+      {
+        "sentence": "Do not expose your skin to strong sunlight.",
+        "translation": "Đừng để da tiếp xúc với ánh nắng mạnh."
+      },
+      {
+        "sentence": "The report aims to expose corruption.",
+        "translation": "Báo cáo nhằm phơi bày nạn tham nhũng."
       }
     ],
     "synonyms": [],
@@ -22819,6 +23555,22 @@
       {
         "sentence": "The dog jumped over the fence.",
         "translation": "Con chó nhảy qua hàng rào."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-fetch": {
+    "meaning": "đi lấy rồi mang về; đi đón",
+    "notes": "Fetch something/someone thường hàm ý đi lấy rồi trở lại; khác bring (mang đến).",
+    "examples": [
+      {
+        "sentence": "Could you fetch a glass of water?",
+        "translation": "Bạn có thể đi lấy một cốc nước không?"
+      },
+      {
+        "sentence": "I will fetch the children from school.",
+        "translation": "Tôi sẽ đi đón bọn trẻ ở trường."
       }
     ],
     "synonyms": [],
@@ -23587,6 +24339,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-forgive": {
+    "meaning": "tha thứ",
+    "notes": "Forgive someone for something/doing something; forgive–forgave–forgiven.",
+    "examples": [
+      {
+        "sentence": "Can you forgive me for being late?",
+        "translation": "Bạn có thể tha thứ vì tôi đến muộn không?"
+      },
+      {
+        "sentence": "It takes time to forgive someone.",
+        "translation": "Cần thời gian để tha thứ cho ai đó."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-fork": {
     "meaning": "nĩa; dĩa ăn; chỗ rẽ nhánh",
     "examples": [
@@ -24127,6 +24895,22 @@
       {
         "sentence": "She has plans for the future.",
         "translation": "Cô ấy có kế hoạch cho tương lai."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-gain": {
+    "meaning": "đạt được; tăng thêm",
+    "notes": "Gain experience/confidence/weight; earn money; win a prize.",
+    "examples": [
+      {
+        "sentence": "You can gain experience through volunteering.",
+        "translation": "Bạn có thể tích lũy kinh nghiệm qua hoạt động tình nguyện."
+      },
+      {
+        "sentence": "She hopes to gain more confidence.",
+        "translation": "Cô ấy hy vọng tự tin hơn."
       }
     ],
     "synonyms": [],
@@ -24690,6 +25474,22 @@
       {
         "sentence": "They elected a new governor last year.",
         "translation": "Họ bầu thống đốc mới năm ngoái."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-grab": {
+    "meaning": "chộp lấy; nắm lấy",
+    "notes": "Grab something quickly; grab a chance = nắm lấy cơ hội.",
+    "examples": [
+      {
+        "sentence": "Grab my hand before you fall.",
+        "translation": "Hãy nắm tay tôi trước khi bạn ngã."
+      },
+      {
+        "sentence": "Let's grab a quick lunch.",
+        "translation": "Chúng ta đi ăn trưa nhanh nhé."
       }
     ],
     "synonyms": [],
@@ -25285,6 +26085,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-hang": {
+    "meaning": "treo; rủ xuống",
+    "notes": "Hang–hung–hung khi treo đồ; hang up = treo lên hoặc cúp máy.",
+    "examples": [
+      {
+        "sentence": "Please hang your coat here.",
+        "translation": "Hãy treo áo khoác ở đây."
+      },
+      {
+        "sentence": "The curtains hang to the floor.",
+        "translation": "Rèm rủ xuống tận sàn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-happen": {
     "meaning": "xảy ra",
     "examples": [
@@ -25541,6 +26357,22 @@
       {
         "sentence": "My head hurts.",
         "translation": "Đầu tôi bị đau."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-heal": {
+    "meaning": "lành; chữa lành",
+    "notes": "Vết thương có thể tự heal; heal a wound = làm lành; cure a disease = chữa khỏi bệnh.",
+    "examples": [
+      {
+        "sentence": "Small cuts usually heal quickly.",
+        "translation": "Những vết cắt nhỏ thường mau lành."
+      },
+      {
+        "sentence": "Rest can help the injury heal.",
+        "translation": "Nghỉ ngơi có thể giúp chấn thương lành lại."
       }
     ],
     "synonyms": [],
@@ -25890,6 +26722,22 @@
       {
         "sentence": "He injured his hip in a fall.",
         "translation": "Anh ấy bị thương ở hông khi ngã."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-hire": {
+    "meaning": "thuê; tuyển dụng",
+    "notes": "Hire someone to do; Anh–Anh thường dùng hire a car, Anh–Mỹ thường dùng rent a car.",
+    "examples": [
+      {
+        "sentence": "We plan to hire two assistants.",
+        "translation": "Chúng tôi dự định tuyển hai trợ lý."
+      },
+      {
+        "sentence": "You can hire a bike near the station.",
+        "translation": "Bạn có thể thuê xe đạp gần nhà ga."
       }
     ],
     "synonyms": [],
@@ -26565,6 +27413,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-ignore": {
+    "meaning": "phớt lờ; bỏ qua",
+    "notes": "Ignore something có chủ ý; do not ignore a warning.",
+    "examples": [
+      {
+        "sentence": "Do not ignore the warning signs.",
+        "translation": "Đừng phớt lờ các biển cảnh báo."
+      },
+      {
+        "sentence": "She chose to ignore the rude comment.",
+        "translation": "Cô ấy chọn bỏ qua lời bình luận thô lỗ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-ill": {
     "meaning": "ốm; bị bệnh",
     "examples": [
@@ -26957,6 +27821,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-inform": {
+    "meaning": "thông báo; cho biết",
+    "notes": "Inform someone of/about something hoặc inform someone that.",
+    "examples": [
+      {
+        "sentence": "Please inform us of any changes.",
+        "translation": "Vui lòng thông báo cho chúng tôi mọi thay đổi."
+      },
+      {
+        "sentence": "We must inform customers about the delay.",
+        "translation": "Chúng ta phải báo cho khách hàng về việc chậm trễ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-information": {
     "meaning": "thông tin",
     "examples": [
@@ -27028,6 +27908,22 @@
       {
         "sentence": "It's warm inside.",
         "translation": "Bên trong rất ấm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-insist": {
+    "meaning": "khăng khăng; nhất quyết",
+    "notes": "Insist on something/doing; insist that + mệnh đề.",
+    "examples": [
+      {
+        "sentence": "I insist on paying for my own meal.",
+        "translation": "Tôi nhất quyết tự trả tiền phần ăn của mình."
+      },
+      {
+        "sentence": "They insist that the rules are fair.",
+        "translation": "Họ khăng khăng rằng các quy định công bằng."
       }
     ],
     "synonyms": [],
@@ -27171,6 +28067,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-intend": {
+    "meaning": "định; có ý định",
+    "notes": "Intend to do; intend something for someone = dành cho ai.",
+    "examples": [
+      {
+        "sentence": "I intend to apply next month.",
+        "translation": "Tôi định nộp đơn vào tháng tới."
+      },
+      {
+        "sentence": "We intend to finish before Friday.",
+        "translation": "Chúng tôi định hoàn thành trước thứ Sáu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-intention": {
     "meaning": "ý định",
     "examples": [
@@ -27256,6 +28168,22 @@
       {
         "sentence": "We found the information on the Internet.",
         "translation": "Chúng tôi tìm được thông tin trên Internet."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-interrupt": {
+    "meaning": "ngắt lời; làm gián đoạn",
+    "notes": "Interrupt someone/an activity; không nhất thiết kết thúc hẳn.",
+    "examples": [
+      {
+        "sentence": "Please do not interrupt the speaker.",
+        "translation": "Xin đừng ngắt lời người đang nói."
+      },
+      {
+        "sentence": "A phone call may interrupt the lesson.",
+        "translation": "Một cuộc gọi có thể làm gián đoạn buổi học."
       }
     ],
     "synonyms": [],
@@ -28323,6 +29251,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-launch": {
+    "meaning": "ra mắt; khởi động; phóng",
+    "notes": "Launch a product/campaign/rocket; khác found a company (thành lập).",
+    "examples": [
+      {
+        "sentence": "They will launch a new app in June.",
+        "translation": "Họ sẽ ra mắt ứng dụng mới vào tháng Sáu."
+      },
+      {
+        "sentence": "The team plans to launch a campaign.",
+        "translation": "Đội dự định khởi động một chiến dịch."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-law": {
     "meaning": "luật; pháp luật",
     "examples": [
@@ -28348,6 +29292,22 @@
       {
         "sentence": "We asked a lawyer for advice.",
         "translation": "Chúng tôi xin lời khuyên của luật sư."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-lay": {
+    "meaning": "đặt; đẻ trứng",
+    "notes": "Lay–laid–laid cần tân ngữ; lie–lay–lain = nằm; lie–lied–lied = nói dối.",
+    "examples": [
+      {
+        "sentence": "Lay the map on the table.",
+        "translation": "Hãy đặt bản đồ lên bàn."
+      },
+      {
+        "sentence": "These hens lay eggs every day.",
+        "translation": "Những con gà mái này đẻ trứng mỗi ngày."
       }
     ],
     "synonyms": [],
@@ -28394,6 +29354,22 @@
       {
         "sentence": "The club finished top of the league.",
         "translation": "Câu lạc bộ đứng đầu giải đấu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-leap": {
+    "meaning": "nhảy; nhảy vọt",
+    "notes": "Leap–leapt/leaped–leapt/leaped; leap over something.",
+    "examples": [
+      {
+        "sentence": "The cat can leap over the fence.",
+        "translation": "Con mèo có thể nhảy qua hàng rào."
+      },
+      {
+        "sentence": "Prices may leap when supplies run low.",
+        "translation": "Giá có thể tăng vọt khi nguồn cung cạn dần."
       }
     ],
     "synonyms": [],
@@ -28948,6 +29924,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-locate": {
+    "meaning": "xác định vị trí; tìm ra",
+    "notes": "Locate something; be located in/near = nằm ở/gần.",
+    "examples": [
+      {
+        "sentence": "Can you locate the village on the map?",
+        "translation": "Bạn có thể xác định vị trí ngôi làng trên bản đồ không?"
+      },
+      {
+        "sentence": "We need to locate the source of the noise.",
+        "translation": "Chúng ta cần tìm ra nguồn tiếng ồn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-location": {
     "meaning": "vị trí; địa điểm",
     "examples": [
@@ -29447,6 +30439,22 @@
       {
         "sentence": "The course is mainly for beginners.",
         "translation": "Khóa học chủ yếu dành cho người mới."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-maintain": {
+    "meaning": "duy trì; bảo dưỡng",
+    "notes": "Maintain a standard/relationship; maintain equipment = bảo dưỡng thiết bị.",
+    "examples": [
+      {
+        "sentence": "We must maintain high safety standards.",
+        "translation": "Chúng ta phải duy trì tiêu chuẩn an toàn cao."
+      },
+      {
+        "sentence": "It costs money to maintain a car.",
+        "translation": "Bảo dưỡng ô tô tốn tiền."
       }
     ],
     "synonyms": [],
@@ -31275,6 +32283,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-negotiate": {
+    "meaning": "đàm phán; thương lượng",
+    "notes": "Negotiate with someone over/about something; negotiate a deal.",
+    "examples": [
+      {
+        "sentence": "We need to negotiate a better price.",
+        "translation": "Chúng ta cần thương lượng mức giá tốt hơn."
+      },
+      {
+        "sentence": "They will negotiate with the supplier tomorrow.",
+        "translation": "Họ sẽ đàm phán với nhà cung cấp vào ngày mai."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-neighborhood": {
     "meaning": "khu dân cư; khu vực lân cận",
     "notes": "Anh–Anh viết neighbourhood.",
@@ -31756,6 +32780,22 @@
       {
         "sentence": "He raised an objection during the meeting.",
         "translation": "Anh ấy nêu ý kiến phản đối trong cuộc họp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-observe": {
+    "meaning": "quan sát; nhận xét; tuân thủ",
+    "notes": "Observe someone doing/do; observe a rule = tuân thủ quy định.",
+    "examples": [
+      {
+        "sentence": "We can observe birds from this window.",
+        "translation": "Chúng ta có thể quan sát chim từ cửa sổ này."
+      },
+      {
+        "sentence": "All visitors must observe the safety rules.",
+        "translation": "Mọi khách tham quan phải tuân thủ quy định an toàn."
       }
     ],
     "synonyms": [],
@@ -32332,6 +33372,38 @@
       }
     ],
     "notes": "Over còn dùng trong be over = kết thúc.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-overcome": {
+    "meaning": "vượt qua; khắc phục",
+    "notes": "Overcome–overcame–overcome; overcome fear/difficulties.",
+    "examples": [
+      {
+        "sentence": "It takes courage to overcome fear.",
+        "translation": "Cần can đảm để vượt qua nỗi sợ."
+      },
+      {
+        "sentence": "We can overcome this problem together.",
+        "translation": "Chúng ta có thể cùng nhau khắc phục vấn đề này."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-owe": {
+    "meaning": "nợ; mang ơn",
+    "notes": "Owe someone something hoặc owe something to someone.",
+    "examples": [
+      {
+        "sentence": "I owe you twenty dollars.",
+        "translation": "Tôi nợ bạn hai mươi đô la."
+      },
+      {
+        "sentence": "We owe our success to the whole team.",
+        "translation": "Thành công của chúng tôi là nhờ cả đội."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -33184,6 +34256,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-permit": {
+    "meaning": "cho phép",
+    "notes": "Permit something/doing hoặc permit someone to do; trang trọng hơn allow.",
+    "examples": [
+      {
+        "sentence": "The rules do not permit smoking here.",
+        "translation": "Quy định không cho phép hút thuốc ở đây."
+      },
+      {
+        "sentence": "The pass will permit you to enter the building.",
+        "translation": "Thẻ này sẽ cho phép bạn vào tòa nhà."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-person": {
     "meaning": "người",
     "examples": [
@@ -33526,6 +34614,22 @@
       {
         "sentence": "He wants to become a pilot.",
         "translation": "Anh ấy muốn trở thành phi công."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-pin": {
+    "meaning": "ghim; cố định bằng ghim",
+    "notes": "Pin something to/on something; pin down = xác định rõ hoặc giữ chặt.",
+    "examples": [
+      {
+        "sentence": "Pin the notice to the board.",
+        "translation": "Hãy ghim thông báo lên bảng."
+      },
+      {
+        "sentence": "You can pin the photo on the wall.",
+        "translation": "Bạn có thể ghim bức ảnh lên tường."
       }
     ],
     "synonyms": [],
@@ -34835,6 +35939,22 @@
       }
     ]
   },
+  "en-vocab-proceed": {
+    "meaning": "tiếp tục; tiến hành",
+    "notes": "Proceed with something; proceed to do = tiếp tục làm bước kế tiếp.",
+    "examples": [
+      {
+        "sentence": "We can proceed with the plan now.",
+        "translation": "Bây giờ chúng ta có thể tiến hành kế hoạch."
+      },
+      {
+        "sentence": "Please proceed to the next step.",
+        "translation": "Vui lòng chuyển sang bước tiếp theo."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-process": {
     "meaning": "quá trình; quy trình",
     "examples": [
@@ -35064,6 +36184,38 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-propose": {
+    "meaning": "đề xuất; cầu hôn",
+    "notes": "Propose something/doing; propose to someone = cầu hôn ai.",
+    "examples": [
+      {
+        "sentence": "I propose a different solution.",
+        "translation": "Tôi đề xuất một giải pháp khác."
+      },
+      {
+        "sentence": "He plans to propose to her tonight.",
+        "translation": "Anh ấy định cầu hôn cô ấy tối nay."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-protect": {
+    "meaning": "bảo vệ; che chở",
+    "notes": "Protect someone/something from or against a danger.",
+    "examples": [
+      {
+        "sentence": "Wear gloves to protect your hands.",
+        "translation": "Hãy đeo găng tay để bảo vệ bàn tay."
+      },
+      {
+        "sentence": "Trees help protect the soil from erosion.",
+        "translation": "Cây giúp bảo vệ đất khỏi xói mòn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-protection": {
     "meaning": "sự bảo vệ",
     "examples": [
@@ -35090,6 +36242,22 @@
       {
         "sentence": "She left the meeting in protest.",
         "translation": "Cô ấy rời cuộc họp để phản đối."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-prove": {
+    "meaning": "chứng minh; tỏ ra",
+    "notes": "Prove something/that; prove to be + tính từ/danh từ.",
+    "examples": [
+      {
+        "sentence": "Can you prove that you paid?",
+        "translation": "Bạn có thể chứng minh rằng bạn đã thanh toán không?"
+      },
+      {
+        "sentence": "The new method may prove useful.",
+        "translation": "Phương pháp mới có thể tỏ ra hữu ích."
       }
     ],
     "synonyms": [],
@@ -35168,6 +36336,22 @@
       {
         "sentence": "I used a hand pump for the bicycle tire.",
         "translation": "Tôi dùng bơm tay để bơm lốp xe đạp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-punish": {
+    "meaning": "trừng phạt",
+    "notes": "Punish someone for something/doing; punishment for = hình phạt vì.",
+    "examples": [
+      {
+        "sentence": "Do not punish children for honest mistakes.",
+        "translation": "Đừng phạt trẻ em vì những lỗi vô ý."
+      },
+      {
+        "sentence": "The law can punish people who steal.",
+        "translation": "Pháp luật có thể trừng phạt người trộm cắp."
       }
     ],
     "synonyms": [],
@@ -35693,6 +36877,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-react": {
+    "meaning": "phản ứng",
+    "notes": "React to news; react with a substance (hóa học).",
+    "examples": [
+      {
+        "sentence": "How will they react to the news?",
+        "translation": "Họ sẽ phản ứng thế nào trước tin đó?"
+      },
+      {
+        "sentence": "Some chemicals react with water.",
+        "translation": "Một số hóa chất phản ứng với nước."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-read": {
     "meaning": "đọc",
     "examples": [
@@ -35800,6 +37000,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-recall": {
+    "meaning": "nhớ lại; thu hồi",
+    "notes": "Recall something/doing/that; recall a product = thu hồi sản phẩm.",
+    "examples": [
+      {
+        "sentence": "I cannot recall his name.",
+        "translation": "Tôi không thể nhớ lại tên anh ấy."
+      },
+      {
+        "sentence": "The company must recall the faulty product.",
+        "translation": "Công ty phải thu hồi sản phẩm bị lỗi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-receive": {
     "meaning": "nhận",
     "examples": [
@@ -35886,6 +37102,22 @@
       {
         "sentence": "The recording began at noon.",
         "translation": "Việc ghi âm bắt đầu vào buổi trưa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-recover": {
+    "meaning": "hồi phục; lấy lại",
+    "notes": "Recover from an illness/loss; recover something = lấy lại.",
+    "examples": [
+      {
+        "sentence": "She needs time to recover from surgery.",
+        "translation": "Cô ấy cần thời gian hồi phục sau phẫu thuật."
+      },
+      {
+        "sentence": "We hope to recover the missing files.",
+        "translation": "Chúng tôi hy vọng khôi phục các tệp bị mất."
       }
     ],
     "synonyms": [],
@@ -36074,6 +37306,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-rely": {
+    "meaning": "dựa vào; tin cậy",
+    "notes": "Rely on/upon someone/something; rely on someone to do.",
+    "examples": [
+      {
+        "sentence": "You can rely on me for help.",
+        "translation": "Bạn có thể tin cậy tôi giúp đỡ."
+      },
+      {
+        "sentence": "Many families rely on public transport.",
+        "translation": "Nhiều gia đình phụ thuộc vào phương tiện công cộng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-remain": {
     "meaning": "vẫn còn; ở lại",
     "examples": [
@@ -36136,6 +37384,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-remove": {
+    "meaning": "loại bỏ; lấy ra",
+    "notes": "Remove something from somewhere; remove khác move (di chuyển).",
+    "examples": [
+      {
+        "sentence": "Remove your shoes before entering.",
+        "translation": "Hãy cởi giày trước khi vào."
+      },
+      {
+        "sentence": "Use a cloth to remove the dust.",
+        "translation": "Dùng khăn để lau bụi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-rent": {
     "meaning": "tiền thuê",
     "examples": [
@@ -36161,6 +37425,22 @@
       {
         "sentence": "The road is closed for repairs.",
         "translation": "Đường đóng để sửa chữa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-repay": {
+    "meaning": "trả lại (tiền); đền đáp",
+    "notes": "Repay–repaid–repaid; repay a loan; repay someone for kindness.",
+    "examples": [
+      {
+        "sentence": "I need to repay the loan by June.",
+        "translation": "Tôi cần trả khoản vay trước tháng Sáu."
+      },
+      {
+        "sentence": "How can I repay you for your help?",
+        "translation": "Tôi có thể đền đáp sự giúp đỡ của bạn thế nào?"
       }
     ],
     "synonyms": [],
@@ -36287,6 +37567,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-require": {
+    "meaning": "yêu cầu; cần",
+    "notes": "Require something; require someone to do; be required to do.",
+    "examples": [
+      {
+        "sentence": "Some jobs require experience.",
+        "translation": "Một số công việc yêu cầu kinh nghiệm."
+      },
+      {
+        "sentence": "The rules require visitors to sign in.",
+        "translation": "Quy định yêu cầu khách đăng ký khi đến."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-rescue": {
     "meaning": "việc cứu hộ; cuộc giải cứu",
     "examples": [
@@ -36318,6 +37614,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-resist": {
+    "meaning": "chống lại; cưỡng lại",
+    "notes": "Resist something/doing something; không dùng resist to do.",
+    "examples": [
+      {
+        "sentence": "Try to resist the temptation to quit.",
+        "translation": "Hãy cố cưỡng lại ý muốn bỏ cuộc."
+      },
+      {
+        "sentence": "This material can resist heat.",
+        "translation": "Vật liệu này có thể chịu nhiệt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-resort": {
     "meaning": "khu nghỉ dưỡng",
     "examples": [
@@ -36344,6 +37656,22 @@
       {
         "sentence": "She earned the respect of her colleagues.",
         "translation": "Cô ấy nhận được sự tôn trọng của đồng nghiệp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-respond": {
+    "meaning": "đáp lại; phản hồi",
+    "notes": "Respond to something/someone; response to = phản hồi đối với.",
+    "examples": [
+      {
+        "sentence": "Please respond to my email today.",
+        "translation": "Vui lòng phản hồi email của tôi hôm nay."
+      },
+      {
+        "sentence": "How did he respond to the news?",
+        "translation": "Anh ấy phản ứng thế nào trước tin đó?"
       }
     ],
     "synonyms": [],
@@ -36554,6 +37882,22 @@
       {
         "sentence": "The country is rich in oil.",
         "translation": "Đất nước giàu dầu mỏ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-rid": {
+    "meaning": "loại bỏ; giải thoát khỏi",
+    "notes": "Thường dùng get rid of hoặc rid someone/something of something.",
+    "examples": [
+      {
+        "sentence": "We need to get rid of these old boxes.",
+        "translation": "Chúng ta cần bỏ những chiếc hộp cũ này."
+      },
+      {
+        "sentence": "This treatment may rid the garden of pests.",
+        "translation": "Biện pháp này có thể giúp khu vườn hết sâu hại."
       }
     ],
     "synonyms": [],
@@ -37427,6 +38771,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-scare": {
+    "meaning": "làm sợ; dọa",
+    "notes": "Scare someone; scared of + danh từ/V-ing; scary mô tả thứ gây sợ.",
+    "examples": [
+      {
+        "sentence": "Loud noises scare the baby.",
+        "translation": "Tiếng động lớn làm em bé sợ."
+      },
+      {
+        "sentence": "Do not scare the birds away.",
+        "translation": "Đừng làm lũ chim sợ bay đi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-scene": {
     "meaning": "cảnh; hiện trường",
     "examples": [
@@ -38003,6 +39363,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-settle": {
+    "meaning": "giải quyết; ổn định; định cư",
+    "notes": "Settle a dispute; settle in = thích nghi nơi mới; settle down = ổn định cuộc sống.",
+    "examples": [
+      {
+        "sentence": "We hope to settle the dispute today.",
+        "translation": "Chúng tôi hy vọng giải quyết tranh chấp hôm nay."
+      },
+      {
+        "sentence": "They plan to settle in Canada.",
+        "translation": "Họ dự định định cư ở Canada."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-seven": {
     "meaning": "bảy",
     "examples": [
@@ -38124,6 +39500,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-shave": {
+    "meaning": "cạo (râu, lông)",
+    "notes": "Shave your beard/legs; shave off = cạo bỏ.",
+    "examples": [
+      {
+        "sentence": "I shave my face every morning.",
+        "translation": "Tôi cạo râu mỗi sáng."
+      },
+      {
+        "sentence": "He decided to shave off his beard.",
+        "translation": "Anh ấy quyết định cạo bỏ bộ râu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-sheet": {
     "meaning": "tờ; tấm; ga trải giường",
     "examples": [
@@ -38179,6 +39571,22 @@
       {
         "sentence": "The sheriff's office is near the courthouse.",
         "translation": "Văn phòng cảnh sát trưởng ở gần tòa án."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-shift": {
+    "meaning": "dịch chuyển; thay đổi",
+    "notes": "Shift something to/from; shift attention/focus = chuyển sự chú ý/trọng tâm.",
+    "examples": [
+      {
+        "sentence": "Shift your chair a little to the left.",
+        "translation": "Hãy dịch ghế sang trái một chút."
+      },
+      {
+        "sentence": "We need to shift our focus to safety.",
+        "translation": "Chúng ta cần chuyển trọng tâm sang an toàn."
       }
     ],
     "synonyms": [],
@@ -39353,6 +40761,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-soil": {
+    "meaning": "làm bẩn",
+    "notes": "Soil one's clothes; động từ trang trọng hơn dirty; danh từ soil là đất.",
+    "examples": [
+      {
+        "sentence": "Try not to soil your clean shirt.",
+        "translation": "Cố đừng làm bẩn chiếc áo sạch."
+      },
+      {
+        "sentence": "Mud can soil the carpet.",
+        "translation": "Bùn có thể làm bẩn thảm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-soldier": {
     "meaning": "người lính",
     "examples": [
@@ -39791,6 +41215,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-spoil": {
+    "meaning": "làm hỏng; nuông chiều",
+    "notes": "Spoil food/a surprise/a child; spoil–spoiled/spoilt–spoiled/spoilt.",
+    "examples": [
+      {
+        "sentence": "Do not spoil the surprise.",
+        "translation": "Đừng làm mất bất ngờ."
+      },
+      {
+        "sentence": "Too many gifts can spoil a child.",
+        "translation": "Quá nhiều quà có thể làm trẻ hư vì được nuông chiều."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-spoon": {
     "meaning": "thìa; muỗng",
     "examples": [
@@ -39972,6 +41412,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-stare": {
+    "meaning": "nhìn chằm chằm",
+    "notes": "Stare at someone/something; khác glance at (liếc nhanh).",
+    "examples": [
+      {
+        "sentence": "It is rude to stare at strangers.",
+        "translation": "Nhìn chằm chằm người lạ là bất lịch sự."
+      },
+      {
+        "sentence": "Do not stare at the bright screen for too long.",
+        "translation": "Đừng nhìn chằm chằm màn hình sáng quá lâu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-start": {
     "meaning": "sự bắt đầu; khởi đầu",
     "examples": [
@@ -40148,6 +41604,22 @@
       {
         "sentence": "He stepped back.",
         "translation": "Anh ấy lùi lại."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-stick": {
+    "meaning": "dán; cắm; mắc kẹt",
+    "notes": "Stick–stuck–stuck; stick to a plan = kiên trì theo kế hoạch.",
+    "examples": [
+      {
+        "sentence": "Stick the label on the box.",
+        "translation": "Hãy dán nhãn lên hộp."
+      },
+      {
+        "sentence": "Wet clothes can stick to your skin.",
+        "translation": "Quần áo ướt có thể dính vào da."
       }
     ],
     "synonyms": [],
@@ -40389,6 +41861,22 @@
       {
         "sentence": "The stress falls on the first syllable.",
         "translation": "Trọng âm rơi vào âm tiết đầu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-stretch": {
+    "meaning": "duỗi; kéo giãn; trải dài",
+    "notes": "Stretch your legs; stretch from A to B.",
+    "examples": [
+      {
+        "sentence": "Stretch your arms before exercise.",
+        "translation": "Hãy duỗi tay trước khi tập thể dục."
+      },
+      {
+        "sentence": "These fields stretch as far as the river.",
+        "translation": "Những cánh đồng này trải dài đến tận con sông."
       }
     ],
     "synonyms": [],
@@ -40651,6 +42139,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-suffer": {
+    "meaning": "chịu đựng; bị (bệnh, tổn thất)",
+    "notes": "Suffer from an illness; suffer a loss/injury không dùng from.",
+    "examples": [
+      {
+        "sentence": "Many people suffer from back pain.",
+        "translation": "Nhiều người bị đau lưng."
+      },
+      {
+        "sentence": "Small businesses may suffer losses.",
+        "translation": "Các doanh nghiệp nhỏ có thể chịu tổn thất."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-sugar": {
     "meaning": "đường",
     "examples": [
@@ -40843,6 +42347,38 @@
       {
         "sentence": "We have a week's supply of food.",
         "translation": "Chúng tôi có lượng thực phẩm đủ dùng trong một tuần."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-support": {
+    "meaning": "ủng hộ; hỗ trợ; chống đỡ",
+    "notes": "Support someone/something; không cần giới từ to trước tân ngữ.",
+    "examples": [
+      {
+        "sentence": "My parents support my decision.",
+        "translation": "Bố mẹ tôi ủng hộ quyết định của tôi."
+      },
+      {
+        "sentence": "These columns support the roof.",
+        "translation": "Những cột này chống đỡ mái nhà."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-suppose": {
+    "meaning": "cho rằng; giả sử",
+    "notes": "Suppose (that) + mệnh đề; be supposed to do = được mong đợi/phải làm.",
+    "examples": [
+      {
+        "sentence": "I suppose we can wait here.",
+        "translation": "Tôi nghĩ chúng ta có thể đợi ở đây."
+      },
+      {
+        "sentence": "Suppose the train is late. What will we do?",
+        "translation": "Giả sử tàu đến muộn. Chúng ta sẽ làm gì?"
       }
     ],
     "synonyms": [],
@@ -41046,6 +42582,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-swear": {
+    "meaning": "thề; chửi thề",
+    "notes": "Swear–swore–sworn; swear to do/that; swear at someone = chửi thề với ai.",
+    "examples": [
+      {
+        "sentence": "I swear to tell the truth.",
+        "translation": "Tôi thề sẽ nói sự thật."
+      },
+      {
+        "sentence": "Please do not swear in front of children.",
+        "translation": "Xin đừng chửi thề trước mặt trẻ em."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-sweat": {
     "meaning": "đổ mồ hôi",
     "examples": [
@@ -41107,6 +42659,22 @@
     "synonyms": [],
     "antonyms": [],
     "notes": "Cách gọi thân mật, thể hiện tình cảm."
+  },
+  "en-vocab-swell": {
+    "meaning": "sưng; phồng lên",
+    "notes": "Swell–swelled–swollen/swelled; swell up = sưng phồng.",
+    "examples": [
+      {
+        "sentence": "Your ankle may swell after a fall.",
+        "translation": "Mắt cá chân có thể sưng sau khi ngã."
+      },
+      {
+        "sentence": "The river can swell after heavy rain.",
+        "translation": "Con sông có thể dâng lên sau mưa lớn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-vocab-swim": {
     "meaning": "lượt bơi; việc đi bơi",
@@ -41663,6 +43231,22 @@
       {
         "sentence": "There are ten students.",
         "translation": "Có mười học sinh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-tend": {
+    "meaning": "có xu hướng; chăm sóc",
+    "notes": "Tend to do = thường có xu hướng; tend a garden = chăm sóc vườn.",
+    "examples": [
+      {
+        "sentence": "I tend to wake up early.",
+        "translation": "Tôi thường có xu hướng thức dậy sớm."
+      },
+      {
+        "sentence": "She likes to tend her garden.",
+        "translation": "Cô ấy thích chăm sóc khu vườn."
       }
     ],
     "synonyms": [],
@@ -42550,6 +44134,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-toss": {
+    "meaning": "tung; ném nhẹ",
+    "notes": "Toss something to someone; toss a coin = tung đồng xu.",
+    "examples": [
+      {
+        "sentence": "Toss the ball to me, please.",
+        "translation": "Hãy ném nhẹ quả bóng cho tôi."
+      },
+      {
+        "sentence": "Let's toss a coin to decide.",
+        "translation": "Hãy tung đồng xu để quyết định."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-touch": {
     "meaning": "sự chạm; tiếp xúc",
     "examples": [
@@ -42774,6 +44374,22 @@
       }
     ],
     "notes": "Thường không đếm được.",
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-transfer": {
+    "meaning": "chuyển; chuyển giao",
+    "notes": "Transfer something from A to B; transfer to another school = chuyển trường.",
+    "examples": [
+      {
+        "sentence": "Please transfer the money to this account.",
+        "translation": "Hãy chuyển tiền vào tài khoản này."
+      },
+      {
+        "sentence": "She plans to transfer to another school.",
+        "translation": "Cô ấy dự định chuyển sang trường khác."
+      }
+    ],
     "synonyms": [],
     "antonyms": []
   },
@@ -43848,6 +45464,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-vocab-volunteer": {
+    "meaning": "tình nguyện",
+    "notes": "Volunteer to do; volunteer for a task; volunteer information = tự nguyện cung cấp thông tin.",
+    "examples": [
+      {
+        "sentence": "I want to volunteer at the local library.",
+        "translation": "Tôi muốn làm tình nguyện viên ở thư viện địa phương."
+      },
+      {
+        "sentence": "Who will volunteer to lead the group?",
+        "translation": "Ai sẽ tình nguyện dẫn dắt nhóm?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-vocab-vote": {
     "meaning": "lá phiếu; sự bỏ phiếu",
     "examples": [
@@ -44026,6 +45658,22 @@
       {
         "sentence": "Wear a warm coat.",
         "translation": "Hãy mặc áo khoác ấm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-warn": {
+    "meaning": "cảnh báo",
+    "notes": "Warn someone about/of something; warn someone not to do something.",
+    "examples": [
+      {
+        "sentence": "Please warn them about the ice.",
+        "translation": "Hãy cảnh báo họ về lớp băng."
+      },
+      {
+        "sentence": "Signs warn drivers not to park here.",
+        "translation": "Biển báo cảnh báo tài xế không đỗ xe ở đây."
       }
     ],
     "synonyms": [],
@@ -44819,6 +46467,22 @@
       {
         "sentence": "My wish is to travel.",
         "translation": "Điều ước của tôi là được đi du lịch."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-vocab-witness": {
+    "meaning": "chứng kiến",
+    "notes": "Witness an event; khác attend (tham dự).",
+    "examples": [
+      {
+        "sentence": "Did you witness the accident?",
+        "translation": "Bạn có chứng kiến vụ tai nạn không?"
+      },
+      {
+        "sentence": "Few people witness such a rare event.",
+        "translation": "Ít người chứng kiến một sự kiện hiếm như vậy."
       }
     ],
     "synonyms": [],

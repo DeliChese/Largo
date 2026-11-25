@@ -493,6 +493,22 @@
       ]
     }
   ],
+  "en-vocab-advance": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "sự tiến bộ; khoản ứng trước",
+      "examples": [
+        {
+          "sentence": "This is a major advance in medicine.",
+          "translation": "Đây là một bước tiến lớn trong y học."
+        },
+        {
+          "sentence": "She received an advance on her salary.",
+          "translation": "Cô ấy nhận một khoản ứng trước tiền lương."
+        }
+      ]
+    }
+  ],
   "en-vocab-aid": [
     {
       "partOfSpeech": "Động từ",
@@ -590,6 +606,24 @@
       ]
     }
   ],
+  "en-vocab-associate": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cộng sự; người liên kết",
+      "examples": [
+        {
+          "sentence": "He met a business associate for lunch.",
+          "translation": "Anh ấy gặp một cộng sự kinh doanh để ăn trưa."
+        },
+        {
+          "sentence": "The firm hired a new associate.",
+          "translation": "Công ty tuyển một cộng sự mới."
+        }
+      ],
+      "notes": "Danh từ kết thúc bằng âm yếu /ət/, khác động từ /eɪt/.",
+      "phonetic": "/əˈsəʊsiət/"
+    }
+  ],
   "en-vocab-back": [
     {
       "partOfSpeech": "Danh từ",
@@ -636,6 +670,23 @@
       ]
     }
   ],
+  "en-vocab-beat": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "nhịp; phách",
+      "examples": [
+        {
+          "sentence": "The song has a steady beat.",
+          "translation": "Bài hát có nhịp đều."
+        },
+        {
+          "sentence": "Clap your hands to the beat.",
+          "translation": "Hãy vỗ tay theo nhịp."
+        }
+      ],
+      "notes": "A beat trong âm nhạc là đơn vị nhịp."
+    }
+  ],
   "en-vocab-benefit": [
     {
       "partOfSpeech": "Động từ",
@@ -653,6 +704,23 @@
       "notes": "Benefit from + danh từ."
     }
   ],
+  "en-vocab-bet": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "vụ cá cược; khoản cược",
+      "examples": [
+        {
+          "sentence": "A small bet can still cost you money.",
+          "translation": "Một khoản cược nhỏ vẫn có thể khiến bạn mất tiền."
+        },
+        {
+          "sentence": "He made a bet with his friend.",
+          "translation": "Anh ấy cá cược với bạn mình."
+        }
+      ],
+      "notes": "Make/place a bet."
+    }
+  ],
   "en-vocab-book": [
     {
       "partOfSpeech": "Động từ",
@@ -668,6 +736,38 @@
         }
       ],
       "notes": "Book a room/table/ticket."
+    }
+  ],
+  "en-vocab-bore": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "người hoặc việc gây chán",
+      "examples": [
+        {
+          "sentence": "That meeting was a real bore.",
+          "translation": "Cuộc họp đó thật sự nhàm chán."
+        },
+        {
+          "sentence": "He can be a bore at parties.",
+          "translation": "Anh ấy có thể là người tẻ nhạt ở các bữa tiệc."
+        }
+      ]
+    }
+  ],
+  "en-vocab-bounce": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "độ nảy; cú nảy",
+      "examples": [
+        {
+          "sentence": "The ball has a good bounce.",
+          "translation": "Quả bóng có độ nảy tốt."
+        },
+        {
+          "sentence": "The first bounce was very high.",
+          "translation": "Cú nảy đầu tiên rất cao."
+        }
+      ]
     }
   ],
   "en-vocab-bow": [
@@ -714,6 +814,38 @@
         {
           "sentence": "The concert was broadcast live.",
           "translation": "Buổi hòa nhạc được phát sóng trực tiếp."
+        }
+      ]
+    }
+  ],
+  "en-vocab-bump": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "chỗ lồi; cú va chạm",
+      "examples": [
+        {
+          "sentence": "There is a bump in the road.",
+          "translation": "Có một chỗ gồ trên đường."
+        },
+        {
+          "sentence": "He had a bump on his head.",
+          "translation": "Anh ấy có một cục u trên đầu."
+        }
+      ]
+    }
+  ],
+  "en-vocab-burst": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "sự bùng phát; đợt ngắn",
+      "examples": [
+        {
+          "sentence": "A burst of laughter came from the room.",
+          "translation": "Một tràng cười vang lên từ căn phòng."
+        },
+        {
+          "sentence": "The athlete ran with a burst of speed.",
+          "translation": "Vận động viên chạy với một đợt tăng tốc."
         }
       ]
     }
@@ -1011,6 +1143,22 @@
       ]
     }
   ],
+  "en-vocab-cough": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cơn ho; chứng ho",
+      "examples": [
+        {
+          "sentence": "She has a dry cough.",
+          "translation": "Cô ấy bị ho khan."
+        },
+        {
+          "sentence": "A loud cough broke the silence.",
+          "translation": "Một tiếng ho lớn phá tan sự im lặng."
+        }
+      ]
+    }
+  ],
   "en-vocab-count": [
     {
       "partOfSpeech": "Danh từ",
@@ -1023,6 +1171,22 @@
         {
           "sentence": "The final count was fifty.",
           "translation": "Tổng số cuối cùng là năm mươi."
+        }
+      ]
+    }
+  ],
+  "en-vocab-counter": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "quầy",
+      "examples": [
+        {
+          "sentence": "Pay at the counter.",
+          "translation": "Hãy thanh toán tại quầy."
+        },
+        {
+          "sentence": "She left her keys on the kitchen counter.",
+          "translation": "Cô ấy để chìa khóa trên mặt bàn bếp."
         }
       ]
     }
@@ -1123,6 +1287,22 @@
       ]
     }
   ],
+  "en-vocab-dare": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "lời thách đố",
+      "examples": [
+        {
+          "sentence": "It was only a dare.",
+          "translation": "Đó chỉ là một lời thách đố."
+        },
+        {
+          "sentence": "He accepted the dare.",
+          "translation": "Anh ấy chấp nhận lời thách đố."
+        }
+      ]
+    }
+  ],
   "en-vocab-date": [
     {
       "partOfSpeech": "Động từ",
@@ -1135,6 +1315,22 @@
         {
           "sentence": "Please date the form before signing it.",
           "translation": "Hãy ghi ngày trên biểu mẫu trước khi ký."
+        }
+      ]
+    }
+  ],
+  "en-vocab-defeat": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "sự thất bại",
+      "examples": [
+        {
+          "sentence": "The team suffered a heavy defeat.",
+          "translation": "Đội chịu một thất bại nặng nề."
+        },
+        {
+          "sentence": "She accepted defeat gracefully.",
+          "translation": "Cô ấy chấp nhận thất bại một cách đàng hoàng."
         }
       ]
     }
@@ -1217,6 +1413,23 @@
           "translation": "Báo cáo ghi lại các thay đổi."
         }
       ]
+    }
+  ],
+  "en-vocab-drag": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "lực cản; việc gây chán nản",
+      "examples": [
+        {
+          "sentence": "The design reduces air drag.",
+          "translation": "Thiết kế làm giảm lực cản không khí."
+        },
+        {
+          "sentence": "Waiting for hours is a drag.",
+          "translation": "Đợi hàng giờ thật chán nản."
+        }
+      ],
+      "notes": "A drag (thân mật) = chuyện phiền chán."
     }
   ],
   "en-vocab-drink": [
@@ -1508,6 +1721,22 @@
       ]
     }
   ],
+  "en-vocab-gain": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "sự tăng; lợi ích",
+      "examples": [
+        {
+          "sentence": "The company reported a small gain in sales.",
+          "translation": "Công ty báo cáo doanh số tăng nhẹ."
+        },
+        {
+          "sentence": "Weight gain can happen gradually.",
+          "translation": "Tăng cân có thể diễn ra từ từ."
+        }
+      ]
+    }
+  ],
   "en-vocab-gesture": [
     {
       "partOfSpeech": "Động từ",
@@ -1686,6 +1915,23 @@
       "notes": "Help thường không đếm được trong nghĩa này."
     }
   ],
+  "en-vocab-hire": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "việc cho thuê; thuê mướn",
+      "examples": [
+        {
+          "sentence": "Bikes are available for hire.",
+          "translation": "Có xe đạp cho thuê."
+        },
+        {
+          "sentence": "The hall is for hire on weekends.",
+          "translation": "Hội trường được cho thuê vào cuối tuần."
+        }
+      ],
+      "notes": "For hire thường gặp trong Anh–Anh."
+    }
+  ],
   "en-vocab-hop": [
     {
       "partOfSpeech": "Động từ",
@@ -1783,6 +2029,22 @@
       ]
     }
   ],
+  "en-vocab-launch": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "sự ra mắt; vụ phóng",
+      "examples": [
+        {
+          "sentence": "The product launch attracted many reporters.",
+          "translation": "Buổi ra mắt sản phẩm thu hút nhiều phóng viên."
+        },
+        {
+          "sentence": "We watched the rocket launch.",
+          "translation": "Chúng tôi xem vụ phóng tên lửa."
+        }
+      ]
+    }
+  ],
   "en-vocab-lead": [
     {
       "partOfSpeech": "Động từ",
@@ -1815,6 +2077,22 @@
       ],
       "notes": "Khác danh từ lead nghĩa dẫn trước đọc /liːd/.",
       "phonetic": "/led/"
+    }
+  ],
+  "en-vocab-leap": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cú nhảy; bước tiến lớn",
+      "examples": [
+        {
+          "sentence": "The dancer made a graceful leap.",
+          "translation": "Vũ công thực hiện một cú nhảy duyên dáng."
+        },
+        {
+          "sentence": "The discovery was a leap forward.",
+          "translation": "Khám phá đó là một bước tiến lớn."
+        }
+      ]
     }
   ],
   "en-vocab-lecture": [
@@ -2288,6 +2566,41 @@
       ]
     }
   ],
+  "en-vocab-permit": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "giấy phép",
+      "examples": [
+        {
+          "sentence": "You need a work permit.",
+          "translation": "Bạn cần giấy phép lao động."
+        },
+        {
+          "sentence": "Show your permit at the entrance.",
+          "translation": "Hãy xuất trình giấy phép ở lối vào."
+        }
+      ],
+      "notes": "Danh từ nhấn âm đầu; động từ nhấn âm hai.",
+      "phonetic": "/ˈpɜː(r)mɪt/"
+    }
+  ],
+  "en-vocab-pin": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "ghim; kim ghim",
+      "examples": [
+        {
+          "sentence": "Use a pin to hold the fabric together.",
+          "translation": "Hãy dùng ghim để giữ các lớp vải lại với nhau."
+        },
+        {
+          "sentence": "A pin fell onto the floor.",
+          "translation": "Một chiếc ghim rơi xuống sàn."
+        }
+      ],
+      "notes": "PIN viết hoa là mã số cá nhân, khác nghĩa."
+    }
+  ],
   "en-vocab-plant": [
     {
       "partOfSpeech": "Động từ",
@@ -2597,6 +2910,24 @@
       ]
     }
   ],
+  "en-vocab-recall": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "sự thu hồi; khả năng nhớ lại",
+      "examples": [
+        {
+          "sentence": "The company announced a product recall.",
+          "translation": "Công ty công bố đợt thu hồi sản phẩm."
+        },
+        {
+          "sentence": "She has excellent recall of names.",
+          "translation": "Cô ấy có khả năng nhớ tên rất tốt."
+        }
+      ],
+      "notes": "Danh từ có thể nhấn âm đầu.",
+      "phonetic": "/ˈriːkɔːl/"
+    }
+  ],
   "en-vocab-record": [
     {
       "partOfSpeech": "Danh từ",
@@ -2904,6 +3235,22 @@
       ]
     }
   ],
+  "en-vocab-shave": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "lần cạo râu",
+      "examples": [
+        {
+          "sentence": "He needs a shave.",
+          "translation": "Anh ấy cần cạo râu."
+        },
+        {
+          "sentence": "I had a quick shave before breakfast.",
+          "translation": "Tôi cạo râu nhanh trước bữa sáng."
+        }
+      ]
+    }
+  ],
   "en-vocab-shelter": [
     {
       "partOfSpeech": "Động từ",
@@ -2916,6 +3263,22 @@
         {
           "sentence": "We sheltered under a bridge.",
           "translation": "Chúng tôi trú dưới cầu."
+        }
+      ]
+    }
+  ],
+  "en-vocab-shift": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "ca làm việc; sự chuyển đổi",
+      "examples": [
+        {
+          "sentence": "My shift starts at six.",
+          "translation": "Ca làm của tôi bắt đầu lúc sáu giờ."
+        },
+        {
+          "sentence": "We noticed a shift in public opinion.",
+          "translation": "Chúng tôi nhận thấy sự thay đổi trong dư luận."
         }
       ]
     }
@@ -3050,6 +3413,23 @@
       "notes": "Dùng chủ ngữ giả it."
     }
   ],
+  "en-vocab-soil": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "đất; thổ nhưỡng",
+      "examples": [
+        {
+          "sentence": "These plants grow well in sandy soil.",
+          "translation": "Những cây này phát triển tốt trong đất cát."
+        },
+        {
+          "sentence": "The soil is still wet.",
+          "translation": "Đất vẫn còn ướt."
+        }
+      ],
+      "notes": "Thường không đếm được."
+    }
+  ],
   "en-vocab-sort": [
     {
       "partOfSpeech": "Động từ",
@@ -3113,6 +3493,39 @@
       ]
     }
   ],
+  "en-vocab-stare": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cái nhìn chằm chằm",
+      "examples": [
+        {
+          "sentence": "He gave me a long stare.",
+          "translation": "Anh ấy nhìn tôi chằm chằm một lúc lâu."
+        },
+        {
+          "sentence": "She ignored his cold stare.",
+          "translation": "Cô ấy phớt lờ cái nhìn lạnh lùng của anh ấy."
+        }
+      ]
+    }
+  ],
+  "en-vocab-stick": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "que; gậy",
+      "examples": [
+        {
+          "sentence": "He picked up a stick.",
+          "translation": "Anh ấy nhặt một cái que."
+        },
+        {
+          "sentence": "She walks with a stick.",
+          "translation": "Cô ấy đi bằng gậy."
+        }
+      ],
+      "notes": "Walking stick = gậy chống."
+    }
+  ],
   "en-vocab-stop": [
     {
       "partOfSpeech": "Động từ",
@@ -3158,6 +3571,22 @@
         {
           "sentence": "The workload stresses him out.",
           "translation": "Khối lượng công việc khiến anh ấy căng thẳng."
+        }
+      ]
+    }
+  ],
+  "en-vocab-stretch": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "đoạn dài; khoảng thời gian liên tục",
+      "examples": [
+        {
+          "sentence": "This stretch of road is very narrow.",
+          "translation": "Đoạn đường này rất hẹp."
+        },
+        {
+          "sentence": "She worked for six hours at a stretch.",
+          "translation": "Cô ấy làm việc sáu giờ liên tục."
         }
       ]
     }
@@ -3209,6 +3638,23 @@
         }
       ],
       "notes": "Supply someone with something; supply something to someone."
+    }
+  ],
+  "en-vocab-support": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "sự hỗ trợ; sự ủng hộ",
+      "examples": [
+        {
+          "sentence": "Thank you for your support.",
+          "translation": "Cảm ơn bạn đã hỗ trợ."
+        },
+        {
+          "sentence": "The project needs public support.",
+          "translation": "Dự án cần sự ủng hộ của công chúng."
+        }
+      ],
+      "notes": "Thường không đếm được."
     }
   ],
   "en-vocab-suspect": [
@@ -3311,6 +3757,22 @@
       ]
     }
   ],
+  "en-vocab-toss": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "lần tung; lần ném",
+      "examples": [
+        {
+          "sentence": "A coin toss decided who went first.",
+          "translation": "Một lần tung đồng xu quyết định ai đi trước."
+        },
+        {
+          "sentence": "He won the toss.",
+          "translation": "Anh ấy thắng lượt tung đồng xu."
+        }
+      ]
+    }
+  ],
   "en-vocab-train": [
     {
       "partOfSpeech": "Động từ",
@@ -3325,6 +3787,24 @@
           "translation": "Anh ấy luyện tập cho cuộc đua mỗi ngày."
         }
       ]
+    }
+  ],
+  "en-vocab-transfer": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "việc chuyển; sự chuyển giao",
+      "examples": [
+        {
+          "sentence": "The bank transfer took two days.",
+          "translation": "Giao dịch chuyển khoản mất hai ngày."
+        },
+        {
+          "sentence": "His transfer to another school was approved.",
+          "translation": "Việc chuyển trường của anh ấy đã được chấp thuận."
+        }
+      ],
+      "notes": "Danh từ thường nhấn âm đầu.",
+      "phonetic": "/ˈtrænsfɜː(r)/"
     }
   ],
   "en-vocab-transport": [
@@ -3459,6 +3939,22 @@
       ]
     }
   ],
+  "en-vocab-volunteer": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "tình nguyện viên",
+      "examples": [
+        {
+          "sentence": "A volunteer showed us around.",
+          "translation": "Một tình nguyện viên dẫn chúng tôi đi tham quan."
+        },
+        {
+          "sentence": "She is a volunteer at the shelter.",
+          "translation": "Cô ấy là tình nguyện viên tại nơi trú ẩn."
+        }
+      ]
+    }
+  ],
   "en-vocab-walk": [
     {
       "partOfSpeech": "Động từ",
@@ -3535,6 +4031,22 @@
         {
           "sentence": "The old well is dry.",
           "translation": "Giếng cũ đã cạn."
+        }
+      ]
+    }
+  ],
+  "en-vocab-witness": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "nhân chứng",
+      "examples": [
+        {
+          "sentence": "A witness called the police.",
+          "translation": "Một nhân chứng gọi cảnh sát."
+        },
+        {
+          "sentence": "The witness described the accident.",
+          "translation": "Nhân chứng mô tả vụ tai nạn."
         }
       ]
     }
