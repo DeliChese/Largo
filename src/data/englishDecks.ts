@@ -6,6 +6,8 @@ import englishPhrasalVerbs from '../../English/englishPhrasalVerbs.json' with { 
 import englishExpansion from '../../English/englishExpansion.json' with { type: 'json' };
 import englishExtraVocabulary from '../../English/englishExtraVocabulary.json' with { type: 'json' };
 import englishOpposites from '../../English/englishOpposites.json' with { type: 'json' };
+import englishEditorial from '../../English/englishEditorial.json' with { type: 'json' };
+import { englishLearningCategory, englishLearningOrder } from './englishCurriculum';
 import type { CollocationItem, DeckCollection, EnglishLocale, EnglishWordForms, ExampleSentence, VocabDeck, VocabWord } from '../types/vocab';
 import { createInitialSRS } from '../utils/srsBloom';
 import { ENGLISH_COLLOCATION_POS } from '../utils/englishStudy';
@@ -56,6 +58,8 @@ interface EnglishEnrichment {
 }
 
 const enrichment: Record<string, EnglishEnrichment> = englishEnrichment;
+// Reviewed content takes precedence over generated/imported enrichment; IDs are unchanged.
+const editorial: Record<string, Partial<Pick<EnglishCardSeed, 'meaning' | 'notes' | 'examples' | 'collocations' | 'synonyms' | 'antonyms'>>> = englishEditorial;
 const englishOppositesByTerm = new Map<string, string>();
 for (const [first, second] of englishOpposites) {
   englishOppositesByTerm.set(first, second);
@@ -742,7 +746,7 @@ function createEnglishDeck(
   return {
     id,
     level,
-    category,
+    category: englishLearningCategory(category, collection),
     collection,
     description,
     name: level === ENGLISH_PHRASAL_LEVEL ? title : level.toUpperCase() + ' · ' + title,
@@ -754,6 +758,7 @@ function createEnglishDeck(
 
 function createEnglishCard(id: string, deckId: string, card: EnglishCardSeed): VocabWord {
   const extra = enrichment[id];
+  const reviewed = editorial[id];
   const opposite = englishOppositesByTerm.get(card.term.toLowerCase());
   const englishForms = extra?.formExamples ? { ...card.englishForms } : card.englishForms;
   if (extra?.formExamples && englishForms) {
@@ -764,13 +769,14 @@ function createEnglishCard(id: string, deckId: string, card: EnglishCardSeed): V
   }
   return {
     ...card,
+    ...reviewed,
     englishForms,
     id,
     deckId,
     language: 'en',
-    examples: extra?.examples ?? card.examples,
-    synonyms: extra?.synonyms ?? card.synonyms ?? [],
-    antonyms: [...new Set([...(extra?.antonyms ?? card.antonyms ?? []), ...(opposite ? [opposite] : [])])],
+    examples: reviewed?.examples ?? extra?.examples ?? card.examples,
+    synonyms: reviewed?.synonyms ?? extra?.synonyms ?? card.synonyms ?? [],
+    antonyms: [...new Set([...(reviewed?.antonyms ?? extra?.antonyms ?? card.antonyms ?? []), ...(opposite ? [opposite] : [])])],
     bloomLevel: 1,
     srs: createInitialSRS(NOW),
     createdAt: NOW,
@@ -935,7 +941,12 @@ interface EnglishExpansionDeck {
 
 const expansionLessons: EnglishExpansionDeck[] = [...englishExpansion, ...englishExtraVocabulary];
 const expansionDecks = expansionLessons.map((lesson) =>
-  createEnglishDeck(lesson, lesson.collection as DeckCollection, lesson.category, ''),
+  createEnglishDeck({
+    ...lesson,
+    title: lesson.id === 'deck-en-exp-c1-nuanced-adjectives' ? 'Sắc thái miêu tả và giao tiếp'
+      : lesson.id === 'deck-en-exp-c1-abstract-nouns' ? 'Khái niệm trừu tượng và phẩm chất'
+      : lesson.title,
+  }, lesson.collection as DeckCollection, lesson.category, ''),
 );
 const expansionWords = expansionLessons.flatMap(({ id: deckId, cards }) => cards.map(({ id, ...card }) =>
   createEnglishCard(id, deckId, { phonetic: '', collocations: [], ...card }),
@@ -980,7 +991,8 @@ export const ENGLISH_V7_WORD_DECK_IDS = new Map([
 ]);
 
 export const ENGLISH_DECKS = [
-  ...ENGLISH_LEVELS.flatMap((level) => courseDecks.filter((deck) => deck.level === level)),
+  ...ENGLISH_LEVELS.flatMap((level) => courseDecks.filter((deck) => deck.level === level)
+    .sort((a, b) => englishLearningOrder(a.collection) - englishLearningOrder(b.collection))),
   ...phrasalDecks,
 ];
 const deckOrder = new Map(ENGLISH_DECKS.map(({ id }, index) => [id, index]));

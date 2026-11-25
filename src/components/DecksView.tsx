@@ -199,6 +199,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
         searchable(w.term).includes(q) ||
         (phoneticQuery && compactPhonetic(w.phonetic).includes(phoneticQuery)) ||
         searchable(w.meaning).includes(q) ||
+        searchable(w.notes ?? '').includes(q) ||
         [w.synonyms, w.antonyms, w.personalRelations?.synonyms, w.personalRelations?.antonyms]
           .some((terms) => terms?.some((term) => searchable(term).includes(q))) ||
         w.collocations.some((c) => searchable(c.phrase).includes(q) || searchable(c.meaning).includes(q)) ||
@@ -569,7 +570,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                             <h3 lang={englishLocale}>{word.term}</h3>
                           </div>
                           <p className="deck-word-meta">{[word.phonetic, word.partOfSpeech].filter(Boolean).join(' · ')}</p>
-                          <p className="deck-word-meaning">{word.meaning}</p>
+                          <p className="deck-word-meaning"><span className="sr-only">Nghĩa · </span>{word.meaning}</p>
                         </div>
                         <div className="deck-word-actions">
                           <span className="deck-word-status">
@@ -588,25 +589,31 @@ export const DecksView: React.FC<DecksViewProps> = ({
                       <EnglishVariantDetails word={storedWord} speechRate={speechRate} />
                       <p className="deck-word-meta">Năng lực · {describeMastery(masteryByWord.get(word.id))}</p>
                       {retention !== null && <p className="deck-word-meta">Ôn tiếp · {new Date(word.srs.nextReviewAt).toLocaleDateString('vi-VN')}</p>}
-                      <WordRelations word={word} />
+                      {word.notes && (
+                        <div className="deck-usage">
+                          <h4>Giải thích và cách dùng</h4>
+                          <p>{word.notes}</p>
+                        </div>
+                      )}
+                      {word.collocations.length > 0 && (
+                        <div className="deck-usage">
+                          <h4>Cụm từ đi kèm</h4>
+                          {word.collocations.map(({ phrase, meaning }, index) => (
+                            <p key={index}><strong lang="en">{phrase}</strong>{meaning && ` · ${meaning}`}</p>
+                          ))}
+                        </div>
+                      )}
                       {word.examples.length > 0 && (
                         <div className="deck-usage">
                           <h4>Ví dụ</h4>
                           <WordExamples examples={word.examples.slice(0, 2)} speechRate={speechRate} />
                         </div>
                       )}
+                      <WordRelations word={word} />
                       <WordExampleGenerator key={englishLocale + ':' + word.term} word={word} locale={englishLocale}
                         level={sourceDeck ? getDeckStudyLevel(sourceDeck) : undefined} speechRate={speechRate} />
                       <details className="deck-word-details">
                         <summary>Chi tiết thẻ</summary>
-                        {word.notes && <p>{word.notes}</p>}
-                        {word.collocations.length > 0 && (
-                          <p>
-                            Cụm từ · {word.collocations.map(({ phrase, meaning }, index) => (
-                              <span key={index}>{index > 0 && ' · '}<strong lang="en">{phrase}</strong>{meaning && ` (${meaning})`}</span>
-                            ))}
-                          </p>
-                        )}
                         <WordExamples examples={word.examples.slice(2)} startAt={3} speechRate={speechRate} />
                         {retention !== null && <p>Bloom cũ · Tầng {word.bloomLevel} · {BLOOM_META[word.bloomLevel].nameVi}</p>}
                         {word.srs.intervalDays > 0 && <p>Chu kỳ ôn · {formatIntervalVi(word.srs.intervalDays)}</p>}

@@ -456,7 +456,7 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
                   {exercise.reverse && !flipped ? word.meaning : word.term}
                 </h2>
                 {canSpeakPrompt && word.phonetic && <p className="recall-reading">{word.phonetic}</p>}
-                {flipped && <p className="recall-answer">{word.meaning}</p>}
+                {flipped && <p className="recall-answer"><span className="sr-only">Nghĩa · </span>{word.meaning}</p>}
                 {flipped && word.partOfSpeech && (
                   <p className="recall-meta">{word.partOfSpeech}</p>
                 )}
@@ -469,24 +469,31 @@ export function StudySession({ mode, session, sessionWords, adaptivePlan, allWor
                 </div>
               ) : (
                 <div className="recall-detail">
+                  {word.notes && (
+                    <div className="example-line">
+                      <div>
+                        <p><strong>Giải thích và cách dùng</strong></p>
+                        <p>{word.notes}</p>
+                      </div>
+                    </div>
+                  )}
                   {phraseInUse && (
                     <div className="example-line">
                       <div>
                         <p lang={language}>{phraseInUse.phrase}</p>
-                        <p>Cụm dùng ngay · {phraseInUse.meaning}</p>
+                        <p>Cụm từ đi kèm · {phraseInUse.meaning}</p>
                       </div>
                       <EnglishPronunciation text={phraseInUse.phrase} speechRate={settings.speechRate} label="cụm từ" />
                     </div>
                   )}
+                  {word.collocations.filter((item) => item !== phraseInUse)
+                    .map((item, i) => <p key={i}><strong lang={language}>{item.phrase}</strong> · {item.meaning}</p>)}
                   <WordExamples examples={word.examples.slice(0, 2)} speechRate={settings.speechRate} />
+                  <WordRelations word={word} />
                   <WordExampleGenerator key={word.id} word={word} locale={language} level={session.level}
                     speechRate={settings.speechRate} />
-                  <WordRelations word={word} />
                   <details className="word-details">
-                    <summary>Cách dùng và phát âm <ChevronDown size={15} aria-hidden="true" /></summary>
-                    {word.notes && <p>{word.notes}</p>}
-                    {word.collocations.filter((item) => item !== phraseInUse)
-                      .map((item, i) => <p key={i}><strong lang={language}>{item.phrase}</strong> · {item.meaning}</p>)}
+                    <summary>Ví dụ bổ sung và phát âm <ChevronDown size={15} aria-hidden="true" /></summary>
                     <WordExamples examples={word.examples.slice(2)} startAt={3} speechRate={settings.speechRate} />
                     <div className="practice-audio">
                       <button type="button" className="button-secondary" onClick={() => speak(0.7)}><Volume2 size={16} aria-hidden="true" /> Nghe chậm</button>

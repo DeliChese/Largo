@@ -1,0 +1,961 @@
+{
+  "en-extra-accountability-03939fbeaa": {
+    "meaning": "trách nhiệm giải trình",
+    "notes": "Có trách nhiệm giải thích và chịu trách nhiệm về hành động hoặc kết quả."
+  },
+  "en-extra-acquired-taste-c1a53d410b": {
+    "meaning": "thứ cần làm quen mới thích",
+    "notes": "Có thể nói về món ăn, âm nhạc hoặc sở thích ban đầu khó thưởng thức."
+  },
+  "en-extra-adaptability-661559a2e0": {
+    "meaning": "khả năng thích nghi",
+    "notes": "Khả năng điều chỉnh để phù hợp với điều kiện thay đổi."
+  },
+  "en-extra-align-adcbf60c01": {
+    "meaning": "căn chỉnh; thống nhất",
+    "notes": "Đặt thẳng hàng hoặc làm mục tiêu phù hợp nhau: align X with Y."
+  },
+  "en-extra-ambiguity-0978cd5723": {
+    "meaning": "sự mơ hồ; tính đa nghĩa",
+    "notes": "Tình trạng có nhiều cách hiểu hoặc không rõ nghĩa."
+  },
+  "en-extra-ambiguous-6a651134eb": {
+    "meaning": "mơ hồ; có nhiều cách hiểu",
+    "notes": "Khác vague (thiếu chi tiết): ambiguous thường cho phép nhiều cách diễn giải."
+  },
+  "en-extra-amplify-29e60c5e58": {
+    "meaning": "khuếch đại; làm tăng",
+    "notes": "Làm âm thanh, tín hiệu hoặc tác động mạnh hơn."
+  },
+  "en-extra-arduous-aae800e16f": {
+    "meaning": "gian nan; vất vả",
+    "notes": "Đòi hỏi nhiều nỗ lực trong thời gian dài: an arduous journey."
+  },
+  "en-extra-authenticity-c62eda8e53": {
+    "meaning": "tính xác thực; sự chân thật",
+    "notes": "Chỉ tính nguyên bản, đáng tin hoặc không giả tạo."
+  },
+  "en-extra-autonomous-6c5e11d2e9": {
+    "meaning": "tự chủ; tự trị",
+    "notes": "Có khả năng hoạt động hoặc quyết định độc lập."
+  },
+  "en-extra-autonomy-e94d787f61": {
+    "meaning": "quyền tự chủ; sự tự chủ",
+    "notes": "Khả năng hoặc quyền tự quyết mà không chịu kiểm soát trực tiếp."
+  },
+  "en-extra-averse-to-ambiguity-b2d3ce6770": {
+    "meaning": "không thích sự mơ hồ",
+    "notes": "Averse to + danh từ/V-ing: không ưa hoặc có xu hướng tránh điều gì."
+  },
+  "en-extra-bear-in-mind-57677d7f66": {
+    "meaning": "ghi nhớ; lưu ý",
+    "notes": "Bear in mind that + mệnh đề, hoặc bear X in mind."
+  },
+  "en-extra-bear-the-brunt-c9ac769245": {
+    "meaning": "gánh chịu phần nặng nề nhất",
+    "notes": "Thường dùng với of + tác động tiêu cực."
+  },
+  "en-extra-benevolence-fb9e48d4b3": {
+    "meaning": "lòng nhân từ; thiện ý",
+    "notes": "Mong muốn làm điều tốt hoặc giúp đỡ người khác."
+  },
+  "en-extra-benign-56aea2f152": {
+    "meaning": "vô hại; lành tính",
+    "notes": "Trong y học đối lập với malignant (ác tính); ngoài y học chỉ điều không gây hại."
+  },
+  "en-extra-bound-by-precedent-08aa2247e1": {
+    "meaning": "bị ràng buộc bởi tiền lệ",
+    "notes": "Bound by X chỉ việc phải tuân theo X."
+  },
+  "en-extra-broad-consensus-0ea91e6758": {
+    "meaning": "sự đồng thuận rộng rãi",
+    "notes": "Nhiều bên đồng ý về một vấn đề, không nhất thiết tất cả."
+  },
+  "en-extra-candid-95e75836ae": {
+    "meaning": "thẳng thắn; chân thật",
+    "notes": "Nói điều mình thực sự nghĩ mà không che giấu: candid feedback."
+  },
+  "en-extra-candor-121fc62463": {
+    "meaning": "sự thẳng thắn; sự thành thật",
+    "notes": "Nói thật cởi mở, kể cả điều khó nói. Anh-Anh thường viết candour."
+  },
+  "en-extra-catalyze-26aea82ea8": {
+    "meaning": "xúc tác; thúc đẩy",
+    "notes": "Làm phản ứng hoặc quá trình thay đổi diễn ra nhanh hơn."
+  },
+  "en-extra-chain-of-command-9da94171ca": {
+    "meaning": "hệ thống cấp bậc chỉ huy",
+    "notes": "Trình tự quyền hạn và báo cáo trong một tổ chức."
+  },
+  "en-extra-coherent-e972546000": {
+    "meaning": "mạch lạc; nhất quán",
+    "notes": "Các phần kết nối với nhau thành một chỉnh thể có logic."
+  },
+  "en-extra-cohesive-bdc607d900": {
+    "meaning": "gắn kết; thống nhất",
+    "notes": "Nhấn mạnh các thành phần hoặc thành viên liên kết chặt chẽ."
+  },
+  "en-extra-common-misconception-6396c0db7b": {
+    "meaning": "ngộ nhận phổ biến",
+    "notes": "Quan niệm sai mà nhiều người cùng tin."
+  },
+  "en-extra-compelling-58e1b987bc": {
+    "meaning": "rất thuyết phục; cuốn hút",
+    "notes": "Dùng cho lý lẽ khó bác bỏ hoặc câu chuyện thu hút mạnh."
+  },
+  "en-extra-compelling-argument-3d6b2c535c": {
+    "meaning": "lập luận đầy sức thuyết phục",
+    "notes": "Lập luận có sức khiến người nghe tin hoặc đồng ý."
+  },
+  "en-extra-concession-b9aca78e33": {
+    "meaning": "sự nhượng bộ",
+    "notes": "Trong tranh luận, thừa nhận một phần quan điểm đối phương; trong thương lượng, chấp nhận nhượng một điều."
+  },
+  "en-extra-conclusive-9f4639cb92": {
+    "meaning": "có tính kết luận; mang tính quyết định",
+    "notes": "Đủ sức xác lập kết luận, chẳng hạn conclusive evidence."
+  },
+  "en-extra-conducive-to-learning-adda731d9b": {
+    "meaning": "thuận lợi cho việc học",
+    "notes": "Conducive to + danh từ hoặc V-ing: tạo điều kiện thuận lợi cho điều gì."
+  },
+  "en-extra-conspicuous-9b6942633e": {
+    "meaning": "dễ thấy; nổi bật",
+    "notes": "Thu hút chú ý vì khác biệt hoặc rất dễ nhận ra; có thể mang sắc thái không mong muốn."
+  },
+  "en-extra-contingency-d859a706a3": {
+    "meaning": "tình huống bất ngờ có thể xảy ra",
+    "notes": "Contingency plan mới là phương án dự phòng để ứng phó tình huống đó.",
+    "examples": [
+      {
+        "sentence": "We have set aside money for any contingency.",
+        "translation": "Chúng tôi đã dành riêng một khoản tiền cho bất kỳ tình huống bất ngờ nào."
+      },
+      {
+        "sentence": "The team must prepare for every possible contingency.",
+        "translation": "Nhóm phải chuẩn bị cho mọi tình huống bất ngờ có thể xảy ra."
+      }
+    ],
+    "collocations": [
+      {
+        "phrase": "contingency plan",
+        "meaning": "phương án dự phòng"
+      }
+    ],
+    "synonyms": []
+  },
+  "en-extra-corroborate-evidence-27edc5c586": {
+    "meaning": "củng cố bằng chứng",
+    "notes": "Corroborate là xác nhận bằng thông tin hoặc chứng cứ bổ sung; không chỉ lặp lại bằng chứng."
+  },
+  "en-extra-criterion-5f435b82e7": {
+    "meaning": "tiêu chí",
+    "notes": "Chuẩn dùng để đánh giá hoặc lựa chọn. Số nhiều: criteria."
+  },
+  "en-extra-culprit-694df280e5": {
+    "meaning": "thủ phạm; nguyên nhân gây lỗi",
+    "notes": "Chỉ người gây ra việc sai hoặc thứ gây ra một vấn đề."
+  },
+  "en-extra-curate-aa6132aeef": {
+    "meaning": "tuyển chọn; biên tập",
+    "notes": "Chọn và tổ chức nội dung hoặc hiện vật có chủ đích."
+  },
+  "en-extra-deduce-c7b1864582": {
+    "meaning": "suy ra; suy luận",
+    "notes": "Đi đến kết luận bằng lập luận dựa trên thông tin đã biết: deduce X from Y.",
+    "examples": [
+      {
+        "sentence": "We can deduce the answer from these clues.",
+        "translation": "Ta có thể suy ra đáp án từ những manh mối này."
+      },
+      {
+        "sentence": "The researcher deduced that the two events were related.",
+        "translation": "Nhà nghiên cứu suy luận rằng hai sự kiện có liên quan."
+      }
+    ]
+  },
+  "en-extra-deteriorate-cd6334f12e": {
+    "meaning": "xấu đi; xuống cấp",
+    "notes": "Chỉ tình trạng hoặc chất lượng trở nên tệ hơn."
+  },
+  "en-extra-diametrically-opposed-baeef2bf50": {
+    "meaning": "đối lập hoàn toàn",
+    "notes": "Dùng cho quan điểm hoặc lập trường ở hai phía đối nghịch."
+  },
+  "en-extra-digress-db034f6ef5": {
+    "meaning": "lạc đề",
+    "notes": "Rời khỏi chủ đề chính khi nói hoặc viết: digress from the topic."
+  },
+  "en-extra-diminish-ef527ccc32": {
+    "meaning": "giảm đi; làm giảm",
+    "notes": "Có thể dùng nội động từ hoặc ngoại động từ."
+  },
+  "en-extra-diminishing-returns-716d0a0797": {
+    "meaning": "lợi ích tăng thêm giảm dần",
+    "notes": "Khi tăng đầu vào, phần lợi ích tăng thêm ngày càng nhỏ."
+  },
+  "en-extra-discreet-4c2733abf5": {
+    "meaning": "kín đáo; tế nhị",
+    "notes": "Tránh thu hút chú ý hoặc tiết lộ chuyện riêng. Không nhầm discrete (riêng biệt)."
+  },
+  "en-extra-discrepancy-10065436b4": {
+    "meaning": "sự sai khác; sự bất nhất",
+    "notes": "Sự chênh lệch giữa những thông tin hoặc số liệu đáng lẽ phải khớp nhau."
+  },
+  "en-extra-disrupt-bee0164d53": {
+    "meaning": "làm gián đoạn; phá vỡ",
+    "notes": "Gây xáo trộn một quá trình hoặc trật tự đang vận hành."
+  },
+  "en-extra-double-edged-sword-a4dc860aaa": {
+    "meaning": "con dao hai lưỡi",
+    "notes": "Điều có cả lợi ích lẫn tác hại."
+  },
+  "en-extra-double-standard-d8fbe5bec6": {
+    "meaning": "tiêu chuẩn kép",
+    "notes": "Áp dụng tiêu chuẩn khác nhau một cách thiếu công bằng cho tình huống tương tự."
+  },
+  "en-extra-durability-2731dedfe2": {
+    "meaning": "độ bền",
+    "notes": "Khả năng chịu sử dụng hoặc hao mòn trong thời gian dài."
+  },
+  "en-extra-eloquence-f53fedcf31": {
+    "meaning": "tài hùng biện; sự lưu loát",
+    "notes": "Khả năng diễn đạt rõ ràng, giàu sức thuyết phục."
+  },
+  "en-extra-eloquent-b89f45bfe5": {
+    "meaning": "hùng hồn; diễn đạt lưu loát",
+    "notes": "Miêu tả lời nói hoặc bài viết diễn đạt ý một cách rõ ràng, giàu sức biểu đạt."
+  },
+  "en-extra-empirical-426e732d55": {
+    "meaning": "dựa trên thực nghiệm; thực chứng",
+    "notes": "Dựa vào quan sát, đo lường hoặc thử nghiệm thay vì chỉ suy luận lý thuyết."
+  },
+  "en-extra-ephemeral-8341425caf": {
+    "meaning": "ngắn ngủi; chóng tàn",
+    "notes": "Nhấn mạnh thời gian tồn tại rất ngắn, thường nói về hiện tượng, cảm xúc hoặc sự nổi tiếng."
+  },
+  "en-extra-erode-3d3eb7dd21": {
+    "meaning": "xói mòn; bào mòn",
+    "notes": "Nghĩa bóng chỉ sự suy giảm dần của niềm tin, quyền lợi hoặc giá trị."
+  },
+  "en-extra-err-on-the-side-of-caution-280f7be105": {
+    "meaning": "chọn cách thận trọng hơn",
+    "notes": "Chấp nhận thận trọng quá mức thay vì mạo hiểm không cần thiết."
+  },
+  "en-extra-euphemism-23f6def927": {
+    "meaning": "cách nói giảm nói tránh",
+    "notes": "Dùng từ nhẹ nhàng hơn thay cho cách diễn đạt khó nghe hoặc nhạy cảm."
+  },
+  "en-extra-exemplify-416efcae23": {
+    "meaning": "minh họa; là ví dụ điển hình",
+    "notes": "Chỉ việc thể hiện rõ một đặc điểm hay nguyên tắc bằng ví dụ."
+  },
+  "en-extra-exhaustive-76329da9f8": {
+    "meaning": "toàn diện; bao quát hết",
+    "notes": "Cố gắng bao gồm mọi phần hoặc khả năng liên quan: an exhaustive list."
+  },
+  "en-extra-extrapolate-4808175c4b": {
+    "meaning": "ngoại suy",
+    "notes": "Ước tính giá trị hoặc xu hướng ngoài phạm vi dữ liệu đã biết: extrapolate from data."
+  },
+  "en-extra-fallacy-13bc620688": {
+    "meaning": "lập luận sai; ngụy biện",
+    "notes": "Sai sót trong cách suy luận; đôi khi chỉ một niềm tin sai phổ biến."
+  },
+  "en-extra-fastidious-cd4568a6ac": {
+    "meaning": "kỹ tính; khó tính",
+    "notes": "Đòi hỏi cao về sự chính xác, sạch sẽ hoặc chi tiết."
+  },
+  "en-extra-feasibility-acf7b2891c": {
+    "meaning": "tính khả thi",
+    "notes": "Mức độ một kế hoạch có thể thực hiện được trong điều kiện thực tế."
+  },
+  "en-extra-fertile-ground-d9678a844d": {
+    "meaning": "điều kiện thuận lợi",
+    "notes": "Nghĩa bóng: môi trường thuận lợi để ý tưởng hoặc hiện tượng phát triển."
+  },
+  "en-extra-flourish-6e49a740aa": {
+    "meaning": "phát triển mạnh; thịnh vượng",
+    "notes": "Dùng cho người, tổ chức, hoạt động hoặc sinh vật phát triển tốt."
+  },
+  "en-extra-force-of-habit-da8fc479d8": {
+    "meaning": "sức mạnh của thói quen",
+    "notes": "Làm điều gì một cách tự động vì đã quen: out of force of habit."
+  },
+  "en-extra-foregone-conclusion-536b0c6e58": {
+    "meaning": "kết quả đã có thể đoán trước",
+    "notes": "Kết quả được xem là chắc chắn ngay từ trước khi sự việc kết thúc."
+  },
+  "en-extra-foresight-e42b0ace41": {
+    "meaning": "khả năng nhìn xa; sự tiên liệu",
+    "notes": "Nhận ra điều có thể xảy ra trong tương lai để chuẩn bị trước."
+  },
+  "en-extra-formidable-62bcdf5181": {
+    "meaning": "đáng gờm; rất khó đối phó",
+    "notes": "Có thể chỉ sức mạnh, quy mô hoặc độ khó gây nể sợ."
+  },
+  "en-extra-formulate-a-hypothesis-01113fd68b": {
+    "meaning": "xây dựng giả thuyết",
+    "notes": "Formulate nhấn mạnh việc trình bày hoặc hình thành giả thuyết rõ ràng."
+  },
+  "en-extra-forthright-00743fad69": {
+    "meaning": "thẳng thắn; trực diện",
+    "notes": "Nói rõ quan điểm, không vòng vo."
+  },
+  "en-extra-frame-of-mind-d5dcfe86e0": {
+    "meaning": "tâm trạng; trạng thái tinh thần",
+    "notes": "Cách suy nghĩ hoặc cảm nhận của một người tại một thời điểm."
+  },
+  "en-extra-fraught-with-risk-b03aa03dc9": {
+    "meaning": "đầy rủi ro",
+    "notes": "Fraught with thường đi cùng điều tiêu cực như risk, danger hoặc difficulty."
+  },
+  "en-extra-gain-leverage-1e203336d2": {
+    "meaning": "giành lợi thế thương lượng",
+    "notes": "Leverage là lợi thế có thể dùng để tác động lên kết quả."
+  },
+  "en-extra-gain-traction-8257145714": {
+    "meaning": "dần được hưởng ứng",
+    "notes": "Ý tưởng, sản phẩm hoặc phong trào bắt đầu nhận được sự ủng hộ."
+  },
+  "en-extra-grey-area-74d0a8b6a7": {
+    "meaning": "vùng chưa rõ ràng",
+    "notes": "Tình huống không dễ phân định, chẳng hạn về luật lệ hoặc đạo đức."
+  },
+  "en-extra-heavy-on-jargon-fbd01f61d9": {
+    "meaning": "dùng quá nhiều biệt ngữ",
+    "notes": "Cách diễn đạt không trang trọng; heavy on X nghĩa là chứa nhiều X."
+  },
+  "en-extra-hit-the-nail-on-the-head-fc6dbfb7bb": {
+    "meaning": "nói trúng trọng tâm",
+    "notes": "Nhận định chính xác nguyên nhân hoặc bản chất vấn đề."
+  },
+  "en-extra-hypothesis-7beb7f4a57": {
+    "meaning": "giả thuyết",
+    "notes": "Một lời giải thích hoặc dự đoán có thể kiểm chứng; không đồng nghĩa hoàn toàn với theory.",
+    "synonyms": [],
+    "examples": [
+      {
+        "sentence": "We need more data to test our hypothesis.",
+        "translation": "Chúng ta cần thêm dữ liệu để kiểm chứng giả thuyết."
+      },
+      {
+        "sentence": "The results support the initial hypothesis.",
+        "translation": "Kết quả ủng hộ giả thuyết ban đầu."
+      }
+    ]
+  },
+  "en-extra-immune-to-scrutiny-f238d9029c": {
+    "meaning": "không chịu sự xem xét kỹ lưỡng",
+    "notes": "Nghĩa bóng: không bị tác động bởi hoặc không phải chịu sự giám sát."
+  },
+  "en-extra-impeccable-8b3ed8af70": {
+    "meaning": "hoàn hảo; không chê vào đâu được",
+    "notes": "Không có lỗi đáng kể: impeccable manners, impeccable timing."
+  },
+  "en-extra-in-light-of-deab23f4b0": {
+    "meaning": "xét đến; dựa trên",
+    "notes": "In light of + danh từ/cụm danh từ: xem xét thông tin hoặc tình huống liên quan."
+  },
+  "en-extra-incentivize-3d7c829c1a": {
+    "meaning": "tạo động lực; khuyến khích",
+    "notes": "Dùng lợi ích hoặc phần thưởng để thúc đẩy một hành vi."
+  },
+  "en-extra-incongruous-17d2c607d6": {
+    "meaning": "không ăn nhập; lạc lõng",
+    "notes": "Không phù hợp hoặc không hài hòa với bối cảnh xung quanh."
+  },
+  "en-extra-indispensable-8042c6d165": {
+    "meaning": "không thể thiếu; thiết yếu",
+    "notes": "Cần thiết đến mức khó có thể làm được nếu thiếu nó."
+  },
+  "en-extra-inevitable-d10dd510c7": {
+    "meaning": "không thể tránh khỏi; tất yếu",
+    "notes": "Điều chắc chắn xảy ra trong hoàn cảnh đang xét."
+  },
+  "en-extra-inextricably-linked-c78ca71556": {
+    "meaning": "gắn bó không thể tách rời",
+    "notes": "Hai yếu tố liên hệ chặt đến mức khó tách riêng."
+  },
+  "en-extra-infer-92bc2e4121": {
+    "meaning": "suy ra; suy luận",
+    "notes": "Người tiếp nhận rút ra kết luận từ bằng chứng hoặc manh mối. Imply là ngụ ý, hàm ý điều gì.",
+    "examples": [
+      {
+        "sentence": "We can infer from the data that demand is falling.",
+        "translation": "Từ dữ liệu, ta có thể suy ra nhu cầu đang giảm."
+      },
+      {
+        "sentence": "What did you infer from her silence?",
+        "translation": "Bạn suy ra điều gì từ sự im lặng của cô ấy?"
+      }
+    ]
+  },
+  "en-extra-ingenious-93418be998": {
+    "meaning": "tài tình; khéo sáng tạo",
+    "notes": "Dùng cho ý tưởng hoặc giải pháp thông minh, độc đáo. Không nhầm ingenuous (ngây thơ, thật thà)."
+  },
+  "en-extra-inherently-flawed-58e32c5a97": {
+    "meaning": "có sai sót cố hữu",
+    "notes": "Lỗi nằm ngay trong bản chất hay thiết kế, không chỉ do hoàn cảnh."
+  },
+  "en-extra-intricate-f9e2aa11ce": {
+    "meaning": "phức tạp; tinh xảo",
+    "notes": "Có nhiều chi tiết liên kết với nhau."
+  },
+  "en-extra-intrinsic-1f8ff997de": {
+    "meaning": "nội tại; vốn có",
+    "notes": "Thuộc bản chất của sự vật, không đến từ tác động bên ngoài: intrinsic value."
+  },
+  "en-extra-irreversible-e49890d0ac": {
+    "meaning": "không thể đảo ngược",
+    "notes": "Không thể đưa về trạng thái ban đầu; khác difficult to reverse (khó đảo ngược)."
+  },
+  "en-extra-jargon-139f75969e": {
+    "meaning": "biệt ngữ; thuật ngữ chuyên ngành",
+    "notes": "Từ ngữ riêng của một nhóm nghề nghiệp, có thể khó hiểu với người ngoài."
+  },
+  "en-extra-law-enforcement-8cb6ef1d18": {
+    "meaning": "việc thực thi pháp luật",
+    "notes": "Cũng có thể chỉ lực lượng chịu trách nhiệm thực thi pháp luật."
+  },
+  "en-extra-leap-of-faith-db666c5303": {
+    "meaning": "quyết định dựa vào niềm tin",
+    "notes": "Chấp nhận làm điều gì dù chưa có đầy đủ bằng chứng bảo đảm."
+  },
+  "en-extra-legal-mandate-d0369ecdc8": {
+    "meaning": "yêu cầu hoặc thẩm quyền theo luật",
+    "notes": "Chọn nghĩa dựa trên ngữ cảnh: nghĩa vụ bắt buộc hoặc quyền được giao."
+  },
+  "en-extra-lucid-948278737a": {
+    "meaning": "rõ ràng; mạch lạc",
+    "notes": "Dùng cho lời giải thích hoặc lập luận dễ hiểu; cũng có thể chỉ trạng thái tỉnh táo."
+  },
+  "en-extra-margin-of-error-14fca2af32": {
+    "meaning": "biên độ sai số",
+    "notes": "Trong thống kê, biểu thị mức bất định của một ước lượng theo phương pháp tính đã dùng."
+  },
+  "en-extra-matter-of-degree-0004deca9a": {
+    "meaning": "vấn đề về mức độ",
+    "notes": "Khác biệt nằm ở nhiều hay ít, thay vì có hay không hoàn toàn."
+  },
+  "en-extra-metamorphosis-ce65059dee": {
+    "meaning": "sự biến thái; sự biến đổi lớn",
+    "notes": "Trong sinh học là biến thái; nghĩa bóng chỉ sự thay đổi sâu sắc về hình thức hoặc bản chất."
+  },
+  "en-extra-methodology-f9e53ef695": {
+    "meaning": "phương pháp luận",
+    "notes": "Hệ thống phương pháp và nguyên tắc được dùng trong nghiên cứu hay công việc."
+  },
+  "en-extra-meticulous-63ecb0ebfd": {
+    "meaning": "tỉ mỉ; rất cẩn thận",
+    "notes": "Chú ý kỹ từng chi tiết. Thường mang sắc thái tích cực: meticulous preparation, meticulous records.",
+    "examples": [
+      {
+        "sentence": "She keeps meticulous records of her expenses.",
+        "translation": "Cô ấy ghi chép chi tiêu rất tỉ mỉ."
+      },
+      {
+        "sentence": "The project required meticulous planning.",
+        "translation": "Dự án đòi hỏi việc lập kế hoạch rất kỹ lưỡng."
+      }
+    ],
+    "collocations": [
+      {
+        "phrase": "meticulous planning",
+        "meaning": "lập kế hoạch tỉ mỉ"
+      },
+      {
+        "phrase": "meticulous attention to detail",
+        "meaning": "sự chú ý tỉ mỉ đến từng chi tiết"
+      }
+    ]
+  },
+  "en-extra-moral-compass-0f5b3a4e9d": {
+    "meaning": "kim chỉ nam đạo đức",
+    "notes": "Hệ giá trị giúp phân biệt đúng sai và định hướng quyết định."
+  },
+  "en-extra-mundane-dbef5506fc": {
+    "meaning": "đời thường; tẻ nhạt",
+    "notes": "Thường dùng khi việc quen thuộc, lặp lại và thiếu thú vị."
+  },
+  "en-extra-mutually-exclusive-6ccba40ef5": {
+    "meaning": "loại trừ lẫn nhau",
+    "notes": "Hai khả năng không thể đồng thời đúng hoặc xảy ra trong cùng điều kiện."
+  },
+  "en-extra-negotiation-c79e1f0e3e": {
+    "meaning": "sự thương lượng; cuộc đàm phán",
+    "notes": "Quá trình thảo luận nhằm đạt được thỏa thuận."
+  },
+  "en-extra-nuanced-perspective-7380b150e5": {
+    "meaning": "góc nhìn có sắc thái; góc nhìn tinh tế",
+    "notes": "Nhận ra các khác biệt nhỏ và tránh đánh giá đơn giản một chiều."
+  },
+  "en-extra-oblivious-to-nuance-ca6d9ac6f7": {
+    "meaning": "không nhận ra sắc thái tinh tế",
+    "notes": "Oblivious to X là không nhận biết X; không nhất thiết là vô cảm."
+  },
+  "en-extra-open-a-can-of-worms-6e3ae4bb1b": {
+    "meaning": "khơi ra hàng loạt rắc rối",
+    "notes": "Làm phát sinh vấn đề phức tạp khó kiểm soát."
+  },
+  "en-extra-open-question-04c75ef1b0": {
+    "meaning": "vấn đề còn bỏ ngỏ",
+    "notes": "Câu hỏi chưa có lời giải hoặc kết luận chắc chắn."
+  },
+  "en-extra-open-to-interpretation-ce4504f456": {
+    "meaning": "có thể diễn giải theo nhiều cách",
+    "notes": "Không có một cách hiểu duy nhất."
+  },
+  "en-extra-opportunity-cost-1b7bbb8854": {
+    "meaning": "chi phí cơ hội",
+    "notes": "Giá trị của phương án tốt nhất bị bỏ qua khi chọn phương án khác.",
+    "examples": [
+      {
+        "sentence": "The opportunity cost of studying tonight is the income I could earn at work.",
+        "translation": "Chi phí cơ hội của việc học tối nay là thu nhập tôi có thể kiếm được nếu đi làm."
+      },
+      {
+        "sentence": "Consider the opportunity cost before investing your savings.",
+        "translation": "Hãy cân nhắc chi phí cơ hội trước khi đầu tư tiền tiết kiệm."
+      }
+    ]
+  },
+  "en-extra-oversight-dd5c5362e5": {
+    "meaning": "sự giám sát; sự sơ suất",
+    "notes": "Hai nghĩa khác nhau: regulatory oversight (giám sát); an oversight (một sơ suất)."
+  },
+  "en-extra-paradigm-cacd11bd74": {
+    "meaning": "mô hình tư duy; hệ hình",
+    "notes": "Khuôn khổ tư duy hoặc cách tiếp cận điển hình trong một lĩnh vực."
+  },
+  "en-extra-paradox-45066dd976": {
+    "meaning": "nghịch lý",
+    "notes": "Mệnh đề hoặc tình huống có vẻ tự mâu thuẫn; không nhất thiết luôn chứa chân lý."
+  },
+  "en-extra-persuasive-610d1d8aae": {
+    "meaning": "có sức thuyết phục",
+    "notes": "Có khả năng làm người khác tin hoặc đồng ý."
+  },
+  "en-extra-pivotal-29e116cb3c": {
+    "meaning": "then chốt; mang tính quyết định",
+    "notes": "Chỉ điều có vai trò đặc biệt quan trọng đối với kết quả hoặc diễn biến."
+  },
+  "en-extra-plausible-2caa75efae": {
+    "meaning": "có vẻ hợp lý; đáng tin",
+    "notes": "Nghe có lý hoặc có thể đúng, nhưng chưa chắc đã được chứng minh."
+  },
+  "en-extra-pragmatic-676877cc3d": {
+    "meaning": "thực tế; thực dụng",
+    "notes": "Ưu tiên điều khả thi và có hiệu quả thực tế hơn lý thuyết hay nguyên tắc cứng nhắc."
+  },
+  "en-extra-pragmatism-ab621639ee": {
+    "meaning": "tư duy thực tế; chủ nghĩa thực dụng",
+    "notes": "Ưu tiên kết quả thực tế; trong triết học cũng là tên một trường phái."
+  },
+  "en-extra-premise-d68e3ec2d5": {
+    "meaning": "tiền đề",
+    "notes": "Mệnh đề được chấp nhận làm cơ sở cho lập luận hoặc suy luận tiếp theo."
+  },
+  "en-extra-pressing-concern-5e515b51e9": {
+    "meaning": "mối quan ngại cấp bách",
+    "notes": "Vấn đề cần được chú ý hoặc giải quyết sớm."
+  },
+  "en-extra-proof-of-concept-64b76b0569": {
+    "meaning": "bằng chứng về tính khả thi",
+    "notes": "Thử nghiệm hoặc bản mẫu để chứng minh một ý tưởng có thể hoạt động."
+  },
+  "en-extra-pull-strings-ebabeceeda": {
+    "meaning": "dùng quan hệ để tác động",
+    "notes": "Thường ám chỉ tác động không chính thức hoặc hậu trường."
+  },
+  "en-extra-ramification-f34f263779": {
+    "meaning": "hệ quả kéo theo",
+    "notes": "Nhấn mạnh những ảnh hưởng phức tạp hoặc lan sang nhiều lĩnh vực."
+  },
+  "en-extra-reciprocity-52a0ab6259": {
+    "meaning": "sự có đi có lại; tính tương hỗ",
+    "notes": "Quan hệ trao đổi hoặc đáp lại giữa các bên."
+  },
+  "en-extra-redundant-5a7853bd5e": {
+    "meaning": "dư thừa; không cần thiết",
+    "notes": "Chỉ phần không còn cần thiết vì đã có thứ khác thay thế hoặc lặp lại."
+  },
+  "en-extra-rejuvenate-b1f49eb9e5": {
+    "meaning": "trẻ hóa; phục hồi sức sống",
+    "notes": "Làm người hoặc sự vật trở nên tươi mới, tràn đầy sinh lực hơn."
+  },
+  "en-extra-repercussion-8e30e67239": {
+    "meaning": "hệ lụy; hậu quả",
+    "notes": "Thường chỉ hậu quả gián tiếp hoặc bất lợi phát sinh sau một sự kiện."
+  },
+  "en-extra-resourceful-500937eb36": {
+    "meaning": "tháo vát; biết xoay xở",
+    "notes": "Biết tìm cách giải quyết khó khăn bằng nguồn lực sẵn có."
+  },
+  "en-extra-rigorous-cecef1fbdc": {
+    "meaning": "chặt chẽ; nghiêm ngặt",
+    "notes": "Nhấn mạnh sự chính xác, kỹ lưỡng và tuân thủ quy trình: rigorous analysis."
+  },
+  "en-extra-ripe-for-exploitation-cee4a27e5d": {
+    "meaning": "dễ bị lợi dụng; sẵn để khai thác",
+    "notes": "Ripe for X chỉ điều kiện đã thuận lợi để X xảy ra."
+  },
+  "en-extra-rule-of-law-ca267b9e0d": {
+    "meaning": "pháp quyền; nguyên tắc thượng tôn pháp luật",
+    "notes": "Mọi người và cơ quan đều chịu sự điều chỉnh của pháp luật."
+  },
+  "en-extra-salient-f13e4b9c34": {
+    "meaning": "nổi bật; đáng chú ý",
+    "notes": "Nói về điểm quan trọng nhất hoặc dễ nhận ra nhất trong một vấn đề."
+  },
+  "en-extra-scrupulous-383d33936d": {
+    "meaning": "rất cẩn trọng; ngay thẳng",
+    "notes": "Có thể nhấn mạnh sự kỹ lưỡng hoặc việc tuân thủ nghiêm túc nguyên tắc đạo đức."
+  },
+  "en-extra-sharp-contrast-0bcd5bbc69": {
+    "meaning": "sự tương phản rõ rệt",
+    "notes": "Sự khác biệt nổi bật giữa hai điều: in sharp contrast to."
+  },
+  "en-extra-silver-bullet-bfe24f8a2e": {
+    "meaning": "giải pháp thần kỳ",
+    "notes": "Thường dùng để bác bỏ ý tưởng rằng một giải pháp đơn giản có thể xử lý mọi vấn đề."
+  },
+  "en-extra-sobering-thought-04d7c398e6": {
+    "meaning": "suy nghĩ khiến ta tỉnh ngộ",
+    "notes": "Điều khiến người ta trở nên nghiêm túc hoặc nhận ra thực tế đáng lo."
+  },
+  "en-extra-solidarity-7e25fb62e0": {
+    "meaning": "tinh thần đoàn kết",
+    "notes": "Sự thống nhất và ủng hộ lẫn nhau trong một nhóm."
+  },
+  "en-extra-stabilize-bbf7cf0f27": {
+    "meaning": "ổn định; làm ổn định",
+    "notes": "Làm hoặc trở nên ít biến động hơn."
+  },
+  "en-extra-stagnate-89f131dfef": {
+    "meaning": "trì trệ; đình trệ",
+    "notes": "Không còn tiến triển; cũng dùng cho nước không lưu thông."
+  },
+  "en-extra-stand-the-test-of-time-7baeba13b6": {
+    "meaning": "bền vững qua thời gian",
+    "notes": "Tiếp tục có giá trị hoặc được công nhận sau một thời gian dài."
+  },
+  "en-extra-stark-reminder-94ecba2579": {
+    "meaning": "lời nhắc nhở rõ rệt; nghiệt ngã",
+    "notes": "Một sự việc khiến người ta nhận ra thực tế khó bỏ qua."
+  },
+  "en-extra-statistically-significant-538434ef91": {
+    "meaning": "có ý nghĩa thống kê",
+    "notes": "Kết quả đạt ngưỡng kiểm định thống kê theo giả định của phép thử; không đồng nghĩa với hiệu ứng lớn hay quan trọng thực tế.",
+    "examples": [
+      {
+        "sentence": "The difference between the groups was statistically significant.",
+        "translation": "Sự khác biệt giữa hai nhóm có ý nghĩa thống kê."
+      },
+      {
+        "sentence": "A statistically significant result is not always practically important.",
+        "translation": "Kết quả có ý nghĩa thống kê không phải lúc nào cũng quan trọng trong thực tế."
+      }
+    ]
+  },
+  "en-extra-status-quo-9af6551a77": {
+    "meaning": "hiện trạng",
+    "notes": "Tình trạng hiện tại, thường dùng khi bàn về duy trì hoặc thay đổi nó."
+  },
+  "en-extra-steep-price-f934c65dba": {
+    "meaning": "cái giá cao; sự đánh đổi lớn",
+    "notes": "Có thể chỉ giá tiền cao hoặc hậu quả phải chấp nhận."
+  },
+  "en-extra-steeped-in-tradition-5853341f29": {
+    "meaning": "thấm đẫm truyền thống",
+    "notes": "Steeped in X chỉ sự thấm nhuần hoặc gắn bó sâu sắc với X."
+  },
+  "en-extra-stem-from-c9dde8b87f": {
+    "meaning": "bắt nguồn từ",
+    "notes": "Chỉ nguồn gốc hoặc nguyên nhân: stem from + danh từ."
+  },
+  "en-extra-stifle-04d3773263": {
+    "meaning": "kìm hãm; bóp nghẹt",
+    "notes": "Ngăn sự phát triển hoặc biểu hiện của điều gì: stifle creativity."
+  },
+  "en-extra-stringent-f38e2cf778": {
+    "meaning": "nghiêm ngặt; khắt khe",
+    "notes": "Thường dùng với quy định, tiêu chuẩn và yêu cầu: stringent requirements."
+  },
+  "en-extra-substantiate-a-claim-31926527ff": {
+    "meaning": "đưa bằng chứng hỗ trợ nhận định",
+    "notes": "Substantiate yêu cầu căn cứ hoặc dữ liệu hỗ trợ lời khẳng định."
+  },
+  "en-extra-succinct-28752d4e70": {
+    "meaning": "súc tích; ngắn gọn",
+    "notes": "Diễn đạt ít lời nhưng đủ ý."
+  },
+  "en-extra-sustainability-43029a964b": {
+    "meaning": "tính bền vững",
+    "notes": "Khả năng duy trì lâu dài, đặc biệt không làm cạn kiệt nguồn lực."
+  },
+  "en-extra-synthesize-6fb0ab0f5b": {
+    "meaning": "tổng hợp",
+    "notes": "Kết hợp nhiều nguồn hoặc thành phần thành một chỉnh thể có ý nghĩa."
+  },
+  "en-extra-systematic-e452917780": {
+    "meaning": "có hệ thống; bài bản",
+    "notes": "Thực hiện theo phương pháp và trình tự có tổ chức."
+  },
+  "en-extra-tactful-ded4b3a36b": {
+    "meaning": "khéo léo; tế nhị",
+    "notes": "Biết nói hoặc làm sao để tránh làm người khác khó xử hay tổn thương."
+  },
+  "en-extra-tangible-c90f436c6c": {
+    "meaning": "hữu hình; cụ thể",
+    "notes": "Có thể chạm vào hoặc nhận thấy rõ, như tangible benefits (lợi ích cụ thể)."
+  },
+  "en-extra-tantamount-to-failure-db701f91a4": {
+    "meaning": "chẳng khác nào thất bại",
+    "notes": "Tantamount to X nhấn mạnh sự tương đương về tác động hoặc ý nghĩa."
+  },
+  "en-extra-tenacious-c1ae0d2798": {
+    "meaning": "kiên trì; bền bỉ",
+    "notes": "Bám chặt mục tiêu hoặc không dễ từ bỏ dù gặp trở ngại."
+  },
+  "en-extra-tentative-3e5bd0feb6": {
+    "meaning": "tạm thời; chưa chắc chắn",
+    "notes": "Dùng cho kết luận chưa chốt hoặc hành động còn dè dặt."
+  },
+  "en-extra-thought-experiment-5a19fe6f1a": {
+    "meaning": "thí nghiệm tư duy",
+    "notes": "Dùng một tình huống giả định để kiểm tra ý tưởng hoặc lập luận."
+  },
+  "en-extra-tipping-point-722e46d79b": {
+    "meaning": "điểm tới hạn; bước ngoặt",
+    "notes": "Ngưỡng mà sau đó một thay đổi nhỏ có thể dẫn đến chuyển biến lớn."
+  },
+  "en-extra-transform-aa214ea383": {
+    "meaning": "biến đổi; chuyển đổi",
+    "notes": "Thay đổi rõ rệt hình thức, tính chất hoặc cách vận hành: transform X into Y."
+  },
+  "en-extra-turnaround-85719be272": {
+    "meaning": "sự xoay chuyển; thời gian xử lý",
+    "notes": "Business turnaround là sự phục hồi; turnaround time là thời gian hoàn thành công việc."
+  },
+  "en-extra-ubiquitous-e0c5561d19": {
+    "meaning": "có mặt khắp nơi",
+    "notes": "Dùng khi một thứ hiện diện rất phổ biến, không chỉ ở một nơi.",
+    "examples": [
+      {
+        "sentence": "Smartphones have become ubiquitous in modern life.",
+        "translation": "Điện thoại thông minh đã có mặt khắp nơi trong đời sống hiện đại."
+      },
+      {
+        "sentence": "QR codes are ubiquitous in restaurants and shops.",
+        "translation": "Mã QR xuất hiện khắp nơi trong các nhà hàng và cửa hàng."
+      }
+    ],
+    "collocations": [
+      {
+        "phrase": "ubiquitous technology",
+        "meaning": "công nghệ có mặt khắp nơi"
+      }
+    ]
+  },
+  "en-extra-unassuming-816ee6c82d": {
+    "meaning": "khiêm nhường; không phô trương",
+    "notes": "Không cố thu hút chú ý hay thể hiện mình hơn người."
+  },
+  "en-extra-underlying-cause-a86841e835": {
+    "meaning": "nguyên nhân sâu xa",
+    "notes": "Nguyên nhân nằm sau biểu hiện hoặc triệu chứng dễ thấy."
+  },
+  "en-extra-underscore-40321bd36a": {
+    "meaning": "nhấn mạnh",
+    "notes": "Trong nghĩa bóng, làm nổi bật tầm quan trọng của một vấn đề."
+  },
+  "en-extra-unintended-consequence-e86d61b3b8": {
+    "meaning": "hệ quả ngoài dự tính",
+    "notes": "Hệ quả không nằm trong mục đích ban đầu; có thể tốt hoặc xấu."
+  },
+  "en-extra-unprecedented-1bae420d91": {
+    "meaning": "chưa từng có tiền lệ",
+    "notes": "Chưa từng xảy ra trước đó trong phạm vi đang nói đến."
+  },
+  "en-extra-unspoken-rule-01cc82fd2a": {
+    "meaning": "quy tắc ngầm",
+    "notes": "Quy ước được hiểu và tuân theo dù không nói rõ."
+  },
+  "en-extra-unwavering-861b23fd27": {
+    "meaning": "kiên định; không lay chuyển",
+    "notes": "Duy trì sự ủng hộ, niềm tin hoặc quyết tâm bất chấp khó khăn."
+  },
+  "en-extra-vested-interest-c34d4e6830": {
+    "meaning": "lợi ích riêng gắn với kết quả",
+    "notes": "Thường hàm ý người có lợi ích riêng có động cơ tác động lên kết quả."
+  },
+  "en-extra-viable-alternative-9aa6c3cad5": {
+    "meaning": "phương án thay thế khả thi",
+    "notes": "Phương án khác có khả năng hoạt động hoặc thực hiện được."
+  },
+  "en-extra-vicious-cycle-9d581cfdcf": {
+    "meaning": "vòng luẩn quẩn",
+    "notes": "Một chuỗi tác động tiêu cực tự củng cố lẫn nhau."
+  },
+  "en-extra-virtuous-circle-5184de958c": {
+    "meaning": "vòng tuần hoàn tích cực",
+    "notes": "Kết quả tốt tạo điều kiện cho những kết quả tốt tiếp theo."
+  },
+  "en-extra-vital-distinction-0430e3d80b": {
+    "meaning": "sự phân biệt then chốt",
+    "notes": "Khác biệt rất quan trọng đối với việc hiểu hoặc quyết định."
+  },
+  "en-extra-vital-to-recovery-cfc0e830ec": {
+    "meaning": "thiết yếu đối với sự hồi phục",
+    "notes": "Vital to/for X chỉ điều rất cần thiết đối với X."
+  },
+  "en-extra-vulnerability-32ceacc06e": {
+    "meaning": "sự dễ bị tổn thương; điểm yếu",
+    "notes": "Chỉ nguy cơ bị hại hoặc trạng thái dễ bị tác động, cả vật chất lẫn cảm xúc."
+  },
+  "en-extra-wake-of-change-b45c5e0ef5": {
+    "meaning": "hệ quả sau một thay đổi",
+    "notes": "Cách dùng tự nhiên thường là in the wake of + sự kiện: sau và do tác động của sự kiện đó.",
+    "examples": [
+      {
+        "sentence": "New challenges emerged in the wake of change.",
+        "translation": "Những thách thức mới xuất hiện sau những thay đổi."
+      },
+      {
+        "sentence": "In the wake of change, the team adopted a new routine.",
+        "translation": "Sau những thay đổi, nhóm áp dụng một thói quen làm việc mới."
+      }
+    ]
+  },
+  "en-extra-walk-a-tightrope-747b01d902": {
+    "meaning": "giữ thế cân bằng mong manh",
+    "notes": "Nghĩa bóng: xử lý tình huống khó giữa những yêu cầu hoặc rủi ro đối nghịch."
+  },
+  "en-extra-watershed-moment-839f404682": {
+    "meaning": "thời điểm bước ngoặt",
+    "notes": "Thời điểm đánh dấu sự thay đổi quan trọng trong diễn biến."
+  },
+  "en-extra-widely-accepted-f325bf4ea4": {
+    "meaning": "được chấp nhận rộng rãi",
+    "notes": "Thường nói về quan điểm hoặc phương pháp được nhiều người công nhận."
+  },
+  "en-extra-window-dressing-b40a95d050": {
+    "meaning": "sự tô vẽ bề ngoài",
+    "notes": "Làm thứ gì có vẻ tốt hơn thực tế mà không giải quyết bản chất."
+  },
+  "en-extra-worthy-of-scrutiny-75ef7af299": {
+    "meaning": "đáng được xem xét kỹ",
+    "notes": "Scrutiny là sự kiểm tra kỹ lưỡng, thường mang tính phản biện."
+  },
+  "en-vocab-age": {
+    "meaning": "tuổi; độ tuổi",
+    "notes": "Hỏi tuổi trong giao tiếp: How old are you?",
+    "synonyms": [],
+    "examples": [
+      {
+        "sentence": "What is your age?",
+        "translation": "Bạn bao nhiêu tuổi?"
+      },
+      {
+        "sentence": "The children are the same age.",
+        "translation": "Những đứa trẻ bằng tuổi nhau."
+      }
+    ]
+  },
+  "en-vocab-date": {
+    "meaning": "ngày (trong tháng)",
+    "examples": [
+      {
+        "sentence": "What is the date today?",
+        "translation": "Hôm nay là ngày mấy?"
+      },
+      {
+        "sentence": "Write the date at the top of the page.",
+        "translation": "Viết ngày tháng ở đầu trang."
+      }
+    ]
+  },
+  "en-vocab-guy": {
+    "meaning": "anh chàng; người đàn ông",
+    "notes": "Cách nói thân mật, thường dùng trong hội thoại.",
+    "examples": [
+      {
+        "sentence": "Who is that guy?",
+        "translation": "Anh chàng đó là ai?"
+      },
+      {
+        "sentence": "He's a nice guy.",
+        "translation": "Anh ấy là một người tốt."
+      }
+    ]
+  },
+  "en-vocab-lady": {
+    "meaning": "quý bà; người phụ nữ",
+    "notes": "Cách gọi lịch sự trong một số ngữ cảnh.",
+    "examples": [
+      {
+        "sentence": "A lady is waiting outside.",
+        "translation": "Một người phụ nữ đang đợi bên ngoài."
+      },
+      {
+        "sentence": "The lady smiled at me.",
+        "translation": "Người phụ nữ mỉm cười với tôi."
+      }
+    ]
+  },
+  "en-vocab-name": {
+    "meaning": "tên; tên gọi",
+    "examples": [
+      {
+        "sentence": "What is your name?",
+        "translation": "Bạn tên gì?"
+      },
+      {
+        "sentence": "My name is Anna.",
+        "translation": "Tôi tên Anna."
+      }
+    ]
+  },
+  "en-vocab-number": {
+    "meaning": "số; con số",
+    "examples": [
+      {
+        "sentence": "Choose a number from one to ten.",
+        "translation": "Hãy chọn một số từ một đến mười."
+      },
+      {
+        "sentence": "What is your phone number?",
+        "translation": "Số điện thoại của bạn là gì?"
+      }
+    ]
+  },
+  "en-vocab-partner": {
+    "meaning": "bạn đời; đối tác; người cùng làm việc",
+    "notes": "Chọn nghĩa theo ngữ cảnh: business partner (đối tác kinh doanh), study partner (bạn học cùng).",
+    "examples": [
+      {
+        "sentence": "Work with a partner in class.",
+        "translation": "Hãy làm việc theo cặp trong lớp."
+      },
+      {
+        "sentence": "She lives with her partner.",
+        "translation": "Cô ấy sống cùng bạn đời."
+      }
+    ]
+  },
+  "en-vocab-problem": {
+    "meaning": "vấn đề; rắc rối",
+    "examples": [
+      {
+        "sentence": "What's the problem?",
+        "translation": "Có chuyện gì vậy?"
+      },
+      {
+        "sentence": "I have a problem with my phone.",
+        "translation": "Điện thoại của tôi có vấn đề."
+      }
+    ]
+  }
+}

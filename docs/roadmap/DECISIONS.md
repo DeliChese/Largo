@@ -140,6 +140,14 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - Đấu trường hỗ trợ đấu bot, tiếp sức 60 giây và hai người cùng thiết bị. Các luật chạy với danh mục cục bộ. Thẻ được lưu từ game dùng lại ID nếu đã có trong thư viện.
 - Rollback giao diện bằng mã đọc được seed v12. Khi quay về mã v11, dùng bản sao lưu tương ứng trước cập nhật. Schema IndexedDB và định dạng backup v2 tiếp tục dùng cấu trúc hiện hành.
 
+## ADR-022 — Chuẩn học liệu tiếng Anh nghĩa trước, cách dùng sau
+
+- Ngày 2026-11-25. Phạm vi theo yêu cầu chủ dự án: nội dung học tiếng Anh và thứ tự trình bày thẻ. Không thay đổi SRS, Bloom, game, API, tài khoản, schema IndexedDB hoặc backup.
+- Biên tập nghĩa và ghi chú qua overlay theo ID; giữ dữ liệu nguồn, dùng lại ID từ/thẻ/bộ, cấp và thành viên của bộ. Chuẩn hóa nhãn nhóm và thứ tự loại học liệu trong cấp, không tự chuyển cấp hoặc đổi số lượng thẻ.
+- Seed v13 dùng cơ chế cập nhật hiện có để áp dụng nội dung cho bản lưu v12, giữ SRS, Bloom, quan hệ cá nhân và các thẻ đã xóa. Cần chạy bộ test migration trước merge; chưa kiểm tra browser hoặc npm trong phiên connector.
+- Đợt đầu: 184 mục C1, 8 mục A1; rà soát những mục còn lại theo từng chủ đề và cập nhật overlay sau khi đối chiếu ngôn ngữ. Không tuyên bố toàn bộ 7.000 mục đã được kiểm chứng.
+- Rollback: không merge PR nếu chưa đạt test; nếu đã phát hành, khôi phục học liệu cũ với một seed version mới hơn (giữ ID), hoặc phục hồi backup tương ứng trước khi hạ phiên bản.
+
 ## Template ADR mới
 
 - ID/ngày/status:
