@@ -71,7 +71,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 759);
+  assert.equal(editorialIds.size, 1129);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -104,7 +104,7 @@ test('A1 editorial coverage and corrected core senses', () => {
   const a1DeckIds = new Set(ENGLISH_DECKS.filter(deck => deck.level === 'a1').map(deck => deck.id));
   const editedA1 = ENGLISH_WORDS.filter(word => a1DeckIds.has(word.deckId) &&
     Object.prototype.hasOwnProperty.call(englishEditorial, word.id));
-  assert.equal(editedA1.length, 430);
+  assert.equal(editedA1.length, 800);
   assert.equal(byId.get('en-vocab-sentence')?.meaning, 'câu (ngữ pháp)');
   assert.equal(byId.get('en-vocab-plane')?.meaning, 'máy bay');
   assert.match(byId.get('en-vocab-listen')?.notes ?? '', /Listen to/);
@@ -128,5 +128,22 @@ test('v14 seed migration preserves progress and personal relations on corrected 
   assert.equal(updated?.bloomLevel, 3);
   assert.equal(updated?.personalRelations, personalRelations);
   assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('A1 editorial repairs word class and common senses', () => {
+  const words = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  assert.equal(words.get('en-vocab-am')?.partOfSpeech, 'Động từ');
+  assert.equal(words.get('en-vocab-bye')?.partOfSpeech, 'Thán từ');
+  assert.equal(words.get('en-vocab-dirty')?.meaning, 'bẩn');
+  assert.equal(words.get('en-vocab-afraid')?.meaning, 'sợ; lo sợ');
+  const word = words.get('en-vocab-am')!;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const state = { version: 15, decks: INITIAL_DECKS, words: [{ ...word, partOfSpeech: 'Trạng từ', srs }], logs: [], profile: INITIAL_PROFILE };
+  const migrated = withCurrentSeed(state);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.equal(migrated.words.find(item => item.id === word.id)?.partOfSpeech, 'Động từ');
+  assert.equal(migrated.words.find(item => item.id === word.id)?.srs, srs);
   assert.equal(withCurrentSeed(migrated), migrated);
 });

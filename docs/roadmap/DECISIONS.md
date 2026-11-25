@@ -162,6 +162,12 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - Kiểm tra trực tiếp JSON: ID thuộc nguồn A1, hai câu song ngữ không rỗng mỗi mục mới, không ghi đè overlay cũ. Bổ sung kiểm thử migration v14; chưa chạy lint/test/build hoặc browser. PR vẫn draft.
 - Rollback bằng phiên bản seed mới hơn chứa nội dung trước đó hoặc backup trước cập nhật.
 
+## ADR-025 — Hoàn tất vòng biên tập nguồn A1 chính (2c)
+
+- Seed v16 bổ sung 370 ID, 740 câu song ngữ; 800/800 mục nguồn A1 vocabulary có overlay. Tổng 1.129 ID. Sửa từ loại của am, hello, bye, lot qua overlay, giữ ID và tiến độ.
+- Theo yêu cầu trực tiếp của chủ dự án, 2b và 2c được đưa vào main bằng commit không force-push. Kiểm tra JSON, không sửa 759 overlay cũ. Chưa chạy lint/test/build/browser; cần kiểm tra trước triển khai thực tế.
+- Rollback bằng seed mới hơn chứa nội dung trước đó hoặc phục hồi backup tương ứng.
+
 ## Template ADR mới
 
 - ID/ngày/status:

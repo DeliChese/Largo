@@ -2,16 +2,16 @@
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
-| Cấp | Đợt 1 | Đợt 2a | Đợt 2b | Tổng có overlay |
-| --- | ---: | ---: | ---: | ---: |
-| A1 | 8 | 112 | 310 | 430 |
-| A2 | 0 | 0 | 0 | 0 |
-| B1 | 0 | 0 | 0 | 0 |
-| B2 | 0 | 61 | 0 | 61 |
-| C1 | 184 | 84 | 0 | 268 |
-| Tổng | 192 | 257 | 310 | 759 |
+| Cấp | Đợt 1 | Đợt 2a | Đợt 2b | Đợt 2c | Tổng có overlay |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| A1 | 8 | 112 | 310 | 370 | 800 |
+| A2 | 0 | 0 | 0 | 0 | 0 |
+| B1 | 0 | 0 | 0 | 0 | 0 |
+| B2 | 0 | 61 | 0 | 0 | 61 |
+| C1 | 184 | 84 | 0 | 0 | 268 |
+| Tổng | 192 | 257 | 310 | 370 | 1.129 |
 
-759/7.000 mục có chỉnh sửa biên tập; không đồng nghĩa 759 mục đã được kiểm chứng mọi trường. 6.241 mục chưa có overlay.
+1.129/7.000 mục có chỉnh sửa biên tập; chưa kiểm chứng mọi trường. 5.871 mục chưa có overlay.
 
 ## Phạm vi đợt 2a
 
@@ -27,9 +27,16 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - 430/800 mục A1 thuộc nguồn vocabulary chính có overlay; còn 370 mục nguồn chính và các bộ A1 khác chưa có overlay. A2 chưa được biên tập trong đợt này.
 - Không thay đổi logic học, ID hay số lượng thẻ.
 
+## Phạm vi đợt 2c
+
+- 370 mục còn lại của nguồn vocabulary A1, 740 câu song ngữ mới. Đủ 800/800 mục nguồn chính; các bộ A1 khác chưa hoàn thành.
+- Sửa từ loại am, hello, bye, lot; sửa nghĩa thông dụng của afraid, dirty, excited, matter, time. Giữ nguyên ID, cấp, bộ và tiến độ.
+- Kiểm tra 370 ID mới, hai câu song ngữ không rỗng mỗi mục, 759 overlay cũ giữ nguyên.
+- Đưa 2b và 2c trực tiếp vào main theo yêu cầu. Chưa chạy lint/test/build/browser.
+
 ## Các đợt tiếp theo
 
-1. A1 còn lại và A2: đối chiếu nghĩa theo từ loại, đơn giản hóa ví dụ và sửa dịch máy.
+1. Các bộ bổ sung A1 và A2: đối chiếu nghĩa theo từ loại, đơn giản hóa ví dụ và sửa dịch máy.
 2. B1/B2: kiểm tra cụm từ đi kèm, giới từ, cấu trúc và cách dùng theo ngữ cảnh.
 3. C1 và các mục đã có overlay: kiểm tra phần ví dụ, quan hệ từ, phát âm/biến thể còn lại. 
 4. Chỉ đánh dấu hoàn thành khi mọi trường đã được kiểm tra hoặc có lý do không áp dụng. Kiểm tra CEFR và phân bổ lại bộ thuộc giai đoạn 3.

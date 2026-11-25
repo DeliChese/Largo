@@ -59,7 +59,7 @@ interface EnglishEnrichment {
 
 const enrichment: Record<string, EnglishEnrichment> = englishEnrichment;
 // Reviewed content takes precedence over generated/imported enrichment; IDs are unchanged.
-const editorial: Record<string, Partial<Pick<EnglishCardSeed, 'meaning' | 'notes' | 'examples' | 'collocations' | 'synonyms' | 'antonyms'>>> = englishEditorial;
+const editorial: Record<string, Partial<Pick<EnglishCardSeed, 'meaning' | 'partOfSpeech' | 'notes' | 'examples' | 'collocations' | 'synonyms' | 'antonyms'>>> = englishEditorial;
 const englishOppositesByTerm = new Map<string, string>();
 for (const [first, second] of englishOpposites) {
   englishOppositesByTerm.set(first, second);
