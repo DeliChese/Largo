@@ -155,6 +155,13 @@ Tài liệu này là log quyết định; hãy thêm ADR mới thay vì sửa l�
 - Ví dụ đã biên tập được ưu tiên trong hai locale nếu từ hiển thị không đổi; giữ nguyên ví dụ của từ có biến thể chính tả hoặc từ riêng.
 - Thêm test phạm vi C1, tính nhất quán ví dụ hai locale và migration v13. Chưa chạy lint/test/build/browser. Giữ PR draft; rollback bằng phiên bản seed mới hơn chứa nội dung trước đó hoặc backup trước cập nhật.
 
+## ADR-024 — Biên tập A1 đợt 2b
+
+- Seed v15: bổ sung 310 ID A1, viết 620 câu song ngữ; giữ nguyên 449 overlay trước đó. Tổng 759 ID. Ưu tiên nghĩa thông dụng trong ngữ cảnh, giữ từ loại nguồn, phân biệt mạo từ, trợ động từ và cấu trúc dùng từ.
+- Loại quan hệ từ tự động chưa xác minh ở các overlay mới; giữ dữ liệu người dùng. Danh sách đối nghĩa chung của seed vẫn có thể bổ sung quan hệ.
+- Kiểm tra trực tiếp JSON: ID thuộc nguồn A1, hai câu song ngữ không rỗng mỗi mục mới, không ghi đè overlay cũ. Bổ sung kiểm thử migration v14; chưa chạy lint/test/build hoặc browser. PR vẫn draft.
+- Rollback bằng phiên bản seed mới hơn chứa nội dung trước đó hoặc backup trước cập nhật.
+
 ## Template ADR mới
 
 - ID/ngày/status:
