@@ -11,7 +11,7 @@ npm test
 npm run build
 ```
 
-`npm run dev` chạy Vite, mặc định cổng `3000`. Dùng URL Vite thực sự in ra. `npm run lint` kiểm kiểu TypeScript. `npm test` chạy các test SRS/Bloom, phạm vi học, snapshot và các API Azure/DeepSeek giả lập. Lệnh dùng bộ phân giải import trong `.chinese-work/register.mjs` cho các test TypeScript. [CI](../../.github/workflows/verify.yml) chạy kiểm kiểu, test và build. Sau khi build, `npm run preview` xem bản Vite đã build hoặc `npm start` chạy Express phục vụ `dist/` và các API.
+`npm run dev` chạy Vite, mặc định cổng `3000`. Dùng URL Vite thực sự in ra. `npm run lint` kiểm kiểu TypeScript. `npm test` chạy các test SRS/Bloom, phạm vi học, snapshot và các API Azure/DeepSeek giả lập. Lệnh dùng bộ phân giải import trong `scripts/register-test-imports.mjs` cho các test TypeScript. [CI](../../.github/workflows/verify.yml) chạy kiểm kiểu, test và build. Sau khi build, `npm run preview` xem bản Vite đã build hoặc `npm start` chạy Express phục vụ `dist/` và các API.
 
 Các [snapshot mẫu](../../src/utils/fixtures/studySnapshots.ts) dùng mốc thời gian cố định và hồ sơ giả lập. Bộ kiểm thử bao gồm dữ liệu mới cài, HSK hai phiên bản, Anh–Anh/Anh–Mỹ, bộ/thẻ cá nhân, thẻ đã xóa, lịch sử, avatar, bản lưu gzip và giáo trình thiếu bài. Các bài thử engine kiểm tra backup v2, mã lượt bị trùng, lịch ôn và XP sau lượt thử lại, chấm chưa xác minh cho câu mở và rubric Bloom.
 

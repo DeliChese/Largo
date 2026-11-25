@@ -1,6 +1,6 @@
 # Largo — hướng dẫn chung cho AI coding agents
 
-Largo là PWA học tiếng Anh/Tiếng Trung bằng tiếng Việt trên React + TypeScript + Vite, có HSK 2.0/3.0, ôn cách quãng (SRS), Bloom và lưu offline.
+Largo là PWA học tiếng Anh bằng tiếng Việt trên React + TypeScript + Vite, có ôn cách quãng (SRS), Bloom và lưu offline.
 
 ## Lộ trình ưu tiên (đọc trước khi sửa engine)
 
@@ -29,7 +29,7 @@ Thứ tự sản phẩm: **Learning Engine / Bloom Evidence / Adaptive Planner �
 | Tra từ và giấy phép nguồn | [Dictionary](docs/roadmap/09-dictionary.md) | — |
 | Thêm ngôn ngữ, giáo trình hoặc bộ học liệu | [Quy chuẩn học liệu](docs/agents/language-curriculum.md), [mẫu và checklist](docs/agents/language-curriculum-checklist.md) | — |
 | Biên tập kho từ vựng tiếng Anh (giai đoạn 2) | [Roadmap biên tập](docs/agents/english-editorial-roadmap.md), [tiến độ thực tế và bàn giao](docs/agents/english-editorial-progress.md) | — |
-| HSK/nguồn giáo trình | [Chinese curriculum](docs/agents/chinese-curriculum.md) | [largo-hsk-curriculum](.claude/skills/largo-hsk-curriculum/SKILL.md) |
+| Tra nguồn giáo trình HSK cũ | [Nguồn học liệu](docs/agents/chinese-curriculum.md) | — |
 | Test, UI, hiệu lực bản phát hành | [Verification](docs/agents/verification.md) | [largo-verify](.claude/skills/largo-verify/SKILL.md) |
 
 Ghi quyết định dài hạn vào [Architecture Decision Log](docs/roadmap/DECISIONS.md). Đừng thay đổi toàn bộ thuật toán SRS/FSRS, auth hay backend trong cùng một PR khi chưa có phép thử migration.

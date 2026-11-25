@@ -1,4 +1,6 @@
-# Từ vựng và giáo trình tiếng Trung
+# Nguồn của giáo trình tiếng Trung cũ
+
+Largo đã gỡ giáo trình HSK ở commit `1ed39cd`. Tài liệu này lưu thông tin ghi nguồn. Các đường dẫn và hướng dẫn biên soạn bên dưới thuộc phiên bản `c17fbf3`.
 
 Danh mục HSK dùng [quy chuẩn học liệu đa ngôn ngữ](language-curriculum.md) của Largo. Chủ đề do Largo đặt để tìm bài. Số bài, tiêu đề tiếng Trung và thứ tự mục từ lấy từ từng giáo trình hoặc chỉ mục đã đối chiếu.
 
