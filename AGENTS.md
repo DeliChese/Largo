@@ -28,6 +28,7 @@ Thứ tự sản phẩm: **Learning Engine / Bloom Evidence / Adaptive Planner �
 | Triển khai cho người dùng, PWA, sync/tài khoản | [Hosting](docs/roadmap/07-hosting-pwa.md), [Accounts](docs/roadmap/08-accounts-sync.md) | [largo-release](.claude/skills/largo-release/SKILL.md) |
 | Tra từ và giấy phép nguồn | [Dictionary](docs/roadmap/09-dictionary.md) | — |
 | Thêm ngôn ngữ, giáo trình hoặc bộ học liệu | [Quy chuẩn học liệu](docs/agents/language-curriculum.md), [mẫu và checklist](docs/agents/language-curriculum-checklist.md) | — |
+| Biên tập kho từ vựng tiếng Anh (giai đoạn 2) | [Roadmap biên tập](docs/agents/english-editorial-roadmap.md), [tiến độ thực tế và bàn giao](docs/agents/english-editorial-progress.md) | — |
 | HSK/nguồn giáo trình | [Chinese curriculum](docs/agents/chinese-curriculum.md) | [largo-hsk-curriculum](.claude/skills/largo-hsk-curriculum/SKILL.md) |
 | Test, UI, hiệu lực bản phát hành | [Verification](docs/agents/verification.md) | [largo-verify](.claude/skills/largo-verify/SKILL.md) |
 

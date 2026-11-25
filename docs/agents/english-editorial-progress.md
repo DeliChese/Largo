@@ -1,5 +1,9 @@
 # Tiến độ biên tập tiếng Anh — Giai đoạn 2
 
+**Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
+
+**Đợt tiếp theo:** 2E (giao tiếp/biến thể A1, kiểm kê expansion A1, tiếp tục A2 theo sức chứa). Mốc hiện tại: Seed v17, 1.391 ID có overlay; chưa nghiệm thu toàn trường.
+
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
 | Cấp/nhóm | Đợt 1 | Đợt 2a | Đợt 2b | Đợt 2c | Đợt 2d | Tổng có overlay |
