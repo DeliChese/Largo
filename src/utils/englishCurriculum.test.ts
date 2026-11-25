@@ -1,4 +1,5 @@
 import test from 'node:test';
+import type { VocabWord } from '../types/vocab';
 import assert from 'node:assert/strict';
 import englishEditorial from '../../English/englishEditorial.json' with { type: 'json' };
 import englishAdditionalSenses from '../../English/englishAdditionalSenses.json' with { type: 'json' };
@@ -72,7 +73,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 2549);
+  assert.equal(editorialIds.size, 2653);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -296,8 +297,8 @@ test('v19 seed migration preserves saved progress for phase 2g content', () => {
 test('additional senses have existing IDs and distinct examples without changing the primary review answer', () => {
   const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
   assert.equal(byId.size, 7000);
-  assert.equal(Object.keys(englishAdditionalSenses).length, 76);
-  assert.equal(Object.values(englishAdditionalSenses).flat().length, 87);
+  assert.equal(Object.keys(englishAdditionalSenses).length, 88);
+  assert.equal(Object.values(englishAdditionalSenses).flat().length, 99);
   for (const [id, senses] of Object.entries(englishAdditionalSenses)) {
     const word = byId.get(id);
     assert.ok(word, id);
@@ -324,7 +325,7 @@ test('v20 migration adds secondary senses without creating review IDs or resetti
   const personalRelations = { synonyms: ['personal'], antonyms: [] };
   const state = {
     version: 20, decks: INITIAL_DECKS,
-    words: [{ ...old, srs, bloomLevel: 3 as const, personalRelations }],
+    words: [{ ...old, srs, bloomLevel: 3 as const, personalRelations }] as VocabWord[],
     logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] },
   };
   const migrated = withCurrentSeed(state);
@@ -389,11 +390,48 @@ test('v22 seed migration preserves saved progress on A2 extra vocabulary', () =>
   const word = INITIAL_WORDS.find(word => word.id === "en-extra-dislike-e4d14bef7a")!;
   const { additionalSenses, ...old } = word;
   const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
-  const state = { version: 22, decks: INITIAL_DECKS, words: [{ ...old, srs, bloomLevel: 3 as const }], logs: [], profile: INITIAL_PROFILE };
+  const state = { version: 22, decks: INITIAL_DECKS, words: [{ ...old, srs, bloomLevel: 3 as const }] as VocabWord[], logs: [], profile: INITIAL_PROFILE };
   const migrated = withCurrentSeed(state);
   const updated = migrated.words.find(item => item.id === word.id);
   assert.deepEqual(updated?.additionalSenses, additionalSenses);
   assert.equal(updated?.srs, srs);
   assert.equal(updated?.bloomLevel, 3);
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2h.3 completes editorial coverage of all 1297 A2 seed IDs', () => {
+  const a2Decks = new Set(ENGLISH_DECKS.filter(deck => deck.level === 'a2').map(deck => deck.id));
+  const a2 = ENGLISH_WORDS.filter(word => a2Decks.has(word.deckId));
+  assert.equal(a2.length, 1297);
+  assert.ok(a2.every(word => Object.prototype.hasOwnProperty.call(englishEditorial, word.id)));
+  const byId = new Map(a2.map(word => [word.id, word]));
+  const ids = ["deck-en-a2-work-study-deadline","deck-en-a2-work-study-meeting","deck-en-a2-work-study-update","deck-en-a2-work-study-available","deck-en-a2-work-study-schedule","deck-en-a2-work-study-follow-up","deck-en-a2-work-study-take-notes","deck-en-a2-work-study-keep-track-of","deck-en-a2-work-study-make-progress","deck-en-a2-work-study-run-into","deck-en-a2-work-study-could-you-send-me","deck-en-a2-work-study-i-ll-get-back-to-you","deck-en-a2-travel-reservation","deck-en-a2-travel-refund","deck-en-a2-travel-delay","deck-en-a2-travel-crowded","deck-en-a2-travel-recommend","deck-en-a2-travel-turn-left","deck-en-a2-travel-on-time","deck-en-a2-travel-is-there-another-option","en-extra-wrench-702b023f61","en-extra-screwdriver-2f2d4a8891","en-extra-mattress-098223b63e","en-extra-broom-100a07d1e4","en-extra-sponge-46248ac689","en-extra-bucket-c5879b8d25","en-extra-detergent-958d4f64ab","en-extra-hanger-d248cfe618","en-extra-socket-47dd56c2c7","en-extra-cupboard-928ae8cdaf","en-extra-cushion-d0eae8d194","en-extra-pillowcase-a060347ece","en-extra-mop-40685fd53d","en-extra-kettle-20cd4732ae","en-extra-thermos-302949d0b8","en-extra-hinge-7706c3c94d","en-extra-latch-83b6a889a0","en-extra-doormat-fac5eb8942","en-extra-pliers-68f56ba9b3","en-extra-sandpaper-6f26a9e4e7","en-extra-stapler-6247f77181","en-extra-duct-tape-4f11dad67b","en-extra-velvet-f4c44266a2","en-extra-linen-07ad2ef160","en-extra-denim-99b94ab3f7","en-extra-corduroy-ede3ae7d2b","en-extra-suede-66dd06d9ff","en-extra-porcelain-aa150d3005","en-extra-wicker-d127b25568","en-extra-padlock-f7f1daa58e","en-extra-flashlight-b982eabb16","en-extra-broomstick-7178a92896","en-extra-etiquette-b39e075b46","en-extra-blunt-bb79caae5f","en-extra-cordial-8d5352e3e1","en-extra-flatter-d92d2c2d4b","en-extra-eavesdrop-28897ea1b7","en-extra-hesitate-ce8a390a4a","en-extra-acquaintance-195fc281cb","en-extra-confide-f6b004418a","en-extra-reassure-81c0d8e4cd","en-extra-welcoming-908c8cca2e","en-extra-grocery-7aa5eb472a","en-extra-warranty-9ba5d957f2","en-extra-errand-6522cf7814","en-extra-clothespin-10e271b8be","en-extra-pantry-c244bfeada","en-extra-leftovers-85b0a22b31","en-extra-expiry-c955506fc1","en-extra-coupon-72309c04a6","en-extra-trolley-ed42fdbd04","en-extra-cashier-6a79b51fec","en-extra-apron-e79e8a37b0","en-extra-three-course-meal-cf461e634a","en-extra-local-specialty-ad8ba33b11","en-extra-vegetarian-option-6cd348744d","en-extra-book-a-table-6b5c064a42","en-extra-split-the-bill-3c76625529","en-extra-carry-on-bag-dc30de5992","en-extra-travel-insurance-9d46935707","en-extra-day-pass-66d7553f32","en-extra-exchange-rate-0fca39a9b3","en-extra-sea-view-53355e58d0","en-extra-room-service-fe37a04231","en-extra-peak-season-a3884cad6a","en-extra-guided-tour-dce65e2c0a","en-extra-weather-forecast-92729e626f","en-extra-scenic-spot-ebcc0539f3","en-extra-throw-away-b9eeea2854","en-extra-give-away-6549f71c49","en-extra-put-together-3a3c808639","en-extra-take-apart-e7e64a7a13","en-extra-hang-up-19052990ed","en-extra-hang-out-ee6ee4a837","en-extra-eat-out-a758644d47","en-extra-fill-up-7a54515a63","en-extra-tidy-up-ac589c1e9b","en-extra-lock-up-b2e9e62704","en-extra-mix-in-9a590f0ece","en-extra-turn-around-9740d2a84f","en-extra-run-across-7fe8810e37","en-extra-dress-up-662d0f591a","en-extra-try-out-834dcaea48","en-extra-check-over-a51c94270b"];
+  assert.equal(new Set(ids).size, 104);
+  for (const id of ids) {
+    const word = byId.get(id);
+    assert.ok(word, id);
+    assert.equal(word.examples.length, 2, id);
+    assert.ok(word.examples.every(example => example.sentence.trim() && example.translation.trim()), id);
+  }
+  assert.match(byId.get("en-extra-throw-away-b9eeea2854")?.notes ?? '', /throw it away/);
+  assert.match(byId.get("en-extra-eavesdrop-28897ea1b7")?.notes ?? '', /Eavesdrop on/);
+  assert.equal(byId.get("deck-en-a2-travel-refund")?.additionalSenses?.[0]?.phonetic, '/rɪˈfʌnd/');
+});
+
+test('v23 seed migration preserves saved review state and adds A2 senses', () => {
+  const word = INITIAL_WORDS.find(word => word.id === "deck-en-a2-travel-refund")!;
+  const { additionalSenses, ...old } = word;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const personalRelations = { synonyms: ['personal'], antonyms: [] };
+  const state = { version: 23, decks: INITIAL_DECKS, words: [{ ...old, srs, bloomLevel: 3 as const, personalRelations }] as VocabWord[], logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] } };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.deepEqual(updated?.additionalSenses, additionalSenses);
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
+  assert.equal(updated?.personalRelations, personalRelations);
+  assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
+  assert.ok(!migrated.words.some(item => item.id === "deck-en-a2-travel-delay"));
   assert.equal(withCurrentSeed(migrated), migrated);
 });

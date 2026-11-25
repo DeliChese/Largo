@@ -397,6 +397,37 @@
     "synonyms": [],
     "antonyms": []
   },
+  "deck-en-a2-travel-crowded": {
+    "meaning": "đông đúc; chật kín",
+    "notes": "Crowded with + người/vật.",
+    "examples": [
+      {
+        "sentence": "The beach was crowded with tourists.",
+        "translation": "Bãi biển đông nghịt khách du lịch."
+      },
+      {
+        "sentence": "We got off the crowded bus.",
+        "translation": "Chúng tôi xuống chiếc xe buýt đông người."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-travel-delay": {
+    "meaning": "sự chậm trễ; việc bị hoãn",
+    "examples": [
+      {
+        "sentence": "There was a long delay at the airport.",
+        "translation": "Có sự chậm trễ kéo dài ở sân bay."
+      },
+      {
+        "sentence": "We apologize for the delay.",
+        "translation": "Chúng tôi xin lỗi vì sự chậm trễ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "deck-en-a2-travel-drop-off": {
     "meaning": "đưa đến; giao đến",
     "notes": "Có thể tách: drop it off. Nghĩa khác: thiếp ngủ.",
@@ -408,6 +439,37 @@
       {
         "sentence": "Can you drop off the parcel at the post office?",
         "translation": "Bạn mang bưu kiện đến bưu điện giúp mình được không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-travel-is-there-another-option": {
+    "meaning": "Có lựa chọn khác không?",
+    "examples": [
+      {
+        "sentence": "Is there another option for lunch?",
+        "translation": "Có lựa chọn khác cho bữa trưa không?"
+      },
+      {
+        "sentence": "Is there another option if the bus is full?",
+        "translation": "Nếu xe buýt đầy thì có lựa chọn khác không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-travel-on-time": {
+    "meaning": "đúng giờ",
+    "notes": "On time = đúng giờ; in time = kịp lúc.",
+    "examples": [
+      {
+        "sentence": "Please be on time for class.",
+        "translation": "Vui lòng đến lớp đúng giờ."
+      },
+      {
+        "sentence": "The train arrived on time.",
+        "translation": "Tàu đến đúng giờ."
       }
     ],
     "synonyms": [],
@@ -429,6 +491,53 @@
     "synonyms": [],
     "antonyms": []
   },
+  "deck-en-a2-travel-recommend": {
+    "meaning": "giới thiệu; đề xuất",
+    "notes": "Recommend + danh từ/V-ing hoặc that + mệnh đề.",
+    "examples": [
+      {
+        "sentence": "I recommend taking the train.",
+        "translation": "Tôi đề xuất đi tàu."
+      },
+      {
+        "sentence": "Can you recommend a good hotel?",
+        "translation": "Bạn giới thiệu một khách sạn tốt được không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-travel-refund": {
+    "meaning": "khoản tiền được hoàn lại",
+    "notes": "Get a refund = được hoàn tiền.",
+    "examples": [
+      {
+        "sentence": "They gave me a refund for the broken lamp.",
+        "translation": "Họ hoàn tiền cho tôi vì chiếc đèn bị hỏng."
+      },
+      {
+        "sentence": "I asked for a full refund.",
+        "translation": "Tôi yêu cầu hoàn lại toàn bộ tiền."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-travel-reservation": {
+    "meaning": "việc đặt chỗ; chỗ đã đặt trước",
+    "examples": [
+      {
+        "sentence": "Do you have a reservation?",
+        "translation": "Bạn đã đặt chỗ trước chưa?"
+      },
+      {
+        "sentence": "I'd like to cancel my reservation.",
+        "translation": "Tôi muốn hủy chỗ đã đặt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "deck-en-a2-travel-run-out-of": {
     "meaning": "hết; dùng hết",
     "notes": "Run out of + thứ đã hết; không tách cụm. Run out cũng dùng không tân ngữ.",
@@ -440,6 +549,212 @@
       {
         "sentence": "We might run out of milk before the weekend.",
         "translation": "Có thể nhà mình sẽ hết sữa trước cuối tuần."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-travel-turn-left": {
+    "meaning": "rẽ trái",
+    "partOfSpeech": "Collocation",
+    "examples": [
+      {
+        "sentence": "Turn left at the next corner.",
+        "translation": "Rẽ trái ở góc đường tiếp theo."
+      },
+      {
+        "sentence": "Turn left after the bridge.",
+        "translation": "Rẽ trái sau khi qua cầu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-work-study-available": {
+    "meaning": "rảnh; có sẵn",
+    "notes": "Available for + hoạt động; available to + người có quyền sử dụng.",
+    "examples": [
+      {
+        "sentence": "Are you available on Friday?",
+        "translation": "Bạn có rảnh vào thứ Sáu không?"
+      },
+      {
+        "sentence": "Is this room available tonight?",
+        "translation": "Phòng này còn trống tối nay không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-work-study-could-you-send-me": {
+    "meaning": "Bạn gửi cho tôi … được không?",
+    "examples": [
+      {
+        "sentence": "Could you send me the report?",
+        "translation": "Bạn gửi cho tôi báo cáo được không?"
+      },
+      {
+        "sentence": "Could you send me a photo of the room?",
+        "translation": "Bạn gửi cho tôi ảnh căn phòng được không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-work-study-deadline": {
+    "meaning": "hạn chót",
+    "notes": "Meet a deadline = hoàn thành đúng hạn; miss a deadline = trễ hạn.",
+    "examples": [
+      {
+        "sentence": "The deadline is next Monday.",
+        "translation": "Hạn chót là thứ Hai tới."
+      },
+      {
+        "sentence": "We worked hard to meet the deadline.",
+        "translation": "Chúng tôi cố gắng làm việc để hoàn thành đúng hạn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-work-study-follow-up": {
+    "meaning": "liên hệ lại; theo dõi tiếp",
+    "notes": "Follow up on + vấn đề; with + người.",
+    "examples": [
+      {
+        "sentence": "I'll follow up with the customer tomorrow.",
+        "translation": "Ngày mai tôi sẽ liên hệ lại với khách hàng."
+      },
+      {
+        "sentence": "She followed up on my email.",
+        "translation": "Cô ấy liên hệ lại về email của tôi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-work-study-i-ll-get-back-to-you": {
+    "meaning": "Tôi sẽ phản hồi lại bạn",
+    "notes": "By Friday = chậm nhất vào thứ Sáu.",
+    "examples": [
+      {
+        "sentence": "I'll get back to you by Friday.",
+        "translation": "Tôi sẽ phản hồi bạn chậm nhất vào thứ Sáu."
+      },
+      {
+        "sentence": "I'll get back to you when I have more information.",
+        "translation": "Tôi sẽ phản hồi bạn khi có thêm thông tin."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-work-study-keep-track-of": {
+    "meaning": "theo dõi; nắm tình hình",
+    "examples": [
+      {
+        "sentence": "Keep track of your expenses.",
+        "translation": "Hãy theo dõi các khoản chi tiêu."
+      },
+      {
+        "sentence": "This app helps me keep track of my tasks.",
+        "translation": "Ứng dụng này giúp tôi theo dõi các nhiệm vụ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-work-study-make-progress": {
+    "meaning": "tiến bộ; có tiến triển",
+    "notes": "Progress không đếm được.",
+    "partOfSpeech": "Collocation",
+    "examples": [
+      {
+        "sentence": "She's making progress in English.",
+        "translation": "Cô ấy đang tiến bộ về tiếng Anh."
+      },
+      {
+        "sentence": "We made progress on the project today.",
+        "translation": "Hôm nay chúng tôi đạt tiến triển trong dự án."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-work-study-meeting": {
+    "meaning": "cuộc họp",
+    "examples": [
+      {
+        "sentence": "The meeting lasted an hour.",
+        "translation": "Cuộc họp kéo dài một giờ."
+      },
+      {
+        "sentence": "We have a meeting at nine.",
+        "translation": "Chúng tôi có cuộc họp lúc chín giờ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-work-study-run-into": {
+    "meaning": "tình cờ gặp; gặp phải",
+    "notes": "Không tách run và into.",
+    "examples": [
+      {
+        "sentence": "I ran into an old friend yesterday.",
+        "translation": "Hôm qua tôi tình cờ gặp một người bạn cũ."
+      },
+      {
+        "sentence": "We ran into a problem with the printer.",
+        "translation": "Chúng tôi gặp vấn đề với máy in."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-work-study-schedule": {
+    "meaning": "lên lịch",
+    "notes": "Schedule something for + thời điểm.",
+    "examples": [
+      {
+        "sentence": "Let's schedule a meeting for Monday.",
+        "translation": "Mình lên lịch họp vào thứ Hai nhé."
+      },
+      {
+        "sentence": "They scheduled the call for noon.",
+        "translation": "Họ lên lịch gọi điện vào buổi trưa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-work-study-take-notes": {
+    "meaning": "ghi chép",
+    "partOfSpeech": "Collocation",
+    "examples": [
+      {
+        "sentence": "She took notes during the meeting.",
+        "translation": "Cô ấy ghi chép trong cuộc họp."
+      },
+      {
+        "sentence": "I always take notes in class.",
+        "translation": "Tôi luôn ghi chép trên lớp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "deck-en-a2-work-study-update": {
+    "meaning": "thông tin cập nhật",
+    "notes": "Update on + chủ đề.",
+    "examples": [
+      {
+        "sentence": "Can you give me an update on the project?",
+        "translation": "Bạn cập nhật tình hình dự án cho tôi được không?"
+      },
+      {
+        "sentence": "We received an update this morning.",
+        "translation": "Sáng nay chúng tôi nhận được thông tin mới."
       }
     ],
     "synonyms": [],
@@ -463,6 +778,21 @@
   "en-extra-accountability-03939fbeaa": {
     "meaning": "trách nhiệm giải trình",
     "notes": "Có trách nhiệm giải thích và chịu trách nhiệm về hành động hoặc kết quả."
+  },
+  "en-extra-acquaintance-195fc281cb": {
+    "meaning": "người quen (chưa thân)",
+    "examples": [
+      {
+        "sentence": "He's an acquaintance from work.",
+        "translation": "Anh ấy là người quen ở chỗ làm."
+      },
+      {
+        "sentence": "I met an old acquaintance at the station.",
+        "translation": "Tôi gặp một người quen cũ ở nhà ga."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-acquired-taste-c1a53d410b": {
     "meaning": "thứ cần làm quen mới thích",
@@ -663,6 +993,21 @@
       {
         "sentence": "His constant questions annoyed me.",
         "translation": "Những câu hỏi liên tục khiến tôi khó chịu."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-apron-e79e8a37b0": {
+    "meaning": "tạp dề",
+    "examples": [
+      {
+        "sentence": "Put on an apron before cooking.",
+        "translation": "Hãy mặc tạp dề trước khi nấu ăn."
+      },
+      {
+        "sentence": "His apron was covered in flour.",
+        "translation": "Tạp dề của anh ấy dính đầy bột mì."
       }
     ],
     "synonyms": [],
@@ -1071,6 +1416,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-blunt-bb79caae5f": {
+    "meaning": "thẳng thừng; cùn",
+    "notes": "Thẳng thừng có thể gây mất lòng; nghĩa vật lý là không sắc.",
+    "examples": [
+      {
+        "sentence": "His blunt answer surprised me.",
+        "translation": "Câu trả lời thẳng thừng của anh ấy làm tôi bất ngờ."
+      },
+      {
+        "sentence": "This knife is blunt.",
+        "translation": "Con dao này bị cùn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-boil-9a692cc5ec": {
     "meaning": "đun sôi; sôi",
     "examples": [
@@ -1096,6 +1457,21 @@
       {
         "sentence": "He ate boiled potatoes.",
         "translation": "Anh ấy ăn khoai tây luộc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-book-a-table-6b5c064a42": {
+    "meaning": "đặt bàn trước",
+    "examples": [
+      {
+        "sentence": "I'd like to book a table for two.",
+        "translation": "Tôi muốn đặt bàn cho hai người."
+      },
+      {
+        "sentence": "We booked a table for seven o'clock.",
+        "translation": "Chúng tôi đặt bàn lúc bảy giờ."
       }
     ],
     "synonyms": [],
@@ -1172,6 +1548,36 @@
     "meaning": "sự đồng thuận rộng rãi",
     "notes": "Nhiều bên đồng ý về một vấn đề, không nhất thiết tất cả."
   },
+  "en-extra-broom-100a07d1e4": {
+    "meaning": "chổi quét nhà",
+    "examples": [
+      {
+        "sentence": "Sweep the floor with a broom.",
+        "translation": "Hãy quét sàn bằng chổi."
+      },
+      {
+        "sentence": "The broom is behind the door.",
+        "translation": "Cây chổi ở sau cửa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-broomstick-7178a92896": {
+    "meaning": "cán chổi",
+    "examples": [
+      {
+        "sentence": "The broomstick broke in half.",
+        "translation": "Cán chổi gãy làm đôi."
+      },
+      {
+        "sentence": "The witch rode a broomstick in the story.",
+        "translation": "Mụ phù thủy cưỡi chổi trong câu chuyện."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-brush-029f33c2a6": {
     "meaning": "bàn chải; cọ",
     "examples": [
@@ -1182,6 +1588,21 @@
       {
         "sentence": "Use a brush to clean your shoes.",
         "translation": "Dùng bàn chải để làm sạch giày của bạn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-bucket-c5879b8d25": {
+    "meaning": "cái xô",
+    "examples": [
+      {
+        "sentence": "Fill the bucket with water.",
+        "translation": "Hãy đổ đầy nước vào xô."
+      },
+      {
+        "sentence": "He carried a bucket of sand.",
+        "translation": "Anh ấy xách một xô cát."
       }
     ],
     "synonyms": [],
@@ -1277,6 +1698,21 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-carry-on-bag-dc30de5992": {
+    "meaning": "túi hành lý xách tay",
+    "examples": [
+      {
+        "sentence": "My laptop is in my carry-on bag.",
+        "translation": "Máy tính xách tay ở trong túi hành lý xách tay của tôi."
+      },
+      {
+        "sentence": "Is this carry-on bag too large?",
+        "translation": "Túi hành lý xách tay này có quá lớn không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-cartoon-15830f493c": {
     "meaning": "phim hoạt hình; tranh biếm họa",
     "examples": [
@@ -1287,6 +1723,21 @@
       {
         "sentence": "We watched a cartoon on TV.",
         "translation": "Chúng tôi xem phim hoạt hình trên ti-vi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-cashier-6a79b51fec": {
+    "meaning": "nhân viên thu ngân",
+    "examples": [
+      {
+        "sentence": "The cashier gave me my change.",
+        "translation": "Nhân viên thu ngân trả lại tiền thừa cho tôi."
+      },
+      {
+        "sentence": "Pay the cashier at the front of the store.",
+        "translation": "Hãy thanh toán tại quầy thu ngân phía trước cửa hàng."
       }
     ],
     "synonyms": [],
@@ -1359,6 +1810,22 @@
       {
         "sentence": "The chart shows our monthly sales.",
         "translation": "Biểu đồ thể hiện doanh số hằng tháng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-check-over-a51c94270b": {
+    "meaning": "kiểm tra kỹ lại",
+    "notes": "Tách được: check it over.",
+    "examples": [
+      {
+        "sentence": "Check over the form before signing.",
+        "translation": "Hãy kiểm tra kỹ mẫu đơn trước khi ký."
+      },
+      {
+        "sentence": "She checked the report over.",
+        "translation": "Cô ấy kiểm tra lại báo cáo."
       }
     ],
     "synonyms": [],
@@ -1460,6 +1927,22 @@
     "synonyms": [],
     "antonyms": [],
     "notes": "Cloth là vải; clothes là quần áo."
+  },
+  "en-extra-clothespin-10e271b8be": {
+    "meaning": "kẹp phơi quần áo",
+    "notes": "Anh–Anh thường dùng clothes peg.",
+    "examples": [
+      {
+        "sentence": "Use a clothespin to hold the shirt on the line.",
+        "translation": "Dùng kẹp để giữ áo trên dây phơi."
+      },
+      {
+        "sentence": "I need more clothespins.",
+        "translation": "Tôi cần thêm kẹp phơi quần áo."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-cloud-56681010b7": {
     "meaning": "đám mây",
@@ -1569,6 +2052,22 @@
     "meaning": "thuận lợi cho việc học",
     "notes": "Conducive to + danh từ hoặc V-ing: tạo điều kiện thuận lợi cho điều gì."
   },
+  "en-extra-confide-f6b004418a": {
+    "meaning": "tâm sự; giãi bày chuyện riêng",
+    "notes": "Confide in + người; confide something to + người.",
+    "examples": [
+      {
+        "sentence": "She confides in her sister.",
+        "translation": "Cô ấy tâm sự với chị gái."
+      },
+      {
+        "sentence": "He confided his fears to a friend.",
+        "translation": "Anh ấy giãi bày nỗi sợ với một người bạn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-consequence-84bb160039": {
     "meaning": "hệ quả; hậu quả",
     "examples": [
@@ -1674,6 +2173,36 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-cordial-8d5352e3e1": {
+    "meaning": "thân thiện; niềm nở",
+    "examples": [
+      {
+        "sentence": "We had a cordial conversation.",
+        "translation": "Chúng tôi có cuộc trò chuyện thân thiện."
+      },
+      {
+        "sentence": "The host gave us a cordial welcome.",
+        "translation": "Chủ nhà đón tiếp chúng tôi niềm nở."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-corduroy-ede3ae7d2b": {
+    "meaning": "vải nhung tăm",
+    "examples": [
+      {
+        "sentence": "He wore corduroy trousers.",
+        "translation": "Anh ấy mặc quần nhung tăm."
+      },
+      {
+        "sentence": "The jacket is made of corduroy.",
+        "translation": "Áo khoác làm bằng vải nhung tăm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-corn-63b0490d47": {
     "meaning": "ngô; bắp",
     "examples": [
@@ -1703,6 +2232,21 @@
       {
         "sentence": "They live in the countryside.",
         "translation": "Họ sống ở nông thôn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-coupon-72309c04a6": {
+    "meaning": "phiếu ưu đãi; phiếu giảm giá",
+    "examples": [
+      {
+        "sentence": "I used a coupon to save money.",
+        "translation": "Tôi dùng phiếu giảm giá để tiết kiệm tiền."
+      },
+      {
+        "sentence": "This coupon is valid until Friday.",
+        "translation": "Phiếu ưu đãi này có hiệu lực đến thứ Sáu."
       }
     ],
     "synonyms": [],
@@ -1759,6 +2303,21 @@
     "meaning": "sốc văn hóa",
     "notes": "Sự bối rối hoặc khó thích nghi khi tiếp xúc với môi trường văn hóa xa lạ."
   },
+  "en-extra-cupboard-928ae8cdaf": {
+    "meaning": "tủ đựng đồ",
+    "examples": [
+      {
+        "sentence": "The plates are in the cupboard.",
+        "translation": "Đĩa nằm trong tủ."
+      },
+      {
+        "sentence": "Put the cups back in the kitchen cupboard.",
+        "translation": "Hãy cất cốc lại vào tủ bếp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-curate-aa6132aeef": {
     "meaning": "tuyển chọn; biên tập",
     "notes": "Chọn và tổ chức nội dung hoặc hiện vật có chủ đích."
@@ -1770,6 +2329,21 @@
   "en-extra-curtail-civil-liberties-b752dd0c93": {
     "meaning": "hạn chế các quyền tự do dân sự",
     "notes": "Curtail nhấn mạnh việc thu hẹp hoặc giảm bớt phạm vi quyền."
+  },
+  "en-extra-cushion-d0eae8d194": {
+    "meaning": "gối tựa; đệm lót",
+    "examples": [
+      {
+        "sentence": "She put a cushion on the chair.",
+        "translation": "Cô ấy đặt đệm lên ghế."
+      },
+      {
+        "sentence": "There are two cushions on the sofa.",
+        "translation": "Có hai chiếc gối tựa trên ghế sofa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-custom-6cdfd271da": {
     "meaning": "phong tục; tập quán",
@@ -1796,6 +2370,22 @@
       {
         "sentence": "We go cycling every weekend.",
         "translation": "Chúng tôi đi đạp xe mỗi cuối tuần."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-day-pass-66d7553f32": {
+    "meaning": "vé hoặc thẻ sử dụng trong ngày",
+    "notes": "Quyền sử dụng tùy điều kiện của vé.",
+    "examples": [
+      {
+        "sentence": "I bought a day pass for the bus.",
+        "translation": "Tôi mua vé xe buýt dùng trong ngày."
+      },
+      {
+        "sentence": "This day pass gives you access to the museum.",
+        "translation": "Vé ngày này cho phép bạn vào bảo tàng."
       }
     ],
     "synonyms": [],
@@ -1850,6 +2440,21 @@
     "meaning": "xác định rõ phạm vi",
     "notes": "Nêu ranh giới nội dung, đối tượng hoặc điều kiện được đưa vào."
   },
+  "en-extra-denim-99b94ab3f7": {
+    "meaning": "vải bò; vải denim",
+    "examples": [
+      {
+        "sentence": "Her jacket is made of denim.",
+        "translation": "Áo khoác của cô ấy làm bằng vải bò."
+      },
+      {
+        "sentence": "He bought a denim shirt.",
+        "translation": "Anh ấy mua một chiếc áo sơ mi denim."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-deploy-b7bd55c11b": {
     "meaning": "triển khai",
     "notes": "Đưa hệ thống hoặc ứng dụng vào môi trường sử dụng."
@@ -1861,6 +2466,21 @@
   "en-extra-depreciate-f3895a6e43": {
     "meaning": "mất giá; khấu hao",
     "notes": "Tài sản giảm giá trị; trong kế toán, phân bổ chi phí tài sản hữu hình qua thời gian sử dụng."
+  },
+  "en-extra-detergent-958d4f64ab": {
+    "meaning": "chất tẩy rửa; nước hoặc bột giặt",
+    "examples": [
+      {
+        "sentence": "Add some detergent to the washing machine.",
+        "translation": "Thêm một ít chất giặt tẩy vào máy giặt."
+      },
+      {
+        "sentence": "This detergent is for clothes.",
+        "translation": "Chất giặt tẩy này dùng cho quần áo."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-deteriorate-cd6334f12e": {
     "meaning": "xấu đi; xuống cấp",
@@ -1997,6 +2617,21 @@
     "meaning": "cổ tức",
     "notes": "Khoản phân phối cho cổ đông, thường từ lợi nhuận của công ty."
   },
+  "en-extra-doormat-fac5eb8942": {
+    "meaning": "thảm chùi chân",
+    "examples": [
+      {
+        "sentence": "Wipe your shoes on the doormat.",
+        "translation": "Hãy chùi giày trên thảm chùi chân."
+      },
+      {
+        "sentence": "We left the key under the doormat.",
+        "translation": "Chúng tôi để chìa khóa dưới thảm chùi chân."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-double-edged-sword-a4dc860aaa": {
     "meaning": "con dao hai lưỡi",
     "notes": "Điều có cả lợi ích lẫn tác hại."
@@ -2012,6 +2647,22 @@
   "en-extra-draw-attention-to-007489659b": {
     "meaning": "thu hút sự chú ý đến",
     "notes": "Draw someone's attention to X: hướng sự chú ý của ai đến X."
+  },
+  "en-extra-dress-up-662d0f591a": {
+    "meaning": "ăn mặc đẹp hoặc trang trọng; hóa trang",
+    "notes": "Dress up as + nhân vật.",
+    "examples": [
+      {
+        "sentence": "We dressed up for the party.",
+        "translation": "Chúng tôi ăn mặc đẹp để dự tiệc."
+      },
+      {
+        "sentence": "The children dressed up as pirates.",
+        "translation": "Bọn trẻ hóa trang thành cướp biển."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-drive-meaningful-change-f3be1f6be6": {
     "meaning": "thúc đẩy thay đổi thực chất",
@@ -2033,6 +2684,21 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-duct-tape-4f11dad67b": {
+    "meaning": "băng keo vải chịu lực",
+    "examples": [
+      {
+        "sentence": "He fixed the torn bag with duct tape.",
+        "translation": "Anh ấy sửa chiếc túi rách bằng băng keo vải."
+      },
+      {
+        "sentence": "We need a roll of duct tape.",
+        "translation": "Chúng ta cần một cuộn băng keo vải."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-durability-2731dedfe2": {
     "meaning": "độ bền",
     "notes": "Khả năng chịu sử dụng hoặc hao mòn trong thời gian dài."
@@ -2047,6 +2713,38 @@
       {
         "sentence": "I lost one of my earrings.",
         "translation": "Tôi làm mất một chiếc khuyên tai."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-eat-out-a758644d47": {
+    "meaning": "ăn ở hàng quán",
+    "notes": "Không cần tân ngữ.",
+    "examples": [
+      {
+        "sentence": "We eat out on Saturdays.",
+        "translation": "Chúng tôi đi ăn ngoài vào thứ Bảy."
+      },
+      {
+        "sentence": "Do you want to eat out tonight?",
+        "translation": "Tối nay bạn muốn đi ăn ngoài không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-eavesdrop-28897ea1b7": {
+    "meaning": "nghe lén",
+    "notes": "Eavesdrop on + người/cuộc trò chuyện.",
+    "examples": [
+      {
+        "sentence": "Don't eavesdrop on their conversation.",
+        "translation": "Đừng nghe lén cuộc trò chuyện của họ."
+      },
+      {
+        "sentence": "Someone was eavesdropping outside the door.",
+        "translation": "Có người đang nghe lén bên ngoài cửa."
       }
     ],
     "synonyms": [],
@@ -2171,6 +2869,37 @@
     "meaning": "chọn cách thận trọng hơn",
     "notes": "Chấp nhận thận trọng quá mức thay vì mạo hiểm không cần thiết."
   },
+  "en-extra-errand-6522cf7814": {
+    "meaning": "việc vặt cần đi làm bên ngoài",
+    "notes": "Run an errand = đi làm việc vặt.",
+    "examples": [
+      {
+        "sentence": "I have an errand to run after lunch.",
+        "translation": "Tôi có việc vặt cần đi làm sau bữa trưa."
+      },
+      {
+        "sentence": "She ran several errands this morning.",
+        "translation": "Sáng nay cô ấy đi giải quyết vài việc vặt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-etiquette-b39e075b46": {
+    "meaning": "phép tắc; quy tắc ứng xử",
+    "examples": [
+      {
+        "sentence": "We learned about table etiquette.",
+        "translation": "Chúng tôi học phép tắc trên bàn ăn."
+      },
+      {
+        "sentence": "Good email etiquette matters at work.",
+        "translation": "Quy tắc ứng xử qua email rất quan trọng ở nơi làm việc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-euphemism-23f6def927": {
     "meaning": "cách nói giảm nói tránh",
     "notes": "Dùng từ nhẹ nhàng hơn thay cho cách diễn đạt khó nghe hoặc nhạy cảm."
@@ -2206,6 +2935,21 @@
     "antonyms": [],
     "notes": "Everyday là tính từ trước danh từ; every day là cụm trạng từ: I study every day."
   },
+  "en-extra-exchange-rate-0fca39a9b3": {
+    "meaning": "tỷ giá hối đoái",
+    "examples": [
+      {
+        "sentence": "What is the exchange rate today?",
+        "translation": "Tỷ giá hôm nay là bao nhiêu?"
+      },
+      {
+        "sentence": "The bank offers a better exchange rate.",
+        "translation": "Ngân hàng có tỷ giá tốt hơn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-exemplify-416efcae23": {
     "meaning": "minh họa; là ví dụ điển hình",
     "notes": "Chỉ việc thể hiện rõ một đặc điểm hay nguyên tắc bằng ví dụ."
@@ -2224,6 +2968,22 @@
       {
         "sentence": "We visited an art exhibition on Sunday.",
         "translation": "Chúng tôi tham quan một triển lãm nghệ thuật vào Chủ nhật."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-expiry-c955506fc1": {
+    "meaning": "sự hết hạn",
+    "notes": "Expiry date = ngày hết hạn; Anh–Mỹ thường expiration date.",
+    "examples": [
+      {
+        "sentence": "Check the expiry date on the milk.",
+        "translation": "Hãy xem hạn sử dụng trên hộp sữa."
+      },
+      {
+        "sentence": "The card is no longer valid after expiry.",
+        "translation": "Thẻ không còn giá trị sau khi hết hạn."
       }
     ],
     "synonyms": [],
@@ -2380,6 +3140,22 @@
     "meaning": "nộp đơn kháng cáo; khiếu nại",
     "notes": "File chỉ việc nộp chính thức; loại đơn tùy quy trình pháp lý."
   },
+  "en-extra-fill-up-7a54515a63": {
+    "meaning": "đổ đầy; làm đầy",
+    "notes": "Có thể có hoặc không có tân ngữ; fill it up.",
+    "examples": [
+      {
+        "sentence": "Fill up the tank before we leave.",
+        "translation": "Hãy đổ đầy bình trước khi đi."
+      },
+      {
+        "sentence": "The room filled up quickly.",
+        "translation": "Căn phòng nhanh chóng chật kín."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-firewall-a3863c5d7c": {
     "meaning": "tường lửa",
     "notes": "Cơ chế kiểm soát lưu lượng mạng dựa trên quy tắc an ninh."
@@ -2398,6 +3174,37 @@
       {
         "sentence": "The fisherman sold his catch at the market.",
         "translation": "Người đánh cá bán số cá bắt được ở chợ."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-flashlight-b982eabb16": {
+    "meaning": "đèn pin",
+    "notes": "Anh–Anh thường dùng torch.",
+    "examples": [
+      {
+        "sentence": "Take a flashlight when you go outside at night.",
+        "translation": "Hãy mang đèn pin khi ra ngoài vào ban đêm."
+      },
+      {
+        "sentence": "The flashlight needs new batteries.",
+        "translation": "Đèn pin cần pin mới."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-flatter-d92d2c2d4b": {
+    "meaning": "tâng bốc; làm tôn lên vẻ đẹp",
+    "examples": [
+      {
+        "sentence": "He tried to flatter his boss.",
+        "translation": "Anh ấy cố tâng bốc sếp."
+      },
+      {
+        "sentence": "That dress flatters her figure.",
+        "translation": "Chiếc váy đó tôn dáng cô ấy."
       }
     ],
     "synonyms": [],
@@ -2624,6 +3431,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-give-away-6549f71c49": {
+    "meaning": "tặng miễn phí; tiết lộ",
+    "notes": "Tách được: give them away.",
+    "examples": [
+      {
+        "sentence": "She gave away her old books.",
+        "translation": "Cô ấy tặng những cuốn sách cũ."
+      },
+      {
+        "sentence": "Don't give away the ending.",
+        "translation": "Đừng tiết lộ đoạn kết."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-globe-d2a1fc0432": {
     "meaning": "quả địa cầu",
     "examples": [
@@ -2742,6 +3565,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-grocery-7aa5eb472a": {
+    "meaning": "cửa hàng tạp hóa; thực phẩm và đồ dùng hằng ngày (thường groceries)",
+    "notes": "Groceries thường dùng số nhiều; grocery store = cửa hàng tạp hóa.",
+    "examples": [
+      {
+        "sentence": "I stopped at the local grocery.",
+        "translation": "Tôi ghé cửa hàng tạp hóa địa phương."
+      },
+      {
+        "sentence": "We bought groceries for the week.",
+        "translation": "Chúng tôi mua thực phẩm và đồ dùng cho cả tuần."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-grocery-store-dede36f13c": {
     "meaning": "cửa hàng thực phẩm và tạp hóa",
     "examples": [
@@ -2752,6 +3591,21 @@
       {
         "sentence": "We buy fruit at the grocery store.",
         "translation": "Chúng tôi mua trái cây tại cửa hàng tạp hóa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-guided-tour-dce65e2c0a": {
+    "meaning": "chuyến tham quan có hướng dẫn viên",
+    "examples": [
+      {
+        "sentence": "We joined a guided tour of the city.",
+        "translation": "Chúng tôi tham gia chuyến tham quan thành phố có hướng dẫn viên."
+      },
+      {
+        "sentence": "The museum offers guided tours.",
+        "translation": "Bảo tàng tổ chức các chuyến tham quan có hướng dẫn."
       }
     ],
     "synonyms": [],
@@ -2782,6 +3636,53 @@
       {
         "sentence": "Her handbag is under the chair.",
         "translation": "Túi xách của cô ấy ở dưới ghế."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-hang-out-ee6ee4a837": {
+    "meaning": "tụ tập; đi chơi thư giãn",
+    "notes": "Hang out with + người; phơi đồ: hang the clothes out, khác cấu trúc.",
+    "examples": [
+      {
+        "sentence": "We hang out after class.",
+        "translation": "Chúng tôi đi chơi sau giờ học."
+      },
+      {
+        "sentence": "She likes hanging out with friends.",
+        "translation": "Cô ấy thích đi chơi với bạn bè."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-hang-up-19052990ed": {
+    "meaning": "cúp máy; treo lên",
+    "notes": "Treo đồ: hang it up. Cúp máy: hang up hoặc hang up on someone.",
+    "examples": [
+      {
+        "sentence": "Don't hang up yet.",
+        "translation": "Đừng cúp máy vội."
+      },
+      {
+        "sentence": "Hang up your coat by the door.",
+        "translation": "Hãy treo áo khoác cạnh cửa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-hanger-d248cfe618": {
+    "meaning": "móc treo quần áo",
+    "examples": [
+      {
+        "sentence": "Put your shirt on a hanger.",
+        "translation": "Hãy treo áo sơ mi lên móc."
+      },
+      {
+        "sentence": "There are three hangers in the wardrobe.",
+        "translation": "Có ba móc treo trong tủ quần áo."
       }
     ],
     "synonyms": [],
@@ -2841,6 +3742,22 @@
     "meaning": "dùng quá nhiều biệt ngữ",
     "notes": "Cách diễn đạt không trang trọng; heavy on X nghĩa là chứa nhiều X."
   },
+  "en-extra-hesitate-ce8a390a4a": {
+    "meaning": "do dự; ngần ngại",
+    "notes": "Hesitate to do something.",
+    "examples": [
+      {
+        "sentence": "Don't hesitate to ask for help.",
+        "translation": "Đừng ngần ngại nhờ giúp đỡ."
+      },
+      {
+        "sentence": "She hesitated before answering.",
+        "translation": "Cô ấy do dự trước khi trả lời."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-hike-c02d7803a9": {
     "meaning": "chuyến đi bộ đường dài",
     "examples": [
@@ -2866,6 +3783,21 @@
       {
         "sentence": "She bought hiking boots.",
         "translation": "Cô ấy mua giày đi bộ đường dài."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-hinge-7706c3c94d": {
+    "meaning": "bản lề",
+    "examples": [
+      {
+        "sentence": "The door hinge is loose.",
+        "translation": "Bản lề cửa bị lỏng."
+      },
+      {
+        "sentence": "He replaced a broken hinge.",
+        "translation": "Anh ấy thay một bản lề bị hỏng."
       }
     ],
     "synonyms": [],
@@ -3258,6 +4190,21 @@
       }
     ]
   },
+  "en-extra-kettle-20cd4732ae": {
+    "meaning": "ấm đun nước",
+    "examples": [
+      {
+        "sentence": "The kettle is boiling.",
+        "translation": "Nước trong ấm đang sôi."
+      },
+      {
+        "sentence": "She filled the kettle with water.",
+        "translation": "Cô ấy đổ nước vào ấm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-kilo-54c5ccf0f3": {
     "meaning": "kilôgam; ký",
     "examples": [
@@ -3310,6 +4257,21 @@
   "en-extra-lasting-impression-f67cd8183e": {
     "meaning": "ấn tượng lâu phai",
     "notes": "Leave/make a lasting impression on someone: để lại ấn tượng lâu dài với ai."
+  },
+  "en-extra-latch-83b6a889a0": {
+    "meaning": "chốt gài",
+    "examples": [
+      {
+        "sentence": "Close the gate and lift the latch to open it.",
+        "translation": "Đóng cổng lại và nhấc chốt lên để mở."
+      },
+      {
+        "sentence": "The window latch is broken.",
+        "translation": "Chốt cửa sổ bị hỏng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-latency-3fdb7e873d": {
     "meaning": "độ trễ",
@@ -3387,6 +4349,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-leftovers-85b0a22b31": {
+    "meaning": "thức ăn còn thừa",
+    "notes": "Thường dùng số nhiều.",
+    "examples": [
+      {
+        "sentence": "We ate leftovers for lunch.",
+        "translation": "Chúng tôi ăn đồ ăn còn thừa vào bữa trưa."
+      },
+      {
+        "sentence": "Put the leftovers in the fridge.",
+        "translation": "Hãy cất thức ăn còn thừa vào tủ lạnh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-legal-liability-2340b8d6fc": {
     "meaning": "trách nhiệm pháp lý",
     "notes": "Trách nhiệm mà pháp luật quy định, có thể dẫn tới nghĩa vụ bồi thường hoặc hậu quả pháp lý."
@@ -3446,6 +4424,21 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-linen-07ad2ef160": {
+    "meaning": "vải lanh",
+    "examples": [
+      {
+        "sentence": "I like linen shirts in summer.",
+        "translation": "Tôi thích áo sơ mi vải lanh vào mùa hè."
+      },
+      {
+        "sentence": "This tablecloth is made of linen.",
+        "translation": "Khăn trải bàn này làm bằng vải lanh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-liquidity-59b47e9ec5": {
     "meaning": "tính thanh khoản",
     "notes": "Khả năng chuyển tài sản thành tiền nhanh mà không mất giá đáng kể; cũng chỉ khả năng đáp ứng nghĩa vụ ngắn hạn."
@@ -3460,6 +4453,37 @@
       {
         "sentence": "We had a lively discussion.",
         "translation": "Chúng tôi thảo luận sôi nổi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-local-specialty-ad8ba33b11": {
+    "meaning": "đặc sản địa phương",
+    "examples": [
+      {
+        "sentence": "Try a local specialty at the market.",
+        "translation": "Hãy thử một món đặc sản địa phương ở chợ."
+      },
+      {
+        "sentence": "This soup is a local specialty.",
+        "translation": "Món súp này là đặc sản địa phương."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-lock-up-b2e9e62704": {
+    "meaning": "khóa cửa cẩn thận",
+    "notes": "Tách được: lock it up.",
+    "examples": [
+      {
+        "sentence": "She locked up the shop at six.",
+        "translation": "Cô ấy khóa cửa hàng lúc sáu giờ."
+      },
+      {
+        "sentence": "Remember to lock up before leaving.",
+        "translation": "Nhớ khóa cửa trước khi đi."
       }
     ],
     "synonyms": [],
@@ -3548,6 +4572,21 @@
   "en-extra-matter-of-degree-0004deca9a": {
     "meaning": "vấn đề về mức độ",
     "notes": "Khác biệt nằm ở nhiều hay ít, thay vì có hay không hoàn toàn."
+  },
+  "en-extra-mattress-098223b63e": {
+    "meaning": "nệm; đệm giường",
+    "examples": [
+      {
+        "sentence": "The mattress is too soft.",
+        "translation": "Chiếc nệm quá mềm."
+      },
+      {
+        "sentence": "We bought a new mattress for the bed.",
+        "translation": "Chúng tôi mua nệm mới cho giường."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-media-coverage-03e65a8350": {
     "meaning": "sự đưa tin của truyền thông",
@@ -3639,6 +4678,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-mix-in-9a590f0ece": {
+    "meaning": "trộn vào",
+    "notes": "Tách được: mix it in.",
+    "examples": [
+      {
+        "sentence": "Mix in the flour slowly.",
+        "translation": "Hãy từ từ trộn bột vào."
+      },
+      {
+        "sentence": "Add the sugar and mix it in.",
+        "translation": "Thêm đường rồi trộn vào."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-modular-0511abcb24": {
     "meaning": "dạng mô-đun",
     "notes": "Gồm các thành phần tương đối độc lập, có thể kết hợp hoặc thay thế."
@@ -3646,6 +4701,21 @@
   "en-extra-monopoly-cb3b5639a0": {
     "meaning": "độc quyền",
     "notes": "Tình trạng một nhà cung cấp chi phối nguồn cung của một thị trường."
+  },
+  "en-extra-mop-40685fd53d": {
+    "meaning": "cây lau nhà",
+    "examples": [
+      {
+        "sentence": "Use a mop to clean the floor.",
+        "translation": "Hãy dùng cây lau nhà để lau sàn."
+      },
+      {
+        "sentence": "The mop is next to the bucket.",
+        "translation": "Cây lau nhà ở cạnh xô."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-moral-compass-0f5b3a4e9d": {
     "meaning": "kim chỉ nam đạo đức",
@@ -3875,6 +4945,36 @@
     "meaning": "đại đa số",
     "notes": "Một đa số rất lớn; không nhất thiết có một tỷ lệ cố định."
   },
+  "en-extra-padlock-f7f1daa58e": {
+    "meaning": "ổ khóa móc",
+    "examples": [
+      {
+        "sentence": "He put a padlock on the gate.",
+        "translation": "Anh ấy lắp ổ khóa móc vào cổng."
+      },
+      {
+        "sentence": "I lost the key to the padlock.",
+        "translation": "Tôi làm mất chìa của ổ khóa móc."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-pantry-c244bfeada": {
+    "meaning": "tủ hoặc phòng chứa thực phẩm",
+    "examples": [
+      {
+        "sentence": "We keep rice in the pantry.",
+        "translation": "Chúng tôi cất gạo trong tủ thực phẩm."
+      },
+      {
+        "sentence": "The pantry is full of canned food.",
+        "translation": "Phòng chứa thực phẩm đầy đồ hộp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-paradigm-cacd11bd74": {
     "meaning": "mô hình tư duy; hệ hình",
     "notes": "Khuôn khổ tư duy hoặc cách tiếp cận điển hình trong một lĩnh vực."
@@ -3948,6 +5048,21 @@
       {
         "sentence": "She added peas to the soup.",
         "translation": "Cô ấy thêm đậu Hà Lan vào súp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-peak-season-a3884cad6a": {
+    "meaning": "mùa cao điểm",
+    "examples": [
+      {
+        "sentence": "Hotels are busy during peak season.",
+        "translation": "Khách sạn đông khách vào mùa cao điểm."
+      },
+      {
+        "sentence": "Prices often rise in peak season.",
+        "translation": "Giá thường tăng vào mùa cao điểm."
       }
     ],
     "synonyms": [],
@@ -4065,6 +5180,21 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-pillowcase-a060347ece": {
+    "meaning": "vỏ gối",
+    "examples": [
+      {
+        "sentence": "I changed my pillowcase yesterday.",
+        "translation": "Hôm qua tôi thay vỏ gối."
+      },
+      {
+        "sentence": "This pillowcase is made of cotton.",
+        "translation": "Vỏ gối này làm bằng vải bông."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-pivotal-29e116cb3c": {
     "meaning": "then chốt; mang tính quyết định",
     "notes": "Chỉ điều có vai trò đặc biệt quan trọng đối với kết quả hoặc diễn biến."
@@ -4122,6 +5252,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-pliers-68f56ba9b3": {
+    "meaning": "kìm",
+    "notes": "Dùng a pair of pliers khi đếm.",
+    "examples": [
+      {
+        "sentence": "Use pliers to bend the wire.",
+        "translation": "Dùng kìm để uốn dây kim loại."
+      },
+      {
+        "sentence": "I bought a pair of pliers.",
+        "translation": "Tôi mua một chiếc kìm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-poem-6449cf6fe8": {
     "meaning": "bài thơ",
     "examples": [
@@ -4163,6 +5309,21 @@
       {
         "sentence": "Cars can pollute the air.",
         "translation": "Ô tô có thể gây ô nhiễm không khí."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-porcelain-aa150d3005": {
+    "meaning": "sứ",
+    "examples": [
+      {
+        "sentence": "The cup is made of porcelain.",
+        "translation": "Chiếc cốc làm bằng sứ."
+      },
+      {
+        "sentence": "She collects porcelain dolls.",
+        "translation": "Cô ấy sưu tập búp bê sứ."
       }
     ],
     "synonyms": [],
@@ -4373,6 +5534,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-put-together-3a3c808639": {
+    "meaning": "lắp ráp; tập hợp",
+    "notes": "Tách được: put it together.",
+    "examples": [
+      {
+        "sentence": "We put together the new desk.",
+        "translation": "Chúng tôi lắp chiếc bàn mới."
+      },
+      {
+        "sentence": "She put together a list of questions.",
+        "translation": "Cô ấy tổng hợp danh sách câu hỏi."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-quiz-9d98ce221d": {
     "meaning": "bài kiểm tra ngắn; đố vui",
     "examples": [
@@ -4470,6 +5647,22 @@
       {
         "sentence": "The young reader asked for another story.",
         "translation": "Bạn đọc nhỏ tuổi xin nghe thêm một câu chuyện."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-reassure-81c0d8e4cd": {
+    "meaning": "trấn an; làm yên tâm",
+    "notes": "Reassure someone that + mệnh đề.",
+    "examples": [
+      {
+        "sentence": "The teacher reassured the worried student.",
+        "translation": "Giáo viên trấn an học sinh đang lo lắng."
+      },
+      {
+        "sentence": "She reassured me that everything was fine.",
+        "translation": "Cô ấy trấn an tôi rằng mọi chuyện đều ổn."
       }
     ],
     "synonyms": [],
@@ -4659,6 +5852,21 @@
     "meaning": "giảm thiểu rủi ro",
     "notes": "Giảm khả năng xảy ra hoặc mức độ tác động của rủi ro; không nhất thiết loại bỏ hoàn toàn."
   },
+  "en-extra-room-service-fe37a04231": {
+    "meaning": "dịch vụ phục vụ tận phòng",
+    "examples": [
+      {
+        "sentence": "We ordered breakfast through room service.",
+        "translation": "Chúng tôi gọi bữa sáng qua dịch vụ phòng."
+      },
+      {
+        "sentence": "Is room service available at night?",
+        "translation": "Ban đêm có dịch vụ phục vụ tận phòng không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-roughly-0debf3ab76": {
     "meaning": "xấp xỉ; khoảng",
     "examples": [
@@ -4704,6 +5912,22 @@
       {
         "sentence": "She used a ruler to draw a straight line.",
         "translation": "Cô ấy dùng thước kẻ để vẽ một đường thẳng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-run-across-7fe8810e37": {
+    "meaning": "tình cờ gặp; tình cờ tìm thấy",
+    "notes": "Không tách run và across trong nghĩa này.",
+    "examples": [
+      {
+        "sentence": "I ran across an old photo yesterday.",
+        "translation": "Hôm qua tôi tình cờ tìm thấy một bức ảnh cũ."
+      },
+      {
+        "sentence": "We ran across a friend at the market.",
+        "translation": "Chúng tôi tình cờ gặp một người bạn ở chợ."
       }
     ],
     "synonyms": [],
@@ -4758,6 +5982,21 @@
     "meaning": "nổi bật; đáng chú ý",
     "notes": "Nói về điểm quan trọng nhất hoặc dễ nhận ra nhất trong một vấn đề."
   },
+  "en-extra-sandpaper-6f26a9e4e7": {
+    "meaning": "giấy nhám",
+    "examples": [
+      {
+        "sentence": "Rub the wood with sandpaper.",
+        "translation": "Chà gỗ bằng giấy nhám."
+      },
+      {
+        "sentence": "I need a sheet of sandpaper.",
+        "translation": "Tôi cần một tờ giấy nhám."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-satisfy-7688bd7c42": {
     "meaning": "đáp ứng; làm hài lòng",
     "examples": [
@@ -4808,6 +6047,21 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-scenic-spot-ebcc0539f3": {
+    "meaning": "điểm ngắm cảnh đẹp",
+    "examples": [
+      {
+        "sentence": "We stopped at a scenic spot by the lake.",
+        "translation": "Chúng tôi dừng ở một điểm ngắm cảnh bên hồ."
+      },
+      {
+        "sentence": "This hill is a popular scenic spot.",
+        "translation": "Ngọn đồi này là điểm ngắm cảnh được yêu thích."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-scientist-c2da2700b8": {
     "meaning": "nhà khoa học",
     "examples": [
@@ -4823,6 +6077,21 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-screwdriver-2f2d4a8891": {
+    "meaning": "tua vít",
+    "examples": [
+      {
+        "sentence": "I need a screwdriver to open the cover.",
+        "translation": "Tôi cần tua vít để mở nắp."
+      },
+      {
+        "sentence": "She tightened the screw with a screwdriver.",
+        "translation": "Cô ấy siết vít bằng tua vít."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-scrupulous-383d33936d": {
     "meaning": "rất cẩn trọng; ngay thẳng",
     "notes": "Có thể nhấn mạnh sự kỹ lưỡng hoặc việc tuân thủ nghiêm túc nguyên tắc đạo đức."
@@ -4830,6 +6099,21 @@
   "en-extra-scrutinize-methodology-5eaa3a3ec6": {
     "meaning": "xem xét kỹ phương pháp luận",
     "notes": "Scrutinize nhấn mạnh kiểm tra kỹ để đánh giá điểm mạnh hoặc hạn chế."
+  },
+  "en-extra-sea-view-53355e58d0": {
+    "meaning": "tầm nhìn ra biển",
+    "examples": [
+      {
+        "sentence": "We booked a room with a sea view.",
+        "translation": "Chúng tôi đặt phòng nhìn ra biển."
+      },
+      {
+        "sentence": "The restaurant has a beautiful sea view.",
+        "translation": "Nhà hàng có tầm nhìn ra biển rất đẹp."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-seafood-65cd9e48ef": {
     "meaning": "hải sản",
@@ -5176,6 +6460,22 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-socket-47dd56c2c7": {
+    "meaning": "ổ cắm điện; hốc lắp",
+    "notes": "Socket còn chỉ hốc hoặc lỗ để lắp một bộ phận.",
+    "examples": [
+      {
+        "sentence": "Plug the lamp into the wall socket.",
+        "translation": "Cắm đèn vào ổ điện trên tường."
+      },
+      {
+        "sentence": "The bulb fits into this socket.",
+        "translation": "Bóng đèn vừa với đui đèn này."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-sofa-d32ce7bf02": {
     "meaning": "ghế sofa",
     "examples": [
@@ -5214,6 +6514,37 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-split-the-bill-3c76625529": {
+    "meaning": "chia tiền hóa đơn",
+    "notes": "Không nhất thiết mỗi người trả bằng nhau.",
+    "examples": [
+      {
+        "sentence": "Let's split the bill.",
+        "translation": "Mình chia tiền hóa đơn nhé."
+      },
+      {
+        "sentence": "We split the bill between four people.",
+        "translation": "Chúng tôi chia tiền hóa đơn cho bốn người."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-sponge-46248ac689": {
+    "meaning": "miếng bọt biển",
+    "examples": [
+      {
+        "sentence": "Wash the dishes with a sponge.",
+        "translation": "Hãy rửa bát bằng miếng bọt biển."
+      },
+      {
+        "sentence": "I cleaned the table with a damp sponge.",
+        "translation": "Tôi lau bàn bằng miếng bọt biển ẩm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-stabilize-bbf7cf0f27": {
     "meaning": "ổn định; làm ổn định",
     "notes": "Làm hoặc trở nên ít biến động hơn."
@@ -5240,6 +6571,21 @@
   "en-extra-stand-the-test-of-time-7baeba13b6": {
     "meaning": "bền vững qua thời gian",
     "notes": "Tiếp tục có giá trị hoặc được công nhận sau một thời gian dài."
+  },
+  "en-extra-stapler-6247f77181": {
+    "meaning": "dụng cụ bấm ghim",
+    "examples": [
+      {
+        "sentence": "Can I borrow your stapler?",
+        "translation": "Tôi mượn đồ bấm ghim của bạn được không?"
+      },
+      {
+        "sentence": "The stapler is on the desk.",
+        "translation": "Đồ bấm ghim ở trên bàn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-stark-contrast-61cccf6d49": {
     "meaning": "sự tương phản rõ rệt",
@@ -5367,6 +6713,21 @@
   "en-extra-succinct-28752d4e70": {
     "meaning": "súc tích; ngắn gọn",
     "notes": "Diễn đạt ít lời nhưng đủ ý."
+  },
+  "en-extra-suede-66dd06d9ff": {
+    "meaning": "da lộn",
+    "examples": [
+      {
+        "sentence": "She bought a pair of suede shoes.",
+        "translation": "Cô ấy mua một đôi giày da lộn."
+      },
+      {
+        "sentence": "Keep the suede bag dry.",
+        "translation": "Hãy giữ túi da lộn khô ráo."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-suggestion-650ffa8212": {
     "meaning": "gợi ý; đề xuất",
@@ -5601,6 +6962,22 @@
     "meaning": "khéo léo; tế nhị",
     "notes": "Biết nói hoặc làm sao để tránh làm người khác khó xử hay tổn thương."
   },
+  "en-extra-take-apart-e7e64a7a13": {
+    "meaning": "tháo rời",
+    "notes": "Tách được: take it apart.",
+    "examples": [
+      {
+        "sentence": "He took apart the broken radio.",
+        "translation": "Anh ấy tháo rời chiếc radio hỏng."
+      },
+      {
+        "sentence": "Can you take this chair apart?",
+        "translation": "Bạn tháo rời chiếc ghế này được không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-take-full-accountability-fddf8b3a11": {
     "meaning": "chịu hoàn toàn trách nhiệm",
     "notes": "Take accountability for + danh từ/V-ing: nhận trách nhiệm và giải trình về kết quả.",
@@ -5684,6 +7061,21 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-thermos-302949d0b8": {
+    "meaning": "bình giữ nhiệt",
+    "examples": [
+      {
+        "sentence": "He took a thermos of tea to work.",
+        "translation": "Anh ấy mang một bình trà giữ nhiệt đến chỗ làm."
+      },
+      {
+        "sentence": "My thermos keeps water warm.",
+        "translation": "Bình giữ nhiệt của tôi giữ nước ấm."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-thick-7b1291e7ed": {
     "meaning": "dày",
     "examples": [
@@ -5733,6 +7125,38 @@
     "meaning": "thí nghiệm tư duy",
     "notes": "Dùng một tình huống giả định để kiểm tra ý tưởng hoặc lập luận."
   },
+  "en-extra-three-course-meal-cf461e634a": {
+    "meaning": "bữa ăn ba món",
+    "notes": "Thường gồm khai vị, món chính và tráng miệng.",
+    "examples": [
+      {
+        "sentence": "We ordered a three-course meal.",
+        "translation": "Chúng tôi gọi bữa ăn ba món."
+      },
+      {
+        "sentence": "The hotel serves a three-course meal for dinner.",
+        "translation": "Khách sạn phục vụ bữa tối ba món."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-throw-away-b9eeea2854": {
+    "meaning": "vứt bỏ; lãng phí",
+    "notes": "Tách được: throw the box away, throw it away.",
+    "examples": [
+      {
+        "sentence": "Don't throw away this box.",
+        "translation": "Đừng vứt chiếc hộp này."
+      },
+      {
+        "sentence": "He threw away a good opportunity.",
+        "translation": "Anh ấy bỏ phí một cơ hội tốt."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-thunderstorm-e3dd6fdb8a": {
     "meaning": "cơn dông có sấm sét",
     "examples": [
@@ -5758,6 +7182,22 @@
       {
         "sentence": "Keep your desk tidy.",
         "translation": "Hãy giữ bàn làm việc gọn gàng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-tidy-up-ac589c1e9b": {
+    "meaning": "dọn dẹp cho gọn",
+    "notes": "Tách được khi có tân ngữ: tidy it up.",
+    "examples": [
+      {
+        "sentence": "Tidy up your desk, please.",
+        "translation": "Vui lòng dọn gọn bàn làm việc."
+      },
+      {
+        "sentence": "We tidied up after the party.",
+        "translation": "Chúng tôi dọn dẹp sau bữa tiệc."
       }
     ],
     "synonyms": [],
@@ -5973,6 +7413,21 @@
     "meaning": "biến đổi; chuyển đổi",
     "notes": "Thay đổi rõ rệt hình thức, tính chất hoặc cách vận hành: transform X into Y."
   },
+  "en-extra-travel-insurance-9d46935707": {
+    "meaning": "bảo hiểm du lịch",
+    "examples": [
+      {
+        "sentence": "We bought travel insurance before the trip.",
+        "translation": "Chúng tôi mua bảo hiểm du lịch trước chuyến đi."
+      },
+      {
+        "sentence": "Does your travel insurance cover lost luggage?",
+        "translation": "Bảo hiểm du lịch của bạn có bảo hiểm hành lý thất lạc không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-traveler-cd50fc998e": {
     "meaning": "người đi du lịch; khách lữ hành",
     "notes": "Anh–Anh traveller.",
@@ -5989,9 +7444,41 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-trolley-ed42fdbd04": {
+    "meaning": "xe đẩy hàng hoặc hành lý; xe điện (một số vùng)",
+    "notes": "Shopping trolley (Anh–Anh); shopping cart (Anh–Mỹ).",
+    "examples": [
+      {
+        "sentence": "Put the bags on the trolley.",
+        "translation": "Hãy đặt túi lên xe đẩy."
+      },
+      {
+        "sentence": "She pushed a shopping trolley around the store.",
+        "translation": "Cô ấy đẩy xe mua hàng quanh cửa hàng."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-troubleshoot-ddcc20d051": {
     "meaning": "tìm và xử lý sự cố",
     "notes": "Tìm nguyên nhân vấn đề và xác định cách khắc phục."
+  },
+  "en-extra-try-out-834dcaea48": {
+    "meaning": "dùng thử; thử nghiệm",
+    "notes": "Tách được: try it out. Try out for a team = thử tuyển vào đội.",
+    "examples": [
+      {
+        "sentence": "Can I try out this bike?",
+        "translation": "Tôi có thể đi thử chiếc xe đạp này không?"
+      },
+      {
+        "sentence": "We tried out a new game.",
+        "translation": "Chúng tôi chơi thử một trò chơi mới."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-turkey-8d7d5397f8": {
     "meaning": "gà tây; thịt gà tây",
@@ -6012,6 +7499,22 @@
   "en-extra-turn-a-blind-eye-0396d3f76d": {
     "meaning": "cố tình làm ngơ",
     "notes": "Turn a blind eye to + vấn đề: cố ý phớt lờ điều đáng phải xử lý."
+  },
+  "en-extra-turn-around-9740d2a84f": {
+    "meaning": "quay lại; xoay chuyển tình thế",
+    "notes": "Có thể không có tân ngữ; turn it around khi có.",
+    "examples": [
+      {
+        "sentence": "Turn around and look at me.",
+        "translation": "Hãy quay lại nhìn tôi."
+      },
+      {
+        "sentence": "The new manager turned the business around.",
+        "translation": "Quản lý mới đã xoay chuyển tình hình kinh doanh."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-turnaround-85719be272": {
     "meaning": "sự xoay chuyển; thời gian xử lý",
@@ -6178,6 +7681,37 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-vegetarian-option-6cd348744d": {
+    "meaning": "lựa chọn món chay",
+    "notes": "Vegetarian không nhất thiết là vegan.",
+    "examples": [
+      {
+        "sentence": "Is there a vegetarian option on the menu?",
+        "translation": "Thực đơn có món chay không?"
+      },
+      {
+        "sentence": "They offer a vegetarian option for lunch.",
+        "translation": "Họ có lựa chọn món chay cho bữa trưa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-velvet-f4c44266a2": {
+    "meaning": "vải nhung",
+    "examples": [
+      {
+        "sentence": "She wore a velvet jacket.",
+        "translation": "Cô ấy mặc áo khoác nhung."
+      },
+      {
+        "sentence": "The curtains are made of velvet.",
+        "translation": "Rèm cửa được làm bằng nhung."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-verb-6806f86a17": {
     "meaning": "động từ",
     "examples": [
@@ -6317,6 +7851,21 @@
     "meaning": "giữ thế cân bằng mong manh",
     "notes": "Nghĩa bóng: xử lý tình huống khó giữa những yêu cầu hoặc rủi ro đối nghịch."
   },
+  "en-extra-warranty-9ba5d957f2": {
+    "meaning": "bảo hành; cam kết bảo hành",
+    "examples": [
+      {
+        "sentence": "The phone comes with a one-year warranty.",
+        "translation": "Điện thoại có bảo hành một năm."
+      },
+      {
+        "sentence": "Is this repair covered by the warranty?",
+        "translation": "Việc sửa chữa này có thuộc phạm vi bảo hành không?"
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-washing-up-564edb6705": {
     "meaning": "việc rửa bát đĩa",
     "notes": "Anh–Anh do the washing-up; Anh–Mỹ do the dishes.",
@@ -6336,6 +7885,21 @@
   "en-extra-watershed-moment-839f404682": {
     "meaning": "thời điểm bước ngoặt",
     "notes": "Thời điểm đánh dấu sự thay đổi quan trọng trong diễn biến."
+  },
+  "en-extra-weather-forecast-92729e626f": {
+    "meaning": "dự báo thời tiết",
+    "examples": [
+      {
+        "sentence": "Check the weather forecast before leaving.",
+        "translation": "Hãy xem dự báo thời tiết trước khi đi."
+      },
+      {
+        "sentence": "The weather forecast predicts rain tomorrow.",
+        "translation": "Dự báo thời tiết cho biết ngày mai có mưa."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-webhook-9fd09dc335": {
     "meaning": "cơ chế thông báo sự kiện qua web",
@@ -6386,6 +7950,21 @@
     "synonyms": [],
     "antonyms": []
   },
+  "en-extra-welcoming-908c8cca2e": {
+    "meaning": "niềm nở; tạo cảm giác được chào đón",
+    "examples": [
+      {
+        "sentence": "The staff were warm and welcoming.",
+        "translation": "Nhân viên rất nồng nhiệt và niềm nở."
+      },
+      {
+        "sentence": "The room felt welcoming.",
+        "translation": "Căn phòng tạo cảm giác thân thiện."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
   "en-extra-well-known-d91ec1b42e": {
     "meaning": "nổi tiếng; được nhiều người biết",
     "examples": [
@@ -6411,6 +7990,21 @@
       {
         "sentence": "The museum has space for wheelchairs.",
         "translation": "Bảo tàng có chỗ cho xe lăn."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
+  },
+  "en-extra-wicker-d127b25568": {
+    "meaning": "vật liệu đan từ cành, mây hoặc liễu",
+    "examples": [
+      {
+        "sentence": "We sat in wicker chairs.",
+        "translation": "Chúng tôi ngồi trên ghế mây đan."
+      },
+      {
+        "sentence": "She carried a wicker basket.",
+        "translation": "Cô ấy xách một chiếc giỏ đan."
       }
     ],
     "synonyms": [],
@@ -6450,6 +8044,22 @@
   "en-extra-worthy-of-scrutiny-75ef7af299": {
     "meaning": "đáng được xem xét kỹ",
     "notes": "Scrutiny là sự kiểm tra kỹ lưỡng, thường mang tính phản biện."
+  },
+  "en-extra-wrench-702b023f61": {
+    "meaning": "cờ lê; mỏ lết",
+    "notes": "Anh–Anh thường dùng spanner cho cờ lê.",
+    "examples": [
+      {
+        "sentence": "Use a wrench to loosen the nut.",
+        "translation": "Dùng cờ lê để nới lỏng đai ốc."
+      },
+      {
+        "sentence": "I need an adjustable wrench.",
+        "translation": "Tôi cần một chiếc mỏ lết."
+      }
+    ],
+    "synonyms": [],
+    "antonyms": []
   },
   "en-extra-writer-s-block-1879446837": {
     "meaning": "tình trạng bí ý tưởng khi viết",

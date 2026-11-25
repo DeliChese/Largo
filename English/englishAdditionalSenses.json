@@ -32,6 +32,91 @@
       ]
     }
   ],
+  "deck-en-a2-travel-delay": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "trì hoãn; làm chậm",
+      "examples": [
+        {
+          "sentence": "Heavy rain delayed the flight.",
+          "translation": "Mưa lớn làm chuyến bay bị hoãn."
+        },
+        {
+          "sentence": "Don't delay your reply.",
+          "translation": "Đừng trì hoãn việc trả lời."
+        }
+      ],
+      "notes": "Delay + danh từ/V-ing."
+    }
+  ],
+  "deck-en-a2-travel-refund": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "hoàn tiền",
+      "examples": [
+        {
+          "sentence": "The store refunded my money.",
+          "translation": "Cửa hàng hoàn lại tiền cho tôi."
+        },
+        {
+          "sentence": "They will refund the ticket price.",
+          "translation": "Họ sẽ hoàn lại tiền vé."
+        }
+      ],
+      "notes": "Động từ thường nhấn âm hai.",
+      "phonetic": "/rɪˈfʌnd/"
+    }
+  ],
+  "deck-en-a2-work-study-schedule": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "lịch trình",
+      "examples": [
+        {
+          "sentence": "Check your schedule before agreeing.",
+          "translation": "Hãy kiểm tra lịch trước khi đồng ý."
+        },
+        {
+          "sentence": "The train is behind schedule.",
+          "translation": "Tàu chạy chậm hơn lịch."
+        }
+      ],
+      "notes": "On schedule = đúng tiến độ."
+    }
+  ],
+  "deck-en-a2-work-study-update": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "cập nhật",
+      "examples": [
+        {
+          "sentence": "Please update the file.",
+          "translation": "Vui lòng cập nhật tệp."
+        },
+        {
+          "sentence": "She updated me on the project.",
+          "translation": "Cô ấy cập nhật tình hình dự án cho tôi."
+        }
+      ],
+      "notes": "Update someone on + chủ đề."
+    }
+  ],
+  "en-extra-blunt-bb79caae5f": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "làm cùn; làm giảm tác động",
+      "examples": [
+        {
+          "sentence": "Cutting metal can blunt the blade.",
+          "translation": "Cắt kim loại có thể làm cùn lưỡi dao."
+        },
+        {
+          "sentence": "The cover helps blunt the impact.",
+          "translation": "Lớp bọc giúp giảm lực va chạm."
+        }
+      ]
+    }
+  ],
   "en-extra-cereal-38c09b5448": [
     {
       "partOfSpeech": "Danh từ",
@@ -97,6 +182,38 @@
       ]
     }
   ],
+  "en-extra-cordial-8d5352e3e1": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "nước siro trái cây pha uống (Anh–Anh)",
+      "examples": [
+        {
+          "sentence": "She bought a bottle of lime cordial.",
+          "translation": "Cô ấy mua một chai siro chanh."
+        },
+        {
+          "sentence": "Mix the cordial with water.",
+          "translation": "Hãy pha siro với nước."
+        }
+      ]
+    }
+  ],
+  "en-extra-cushion-d0eae8d194": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "giảm chấn; làm dịu tác động",
+      "examples": [
+        {
+          "sentence": "The foam cushions the impact.",
+          "translation": "Miếng xốp giảm lực va chạm."
+        },
+        {
+          "sentence": "The mat cushions your feet.",
+          "translation": "Tấm thảm giúp chân đỡ chịu lực."
+        }
+      ]
+    }
+  ],
   "en-extra-custom-6cdfd271da": [
     {
       "partOfSpeech": "Tính từ",
@@ -146,6 +263,39 @@
       ]
     }
   ],
+  "en-extra-hinge-7706c3c94d": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "phụ thuộc vào (hinge on)",
+      "examples": [
+        {
+          "sentence": "The plan hinges on the weather.",
+          "translation": "Kế hoạch phụ thuộc vào thời tiết."
+        },
+        {
+          "sentence": "Success hinges on teamwork.",
+          "translation": "Thành công phụ thuộc vào tinh thần làm việc nhóm."
+        }
+      ],
+      "notes": "Hinge on + danh từ."
+    }
+  ],
+  "en-extra-latch-83b6a889a0": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "gài chốt",
+      "examples": [
+        {
+          "sentence": "Please latch the gate.",
+          "translation": "Vui lòng gài chốt cổng."
+        },
+        {
+          "sentence": "She latched the window before leaving.",
+          "translation": "Cô ấy gài chốt cửa sổ trước khi đi."
+        }
+      ]
+    }
+  ],
   "en-extra-lyric-acf660ae9a": [
     {
       "partOfSpeech": "Danh từ",
@@ -158,6 +308,38 @@
         {
           "sentence": "She wrote the lyrics for the song.",
           "translation": "Cô ấy viết lời cho bài hát."
+        }
+      ]
+    }
+  ],
+  "en-extra-mop-40685fd53d": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "lau bằng cây lau nhà",
+      "examples": [
+        {
+          "sentence": "I mop the kitchen floor every day.",
+          "translation": "Tôi lau sàn bếp mỗi ngày."
+        },
+        {
+          "sentence": "He mopped the floor after dinner.",
+          "translation": "Anh ấy lau sàn sau bữa tối."
+        }
+      ]
+    }
+  ],
+  "en-extra-padlock-f7f1daa58e": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "khóa bằng ổ khóa móc",
+      "examples": [
+        {
+          "sentence": "They padlocked the gate.",
+          "translation": "Họ khóa cổng bằng ổ khóa móc."
+        },
+        {
+          "sentence": "He padlocked his bike to the rack.",
+          "translation": "Anh ấy dùng ổ khóa móc khóa xe đạp vào giá."
         }
       ]
     }
@@ -275,6 +457,22 @@
         {
           "sentence": "We publish the list weekly.",
           "translation": "Chúng tôi công bố danh sách mỗi tuần."
+        }
+      ]
+    }
+  ],
+  "en-extra-wrench-702b023f61": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "giật mạnh; vặn mạnh",
+      "examples": [
+        {
+          "sentence": "He wrenched the door open.",
+          "translation": "Anh ấy giật mạnh cửa cho mở ra."
+        },
+        {
+          "sentence": "She wrenched her arm free.",
+          "translation": "Cô ấy giật mạnh tay ra để thoát."
         }
       ]
     }

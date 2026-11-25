@@ -2,7 +2,7 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2H.3 (104 ID A2: 20 giao tiếp gốc, 84 expansion đã kiểm kê). Mốc hiện tại: Seed v23, 2.549 ID có overlay; 76 ID có nghĩa bổ sung (87 nhóm); chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2I — B1 nguồn chính, ưu tiên danh từ; kiểm kê ID và CI trước khi sửa. Mốc hiện tại: Seed v24, 2.653 ID có overlay; A2 1.297/1.297; 88 ID có 99 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
@@ -98,9 +98,16 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - Kiểm tra JavaScript/JSON: 139 ID duy nhất, đúng nguồn, hai ví dụ song ngữ không rỗng, giữ dữ liệu cũ. Thêm test độ phủ và migration v22; chưa chạy lint/test/build/browser hoặc migration thực tế qua GitHub API. Chưa kiểm chứng mọi IPA, quan hệ từ, ví dụ vùng miền.
 - Bàn giao: 20 ID giao tiếp gốc (12 work-study, 8 travel; 4 ID phrasal đã có) và 84 ID expansion A2 đã kiểm kê qua blob e0ba0ef: everyday-home (18), everyday-tools-fabrics (14), social-etiquette (10), everyday-errands (11), phrases-travel-2 (15), phrasal-everyday-2 (16). Tiếp tục 2H.3, không chuyển 2I trước khi phủ hết.
 
+## Phạm vi đợt 2H.3 (Seed v24)
+
+- 104 ID mới: 20 giao tiếp gốc (12 work-study, 8 travel), 84 expansion (18 everyday-home, 14 everyday-tools-fabrics, 10 social-etiquette, 11 everyday-errands, 15 phrases-travel-2, 16 phrasal-everyday-2). 393 ID toàn 2H. Đối chiếu 1.297 ID A2 từ toàn bộ nguồn, không trùng: 900 vocabulary, 205 extra, 72 collocations, 12 regional, 24 giao tiếp, 84 expansion; tất cả có overlay. Toàn kho 2.653/7.000 (37,90%), còn 4.347 ID thiếu overlay.
+- 208 ví dụ chính do Largo biên soạn lại; 12 ID/12 nhóm nghĩa phụ (24 ví dụ mới); tổng 88 ID/99 nhóm. Rút gọn nghĩa, sửa câu dài và thiếu tự nhiên; phân biệt expiry/expiry date, grocery/groceries, split the bill không nhất thiết chia đều, day pass theo điều kiện sử dụng, confide in, eavesdrop on, phrasal verb tách được và vị trí đại từ. Sửa từ loại take notes, make progress, turn left thành Collocation; không thay đổi ID, CEFR, bộ, nguồn hoặc engine.
+- Kiểm tra JavaScript/JSON: 104 ID mới đúng nguồn, 1.297 ID A2 duy nhất đều có overlay, 2.549 overlay và 76 ID nghĩa phụ cũ giữ nguyên; hai ví dụ song ngữ không rỗng trên mỗi ID mới. Thêm test độ phủ A2 và migration v23. CI v23 [45538497974](https://github.com/DeliChese/Largo/actions/runs/45538497974) đã thất bại ở lint TS2339 trong hai test migration do kiểu suy luận mất additionalSenses; sửa kiểu fixture thành VocabWord[] (không sửa engine). Chưa xác nhận CI v24, chưa chạy browser/migration tại máy hoặc kiểm định toàn trường IPA, quan hệ từ, biến thể. Kiểm tra CI v24 trước đợt sau.
+- Bàn giao 2I: kiểm kê 950 ID nguồn chính B1, ưu tiên danh từ theo bài hoặc nhóm; không sửa CEFR, ID. A2 hoàn thành độ phủ, chưa nghiệm thu chất lượng.
+
 ## Các đợt tiếp theo
 
-1. Các bộ A2 ngoài nguồn vocabulary chính: đối chiếu nghĩa theo từ loại, đơn giản hóa ví dụ và sửa dịch máy.
+1. 2I–2N: B1 nguồn chính, extra, collocations, giao tiếp, regional và expansion; xử lý CI tồn đọng trước khi mở rộng.
 2. B1/B2: kiểm tra cụm từ đi kèm, giới từ, cấu trúc và cách dùng theo ngữ cảnh.
 3. C1 và các mục đã có overlay: kiểm tra phần ví dụ, quan hệ từ, phát âm/biến thể còn lại. 
 4. Chỉ đánh dấu hoàn thành khi mọi trường đã được kiểm tra hoặc có lý do không áp dụng. Kiểm tra CEFR và phân bổ lại bộ thuộc giai đoạn 3.
