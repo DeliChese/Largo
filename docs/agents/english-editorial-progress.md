@@ -2,7 +2,7 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2H (393 ID A2 còn thiếu: extra, collocations, giao tiếp, regional, expansion; chia đợt con nếu cần). Mốc hiện tại: Seed v21, 2.260 ID có overlay; 61 thẻ có nghĩa bổ sung theo từ loại; chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2H.2 (243 ID A2 còn thiếu; 139 extra và 104 ID giao tiếp/expansion còn lại, cần kiểm kê chính xác theo ID). Mốc hiện tại: Seed v22, 2.410 ID có overlay; 66 thẻ có nghĩa bổ sung (77 nhóm); chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
@@ -81,6 +81,14 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - Giao diện chi tiết thẻ và mặt đáp án flashcard hiển thị nhóm nghĩa riêng; tìm kiếm thư viện hỗ trợ từ loại/nghĩa/ghi chú bổ sung. Không áp dụng tự động cho biến thể vùng miền có headword khác. Bổ sung kiểm tra dữ liệu backup và test hồi quy seed v20, đối chiếu dữ liệu và round-trip backup; chưa chạy lint/test/build/browser, chưa kiểm tra giao diện hay migration thực tế.
 - Kể từ 2H, kiểm tra nghĩa có thuộc đúng từ loại chính không, bổ sung các từ loại thông dụng khác khi có căn cứ, không liệt kê mọi nghĩa hiếm. Ghi tiến độ riêng (ID có additionalSenses, số nhóm nghĩa, ví dụ) và mở rộng rà soát A1–C1 trong 2Y; chưa tuyên bố đủ tất cả từ loại của 7.000 thẻ.
 - Đợt tiếp theo vẫn là 2H, dự kiến Seed v22 nếu cập nhật học liệu; còn 393 ID A2 chưa có overlay.
+
+## Phạm vi đợt 2H.1 (Seed v22)
+
+- 150 ID mới: 72/72 collocations A2 (4 bài travel, health, work, social), 12/12 regional A2, 66/205 extra A2 (life-01, daily-01, daily-02). Giữ 2.260 overlay trước đó. A2 có 1.054/1.297 ID; toàn kho 2.410/7.000 (34,43%), còn 4.590 ID thiếu overlay. Bảng trên là mốc lịch sử v21.
+- Sửa pear (quả lê), pence (xu tiền Anh), heating (hệ thống sưởi), stomachache (đau bụng), ski (ván trượt tuyết), pasta, rugby, seafood; phân biệt borrow/lend, take/pass an exam, on time/in time, direct/non-stop flight và các biến thể Anh–Anh/Anh–Mỹ. Giữ nguyên ID, CEFR, nguồn, bộ.
+- 300 cặp ví dụ chính: 155 câu viết mới hoặc chỉnh câu gốc, 51 câu nguồn được bổ sung bản dịch, 94 cặp nguồn giữ lại. 5 ID thêm 5 nhóm nghĩa phụ (ski, skate, shampoo, printer, cereal), 10 ví dụ song ngữ mới; tổng 66 ID/77 nhóm. Không áp nghĩa phụ cho headword vùng miền khác.
+- Kiểm tra JavaScript: JSON parse, khóa duy nhất, 150 ID đúng từ ba nguồn và không trùng overlay cũ; bảo toàn toàn bộ 2.260 overlay và 61 nhóm ID nghĩa phụ cũ; đủ hai ví dụ không rỗng trên mỗi ID mới. Đã bổ sung test độ phủ, biến thể và migration v21; chưa chạy lint/test/build/browser hoặc migration thực tế do chỉ làm việc qua GitHub API. Không xác nhận mọi IPA, quan hệ từ hoặc ví dụ UK riêng.
+- Bàn giao 2H.2: còn 243 ID A2, ưu tiên extra general-01/02/03, people-01, work-01, travel-01; kiểm kê giao tiếp gốc và expansion A2 theo ID, loại bốn ID phrasal đã có. Không chuyển sang 2I trước khi phủ hết A2.
 
 ## Các đợt tiếp theo
 

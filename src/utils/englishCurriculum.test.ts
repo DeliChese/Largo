@@ -72,7 +72,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 2260);
+  assert.equal(editorialIds.size, 2410);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -296,8 +296,8 @@ test('v19 seed migration preserves saved progress for phase 2g content', () => {
 test('additional senses have existing IDs and distinct examples without changing the primary review answer', () => {
   const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
   assert.equal(byId.size, 7000);
-  assert.equal(Object.keys(englishAdditionalSenses).length, 61);
-  assert.equal(Object.values(englishAdditionalSenses).flat().length, 72);
+  assert.equal(Object.keys(englishAdditionalSenses).length, 66);
+  assert.equal(Object.values(englishAdditionalSenses).flat().length, 77);
   for (const [id, senses] of Object.entries(englishAdditionalSenses)) {
     const word = byId.get(id);
     assert.ok(word, id);
@@ -337,5 +337,35 @@ test('v20 migration adds secondary senses without creating review IDs or resetti
   assert.equal(updated?.personalRelations, personalRelations);
   assert.ok(!migrated.words.some(item => item.id === 'en-vocab-watch'));
   assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2h.1 reviews 150 A2 supplementary, collocation and regional cards', () => {
+  const ids = ["en-phrase-book-a-flight","en-phrase-book-a-room","en-phrase-make-a-reservation","en-phrase-miss-the-bus","en-phrase-catch-a-train","en-phrase-pack-a-bag","en-phrase-heavy-luggage","en-phrase-show-your-passport","en-phrase-boarding-pass","en-phrase-window-seat","en-phrase-a-direct-flight","en-phrase-go-on-a-trip","en-phrase-lose-your-way","en-phrase-ask-for-directions","en-phrase-follow-the-map","en-phrase-main-road","en-phrase-arrive-on-time","en-phrase-go-on-holiday","en-phrase-have-a-cold","en-phrase-get-a-headache","en-phrase-take-your-temperature","en-phrase-see-a-doctor","en-phrase-take-medicine","en-phrase-back-pain","en-phrase-feel-better","en-phrase-take-a-deep-breath","en-phrase-get-enough-sleep","en-phrase-a-healthy-diet","en-phrase-do-some-exercise","en-phrase-get-some-rest","en-phrase-stay-in-shape","en-phrase-lose-weight","en-phrase-break-a-habit","en-phrase-go-for-a-walk","en-phrase-fall-ill","en-phrase-make-an-appointment","en-phrase-keep-a-diary","en-phrase-take-an-exam","en-phrase-pass-an-exam","en-phrase-skip-class","en-phrase-apply-for-a-job","en-phrase-look-for-work","en-phrase-have-a-meeting","en-phrase-take-a-break","en-phrase-save-time","en-phrase-work-on-a-project","en-phrase-write-a-report","en-phrase-save-a-file","en-phrase-send-a-message","en-phrase-make-a-phone-call","en-phrase-fill-in-a-form","en-phrase-make-a-plan","en-phrase-follow-the-instructions","en-phrase-learn-english","en-phrase-make-friends","en-phrase-have-a-party","en-phrase-wish-someone-a-happy-birthday","en-phrase-have-fun","en-phrase-spend-time-together","en-phrase-keep-in-touch","en-phrase-make-a-mistake","en-phrase-make-a-promise","en-phrase-keep-a-secret","en-phrase-give-a-gift","en-phrase-save-money","en-phrase-borrow-money","en-phrase-pay-a-bill","en-phrase-pay-rent","en-phrase-heavy-rain","en-phrase-strong-wind","en-phrase-the-weather-forecast","en-phrase-fresh-air","en-regional-sneakers","en-regional-elevator","en-regional-subway","en-regional-line","en-regional-truck","en-regional-sidewalk","en-regional-trash","en-regional-faucet","en-regional-parking-lot","en-regional-gas","en-regional-takeout","en-regional-on-the-weekend","en-extra-photography-25f3aeb51f","en-extra-disco-3bea44f95b","en-extra-violin-00e3e584e2","en-extra-amusement-8705e69d8c","en-extra-pc-d8463bd3ba","en-extra-ski-cf659bd3fb","en-extra-exhibition-83a2bff84b","en-extra-spaceship-c2c002ca28","en-extra-superstar-403a6c556b","en-extra-surfing-6bbed1b598","en-extra-skate-0b22fca0ad","en-extra-skating-b8aa64f3cc","en-extra-skiing-a986248f82","en-extra-printer-ba70e1dacc","en-extra-leisure-00ed6c583d","en-extra-rugby-3e9df2cb28","en-extra-cycling-d14787ecd4","en-extra-sightseeing-8ae0c105f0","en-extra-toothache-7153a86186","en-extra-thunderstorm-e3dd6fdb8a","en-extra-stomachache-f1962693b6","en-extra-badminton-99e1ff4002","en-extra-skateboarding-15af8950c8","en-extra-video-game-1f905c9558","en-extra-stove-5dc60efa39","en-extra-cafeteria-41d6f409e1","en-extra-toothbrush-8d8d7dbe65","en-extra-pea-6d906f667d","en-extra-cola-42be22c266","en-extra-scarf-b4a8d31d8a","en-extra-stadium-dafc4889ee","en-extra-wheelchair-ce5793ab2a","en-extra-pasta-a4c18ee0ad","en-extra-sock-06efe37f5e","en-extra-garlic-41024084d2","en-extra-refrigerator-0cf35ab8cf","en-extra-barber-b67b8e2e84","en-extra-container-a42d519714","en-extra-onion-2889716716","en-extra-lemonade-13cc358c60","en-extra-cereal-38c09b5448","en-extra-playground-f3cc87f78b","en-extra-heating-f79e5dd024","en-extra-architecture-4ca303a3bf","en-extra-carrot-b96482290a","en-extra-mosque-253221cbda","en-extra-sunglasses-754ee0c9fc","en-extra-shampoo-021624ecb7","en-extra-lunchtime-873de12508","en-extra-melon-a73860a05e","en-extra-handbag-d531950f97","en-extra-earring-53368bd169","en-extra-seafood-65cd9e48ef","en-extra-advertisement-aacfba7d19","en-extra-drugstore-ed015c0da9","en-extra-pear-97cfbe8753","en-extra-cassette-5eb37b9673","en-extra-tights-d436f5f726","en-extra-swimsuit-d6c0822cf8","en-extra-raincoat-b6958aab12","en-extra-pence-c74276c1d6","en-extra-cooker-0eed4ace4f","en-extra-armchair-5a948ffe5f","en-extra-bookshop-0299706ac9","en-extra-bookcase-a2d683d6d2","en-extra-bookshelf-c636e2ea2f"];
+  const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  assert.equal(new Set(ids).size, 150);
+  for (const id of ids) {
+    const word = byId.get(id);
+    assert.ok(word, id);
+    assert.equal(word.examples.length, 2, id);
+    assert.ok(word.examples.every(example => example.sentence.trim() && example.translation.trim()), id);
+  }
+  assert.equal(byId.get("en-extra-pear-97cfbe8753")?.meaning, 'quả lê');
+  assert.equal(byId.get("en-extra-ski-cf659bd3fb")?.additionalSenses?.[0]?.partOfSpeech, 'Động từ');
+  const gas = byId.get('en-regional-gas')!;
+  assert.equal(getEnglishStudyWord(gas, 'en-GB').term, 'petrol');
+  assert.ok(getEnglishStudyWord(gas, 'en-GB').examples.some(example => /petrol/.test(example.sentence)));
+});
+
+test('v21 migration updates A2 supplementary content without resetting saved progress', () => {
+  const word = INITIAL_WORDS.find(word => word.id === "en-extra-pear-97cfbe8753")!;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const state = { version: 21, decks: INITIAL_DECKS, words: [{ ...word, meaning: 'cây lê', srs, bloomLevel: 3 as const }], logs: [], profile: INITIAL_PROFILE };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.equal(updated?.meaning, 'quả lê');
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
   assert.equal(withCurrentSeed(migrated), migrated);
 });

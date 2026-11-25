@@ -32,6 +32,91 @@
       ]
     }
   ],
+  "en-extra-cereal-38c09b5448": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "cây lương thực lấy hạt",
+      "examples": [
+        {
+          "sentence": "Wheat is an important cereal.",
+          "translation": "Lúa mì là một loại cây lương thực quan trọng."
+        },
+        {
+          "sentence": "Farmers grow cereals in this area.",
+          "translation": "Nông dân trồng cây ngũ cốc ở vùng này."
+        }
+      ],
+      "notes": "Cereals gồm wheat, rice, oats…; khác nghĩa thức ăn sáng."
+    }
+  ],
+  "en-extra-printer-ba70e1dacc": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "người hoặc cơ sở in ấn",
+      "examples": [
+        {
+          "sentence": "The printer prepared five hundred copies.",
+          "translation": "Cơ sở in đã chuẩn bị năm trăm bản."
+        },
+        {
+          "sentence": "We sent the book to the printer.",
+          "translation": "Chúng tôi gửi sách đến nhà in."
+        }
+      ],
+      "notes": "Khác nghĩa thiết bị in."
+    }
+  ],
+  "en-extra-shampoo-021624ecb7": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "gội đầu bằng dầu gội",
+      "examples": [
+        {
+          "sentence": "She shampoos her hair every morning.",
+          "translation": "Cô ấy gội đầu mỗi sáng."
+        },
+        {
+          "sentence": "He shampooed his hair after swimming.",
+          "translation": "Anh ấy gội đầu sau khi bơi."
+        }
+      ],
+      "notes": "Shampoo one's hair = gội đầu."
+    }
+  ],
+  "en-extra-skate-0b22fca0ad": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "trượt băng; trượt patin",
+      "examples": [
+        {
+          "sentence": "She can skate very well.",
+          "translation": "Cô ấy trượt băng rất giỏi."
+        },
+        {
+          "sentence": "We skate at the rink on Sundays.",
+          "translation": "Chúng tôi trượt băng ở sân vào Chủ nhật."
+        }
+      ],
+      "notes": "Skate on ice = trượt trên băng."
+    }
+  ],
+  "en-extra-ski-cf659bd3fb": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "trượt tuyết",
+      "examples": [
+        {
+          "sentence": "We ski every winter.",
+          "translation": "Chúng tôi trượt tuyết mỗi mùa đông."
+        },
+        {
+          "sentence": "Can you ski down this hill?",
+          "translation": "Bạn có thể trượt tuyết xuống ngọn đồi này không?"
+        }
+      ],
+      "notes": "Go skiing là đi trượt tuyết."
+    }
+  ],
   "en-vocab-answer": [
     {
       "partOfSpeech": "Động từ",

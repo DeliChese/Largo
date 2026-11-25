@@ -28,7 +28,7 @@
 | 2F | Đã phủ phạm vi đợt (v19); chưa nghiệm thu | A2 nguồn chính: sinh hoạt, con người, hành động |
 | 2G | Đã phủ phạm vi đợt (v20); chưa nghiệm thu | A2 nguồn chính: công việc, xã hội, tính từ và các bài còn lại |
 | 2G-POS | Đã bổ sung cơ chế và đợt mẫu (v21); chưa nghiệm thu | Phân nghĩa theo từ loại cho 61 ID A1–A2 (72 nhóm); duy trì quy chuẩn này từ 2H |
-| 2H | Chưa làm | A2 extra, collocations, giao tiếp, regional, expansion chưa phủ; bổ sung nghĩa/từ loại khác phù hợp |
+| 2H | Đang làm: 2H.1 đã phủ 150 ID (v22); còn 243 ID A2 | A2 extra, collocations, giao tiếp, regional, expansion chưa phủ; bổ sung nghĩa/từ loại khác phù hợp |
 | 2I | Chưa làm | B1 nguồn chính: danh từ |
 | 2J | Chưa làm | B1 nguồn chính: động từ |
 | 2K | Chưa làm | B1 nguồn chính: tính từ, trạng từ và các mục nguồn chính còn lại |

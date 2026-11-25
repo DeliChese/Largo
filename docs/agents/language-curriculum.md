@@ -31,7 +31,7 @@ Dùng chung giao diện trong [`DecksView.tsx`](../../src/components/DecksView.t
 
 Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và dữ liệu học. Khi cập nhật danh mục đã phát hành, kiểm thử bản lưu cũ, thẻ đã xóa, khôi phục và chạy cập nhật hai lần.
 
-## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v21)
+## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v22)
 
 - Nghĩa tiếng Việt là một hoặc vài cách dịch ngắn, cùng nghĩa trọng tâm; không dùng toàn bộ hướng dẫn ngữ pháp hoặc ví dụ làm đáp án nghĩa.
 - Giải thích và cách dùng nằm trong `notes`: nêu sắc thái, cấu trúc, giới từ, văn phong hoặc phân biệt từ dễ nhầm. Không tự tạo quy tắc tuyệt đối khi có ngoại lệ.
@@ -56,3 +56,5 @@ Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và 
 - Đợt 2g (seed v20): thêm 349 ID nguồn chính A2 thuộc general-08–16; hoàn thành độ phủ 900/900 nguồn chính, toàn A2 904/1.297. Tổng 2.260/7.000 ID có overlay (32,29%). Hai câu song ngữ/mục, bảo toàn 1.911 overlay cũ; kiểm tra JSON/ID, chưa chạy lint/test/build/browser. Xem [tiến độ](english-editorial-progress.md).
 
 - Bổ sung sau 2g (seed v21): 61 ID A1–A2 có 72 nhóm nghĩa bổ sung theo từ loại (144 ví dụ song ngữ), không thay đổi 2.260 overlay chính hoặc số thẻ. Thêm hiển thị, tra cứu, schema backup và test; chưa chạy lint/test/build/browser. Áp dụng quy chuẩn này từ 2H và rà lại toàn kho trong 2Y.
+
+- Đợt 2H.1 (seed v22): thêm 150 ID A2 (72 collocations, 12 regional, 66 extra); toàn A2 1.054/1.297, tổng 2.410/7.000. Thêm 5 ID/5 nhóm nghĩa bổ sung, giữ nguyên các overlay cũ. Kiểm tra JSON/ID, chưa chạy lint/test/build/browser. Xem [tiến độ](english-editorial-progress.md).
