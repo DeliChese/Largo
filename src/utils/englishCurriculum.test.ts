@@ -71,7 +71,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 1911);
+  assert.equal(editorialIds.size, 2260);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -229,7 +229,7 @@ test('phase 2f corrects A2 core grammar and frequent meanings', () => {
   const a2Decks = new Set(ENGLISH_DECKS.filter(deck => deck.level === 'a2').map(deck => deck.id));
   const covered = ENGLISH_WORDS.filter(word => a2Decks.has(word.deckId) && word.id.startsWith('en-vocab-') &&
     Object.prototype.hasOwnProperty.call(englishEditorial, word.id));
-  assert.equal(covered.length, 551);
+  assert.ok(covered.length >= 551);
 });
 
 test('v18 seed migration preserves saved progress for phase 2f content', () => {
@@ -249,6 +249,44 @@ test('v18 seed migration preserves saved progress for phase 2f content', () => {
   assert.equal(updated?.bloomLevel, 3);
   assert.equal(updated?.personalRelations, personalRelations);
   assert.ok(!migrated.words.some(item => item.id === 'en-vocab-advice'));
+  assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2g covers all 900 A2 core vocabulary cards and corrects common senses', () => {
+  const a2Decks = new Set(ENGLISH_DECKS.filter(deck => deck.level === 'a2').map(deck => deck.id));
+  const core = ENGLISH_WORDS.filter(word => a2Decks.has(word.deckId) && word.id.startsWith('en-vocab-'));
+  assert.equal(core.length, 900);
+  assert.ok(core.every(word => Object.prototype.hasOwnProperty.call(englishEditorial, word.id)));
+  const byId = new Map(core.map(word => [word.id, word]));
+  assert.match(byId.get('en-vocab-id')?.meaning ?? '', /giấy tờ tùy thân/);
+  assert.match(byId.get('en-vocab-cent')?.notes ?? '', /percent/);
+  assert.match(byId.get('en-vocab-solution')?.meaning ?? '', /giải pháp/);
+  assert.match(byId.get('en-vocab-concentrate')?.notes ?? '', /Concentrate on/);
+  assert.match(byId.get('en-vocab-prevent')?.notes ?? '', /from doing/);
+  assert.match(byId.get('en-vocab-lend')?.notes ?? '', /borrow/);
+  assert.match(byId.get('en-vocab-good-looking')?.notes ?? '', /mọi giới/);
+  assert.match(byId.get('en-vocab-fry')?.meaning ?? '', /cá con/);
+});
+
+test('v19 seed migration preserves saved progress for phase 2g content', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-vocab-id')!;
+  const srs = { ...word.srs, repetitions: 5, lastReviewedAt: 123 };
+  const personalRelations = { synonyms: ['personal'], antonyms: [] };
+  const state = {
+    version: 19, decks: INITIAL_DECKS,
+    words: [{ ...word, meaning: 'Idaho', srs, bloomLevel: 3 as const, personalRelations }],
+    logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] },
+  };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.equal(updated?.meaning, word.meaning);
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
+  assert.equal(updated?.personalRelations, personalRelations);
+  assert.ok(!migrated.words.some(item => item.id === 'en-vocab-cent'));
   assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
   assert.equal(withCurrentSeed(migrated), migrated);
 });

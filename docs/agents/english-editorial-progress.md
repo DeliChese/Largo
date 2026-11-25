@@ -2,21 +2,21 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2G (A2 nguồn chính general-08 đến general-16; chia đợt con nếu cần). Mốc hiện tại: Seed v19, 1.911 ID có overlay; chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2H (393 ID A2 còn thiếu: extra, collocations, giao tiếp, regional, expansion; chia đợt con nếu cần). Mốc hiện tại: Seed v20, 2.260 ID có overlay; chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
-| Cấp/nhóm | Đợt 1 | Đợt 2a | Đợt 2b | Đợt 2c | Đợt 2d | Đợt 2e | Đợt 2f | Tổng có overlay |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| A1 | 8 | 112 | 310 | 370 | 166 | 36 | 0 | 1.002 |
-| A2 | 0 | 0 | 0 | 0 | 71 | 213 | 271 | 555 |
-| B1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| B2 | 0 | 61 | 0 | 0 | 0 | 0 | 0 | 61 |
-| C1 | 184 | 84 | 0 | 0 | 0 | 0 | 0 | 268 |
-| Cụm động từ (ID riêng) | 0 | 0 | 0 | 0 | 25 | 0 | 0 | 25 |
-| Tổng | 192 | 257 | 310 | 370 | 262 | 249 | 271 | 1.911 |
+| Cấp/nhóm | Đợt 1 | Đợt 2a | Đợt 2b | Đợt 2c | Đợt 2d | Đợt 2e | Đợt 2f | Đợt 2g | Tổng có overlay |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| A1 | 8 | 112 | 310 | 370 | 166 | 36 | 0 | 0 | 1.002 |
+| A2 | 0 | 0 | 0 | 0 | 71 | 213 | 271 | 349 | 904 |
+| B1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| B2 | 0 | 61 | 0 | 0 | 0 | 0 | 0 | 0 | 61 |
+| C1 | 184 | 84 | 0 | 0 | 0 | 0 | 0 | 0 | 268 |
+| Cụm động từ (ID riêng) | 0 | 0 | 0 | 0 | 25 | 0 | 0 | 0 | 25 |
+| Tổng | 192 | 257 | 310 | 370 | 262 | 249 | 271 | 349 | 2.260 |
 
-1.911/7.000 mục có chỉnh sửa biên tập (27,30%); chưa kiểm chứng mọi trường. 5.089 mục chưa có overlay. Bốn cụm động từ dùng chung ID đã tính vào A2, không đếm hai lần.
+2.260/7.000 mục có chỉnh sửa biên tập (32,29%); chưa kiểm chứng mọi trường. 4.740 mục chưa có overlay. Bốn cụm động từ dùng chung ID đã tính vào A2, không đếm hai lần.
 
 ## Phạm vi đợt 2a
 
@@ -64,9 +64,18 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - Kiểm tra API/JavaScript: 271 ID mới trùng khớp bảy bài nguồn, không chồng lấn 1.640 overlay cũ; JSON 1.911 khóa duy nhất, mọi overlay cũ giữ nguyên nội dung, hai ví dụ song ngữ không rỗng mỗi ID mới. Cập nhật assertion tổng số overlay, thêm test phủ A2 và migration v18. Chưa chạy lint/test/build/browser hoặc migration trong runtime.
 - Bàn giao 2G: bắt đầu `deck-en-a2-words-general-08` đến `general-16`, còn 349 ID nguồn chính A2; sau đó 2H xử lý các bộ A2 còn lại. Chia đợt con khi cần; không coi độ phủ overlay là nghiệm thu.
 
+## Phạm vi đợt 2g (Seed v20)
+
+- 349 ID nguồn vocabulary A2 thuộc chín bài `deck-en-a2-words-general-08` đến `deck-en-a2-words-general-16` (39 + 38 + 39 + 39 + 39 + 38 + 39 + 39 + 39). Hoàn thành 900/900 ID nguồn chính A2; toàn A2 có 904/1.297 ID có overlay. Tổng 2.260/7.000 ID (32,29%); còn 4.740 ID chưa có overlay. A1 giữ 1.002/1.002.
+- Sửa ID (giấy tờ tùy thân/mã định danh), cent (xu, không phải percent), solution (giải pháp/dung dịch), concentrate (tập trung/cô đặc), tip (đầu mút/lời khuyên/tiền boa), anxious (lo lắng/nóng lòng), appearance (vẻ ngoài/sự xuất hiện), crown (vương miện/đỉnh), quality (chất lượng/phẩm chất), fry (danh từ cá con, phân biệt động từ chiên), blonde (màu tóc, không mặc định màu da), good-looking (mọi giới); giữ CEFR, ID và từ loại nguồn trừ khi có căn cứ.
+- Bổ sung mẫu remind someone to do/of something, manage to do, avoid V-ing, regret doing/to inform, prevent someone from doing, succeed in doing, provide someone with something, apply for/to, advise someone to do, encourage someone to do; phân biệt effect/affect, rob/steal, lend/borrow, principal/principle, bored/boring và embarrassed/embarrassing.
+- 698 câu song ngữ trong overlay mới, đều khác cặp câu/bản dịch nguồn trực tiếp theo so sánh chính xác. Nội dung biên soạn Largo, chưa đối chiếu độc lập mọi trường.
+- Kiểm tra API/JavaScript: 349 ID mới khớp chín bài nguồn, không trùng 1.911 overlay cũ; JSON 2.260 khóa duy nhất, nội dung toàn bộ overlay cũ giữ nguyên, mỗi ID mới có hai ví dụ song ngữ không rỗng. Cập nhật assertion số overlay, chuyển assertion lịch sử 2F sang ngưỡng tối thiểu, bổ sung test độ phủ 900 ID A2 nguồn chính và migration v19. Chưa chạy lint/test/build/browser hoặc migration thực tế.
+- Bàn giao 2H: 393 ID A2 còn thiếu overlay, thuộc extra/collocations/giao tiếp/regional/expansion. Kiểm kê ID chưa phủ theo bộ, không đếm trùng bốn ID phrasal đã biên tập; chia đợt 2H.1/2H.2 nếu cần theo quy mô 250–350 ID. Không sửa CEFR hoặc thành viên bộ. Độ phủ overlay chưa phải nghiệm thu.
+
 ## Các đợt tiếp theo
 
-1. Nguồn vocabulary A2 còn lại và các bộ A2: đối chiếu nghĩa theo từ loại, đơn giản hóa ví dụ và sửa dịch máy.
+1. Các bộ A2 ngoài nguồn vocabulary chính: đối chiếu nghĩa theo từ loại, đơn giản hóa ví dụ và sửa dịch máy.
 2. B1/B2: kiểm tra cụm từ đi kèm, giới từ, cấu trúc và cách dùng theo ngữ cảnh.
 3. C1 và các mục đã có overlay: kiểm tra phần ví dụ, quan hệ từ, phát âm/biến thể còn lại. 
 4. Chỉ đánh dấu hoàn thành khi mọi trường đã được kiểm tra hoặc có lý do không áp dụng. Kiểm tra CEFR và phân bổ lại bộ thuộc giai đoạn 3.
