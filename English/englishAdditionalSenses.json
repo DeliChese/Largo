@@ -493,6 +493,38 @@
       ]
     }
   ],
+  "en-vocab-aid": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "hỗ trợ",
+      "examples": [
+        {
+          "sentence": "The guide aids navigation.",
+          "translation": "Hướng dẫn hỗ trợ việc định hướng."
+        },
+        {
+          "sentence": "The tools aid learning.",
+          "translation": "Các công cụ hỗ trợ học tập."
+        }
+      ]
+    }
+  ],
+  "en-vocab-aim": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nhằm mục tiêu; hướng tới",
+      "examples": [
+        {
+          "sentence": "We aim to finish by Friday.",
+          "translation": "Chúng tôi đặt mục tiêu hoàn thành trước thứ Sáu."
+        },
+        {
+          "sentence": "The campaign aims to reduce waste.",
+          "translation": "Chiến dịch nhằm giảm rác thải."
+        }
+      ]
+    }
+  ],
   "en-vocab-answer": [
     {
       "partOfSpeech": "Động từ",
@@ -508,6 +540,38 @@
         }
       ],
       "notes": "Answer + danh từ trực tiếp, không thêm to trước câu hỏi."
+    }
+  ],
+  "en-vocab-appeal": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "thu hút; kêu gọi; kháng cáo",
+      "examples": [
+        {
+          "sentence": "The idea appeals to me.",
+          "translation": "Ý tưởng đó hấp dẫn tôi."
+        },
+        {
+          "sentence": "They appealed for help.",
+          "translation": "Họ kêu gọi giúp đỡ."
+        }
+      ]
+    }
+  ],
+  "en-vocab-approach": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tiến đến; tiếp cận",
+      "examples": [
+        {
+          "sentence": "The train approached the station.",
+          "translation": "Tàu tiến đến nhà ga."
+        },
+        {
+          "sentence": "She approached the manager for help.",
+          "translation": "Cô ấy tìm đến quản lý để nhờ giúp đỡ."
+        }
+      ]
     }
   ],
   "en-vocab-arrest": [
@@ -552,6 +616,22 @@
         {
           "sentence": "He backed the car into the garage.",
           "translation": "Anh ấy lùi xe vào ga ra."
+        }
+      ]
+    }
+  ],
+  "en-vocab-balance": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "giữ thăng bằng; cân đối",
+      "examples": [
+        {
+          "sentence": "She balanced on one foot.",
+          "translation": "Cô ấy giữ thăng bằng trên một chân."
+        },
+        {
+          "sentence": "He balances work and study.",
+          "translation": "Anh ấy cân đối công việc và học tập."
         }
       ]
     }
@@ -702,6 +782,54 @@
       ]
     }
   ],
+  "en-vocab-charm": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "thu hút; làm say mê",
+      "examples": [
+        {
+          "sentence": "Her smile charmed the guests.",
+          "translation": "Nụ cười của cô ấy thu hút khách."
+        },
+        {
+          "sentence": "The little town charmed us.",
+          "translation": "Thị trấn nhỏ khiến chúng tôi say mê."
+        }
+      ]
+    }
+  ],
+  "en-vocab-chase": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đuổi theo",
+      "examples": [
+        {
+          "sentence": "The dog chased the ball.",
+          "translation": "Con chó đuổi theo quả bóng."
+        },
+        {
+          "sentence": "She chased after the bus.",
+          "translation": "Cô ấy chạy đuổi theo xe buýt."
+        }
+      ]
+    }
+  ],
+  "en-vocab-chuckle": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "cười khúc khích",
+      "examples": [
+        {
+          "sentence": "She chuckled at the joke.",
+          "translation": "Cô ấy cười khúc khích vì câu đùa."
+        },
+        {
+          "sentence": "He chuckled quietly.",
+          "translation": "Anh ấy cười khẽ."
+        }
+      ]
+    }
+  ],
   "en-vocab-clean": [
     {
       "partOfSpeech": "Động từ",
@@ -752,6 +880,87 @@
       ]
     }
   ],
+  "en-vocab-comfort": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "an ủi",
+      "examples": [
+        {
+          "sentence": "She comforted the crying child.",
+          "translation": "Cô ấy an ủi đứa trẻ đang khóc."
+        },
+        {
+          "sentence": "His words comforted me.",
+          "translation": "Lời anh ấy an ủi tôi."
+        }
+      ]
+    }
+  ],
+  "en-vocab-command": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "ra lệnh; chỉ huy",
+      "examples": [
+        {
+          "sentence": "She commands a large team.",
+          "translation": "Cô ấy chỉ huy một đội lớn."
+        },
+        {
+          "sentence": "He commanded them to stop.",
+          "translation": "Anh ấy ra lệnh họ dừng lại."
+        }
+      ]
+    }
+  ],
+  "en-vocab-comment": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nhận xét; bình luận",
+      "examples": [
+        {
+          "sentence": "She commented on the report.",
+          "translation": "Cô ấy nhận xét về báo cáo."
+        },
+        {
+          "sentence": "He refused to comment.",
+          "translation": "Anh ấy từ chối bình luận."
+        }
+      ]
+    }
+  ],
+  "en-vocab-compliment": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "khen",
+      "examples": [
+        {
+          "sentence": "She complimented him on his work.",
+          "translation": "Cô ấy khen công việc của anh ấy."
+        },
+        {
+          "sentence": "He complimented the chef.",
+          "translation": "Anh ấy khen đầu bếp."
+        }
+      ]
+    }
+  ],
+  "en-vocab-conduct": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tiến hành; dẫn truyền",
+      "examples": [
+        {
+          "sentence": "We conducted a survey.",
+          "translation": "Chúng tôi tiến hành khảo sát."
+        },
+        {
+          "sentence": "Copper conducts electricity.",
+          "translation": "Đồng dẫn điện."
+        }
+      ],
+      "phonetic": "/kənˈdʌkt/"
+    }
+  ],
   "en-vocab-conflict": [
     {
       "partOfSpeech": "Động từ",
@@ -767,6 +976,23 @@
         }
       ],
       "phonetic": "/kənˈflɪkt/"
+    }
+  ],
+  "en-vocab-content": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "hài lòng; mãn nguyện",
+      "examples": [
+        {
+          "sentence": "She is content with her job.",
+          "translation": "Cô ấy hài lòng với công việc."
+        },
+        {
+          "sentence": "He seemed content to wait.",
+          "translation": "Anh ấy có vẻ bằng lòng chờ đợi."
+        }
+      ],
+      "phonetic": "/kənˈtent/"
     }
   ],
   "en-vocab-cook": [
@@ -913,6 +1139,70 @@
       ]
     }
   ],
+  "en-vocab-demand": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đòi hỏi; yêu cầu mạnh mẽ",
+      "examples": [
+        {
+          "sentence": "They demanded an explanation.",
+          "translation": "Họ yêu cầu một lời giải thích."
+        },
+        {
+          "sentence": "This job demands patience.",
+          "translation": "Công việc này đòi hỏi sự kiên nhẫn."
+        }
+      ]
+    }
+  ],
+  "en-vocab-deposit": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "gửi tiền; đặt xuống",
+      "examples": [
+        {
+          "sentence": "She deposited money into her account.",
+          "translation": "Cô ấy gửi tiền vào tài khoản."
+        },
+        {
+          "sentence": "The river deposits sand along the bank.",
+          "translation": "Sông bồi cát dọc bờ."
+        }
+      ]
+    }
+  ],
+  "en-vocab-dial": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "quay số; bấm số",
+      "examples": [
+        {
+          "sentence": "Dial the number on the card.",
+          "translation": "Hãy bấm số trên tấm thẻ."
+        },
+        {
+          "sentence": "She dialed the office number.",
+          "translation": "Cô ấy gọi số điện thoại văn phòng."
+        }
+      ]
+    }
+  ],
+  "en-vocab-dive": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "lặn; lao xuống",
+      "examples": [
+        {
+          "sentence": "She dived into the pool.",
+          "translation": "Cô ấy lao xuống hồ bơi."
+        },
+        {
+          "sentence": "We dive near the reef.",
+          "translation": "Chúng tôi lặn gần rạn san hô."
+        }
+      ]
+    }
+  ],
   "en-vocab-document": [
     {
       "partOfSpeech": "Động từ",
@@ -979,6 +1269,22 @@
       ]
     }
   ],
+  "en-vocab-encounter": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "gặp phải; tình cờ gặp",
+      "examples": [
+        {
+          "sentence": "We encountered a problem.",
+          "translation": "Chúng tôi gặp một vấn đề."
+        },
+        {
+          "sentence": "She encountered an old friend on the train.",
+          "translation": "Cô ấy tình cờ gặp bạn cũ trên tàu."
+        }
+      ]
+    }
+  ],
   "en-vocab-exit": [
     {
       "partOfSpeech": "Động từ",
@@ -991,6 +1297,22 @@
         {
           "sentence": "Click here to exit the program.",
           "translation": "Bấm vào đây để thoát chương trình."
+        }
+      ]
+    }
+  ],
+  "en-vocab-experiment": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "thử nghiệm",
+      "examples": [
+        {
+          "sentence": "We experimented with different colors.",
+          "translation": "Chúng tôi thử nghiệm các màu khác nhau."
+        },
+        {
+          "sentence": "The chef experiments with new recipes.",
+          "translation": "Đầu bếp thử nghiệm công thức mới."
         }
       ]
     }
@@ -1026,6 +1348,22 @@
         }
       ],
       "notes": "Fast là cả tính từ và trạng từ; không dùng fastly."
+    }
+  ],
+  "en-vocab-fifth": [
+    {
+      "partOfSpeech": "Số thứ tự",
+      "meaning": "thứ năm",
+      "examples": [
+        {
+          "sentence": "She finished fifth in the race.",
+          "translation": "Cô ấy về thứ năm trong cuộc đua."
+        },
+        {
+          "sentence": "This is my fifth attempt.",
+          "translation": "Đây là lần thử thứ năm của tôi."
+        }
+      ]
     }
   ],
   "en-vocab-filling": [
@@ -1106,6 +1444,22 @@
       ]
     }
   ],
+  "en-vocab-flow": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chảy; lưu thông",
+      "examples": [
+        {
+          "sentence": "Water flows downhill.",
+          "translation": "Nước chảy xuống dốc."
+        },
+        {
+          "sentence": "Traffic flowed smoothly.",
+          "translation": "Giao thông lưu thông suôn sẻ."
+        }
+      ]
+    }
+  ],
   "en-vocab-free": [
     {
       "partOfSpeech": "Động từ",
@@ -1154,6 +1508,22 @@
       ]
     }
   ],
+  "en-vocab-gesture": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "ra hiệu bằng cử chỉ",
+      "examples": [
+        {
+          "sentence": "He gestured toward the door.",
+          "translation": "Anh ấy ra hiệu về phía cửa."
+        },
+        {
+          "sentence": "She gestured for us to sit down.",
+          "translation": "Cô ấy ra hiệu chúng tôi ngồi xuống."
+        }
+      ]
+    }
+  ],
   "en-vocab-gossip": [
     {
       "partOfSpeech": "Động từ",
@@ -1166,6 +1536,22 @@
         {
           "sentence": "Stop gossiping about your classmates.",
           "translation": "Đừng bàn tán về bạn cùng lớp nữa."
+        }
+      ]
+    }
+  ],
+  "en-vocab-grant": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "cấp; chấp thuận",
+      "examples": [
+        {
+          "sentence": "The school granted her request.",
+          "translation": "Trường chấp thuận yêu cầu của cô ấy."
+        },
+        {
+          "sentence": "They granted permission to enter.",
+          "translation": "Họ cấp phép vào cửa."
         }
       ]
     }
@@ -1198,6 +1584,22 @@
         {
           "sentence": "The horse needs to be groomed.",
           "translation": "Con ngựa cần được chải lông."
+        }
+      ]
+    }
+  ],
+  "en-vocab-guarantee": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "bảo đảm",
+      "examples": [
+        {
+          "sentence": "We cannot guarantee success.",
+          "translation": "Chúng tôi không thể bảo đảm thành công."
+        },
+        {
+          "sentence": "The store guarantees the product for a year.",
+          "translation": "Cửa hàng bảo hành sản phẩm một năm."
         }
       ]
     }
@@ -1282,6 +1684,22 @@
         }
       ],
       "notes": "Help thường không đếm được trong nghĩa này."
+    }
+  ],
+  "en-vocab-hop": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "nhảy lò cò; nhảy nhẹ",
+      "examples": [
+        {
+          "sentence": "The bird hopped onto the branch.",
+          "translation": "Con chim nhảy lên cành."
+        },
+        {
+          "sentence": "She hopped on one foot.",
+          "translation": "Cô ấy nhảy lò cò bằng một chân."
+        }
+      ]
     }
   ],
   "en-vocab-hunt": [
@@ -1495,6 +1913,38 @@
       "notes": "Like + danh từ/đại từ để so sánh; khác động từ like nghĩa thích."
     }
   ],
+  "en-vocab-limit": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "hạn chế; giới hạn",
+      "examples": [
+        {
+          "sentence": "Limit your screen time.",
+          "translation": "Hãy giới hạn thời gian dùng màn hình."
+        },
+        {
+          "sentence": "The rule limits the number of visitors.",
+          "translation": "Quy định hạn chế số khách."
+        }
+      ]
+    }
+  ],
+  "en-vocab-link": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "kết nối; liên hệ",
+      "examples": [
+        {
+          "sentence": "The bridge links the two towns.",
+          "translation": "Cầu nối hai thị trấn."
+        },
+        {
+          "sentence": "Researchers linked sleep with memory.",
+          "translation": "Các nhà nghiên cứu liên hệ giấc ngủ với trí nhớ."
+        }
+      ]
+    }
+  ],
   "en-vocab-live": [
     {
       "partOfSpeech": "Tính từ",
@@ -1511,6 +1961,22 @@
       ],
       "notes": "Tính từ live đọc /laɪv/, khác động từ live /lɪv/.",
       "phonetic": "/laɪv/"
+    }
+  ],
+  "en-vocab-log": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "ghi nhật ký; ghi lại",
+      "examples": [
+        {
+          "sentence": "The app logs your activity.",
+          "translation": "Ứng dụng ghi lại hoạt động của bạn."
+        },
+        {
+          "sentence": "She logged each expense.",
+          "translation": "Cô ấy ghi lại từng khoản chi."
+        }
+      ]
     }
   ],
   "en-vocab-look": [
@@ -1578,6 +2044,38 @@
       ]
     }
   ],
+  "en-vocab-measure": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đo lường",
+      "examples": [
+        {
+          "sentence": "Measure the width of the desk.",
+          "translation": "Hãy đo chiều rộng bàn."
+        },
+        {
+          "sentence": "The device measures temperature.",
+          "translation": "Thiết bị đo nhiệt độ."
+        }
+      ]
+    }
+  ],
+  "en-vocab-monitor": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "theo dõi; giám sát",
+      "examples": [
+        {
+          "sentence": "The nurse monitored his temperature.",
+          "translation": "Y tá theo dõi nhiệt độ của anh ấy."
+        },
+        {
+          "sentence": "We monitor progress every week.",
+          "translation": "Chúng tôi theo dõi tiến độ mỗi tuần."
+        }
+      ]
+    }
+  ],
   "en-vocab-moral": [
     {
       "partOfSpeech": "Tính từ",
@@ -1590,6 +2088,22 @@
         {
           "sentence": "We have a moral duty to help.",
           "translation": "Chúng ta có nghĩa vụ đạo đức phải giúp đỡ."
+        }
+      ]
+    }
+  ],
+  "en-vocab-mount": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "lắp lên; leo lên; gia tăng",
+      "examples": [
+        {
+          "sentence": "Mount the shelf on the wall.",
+          "translation": "Hãy lắp kệ lên tường."
+        },
+        {
+          "sentence": "Pressure began to mount.",
+          "translation": "Áp lực bắt đầu tăng lên."
         }
       ]
     }
@@ -1608,6 +2122,40 @@
           "translation": "Bạn kể tên ba loại trái cây được không?"
         }
       ]
+    }
+  ],
+  "en-vocab-nap": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "ngủ chợp mắt",
+      "examples": [
+        {
+          "sentence": "The baby napped after lunch.",
+          "translation": "Em bé chợp mắt sau bữa trưa."
+        },
+        {
+          "sentence": "I sometimes nap in the afternoon.",
+          "translation": "Đôi khi tôi ngủ một lát vào buổi chiều."
+        }
+      ]
+    }
+  ],
+  "en-vocab-object": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "phản đối",
+      "examples": [
+        {
+          "sentence": "I object to the proposal.",
+          "translation": "Tôi phản đối đề xuất."
+        },
+        {
+          "sentence": "She objected to paying extra.",
+          "translation": "Cô ấy phản đối việc trả thêm tiền."
+        }
+      ],
+      "notes": "Object to + danh từ/V-ing.",
+      "phonetic": "/əbˈdʒekt/"
     }
   ],
   "en-vocab-offer": [
@@ -1644,6 +2192,22 @@
       "notes": "Động từ chỉ hành động; tính từ open chỉ trạng thái đang mở."
     }
   ],
+  "en-vocab-orbit": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "quay quanh",
+      "examples": [
+        {
+          "sentence": "The Moon orbits Earth.",
+          "translation": "Mặt Trăng quay quanh Trái Đất."
+        },
+        {
+          "sentence": "The satellite orbits the planet.",
+          "translation": "Vệ tinh quay quanh hành tinh."
+        }
+      ]
+    }
+  ],
   "en-vocab-order": [
     {
       "partOfSpeech": "Danh từ",
@@ -1672,6 +2236,22 @@
         {
           "sentence": "The hall has a large pipe organ.",
           "translation": "Hội trường có một cây đại phong cầm lớn."
+        }
+      ]
+    }
+  ],
+  "en-vocab-pace": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đi đi lại lại; điều chỉnh nhịp",
+      "examples": [
+        {
+          "sentence": "He paced the room nervously.",
+          "translation": "Anh ấy lo lắng đi đi lại lại trong phòng."
+        },
+        {
+          "sentence": "Pace yourself during the run.",
+          "translation": "Hãy điều chỉnh nhịp chạy phù hợp."
         }
       ]
     }
@@ -1741,6 +2321,22 @@
       "notes": "Play football (không có the); play the piano."
     }
   ],
+  "en-vocab-plug": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "cắm; bịt",
+      "examples": [
+        {
+          "sentence": "Plug the charger into the socket.",
+          "translation": "Hãy cắm bộ sạc vào ổ điện."
+        },
+        {
+          "sentence": "They plugged the hole with a cloth.",
+          "translation": "Họ bịt lỗ bằng một miếng vải."
+        }
+      ]
+    }
+  ],
   "en-vocab-poison": [
     {
       "partOfSpeech": "Động từ",
@@ -1757,6 +2353,38 @@
       ]
     }
   ],
+  "en-vocab-potential": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "tiềm năng; có khả năng xảy ra",
+      "examples": [
+        {
+          "sentence": "We interviewed potential customers.",
+          "translation": "Chúng tôi phỏng vấn khách hàng tiềm năng."
+        },
+        {
+          "sentence": "They discussed potential problems.",
+          "translation": "Họ thảo luận các vấn đề có thể xảy ra."
+        }
+      ]
+    }
+  ],
+  "en-vocab-pound": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đập mạnh",
+      "examples": [
+        {
+          "sentence": "Rain pounded the roof.",
+          "translation": "Mưa đập mạnh lên mái nhà."
+        },
+        {
+          "sentence": "His heart pounded with excitement.",
+          "translation": "Tim anh ấy đập mạnh vì phấn khích."
+        }
+      ]
+    }
+  ],
   "en-vocab-powder": [
     {
       "partOfSpeech": "Động từ",
@@ -1769,6 +2397,22 @@
         {
           "sentence": "The cook powdered the cake with sugar.",
           "translation": "Đầu bếp rắc đường bột lên bánh."
+        }
+      ]
+    }
+  ],
+  "en-vocab-praise": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "khen ngợi",
+      "examples": [
+        {
+          "sentence": "The teacher praised her effort.",
+          "translation": "Giáo viên khen nỗ lực của cô ấy."
+        },
+        {
+          "sentence": "They praised the volunteers.",
+          "translation": "Họ ca ngợi tình nguyện viên."
         }
       ]
     }
@@ -1807,6 +2451,55 @@
       "phonetic": "/prɪˈzent/"
     }
   ],
+  "en-vocab-press": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "ấn; ép",
+      "examples": [
+        {
+          "sentence": "Press the button to start.",
+          "translation": "Hãy ấn nút để bắt đầu."
+        },
+        {
+          "sentence": "She pressed the flowers between pages.",
+          "translation": "Cô ấy ép hoa giữa các trang sách."
+        }
+      ]
+    }
+  ],
+  "en-vocab-process": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "xử lý; chế biến",
+      "examples": [
+        {
+          "sentence": "The system processes applications daily.",
+          "translation": "Hệ thống xử lý đơn hằng ngày."
+        },
+        {
+          "sentence": "The factory processes milk.",
+          "translation": "Nhà máy chế biến sữa."
+        }
+      ]
+    }
+  ],
+  "en-vocab-progress": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tiến triển; tiến bộ",
+      "examples": [
+        {
+          "sentence": "The work progressed slowly.",
+          "translation": "Công việc tiến triển chậm."
+        },
+        {
+          "sentence": "She is progressing well in English.",
+          "translation": "Cô ấy đang tiến bộ tốt về tiếng Anh."
+        }
+      ],
+      "phonetic": "/prəˈɡres/"
+    }
+  ],
   "en-vocab-protest": [
     {
       "partOfSpeech": "Động từ",
@@ -1819,6 +2512,22 @@
         {
           "sentence": "She protested that the decision was unfair.",
           "translation": "Cô ấy phản đối rằng quyết định đó không công bằng."
+        }
+      ]
+    }
+  ],
+  "en-vocab-pump": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "bơm",
+      "examples": [
+        {
+          "sentence": "The machine pumps water.",
+          "translation": "Máy bơm nước."
+        },
+        {
+          "sentence": "He pumped air into the tire.",
+          "translation": "Anh ấy bơm hơi vào lốp."
         }
       ]
     }
@@ -1872,6 +2581,22 @@
       "notes": "Dùng chủ ngữ giả it."
     }
   ],
+  "en-vocab-rank": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "xếp hạng; được xếp hạng",
+      "examples": [
+        {
+          "sentence": "The school ranks highly.",
+          "translation": "Trường được xếp hạng cao."
+        },
+        {
+          "sentence": "Rank the options by cost.",
+          "translation": "Hãy xếp hạng các lựa chọn theo chi phí."
+        }
+      ]
+    }
+  ],
   "en-vocab-record": [
     {
       "partOfSpeech": "Danh từ",
@@ -1888,6 +2613,40 @@
       ],
       "notes": "Danh từ nhấn âm đầu, khác động từ nhấn âm hai.",
       "phonetic": "/ˈrekərd/ (Mỹ); /ˈrekɔːd/ (Anh)"
+    }
+  ],
+  "en-vocab-refuse": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "từ chối",
+      "examples": [
+        {
+          "sentence": "He refused to answer.",
+          "translation": "Anh ấy từ chối trả lời."
+        },
+        {
+          "sentence": "She refused the offer.",
+          "translation": "Cô ấy từ chối lời đề nghị."
+        }
+      ],
+      "notes": "Refuse to + động từ nguyên mẫu.",
+      "phonetic": "/rɪˈfjuːz/"
+    }
+  ],
+  "en-vocab-register": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đăng ký; ghi nhận",
+      "examples": [
+        {
+          "sentence": "Register for the course online.",
+          "translation": "Hãy đăng ký khóa học trực tuyến."
+        },
+        {
+          "sentence": "The device registers changes in temperature.",
+          "translation": "Thiết bị ghi nhận thay đổi nhiệt độ."
+        }
+      ]
     }
   ],
   "en-vocab-rescue": [
@@ -2002,6 +2761,39 @@
       ]
     }
   ],
+  "en-vocab-rise": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "tăng; mọc; đứng dậy",
+      "examples": [
+        {
+          "sentence": "Prices rise in winter.",
+          "translation": "Giá tăng vào mùa đông."
+        },
+        {
+          "sentence": "The sun rises in the east.",
+          "translation": "Mặt trời mọc ở phía đông."
+        }
+      ]
+    }
+  ],
+  "en-vocab-risk": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "liều; chấp nhận nguy cơ",
+      "examples": [
+        {
+          "sentence": "Don't risk losing your work.",
+          "translation": "Đừng mạo hiểm làm mất bài làm."
+        },
+        {
+          "sentence": "He risked missing the train.",
+          "translation": "Anh ấy có nguy cơ lỡ tàu."
+        }
+      ],
+      "notes": "Risk + V-ing."
+    }
+  ],
   "en-vocab-round": [
     {
       "partOfSpeech": "Tính từ",
@@ -2064,6 +2856,22 @@
       "notes": "Run – ran – run; run a business."
     }
   ],
+  "en-vocab-scan": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "quét; đọc lướt",
+      "examples": [
+        {
+          "sentence": "Scan the document and send it.",
+          "translation": "Hãy quét tài liệu rồi gửi đi."
+        },
+        {
+          "sentence": "She scanned the list for her name.",
+          "translation": "Cô ấy đọc lướt danh sách tìm tên mình."
+        }
+      ]
+    }
+  ],
   "en-vocab-score": [
     {
       "partOfSpeech": "Động từ",
@@ -2076,6 +2884,22 @@
         {
           "sentence": "He scored eighty points on the test.",
           "translation": "Anh ấy đạt tám mươi điểm trong bài kiểm tra."
+        }
+      ]
+    }
+  ],
+  "en-vocab-scratch": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "cào; làm xước",
+      "examples": [
+        {
+          "sentence": "Don't scratch the screen.",
+          "translation": "Đừng làm xước màn hình."
+        },
+        {
+          "sentence": "The cat scratched the door.",
+          "translation": "Con mèo cào cửa."
         }
       ]
     }
@@ -2128,6 +2952,38 @@
       ]
     }
   ],
+  "en-vocab-sigh": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "thở dài",
+      "examples": [
+        {
+          "sentence": "He sighed with relief.",
+          "translation": "Anh ấy thở phào nhẹ nhõm."
+        },
+        {
+          "sentence": "She sighed and closed the book.",
+          "translation": "Cô ấy thở dài rồi đóng sách."
+        }
+      ]
+    }
+  ],
+  "en-vocab-signal": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "ra hiệu; báo hiệu",
+      "examples": [
+        {
+          "sentence": "She signaled for us to wait.",
+          "translation": "Cô ấy ra hiệu chúng tôi chờ."
+        },
+        {
+          "sentence": "Dark clouds signal rain.",
+          "translation": "Mây đen báo hiệu trời mưa."
+        }
+      ]
+    }
+  ],
   "en-vocab-sink": [
     {
       "partOfSpeech": "Động từ",
@@ -2145,6 +3001,38 @@
       "notes": "Sink – sank – sunk."
     }
   ],
+  "en-vocab-slight": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "nhẹ; nhỏ; không đáng kể",
+      "examples": [
+        {
+          "sentence": "There was a slight delay.",
+          "translation": "Có sự chậm trễ nhỏ."
+        },
+        {
+          "sentence": "He felt a slight pain in his knee.",
+          "translation": "Anh ấy thấy hơi đau đầu gối."
+        }
+      ]
+    }
+  ],
+  "en-vocab-slip": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "trượt; tuột",
+      "examples": [
+        {
+          "sentence": "He slipped on the wet floor.",
+          "translation": "Anh ấy trượt trên sàn ướt."
+        },
+        {
+          "sentence": "The phone slipped out of my hand.",
+          "translation": "Điện thoại tuột khỏi tay tôi."
+        }
+      ]
+    }
+  ],
   "en-vocab-snow": [
     {
       "partOfSpeech": "Động từ",
@@ -2160,6 +3048,22 @@
         }
       ],
       "notes": "Dùng chủ ngữ giả it."
+    }
+  ],
+  "en-vocab-sort": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "phân loại; sắp xếp",
+      "examples": [
+        {
+          "sentence": "Sort the books by topic.",
+          "translation": "Hãy phân loại sách theo chủ đề."
+        },
+        {
+          "sentence": "She sorted the clothes by color.",
+          "translation": "Cô ấy phân loại quần áo theo màu."
+        }
+      ]
     }
   ],
   "en-vocab-sound": [
@@ -2193,6 +3097,22 @@
       ]
     }
   ],
+  "en-vocab-standard": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "tiêu chuẩn; thông thường",
+      "examples": [
+        {
+          "sentence": "We chose the standard package.",
+          "translation": "Chúng tôi chọn gói tiêu chuẩn."
+        },
+        {
+          "sentence": "The room has standard furniture.",
+          "translation": "Phòng có nội thất thông thường."
+        }
+      ]
+    }
+  ],
   "en-vocab-stop": [
     {
       "partOfSpeech": "Động từ",
@@ -2210,6 +3130,22 @@
       "notes": "Stop doing = ngừng việc đang làm; stop to do = dừng việc khác để làm việc này."
     }
   ],
+  "en-vocab-stream": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "phát trực tuyến; chảy thành dòng",
+      "examples": [
+        {
+          "sentence": "We streamed the concert online.",
+          "translation": "Chúng tôi xem buổi hòa nhạc trực tuyến."
+        },
+        {
+          "sentence": "Tears streamed down her face.",
+          "translation": "Nước mắt chảy dài trên mặt cô ấy."
+        }
+      ]
+    }
+  ],
   "en-vocab-stress": [
     {
       "partOfSpeech": "Động từ",
@@ -2222,6 +3158,38 @@
         {
           "sentence": "The workload stresses him out.",
           "translation": "Khối lượng công việc khiến anh ấy căng thẳng."
+        }
+      ]
+    }
+  ],
+  "en-vocab-strip": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "lột; tháo bỏ",
+      "examples": [
+        {
+          "sentence": "Strip the old paint from the door.",
+          "translation": "Hãy bóc lớp sơn cũ khỏi cửa."
+        },
+        {
+          "sentence": "They stripped the room of its furniture.",
+          "translation": "Họ dọn hết đồ nội thất khỏi phòng."
+        }
+      ]
+    }
+  ],
+  "en-vocab-struggle": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "vật lộn; cố gắng khó khăn",
+      "examples": [
+        {
+          "sentence": "He struggled to lift the box.",
+          "translation": "Anh ấy chật vật nâng chiếc hộp."
+        },
+        {
+          "sentence": "She struggles with spelling.",
+          "translation": "Cô ấy gặp khó khăn với chính tả."
         }
       ]
     }
@@ -2259,6 +3227,22 @@
       ],
       "notes": "Động từ nhấn âm hai, khác danh từ.",
       "phonetic": "/səˈspekt/"
+    }
+  ],
+  "en-vocab-switch": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "chuyển đổi; bật tắt",
+      "examples": [
+        {
+          "sentence": "Switch off the lamp.",
+          "translation": "Hãy tắt đèn."
+        },
+        {
+          "sentence": "We switched to a cheaper plan.",
+          "translation": "Chúng tôi chuyển sang gói rẻ hơn."
+        }
+      ]
     }
   ],
   "en-vocab-taste": [
@@ -2361,6 +3345,38 @@
       "phonetic": "/trænˈspɔːt/"
     }
   ],
+  "en-vocab-treat": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đối xử; điều trị",
+      "examples": [
+        {
+          "sentence": "Treat everyone with respect.",
+          "translation": "Hãy đối xử với mọi người bằng sự tôn trọng."
+        },
+        {
+          "sentence": "Doctors treated the infection.",
+          "translation": "Bác sĩ điều trị nhiễm trùng."
+        }
+      ]
+    }
+  ],
+  "en-vocab-trigger": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "kích hoạt; gây ra",
+      "examples": [
+        {
+          "sentence": "The alarm was triggered by smoke.",
+          "translation": "Báo động được kích hoạt bởi khói."
+        },
+        {
+          "sentence": "The news triggered a debate.",
+          "translation": "Tin tức làm nảy sinh tranh luận."
+        }
+      ]
+    }
+  ],
   "en-vocab-trust": [
     {
       "partOfSpeech": "Danh từ",
@@ -2373,6 +3389,22 @@
         {
           "sentence": "She earned my trust.",
           "translation": "Cô ấy giành được sự tin tưởng của tôi."
+        }
+      ]
+    }
+  ],
+  "en-vocab-twist": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "xoắn; vặn",
+      "examples": [
+        {
+          "sentence": "Twist the cap to open it.",
+          "translation": "Hãy vặn nắp để mở."
+        },
+        {
+          "sentence": "He twisted his ankle.",
+          "translation": "Anh ấy bị trẹo mắt cá."
         }
       ]
     }

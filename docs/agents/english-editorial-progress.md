@@ -2,7 +2,7 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2I.3 — 250 danh từ B1 còn lại thuộc general-01–17; kiểm tra CI v26 trước khi sửa. Mốc hiện tại: Seed v26, 2.954 ID có overlay; 301/551 danh từ B1; 145 ID có 157 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2J — 104 động từ B1 nguồn chính chưa phủ; kiểm tra CI v27 trước khi sửa. Mốc hiện tại: Seed v27, 3.204 ID có overlay; 551/551 danh từ B1; 209 ID có 221 nhóm nghĩa bổ sung; chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
@@ -120,6 +120,14 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - 410 cặp ví dụ chính, 2 cặp trùng nguyên văn nguồn trực tiếp được giữ, 408 cặp biên soạn/chỉnh lại. Thêm 38 ID/39 nhóm nghĩa phụ với 78 ví dụ; tổng 145 ID/157 nhóm. Sửa crash (không phải hét), economy (nền kinh tế), customs (hải quan), capture, parking, breath/breathe, professor, moral, ward, radiation, puzzle; phân biệt danh/động từ suspect, transport, conflict và các cách đọc bow. Không tạo quan hệ từ thiếu căn cứ.
 - Kiểm tra JavaScript: 205 ID mới đúng nguồn, khóa duy nhất, JSON 2.954 overlay, đủ hai ví dụ không rỗng mỗi ID mới; giữ nguyên 107 ID nghĩa phụ cũ. Bổ sung test độ phủ bảy bộ và migration v25 (SRS/Bloom, quan hệ cá nhân, thẻ đã xóa, todayWordIds, idempotence). Chưa xác nhận CI v26 tại thời điểm commit; chưa chạy browser, migration trên thiết bị hoặc kiểm định toàn bộ IPA/biến thể/quan hệ từ.
 - Bàn giao 2I.3: hoàn thiện 250 danh từ B1 thuộc 17 bài general theo nhãn nguồn, kiểm kê bằng ID; chưa chuyển 2J. Kiểm tra CI v26 trước khi mở rộng.
+
+## Phạm vi đợt 2I.3 (Seed v27)
+
+- CI Seed v26 [45540429123](https://github.com/DeliChese/Largo/actions/runs/45540429123) đã hoàn thành thành công; không có lỗi tồn đọng cần sửa ở đầu phiên.
+- 250 ID danh từ B1 mới thuộc general-01–17 (4, 11, 16, 16, 16, 21, 11, 16, 16, 18, 12, 17, 13, 14, 17, 16, 16 ID theo thứ tự). Hoàn tất 551/551 danh từ nguồn chính B1 qua 2I.1–2I.3; B1 nguồn chính 551/950. Tổng 3.204/7.000 (45,77%), còn 3.796 ID chưa có overlay. Giữ nguyên 2.954 overlay cũ, ID, CEFR, bộ, dữ liệu nguồn và engine.
+- 500 ví dụ chính, 2 cặp giữ nguyên nguồn trực tiếp, 498 cặp biên soạn/chỉnh lại. Thêm 64 ID/64 nhóm nghĩa phụ, 128 ví dụ; tổng 209 ID/221 nhóm. Sửa passion (đam mê), identity (danh tính/bản sắc), angle (góc), monitor, pipe, tension, aim, storage, fifth (danh từ phân số), dating, refuse và conduct; tách nghĩa động từ, tính từ và số thứ tự khi phù hợp. Ghi IPA cho refuse, progress, object, conduct, content ở nghĩa phụ. Không tạo quan hệ từ chưa xác minh.
+- JavaScript: 250 ID duy nhất khớp nguồn, JSON 3.204 khóa duy nhất, 551 danh từ đều có overlay, hai câu song ngữ không rỗng trên từng ID mới; bảo toàn 145 ID nghĩa phụ cũ. Bổ sung test toàn bộ danh từ B1 và migration v26 (SRS/Bloom, quan hệ cá nhân, thẻ đã xóa, todayWordIds, idempotence). Chưa xác nhận CI v27 tại thời điểm commit; chưa chạy browser hoặc migration thực tế trên thiết bị; chưa kiểm định toàn bộ IPA, biến thể, quan hệ từ.
+- Bàn giao 2J: kiểm kê 104 động từ nguồn chính B1 theo nhãn nguồn và ID chưa có overlay; sau đó 2K xử lý 235 tính từ, 54 trạng từ, 6 liên từ (295 ID). Đã phủ danh từ, chưa nghiệm thu toàn trường.
 
 ## Các đợt tiếp theo
 

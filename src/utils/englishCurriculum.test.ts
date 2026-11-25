@@ -73,7 +73,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 2954);
+  assert.equal(editorialIds.size, 3204);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -297,8 +297,8 @@ test('v19 seed migration preserves saved progress for phase 2g content', () => {
 test('additional senses have existing IDs and distinct examples without changing the primary review answer', () => {
   const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
   assert.equal(byId.size, 7000);
-  assert.equal(Object.keys(englishAdditionalSenses).length, 145);
-  assert.equal(Object.values(englishAdditionalSenses).flat().length, 157);
+  assert.equal(Object.keys(englishAdditionalSenses).length, 209);
+  assert.equal(Object.values(englishAdditionalSenses).flat().length, 221);
   for (const [id, senses] of Object.entries(englishAdditionalSenses)) {
     const word = byId.get(id);
     assert.ok(word, id);
@@ -498,5 +498,42 @@ test('v25 migration adds B1 secondary senses while preserving saved review data'
   assert.equal(updated?.personalRelations, personalRelations);
   assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
   assert.ok(!migrated.words.some(item => item.id === 'en-vocab-crash'));
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2i.3 completes all 551 B1 core nouns', () => {
+  const b1Decks = new Set(ENGLISH_DECKS.filter(deck => deck.level === 'b1').map(deck => deck.id));
+  const nouns = ENGLISH_WORDS.filter(word => b1Decks.has(word.deckId) && word.id.startsWith('en-vocab-') && word.partOfSpeech === 'Danh từ');
+  assert.equal(nouns.length, 551);
+  assert.ok(nouns.every(word => Object.prototype.hasOwnProperty.call(englishEditorial, word.id)));
+  const byId = new Map(nouns.map(word => [word.id, word]));
+  const ids = ["en-vocab-sort","en-vocab-sex","en-vocab-dude","en-vocab-buddy","en-vocab-soul","en-vocab-mess","en-vocab-decision","en-vocab-laughter","en-vocab-press","en-vocab-mission","en-vocab-heaven","en-vocab-risk","en-vocab-duty","en-vocab-bunch","en-vocab-applause","en-vocab-treat","en-vocab-spirit","en-vocab-shame","en-vocab-justice","en-vocab-fellow","en-vocab-hearing","en-vocab-operation","en-vocab-monster","en-vocab-investigation","en-vocab-nonsense","en-vocab-turning","en-vocab-finding","en-vocab-universe","en-vocab-command","en-vocab-proof","en-vocab-opening","en-vocab-season","en-vocab-responsibility","en-vocab-process","en-vocab-sword","en-vocab-signal","en-vocab-amount","en-vocab-safety","en-vocab-reality","en-vocab-dating","en-vocab-loss","en-vocab-connection","en-vocab-warning","en-vocab-horn","en-vocab-rise","en-vocab-location","en-vocab-grant","en-vocab-switch","en-vocab-chase","en-vocab-bang","en-vocab-courage","en-vocab-council","en-vocab-union","en-vocab-desire","en-vocab-miracle","en-vocab-protection","en-vocab-treatment","en-vocab-boom","en-vocab-penny","en-vocab-refuse","en-vocab-surface","en-vocab-presence","en-vocab-beast","en-vocab-series","en-vocab-darkness","en-vocab-progress","en-vocab-vision","en-vocab-equipment","en-vocab-trace","en-vocab-incident","en-vocab-anger","en-vocab-bull","en-vocab-passion","en-vocab-movement","en-vocab-object","en-vocab-approach","en-vocab-percent","en-vocab-tank","en-vocab-authority","en-vocab-failure","en-vocab-glory","en-vocab-border","en-vocab-reputation","en-vocab-confidence","en-vocab-sand","en-vocab-setting","en-vocab-slip","en-vocab-guarantee","en-vocab-identity","en-vocab-potential","en-vocab-dozen","en-vocab-whistle","en-vocab-struggle","en-vocab-demand","en-vocab-possibility","en-vocab-trail","en-vocab-option","en-vocab-charity","en-vocab-balance","en-vocab-impression","en-vocab-fifth","en-vocab-term","en-vocab-comfort","en-vocab-wing","en-vocab-experiment","en-vocab-steel","en-vocab-bond","en-vocab-robot","en-vocab-mile","en-vocab-scratch","en-vocab-standard","en-vocab-construction","en-vocab-trigger","en-vocab-jungle","en-vocab-link","en-vocab-routine","en-vocab-pattern","en-vocab-aim","en-vocab-cliff","en-vocab-warrior","en-vocab-behalf","en-vocab-motive","en-vocab-apology","en-vocab-pipe","en-vocab-atmosphere","en-vocab-pit","en-vocab-paradise","en-vocab-comment","en-vocab-flow","en-vocab-strip","en-vocab-existence","en-vocab-limit","en-vocab-patrol","en-vocab-mud","en-vocab-occasion","en-vocab-signature","en-vocab-monitor","en-vocab-yell","en-vocab-charm","en-vocab-farewell","en-vocab-humanity","en-vocab-angle","en-vocab-session","en-vocab-hop","en-vocab-destruction","en-vocab-lightning","en-vocab-loyalty","en-vocab-liver","en-vocab-pole","en-vocab-intention","en-vocab-aid","en-vocab-objection","en-vocab-survival","en-vocab-possession","en-vocab-appeal","en-vocab-praise","en-vocab-facility","en-vocab-entry","en-vocab-burden","en-vocab-mount","en-vocab-pound","en-vocab-reception","en-vocab-concept","en-vocab-measure","en-vocab-foundation","en-vocab-log","en-vocab-privacy","en-vocab-lamb","en-vocab-blessing","en-vocab-rage","en-vocab-twist","en-vocab-humor","en-vocab-dive","en-vocab-pump","en-vocab-height","en-vocab-temper","en-vocab-weakness","en-vocab-spider","en-vocab-packing","en-vocab-conduct","en-vocab-terror","en-vocab-steam","en-vocab-cattle","en-vocab-register","en-vocab-turtle","en-vocab-combination","en-vocab-nap","en-vocab-scan","en-vocab-coffin","en-vocab-puppy","en-vocab-deposit","en-vocab-rubber","en-vocab-misery","en-vocab-emotion","en-vocab-content","en-vocab-sorrow","en-vocab-fuss","en-vocab-tin","en-vocab-belief","en-vocab-storage","en-vocab-ladder","en-vocab-barrel","en-vocab-kindness","en-vocab-tension","en-vocab-whale","en-vocab-dial","en-vocab-coal","en-vocab-recovery","en-vocab-conclusion","en-vocab-hatred","en-vocab-slight","en-vocab-principle","en-vocab-compliment","en-vocab-idol","en-vocab-rank","en-vocab-arrangement","en-vocab-stream","en-vocab-luxury","en-vocab-element","en-vocab-eternity","en-vocab-pace","en-vocab-plug","en-vocab-affection","en-vocab-absence","en-vocab-bubble","en-vocab-honesty","en-vocab-deed","en-vocab-length","en-vocab-tournament","en-vocab-depression","en-vocab-password","en-vocab-approval","en-vocab-chuckle","en-vocab-orbit","en-vocab-sympathy","en-vocab-growth","en-vocab-encounter","en-vocab-sigh","en-vocab-confusion","en-vocab-brass","en-vocab-companion","en-vocab-phoenix","en-vocab-lottery","en-vocab-presentation","en-vocab-gratitude","en-vocab-majority","en-vocab-capacity","en-vocab-shrimp","en-vocab-forehead","en-vocab-gesture"];
+  assert.equal(new Set(ids).size, 250);
+  for (const id of ids) {
+    const word = byId.get(id);
+    assert.ok(word, id);
+    assert.equal(word.examples.length, 2, id);
+    assert.ok(word.examples.every(e => e.sentence.trim() && e.translation.trim()), id);
+  }
+  assert.match(byId.get('en-vocab-passion')?.meaning ?? '', /đam mê/);
+  assert.equal(byId.get('en-vocab-refuse')?.additionalSenses?.[0]?.phonetic, '/rɪˈfjuːz/');
+});
+
+test('v26 migration preserves review state and adds B1 refuse verb sense', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-vocab-refuse')!;
+  const { additionalSenses, ...old } = word;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const personalRelations = { synonyms: ['personal'], antonyms: [] };
+  const state = { version: 26, decks: INITIAL_DECKS, words: [{ ...old, srs, bloomLevel: 3 as const, personalRelations }] as VocabWord[], logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] } };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.deepEqual(updated?.additionalSenses, additionalSenses);
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
+  assert.equal(updated?.personalRelations, personalRelations);
+  assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
+  assert.ok(!migrated.words.some(item => item.id === 'en-vocab-passion'));
   assert.equal(withCurrentSeed(migrated), migrated);
 });
