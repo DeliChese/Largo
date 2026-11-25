@@ -21,10 +21,10 @@
 
 ## Kế hoạch các đợt
 
-| Đợt | Trạng thái tại mốc v17 | Phạm vi / đầu ra |
+| Đợt | Trạng thái hiện tại | Phạm vi / đầu ra |
 | --- | --- | --- |
 | 2A–2D | Đã có overlay; chưa nghiệm thu toàn trường | Xem nhật ký tiến độ |
-| 2E | Chưa làm | Giao tiếp gốc A1, biến thể A1, kiểm kê/biên tập expansion A1 còn lại; tiếp tục A2 nguồn chính nếu còn sức chứa |
+| 2E | Đã phủ (v18); chưa nghiệm thu | Giao tiếp gốc A1, biến thể A1, kiểm kê/biên tập expansion A1 còn lại; tiếp tục A2 nguồn chính nếu còn sức chứa |
 | 2F | Chưa làm | A2 nguồn chính: sinh hoạt, con người, hành động |
 | 2G | Chưa làm | A2 nguồn chính: công việc, xã hội, tính từ và các bài còn lại |
 | 2H | Chưa làm | A2 extra, collocations, giao tiếp, regional, expansion chưa phủ |

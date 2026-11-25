@@ -2,21 +2,21 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2E (giao tiếp/biến thể A1, kiểm kê expansion A1, tiếp tục A2 theo sức chứa). Mốc hiện tại: Seed v17, 1.391 ID có overlay; chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2F (tiếp tục A2 nguồn chính từ general-01; chia đợt con nếu cần). Mốc hiện tại: Seed v18, 1.640 ID có overlay; chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
-| Cấp/nhóm | Đợt 1 | Đợt 2a | Đợt 2b | Đợt 2c | Đợt 2d | Tổng có overlay |
+| Cấp/nhóm | Đợt 1 | Đợt 2a | Đợt 2b | Đợt 2c | Đợt 2d | Đợt 2e | Tổng có overlay |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| A1 | 8 | 112 | 310 | 370 | 166 | 966 |
-| A2 | 0 | 0 | 0 | 0 | 71 | 71 |
-| B1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| B2 | 0 | 61 | 0 | 0 | 0 | 61 |
-| C1 | 184 | 84 | 0 | 0 | 0 | 268 |
-| Cụm động từ (ID riêng) | 0 | 0 | 0 | 0 | 25 | 25 |
-| Tổng | 192 | 257 | 310 | 370 | 262 | 1.391 |
+| A1 | 8 | 112 | 310 | 370 | 166 | 36 | 1.002 |
+| A2 | 0 | 0 | 0 | 0 | 71 | 213 | 284 |
+| B1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| B2 | 0 | 61 | 0 | 0 | 0 | 0 | 61 |
+| C1 | 184 | 84 | 0 | 0 | 0 | 0 | 268 |
+| Cụm động từ (ID riêng) | 0 | 0 | 0 | 0 | 25 | 0 | 25 |
+| Tổng | 192 | 257 | 310 | 370 | 262 | 249 | 1.640 |
 
-1.391/7.000 mục có chỉnh sửa biên tập; chưa kiểm chứng mọi trường. 5.609 mục chưa có overlay. Bốn cụm động từ dùng chung ID đã tính vào A2, không đếm hai lần.
+1.640/7.000 mục có chỉnh sửa biên tập (23,43%); chưa kiểm chứng mọi trường. 5.360 mục chưa có overlay. Bốn cụm động từ dùng chung ID đã tính vào A2, không đếm hai lần.
 
 ## Phạm vi đợt 2a
 
@@ -47,9 +47,18 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - Hai câu song ngữ cho mỗi overlay mới (524 câu, 329 câu mới và 195 câu nguồn giữ lại). Không sửa 1.129 overlay cũ.
 - Kiểm tra JSON/ID/số câu; chưa chạy lint/test/build/browser.
 
+## Phạm vi đợt 2e (Seed v18)
+
+- 24/24 ID giao tiếp A1 gốc (Ăn uống và mua sắm; Hỏi và đáp hằng ngày), 12/12 ID biến thể A1. Kiểm kê toàn bộ expansion: không có bài A1. Đủ 1.002/1.002 ID A1 có overlay (800 vocabulary chính, 94 extra, 72 collocations, 24 giao tiếp, 12 regional); chưa kiểm định mọi trường.
+- 213 ID A2 nguồn chính thuộc bảy bài: `deck-en-a2-words-daily-02` (35), `deck-en-a2-words-daily-03` (35), `deck-en-a2-words-work-01` (24), `deck-en-a2-words-work-02` (25), `deck-en-a2-words-travel-01` (30), `deck-en-a2-words-life-01` (32), `deck-en-a2-words-life-02` (32). Đã phủ 280/900 từ A2 nguồn chính; 4 ID phrasal dùng chung A2 vẫn tính trong A2. A2 tổng 284 overlay.
+- Sửa nghĩa lemon (quả chanh vàng), mall (trung tâm mua sắm), dessert (món tráng miệng), appointment (cuộc hẹn; sự bổ nhiệm), float (phao nổi; xe diễu hành trang trí), rap, cricket; bổ sung cách dùng furniture/software/research không đếm được, phân biệt receipt/bill, try it on và biến thể chips/fries, biscuit/cookie, pants/trousers. Sửa từ loại take a seat thành Cụm từ.
+- 249 ID mới, 498 câu song ngữ trong overlay mới (484 cặp khác nội dung nguồn trực tiếp, 14 cặp giữ nguyên theo đối chiếu câu và bản dịch chính xác). Các câu mới/biên tập do Largo soạn, không phải chứng nhận từ điển độc lập. Ví dụ riêng của Anh-Anh trên các thẻ có headword khác vẫn giữ nguyên theo cơ chế hiện tại; chưa kiểm tra hết enrichment, IPA và quan hệ từ.
+- Kiểm tra bằng GitHub API/JavaScript: toàn bộ danh mục nguồn có 7.000 ID duy nhất; JSON 1.640 khóa duy nhất; 249 ID mới thuộc seed, không trùng overlay cũ; 1.391 overlay cũ giữ nguyên; mọi mục mới có nghĩa và hai câu song ngữ không rỗng. Đã cập nhật assertion số lượng và thêm hai test TypeScript cho phủ A1, ví dụ vùng miền và migration v17. Chưa chạy lint/test/build/browser (không có checkout/runtime repo trong phiên API này).
+- Bàn giao 2F: bắt đầu các bài A2 nguồn chính từ `deck-en-a2-words-general-01` trở đi (620 ID chưa phủ), ưu tiên nhóm sinh hoạt/con người/hành động; chia đợt con theo sức chứa và chủ đề, không sửa ID/bộ. A2 extra, collocations, giao tiếp/biến thể, expansion còn cần biên tập.
+
 ## Các đợt tiếp theo
 
-1. Các bộ giao tiếp gốc/biến thể A1 còn lại, nguồn vocabulary A2 và các bộ A2: đối chiếu nghĩa theo từ loại, đơn giản hóa ví dụ và sửa dịch máy.
+1. Nguồn vocabulary A2 còn lại và các bộ A2: đối chiếu nghĩa theo từ loại, đơn giản hóa ví dụ và sửa dịch máy.
 2. B1/B2: kiểm tra cụm từ đi kèm, giới từ, cấu trúc và cách dùng theo ngữ cảnh.
 3. C1 và các mục đã có overlay: kiểm tra phần ví dụ, quan hệ từ, phát âm/biến thể còn lại. 
 4. Chỉ đánh dấu hoàn thành khi mọi trường đã được kiểm tra hoặc có lý do không áp dụng. Kiểm tra CEFR và phân bổ lại bộ thuộc giai đoạn 3.

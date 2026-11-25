@@ -31,7 +31,7 @@ Dùng chung giao diện trong [`DecksView.tsx`](../../src/components/DecksView.t
 
 Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và dữ liệu học. Khi cập nhật danh mục đã phát hành, kiểm thử bản lưu cũ, thẻ đã xóa, khôi phục và chạy cập nhật hai lần.
 
-## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v17)
+## Biên tập tiếng Anh: nghĩa trước, cách dùng sau (seed v13–v18)
 
 - Nghĩa tiếng Việt là một hoặc vài cách dịch ngắn, cùng nghĩa trọng tâm; không dùng toàn bộ hướng dẫn ngữ pháp hoặc ví dụ làm đáp án nghĩa.
 - Giải thích và cách dùng nằm trong `notes`: nêu sắc thái, cấu trúc, giới từ, văn phong hoặc phân biệt từ dễ nhầm. Không tự tạo quy tắc tuyệt đối khi có ngoại lệ.
@@ -46,3 +46,5 @@ Khi sửa tài liệu hoặc tiêu đề, giữ ID, danh sách thành viên và 
 - Đợt 2c (seed v16): hoàn tất overlay nghĩa và ví dụ cho 370 mục còn lại trong 800 mục A1 nguồn vocabulary chính; thêm 740 câu song ngữ, sửa từ loại rõ ràng sai ở am, hello, bye, lot. Tổng 1.129 ID có overlay; chưa xác minh tất cả trường hoặc các bộ A1 khác. Theo yêu cầu chủ dự án đưa trực tiếp vào main; chưa chạy lint/test/build/browser.
 
 - Đợt 2d (seed v17): thêm 94 mục A1 nguồn extra, 72 collocation A1, 29 cụm động từ thuộc ba bộ đầu (4 ID dùng chung với A2 giao tiếp, 25 ID phrasal riêng) và 67 mục nguồn vocabulary A2. Tổng 1.391 ID. Mỗi mục mới có hai ví dụ song ngữ; ví dụ bổ sung A1 và cụm động từ giữ một câu nguồn và viết một câu mới, collocation giữ một câu nguồn và viết một câu mới, A2 viết hai câu mới. Ví dụ biến thể từ riêng vẫn dùng nguồn vùng miền. Chưa kiểm chứng mọi trường.
+
+- Đợt 2e (seed v18): bổ sung 36 ID A1 còn lại (24 giao tiếp, 12 regional), 213 ID từ vựng chính A2 (7 bài). A1 đủ 1.002/1.002 ID có overlay; A2 nguồn chính 280/900. Tổng 1.640 ID (23,43%). Hai câu song ngữ mỗi overlay mới; giữ ví dụ riêng vùng miền khi headword khác. Kiểm tra toàn bộ ID nguồn, JSON và bảo toàn 1.391 overlay cũ; chưa chạy lint/test/build/browser. Xem [tiến độ](english-editorial-progress.md) và [roadmap](english-editorial-roadmap.md).

@@ -71,7 +71,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 1391);
+  assert.equal(editorialIds.size, 1640);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -169,5 +169,47 @@ test('phase 2d covers supplementary A1, collocations and shared phrasal IDs', ()
   assert.equal(migrated.version, CURRENT_DATA_VERSION);
   assert.equal(migrated.words.find(item => item.id === word.id)?.notes, word.notes);
   assert.equal(migrated.words.find(item => item.id === word.id)?.srs, srs);
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2e covers every A1 seed card and next seven A2 vocabulary lessons', () => {
+  const edited = new Set(Object.keys(englishEditorial));
+  const a1Decks = new Set(ENGLISH_DECKS.filter(deck => deck.level === 'a1').map(deck => deck.id));
+  const a1 = ENGLISH_WORDS.filter(word => a1Decks.has(word.deckId));
+  assert.equal(a1.length, 1002);
+  assert.ok(a1.every(word => edited.has(word.id)));
+  const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  assert.match(byId.get('deck-en-a1-everyday-try-on')?.notes ?? '', /try it on/);
+  const regional = byId.get('en-regional-fries')!;
+  assert.equal(getEnglishStudyWord(regional, 'en-GB').term, 'chips');
+  assert.equal(getEnglishStudyWord(regional, 'en-US').term, 'fries');
+  assert.ok(getEnglishStudyWord(regional, 'en-GB').examples.every(example => example.translation.trim()));
+  assert.equal(getEnglishStudyWord(regional, 'en-US').examples.length, 2);
+  assert.equal(byId.get('en-vocab-lemon')?.meaning, 'quả chanh vàng');
+  assert.equal(byId.get('en-vocab-mall')?.meaning, 'trung tâm mua sắm');
+  assert.match(byId.get('en-vocab-furniture')?.notes ?? '', /không đếm được/i);
+  assert.match(byId.get('en-vocab-appointment')?.meaning ?? '', /cuộc hẹn/);
+  assert.match(byId.get('en-vocab-cricket')?.meaning ?? '', /môn cricket/);
+});
+
+test('v17 seed migration updates 2e vocabulary without losing review state or restoring deletions', () => {
+  const word = INITIAL_WORDS.find(word => word.id === 'en-vocab-mall')!;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const personalRelations = { synonyms: ['personal'], antonyms: [] };
+  const state = {
+    version: 17, decks: INITIAL_DECKS,
+    words: [{ ...word, meaning: 'phố đi bộ', srs, bloomLevel: 3 as const, personalRelations }],
+    logs: [], profile: { ...INITIAL_PROFILE, todayWordIds: [word.id] },
+  };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.equal(migrated.version, CURRENT_DATA_VERSION);
+  assert.equal(updated?.meaning, 'trung tâm mua sắm');
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
+  assert.equal(updated?.personalRelations, personalRelations);
+  assert.ok(!migrated.words.some(item => item.id === 'en-vocab-lemon'));
+  assert.deepEqual(migrated.profile.todayWordIds, [word.id]);
   assert.equal(withCurrentSeed(migrated), migrated);
 });
