@@ -2,7 +2,7 @@
 
 **Kế hoạch và quy trình bàn giao:** [Roadmap 2E–2Z](english-editorial-roadmap.md). Đọc roadmap và tài liệu này ở đầu mỗi phiên; cập nhật tiến độ thực tế sau mỗi đợt.
 
-**Đợt tiếp theo:** 2H.2 (243 ID A2 còn thiếu; 139 extra và 104 ID giao tiếp/expansion còn lại, cần kiểm kê chính xác theo ID). Mốc hiện tại: Seed v22, 2.410 ID có overlay; 66 thẻ có nghĩa bổ sung (77 nhóm); chưa nghiệm thu toàn trường.
+**Đợt tiếp theo:** 2H.3 (104 ID A2: 20 giao tiếp gốc, 84 expansion đã kiểm kê). Mốc hiện tại: Seed v23, 2.549 ID có overlay; 76 ID có nghĩa bổ sung (87 nhóm); chưa nghiệm thu toàn trường.
 
 Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../English/englishEditorial.json). Mỗi bản ghi dùng ID hiện có; không tạo thẻ mới, không thay đổi CEFR hay thành viên bộ.
 
@@ -89,6 +89,14 @@ Dữ liệu đã biên tập nằm trong [English/englishEditorial.json](../../E
 - 300 cặp ví dụ chính: 155 câu viết mới hoặc chỉnh câu gốc, 51 câu nguồn được bổ sung bản dịch, 94 cặp nguồn giữ lại. 5 ID thêm 5 nhóm nghĩa phụ (ski, skate, shampoo, printer, cereal), 10 ví dụ song ngữ mới; tổng 66 ID/77 nhóm. Không áp nghĩa phụ cho headword vùng miền khác.
 - Kiểm tra JavaScript: JSON parse, khóa duy nhất, 150 ID đúng từ ba nguồn và không trùng overlay cũ; bảo toàn toàn bộ 2.260 overlay và 61 nhóm ID nghĩa phụ cũ; đủ hai ví dụ không rỗng trên mỗi ID mới. Đã bổ sung test độ phủ, biến thể và migration v21; chưa chạy lint/test/build/browser hoặc migration thực tế do chỉ làm việc qua GitHub API. Không xác nhận mọi IPA, quan hệ từ hoặc ví dụ UK riêng.
 - Bàn giao 2H.2: còn 243 ID A2, ưu tiên extra general-01/02/03, people-01, work-01, travel-01; kiểm kê giao tiếp gốc và expansion A2 theo ID, loại bốn ID phrasal đã có. Không chuyển sang 2I trước khi phủ hết A2.
+
+## Phạm vi đợt 2H.2 (Seed v23)
+
+- 139 ID mới: toàn bộ extra A2 còn lại thuộc general-01/02/03, people-01, work-01, travel-01. Đủ 205/205 extra A2; toàn A2 1.193/1.297, tổng 2.549/7.000 (36,41%), còn 4.451 ID thiếu overlay.
+- Sửa footballer, meter, right-hand, folder, psychologist, shade, context, fare, overweight; phân biệt amused/amusing, indoor/indoors, pronunciation, refer to. Giữ nguyên ID/CEFR/bộ và nguồn.
+- 278 ví dụ chính: 159 câu viết mới/chỉnh câu, 105 câu nguồn bổ sung/chỉnh bản dịch, 14 cặp giữ lại. Thêm 10 ID/10 nhóm nghĩa phụ, 20 ví dụ mới. Tổng 76 ID/87 nhóm nghĩa phụ. Bảo toàn 2.410 overlay và 66 ID nghĩa phụ cũ.
+- Kiểm tra JavaScript/JSON: 139 ID duy nhất, đúng nguồn, hai ví dụ song ngữ không rỗng, giữ dữ liệu cũ. Thêm test độ phủ và migration v22; chưa chạy lint/test/build/browser hoặc migration thực tế qua GitHub API. Chưa kiểm chứng mọi IPA, quan hệ từ, ví dụ vùng miền.
+- Bàn giao: 20 ID giao tiếp gốc (12 work-study, 8 travel; 4 ID phrasal đã có) và 84 ID expansion A2 đã kiểm kê qua blob e0ba0ef: everyday-home (18), everyday-tools-fabrics (14), social-etiquette (10), everyday-errands (11), phrases-travel-2 (15), phrasal-everyday-2 (16). Tiếp tục 2H.3, không chuyển 2I trước khi phủ hết.
 
 ## Các đợt tiếp theo
 

@@ -49,6 +49,119 @@
       "notes": "Cereals gồm wheat, rice, oats…; khác nghĩa thức ăn sáng."
     }
   ],
+  "en-extra-chirp-94b4a9f92e": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "kêu chiêm chiếp; ríu rít",
+      "examples": [
+        {
+          "sentence": "The birds chirped at dawn.",
+          "translation": "Chim ríu rít lúc bình minh."
+        },
+        {
+          "sentence": "I heard the chicks chirp.",
+          "translation": "Tôi nghe gà con kêu chiêm chiếp."
+        }
+      ]
+    }
+  ],
+  "en-extra-clone-b5d61dc89a": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "bản sao; sinh vật nhân bản",
+      "examples": [
+        {
+          "sentence": "The plant is a clone of the original.",
+          "translation": "Cây này là bản sao nhân bản của cây gốc."
+        },
+        {
+          "sentence": "I made a clone of the disk.",
+          "translation": "Tôi tạo bản sao ổ đĩa."
+        }
+      ]
+    }
+  ],
+  "en-extra-comparative-382439e6f1": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "so sánh; mang tính đối chiếu",
+      "examples": [
+        {
+          "sentence": "We read a comparative study of two languages.",
+          "translation": "Chúng tôi đọc nghiên cứu so sánh hai ngôn ngữ."
+        },
+        {
+          "sentence": "This chart shows comparative costs.",
+          "translation": "Biểu đồ thể hiện chi phí để so sánh."
+        }
+      ]
+    }
+  ],
+  "en-extra-custom-6cdfd271da": [
+    {
+      "partOfSpeech": "Tính từ",
+      "meaning": "được làm theo yêu cầu",
+      "examples": [
+        {
+          "sentence": "She ordered a custom desk.",
+          "translation": "Cô ấy đặt bàn làm theo yêu cầu."
+        },
+        {
+          "sentence": "He bought custom shoes.",
+          "translation": "Anh ấy mua giày làm theo yêu cầu."
+        }
+      ]
+    }
+  ],
+  "en-extra-dislike-e4d14bef7a": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "không thích",
+      "examples": [
+        {
+          "sentence": "I dislike loud music.",
+          "translation": "Tôi không thích nhạc ồn ào."
+        },
+        {
+          "sentence": "She dislikes waiting in line.",
+          "translation": "Cô ấy không thích xếp hàng chờ."
+        }
+      ],
+      "notes": "Dislike + danh từ/V-ing."
+    }
+  ],
+  "en-extra-hike-c02d7803a9": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "đi bộ đường dài",
+      "examples": [
+        {
+          "sentence": "We hike in the hills every weekend.",
+          "translation": "Chúng tôi đi bộ đường dài trên đồi mỗi cuối tuần."
+        },
+        {
+          "sentence": "They hiked to the lake.",
+          "translation": "Họ đi bộ đường dài đến hồ."
+        }
+      ]
+    }
+  ],
+  "en-extra-lyric-acf660ae9a": [
+    {
+      "partOfSpeech": "Danh từ",
+      "meaning": "lời bài hát (thường số nhiều lyrics)",
+      "examples": [
+        {
+          "sentence": "I can't remember the lyrics.",
+          "translation": "Tôi không nhớ lời bài hát."
+        },
+        {
+          "sentence": "She wrote the lyrics for the song.",
+          "translation": "Cô ấy viết lời cho bài hát."
+        }
+      ]
+    }
+  ],
   "en-extra-printer-ba70e1dacc": [
     {
       "partOfSpeech": "Danh từ",
@@ -64,6 +177,23 @@
         }
       ],
       "notes": "Khác nghĩa thiết bị in."
+    }
+  ],
+  "en-extra-quiz-9d98ce221d": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "hỏi kiểm tra kiến thức",
+      "examples": [
+        {
+          "sentence": "The teacher quizzed us on verbs.",
+          "translation": "Giáo viên hỏi kiểm tra chúng tôi về động từ."
+        },
+        {
+          "sentence": "Quiz me on these words.",
+          "translation": "Hãy kiểm tra tôi về những từ này."
+        }
+      ],
+      "notes": "Quiz someone on + chủ đề."
     }
   ],
   "en-extra-shampoo-021624ecb7": [
@@ -115,6 +245,38 @@
         }
       ],
       "notes": "Go skiing là đi trượt tuyết."
+    }
+  ],
+  "en-extra-tidy-118a1de593": [
+    {
+      "partOfSpeech": "Động từ",
+      "meaning": "dọn dẹp cho gọn",
+      "examples": [
+        {
+          "sentence": "I tidy my room every Sunday.",
+          "translation": "Tôi dọn phòng mỗi Chủ nhật."
+        },
+        {
+          "sentence": "Please tidy up the kitchen.",
+          "translation": "Hãy dọn bếp cho gọn."
+        }
+      ]
+    }
+  ],
+  "en-extra-weekly-8850eced98": [
+    {
+      "partOfSpeech": "Trạng từ",
+      "meaning": "mỗi tuần",
+      "examples": [
+        {
+          "sentence": "The club meets weekly.",
+          "translation": "Câu lạc bộ họp mỗi tuần."
+        },
+        {
+          "sentence": "We publish the list weekly.",
+          "translation": "Chúng tôi công bố danh sách mỗi tuần."
+        }
+      ]
     }
   ],
   "en-vocab-answer": [

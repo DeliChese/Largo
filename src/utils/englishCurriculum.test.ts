@@ -72,7 +72,7 @@ test('C1 editorial coverage and bilingual example overrides in both English loca
   const c1 = ENGLISH_WORDS.filter(word => c1DeckIds.has(word.deckId));
   assert.equal(c1.length, 268);
   assert.ok(c1.every(word => editorialIds.has(word.id)));
-  assert.equal(editorialIds.size, 2410);
+  assert.equal(editorialIds.size, 2549);
   for (const word of ENGLISH_WORDS) {
     const entry = englishEditorial[word.id as keyof typeof englishEditorial];
     if (!entry || !('examples' in entry)) continue;
@@ -296,8 +296,8 @@ test('v19 seed migration preserves saved progress for phase 2g content', () => {
 test('additional senses have existing IDs and distinct examples without changing the primary review answer', () => {
   const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
   assert.equal(byId.size, 7000);
-  assert.equal(Object.keys(englishAdditionalSenses).length, 66);
-  assert.equal(Object.values(englishAdditionalSenses).flat().length, 77);
+  assert.equal(Object.keys(englishAdditionalSenses).length, 76);
+  assert.equal(Object.values(englishAdditionalSenses).flat().length, 87);
   for (const [id, senses] of Object.entries(englishAdditionalSenses)) {
     const word = byId.get(id);
     assert.ok(word, id);
@@ -365,6 +365,34 @@ test('v21 migration updates A2 supplementary content without resetting saved pro
   const migrated = withCurrentSeed(state);
   const updated = migrated.words.find(item => item.id === word.id);
   assert.equal(updated?.meaning, 'quả lê');
+  assert.equal(updated?.srs, srs);
+  assert.equal(updated?.bloomLevel, 3);
+  assert.equal(withCurrentSeed(migrated), migrated);
+});
+
+
+test('phase 2h.2 completes the remaining 139 A2 extra vocabulary cards', () => {
+  const ids = ["en-extra-jelly-22d8ec27fc","en-extra-predict-8e9afe9d1d","en-extra-aged-5e05171a0e","en-extra-regularly-e7b6fe4a77","en-extra-successfully-b728667e3b","en-extra-boiled-2d2c23d3ee","en-extra-clone-b5d61dc89a","en-extra-grilled-ba7651a413","en-extra-kilo-54c5ccf0f3","en-extra-euro-b54124f069","en-extra-hiking-fc31ac9277","en-extra-amused-8648a03e60","en-extra-automatic-53e0ff348c","en-extra-unnecessary-22d64f6877","en-extra-underwater-8732d6327e","en-extra-make-up-7dbbcc687e","en-extra-shade-e02d7fca85","en-extra-globe-d2a1fc0432","en-extra-additional-7b476727fa","en-extra-frightening-467d18ee9c","en-extra-adjust-2549c096fc","en-extra-refer-a4b64ad329","en-extra-artificial-4d2971726b","en-extra-bake-3c8c082e47","en-extra-meter-5eff322a1b","en-extra-satisfy-7688bd7c42","en-extra-frighten-52d8a8577f","en-extra-feather-b52115ea55","en-extra-sunlight-921a95e8b6","en-extra-publish-a5d47a4311","en-extra-boil-9a692cc5ec","en-extra-lively-36b481152b","en-extra-tidy-118a1de593","en-extra-reflect-909ca0096d","en-extra-acceptable-129b70f867","en-extra-pronounce-e718dfa134","en-extra-dinosaur-300908b9d3","en-extra-elderly-457020499e","en-extra-invent-1e2f4f54c7","en-extra-weekly-8850eced98","en-extra-roughly-0debf3ab76","en-extra-automatically-83ccca18fb","en-extra-sew-298e56c1cf","en-extra-impatient-f137861447","en-extra-disappointing-9b179132ab","en-extra-insect-db7304319e","en-extra-partly-13bfaf8f3c","en-extra-well-known-d91ec1b42e","en-extra-smoothly-ce4f792e16","en-extra-scenery-6e8a32c0ab","en-extra-bulb-b4942fb4e8","en-extra-invade-59ab84ee2e","en-extra-consequence-84bb160039","en-extra-oppose-26a0ee5c65","en-extra-annoy-799524ffd2","en-extra-educational-cbedbde861","en-extra-napkin-9db44611cf","en-extra-uncertain-96642b36a8","en-extra-flea-e1b6072c02","en-extra-silently-6ab6c1f9af","en-extra-windy-87480c5a48","en-extra-creativity-5a59225b5a","en-extra-dishonest-3734f204b6","en-extra-criticize-3bd933a323","en-extra-rating-112895d7af","en-extra-folder-034a006248","en-extra-playful-e600bda8b7","en-extra-right-hand-ea88e488f1","en-extra-energetic-fa3531b78a","en-extra-pilgrim-1dd31cd072","en-extra-harmful-58904effcb","en-extra-pleasing-6e2befec87","en-extra-midday-13d8e677e4","en-extra-unforgettable-305b00e96c","en-extra-prediction-70ad7b8f9a","en-extra-sleepless-d8ad80d6ea","en-extra-unimportant-34a7850efc","en-extra-indoor-0fabe40e86","en-extra-overweight-09dbdd823d","en-extra-timetable-f09390ae1c","en-extra-lyric-acf660ae9a","en-extra-recycle-ef5988103d","en-extra-chirp-94b4a9f92e","en-extra-sunflower-8f398886c3","en-extra-injure-df73cf99ee","en-extra-left-hand-e4d4df3df7","en-extra-terrify-d70f695f02","en-extra-laziness-08a1d81509","en-extra-pollute-f16075a9eb","en-extra-comparative-382439e6f1","en-extra-weekday-82d048d26e","en-extra-kilogram-16db10b284","en-extra-half-price-aede390390","en-extra-washing-up-564edb6705","en-extra-grocery-store-dede36f13c","en-extra-granddad-cd9090e765","en-extra-granddaughter-285a615116","en-extra-lifestyle-61a78304b3","en-extra-runner-527aa9f431","en-extra-dislike-e4d14bef7a","en-extra-surname-655c32fb84","en-extra-receptionist-c3bca14c65","en-extra-grandchild-713b4f18f0","en-extra-beginner-d0c2ebfa34","en-extra-policewoman-f9852209bc","en-extra-footballer-75ee477d47","en-extra-quiz-9d98ce221d","en-extra-maker-878c240fd7","en-extra-chart-cc57fc1903","en-extra-continent-cbb2210166","en-extra-astronaut-df0c29d396","en-extra-semester-b4e58cd7cb","en-extra-context-ea7792a26f","en-extra-athlete-23a1f74bc5","en-extra-psychologist-dc5945e7f9","en-extra-fisherman-da8cc79090","en-extra-gender-de9feaea8b","en-extra-atom-1bf521836d","en-extra-ancestor-d490151378","en-extra-composer-42cc848a9f","en-extra-textbook-16a9b27cd7","en-extra-summary-761b7ad8ad","en-extra-learner-1210f10c34","en-extra-verb-6806f86a17","en-extra-blackboard-00c764f20f","en-extra-pronunciation-ce978dc782","en-extra-adjective-2f2473fd83","en-extra-punctuation-03ebc3b2e4","en-extra-custom-6cdfd271da","en-extra-tourist-b58951d8a9","en-extra-fare-eaa8b6e89f","en-extra-countryside-8f2f4a9cec","en-extra-cheque-c752ae6dd4","en-extra-hike-c02d7803a9","en-extra-banking-68ba9b33ad","en-extra-traveler-cd50fc998e","en-extra-tram-c2a6bc4a1d","en-extra-motorway-29bd95d193","en-extra-traffic-light-34d7399635"];
+  const byId = new Map(ENGLISH_WORDS.map(word => [word.id, word]));
+  assert.equal(new Set(ids).size, 139);
+  for (const id of ids) {
+    const word = byId.get(id);
+    assert.ok(word, id);
+    assert.equal(word.examples.length, 2, id);
+    assert.ok(word.examples.every(example => example.sentence.trim() && example.translation.trim()), id);
+  }
+  assert.equal(byId.get("en-extra-footballer-75ee477d47")?.meaning, 'cầu thủ bóng đá');
+  assert.equal(byId.get("en-extra-dislike-e4d14bef7a")?.additionalSenses?.[0]?.partOfSpeech, 'Động từ');
+});
+
+test('v22 seed migration preserves saved progress on A2 extra vocabulary', () => {
+  const word = INITIAL_WORDS.find(word => word.id === "en-extra-dislike-e4d14bef7a")!;
+  const { additionalSenses, ...old } = word;
+  const srs = { ...word.srs, repetitions: 4, lastReviewedAt: 123 };
+  const state = { version: 22, decks: INITIAL_DECKS, words: [{ ...old, srs, bloomLevel: 3 as const }], logs: [], profile: INITIAL_PROFILE };
+  const migrated = withCurrentSeed(state);
+  const updated = migrated.words.find(item => item.id === word.id);
+  assert.deepEqual(updated?.additionalSenses, additionalSenses);
   assert.equal(updated?.srs, srs);
   assert.equal(updated?.bloomLevel, 3);
   assert.equal(withCurrentSeed(migrated), migrated);
