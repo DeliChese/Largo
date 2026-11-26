@@ -4,6 +4,7 @@ import type { VocabWord } from '../types/vocab';
 import {
   buildLocalLookupResult,
   fetchDictionaryEntry,
+  mergeLocalWithOnlineLookup,
   safeExternalUrl,
   type DictionaryLookupResult,
   type DictionaryNotFoundResult,
@@ -78,6 +79,8 @@ export function DictionaryInspectDialog({
       const entry = await fetchDictionaryEntry(clean, controller.signal);
       if (entry.status === 'not_found' && localMatch) {
         setResult(buildLocalLookupResult(localMatch, allWords));
+      } else if (entry.status === 'ok' && localMatch) {
+        setResult(mergeLocalWithOnlineLookup(localMatch, entry, allWords));
       } else {
         setResult(entry);
       }

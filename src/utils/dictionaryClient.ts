@@ -8,6 +8,7 @@ import type {
   WordFamilyItem,
 } from '../types/vocab';
 import { cambridgeEnViLookupUrl, cambridgeLookupUrl, DEFAULT_ENGLISH_LOCALE, getEnglishStudyWord } from './englishStudy';
+import { searchable } from './vocabSearch';
 import { getWordRelations } from './wordRelations';
 
 export interface DictionaryExample {
@@ -45,6 +46,7 @@ export interface DictionaryLookupResult {
   term: string;
   queriedTerm: string;
   inflectionNote?: string;
+  isIdiom?: boolean;
   phonetic: string;
   englishForms?: EnglishWordForms;
   senses: DictionarySense[];
@@ -53,6 +55,7 @@ export interface DictionaryLookupResult {
   synonyms: string[];
   antonyms: string[];
   wordFamily?: WordFamilyItem[];
+  relatedIdioms?: string[];
   providers: DictionaryProviderInfo[];
   links: DictionaryExternalLinks;
   fetchedAt: number;
@@ -68,6 +71,12 @@ export interface DictionaryNotFoundResult {
 export interface DictionarySuggestion {
   term: string;
   source: string;
+  isIdiom?: boolean;
+}
+
+export interface DictionaryIdiomMatch {
+  term: string;
+  snippet?: string;
 }
 
 export interface DictionaryWordDraft {
@@ -86,12 +95,29 @@ export interface DictionaryWordDraft {
   englishForms?: EnglishWordForms;
   additionalSenses?: EnglishAdditionalSense[];
   wordFamily?: WordFamilyItem[];
+  isIdiom?: boolean;
   links: DictionaryExternalLinks;
   sourceSummary: string;
 }
 
 export const LOOKUP_DECK_ID = 'deck-custom-lookup';
 export const LOOKUP_DECK_NAME = 'Từ đã tra cứu';
+export const IDIOM_DECK_ID = 'deck-custom-idioms';
+export const IDIOM_DECK_NAME = 'Thành ngữ của tôi';
+export const ENGLISH_IDIOM_POS = 'Thành ngữ';
+
+export const POPULAR_IDIOM_PICKS: readonly string[] = [
+  'break the ice',
+  'piece of cake',
+  'under the weather',
+  'bite the bullet',
+  'once in a blue moon',
+  'hit the sack',
+  'burn the midnight oil',
+  'cost an arm and a leg',
+  'on the same page',
+  'get out of hand',
+];
 
 export const STANDARD_POS_OPTIONS = [
   'Danh từ',
@@ -238,28 +264,50 @@ export function buildWordDraftFromDictionary(
   const partOfSpeech = primarySense?.partOfSpeech || (entry.term.includes(' ') ? 'Cụm từ' : 'Từ / cụm từ');
   const meaning = primarySense?.meaning || primarySense?.englishDefinition || '';
 
-  // Prioritize bilingual examples (with Vietnamese translation) from the chosen sense first, then global entry examples, then English-only fallbacks
+  // Keep examples scoped to the selected sense on multi-POS entries when the sense already has bilingual examples;
+  // only fall back to global entry examples if the sense lacks bilingual pairs or the entry has a single sense.
   const seenSentences = new Set<string>();
-  const bilingualExamples: DictionaryExample[] = [];
-  const englishOnlyExamples: DictionaryExample[] = [];
-  for (const ex of [...(primarySense?.examples ?? []), ...entry.examples]) {
+  const senseBilingual: DictionaryExample[] = [];
+  const senseEnglishOnly: DictionaryExample[] = [];
+  for (const ex of primarySense?.examples ?? []) {
     const key = ex.sentence.trim().toLowerCase();
     if (!key || seenSentences.has(key)) continue;
     seenSentences.add(key);
-    if (ex.translation.trim()) bilingualExamples.push(ex);
-    else englishOnlyExamples.push(ex);
+    if (ex.translation.trim()) senseBilingual.push(ex);
+    else senseEnglishOnly.push(ex);
   }
-  const pickedExamples = [...bilingualExamples, ...englishOnlyExamples].slice(0, 2);
+
+  const fallbackBilingual: DictionaryExample[] = [];
+  const fallbackEnglishOnly: DictionaryExample[] = [];
+  const shouldFallbackToGlobal = entry.senses.length <= 1 || senseBilingual.length === 0;
+  if (shouldFallbackToGlobal) {
+    for (const ex of entry.examples) {
+      const key = ex.sentence.trim().toLowerCase();
+      if (!key || seenSentences.has(key)) continue;
+      seenSentences.add(key);
+      if (ex.translation.trim()) fallbackBilingual.push(ex);
+      else fallbackEnglishOnly.push(ex);
+    }
+  }
+  const pickedExamples = [
+    ...senseBilingual,
+    ...fallbackBilingual,
+    ...senseEnglishOnly,
+    ...fallbackEnglishOnly,
+  ].slice(0, 2);
 
   const examples: [ExampleSentence, ExampleSentence] = [
     toExampleSentence(pickedExamples[0]),
     toExampleSentence(pickedExamples[1]),
   ];
 
-  // Prioritize collocations from the chosen sense, fallback to global collocations
+  // Keep collocations scoped to the selected sense on multi-POS entries when present
   const mergedCollocations: CollocationItem[] = [];
   const seenColloc = new Set<string>();
-  for (const item of [...(primarySense?.collocations ?? []), ...entry.collocations]) {
+  const collocSource = entry.senses.length > 1 && (primarySense?.collocations?.length ?? 0) > 0
+    ? (primarySense?.collocations ?? [])
+    : [...(primarySense?.collocations ?? []), ...(entry.senses.length <= 1 ? entry.collocations : [])];
+  for (const item of collocSource) {
     const phrase = item.phrase.trim();
     if (!phrase) continue;
     const key = phrase.toLowerCase();
@@ -300,11 +348,13 @@ export function buildWordDraftFromDictionary(
   const antonyms = Array.from(new Set([...(primarySense?.antonyms ?? []), ...entry.antonyms])).slice(0, 6);
   const wordFamily = (entry.wordFamily ?? []).filter((item) => item.term.trim() && item.partOfSpeech.trim()).slice(0, 8);
 
+  const isIdiom = Boolean(entry.isIdiom || partOfSpeech.toLowerCase() === ENGLISH_IDIOM_POS.toLowerCase());
+
   return {
     term: entry.term,
     phonetic: usPhonetic || ukPhonetic,
     ukPhonetic,
-    partOfSpeech,
+    partOfSpeech: isIdiom ? ENGLISH_IDIOM_POS : partOfSpeech,
     meaning,
     notes,
     collocation: mergedCollocations[0]?.phrase ?? '',
@@ -316,6 +366,7 @@ export function buildWordDraftFromDictionary(
     ...(englishForms ? { englishForms } : {}),
     ...(additionalSenses.length ? { additionalSenses } : {}),
     ...(wordFamily.length ? { wordFamily } : {}),
+    ...(isIdiom ? { isIdiom: true } : {}),
     links: entry.links,
     sourceSummary,
   };
@@ -424,10 +475,24 @@ export function buildLocalLookupResult(
   const allExamples = senses.flatMap((s) => s.examples);
   const family = getMergedWordFamily(storedWord, allWords);
 
+  const isIdiom = isIdiomWord(storedWord);
+  const lowerTerm = word.term.trim().toLowerCase();
+  const localRelatedIdioms = allWords
+    .filter((candidate) =>
+      candidate.id !== storedWord.id &&
+      isIdiomWord(candidate) &&
+      lowerTerm.length >= 3 &&
+      !lowerTerm.includes(' ') &&
+      candidate.term.toLowerCase().split(/[^a-z']+/).includes(lowerTerm),
+    )
+    .map((candidate) => candidate.term)
+    .slice(0, 6);
+
   return {
     status: 'ok',
     term: word.term,
     queriedTerm: word.term,
+    ...(isIdiom ? { isIdiom: true } : {}),
     phonetic: word.phonetic,
     ...(storedWord.englishForms ? { englishForms: storedWord.englishForms } : {}),
     senses,
@@ -436,6 +501,7 @@ export function buildLocalLookupResult(
     synonyms: relations.synonyms,
     antonyms: relations.antonyms,
     wordFamily: family,
+    ...(localRelatedIdioms.length ? { relatedIdioms: localRelatedIdioms } : {}),
     providers: [{ id: 'largo-library', name: 'Kho từ vựng Largo', license: 'Offline' }],
     links: {
       cambridgeEn: cambridgeLookupUrl(word.term),
@@ -444,6 +510,219 @@ export function buildLocalLookupResult(
     },
     fetchedAt: Date.now(),
   };
+}
+
+const VI_MEANING_STOPWORDS = new Set([
+  'cua', 'mot', 'cac', 'va', 'hoac', 'hay', 'de', 'khi', 'su', 'viec', 'lam',
+  'la', 'co', 'cho', 'voi', 'trong', 'ra', 'vao', 'len', 'xuong', 'di', 'den',
+  'o', 'tu', 'bang', 'theo', 've', 'nhu', 'rat', 'nay', 'do', 'nguoi', 'vat',
+  'cai', 'minh', 'khac', 'nhieu', 'it', 'tren', 'duoi', 'tai', 'nhung', 'ma',
+  'bi', 'duoc', 'se', 'da', 'dang', 'khong', 'chua', 'phai', 'can', 'nen',
+]);
+
+function normalizeExampleKey(sentence: string): string {
+  return sentence
+    .toLowerCase()
+    .replace(/[’`]/g, "'")
+    .replace(/\bwhat's\b/g, 'what is')
+    .replace(/\bit's\b/g, 'it is')
+    .replace(/\bthat's\b/g, 'that is')
+    .replace(/\bthere's\b/g, 'there is')
+    .replace(/\bhe's\b/g, 'he is')
+    .replace(/\bshe's\b/g, 'she is')
+    .replace(/\bi'm\b/g, 'i am')
+    .replace(/\byou're\b/g, 'you are')
+    .replace(/\bwe're\b/g, 'we are')
+    .replace(/\bthey're\b/g, 'they are')
+    .replace(/\bdon't\b/g, 'do not')
+    .replace(/\bdoesn't\b/g, 'does not')
+    .replace(/\bdidn't\b/g, 'did not')
+    .replace(/\bcan't\b/g, 'cannot')
+    .replace(/\bwon't\b/g, 'will not')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function extractMeaningTokens(meaning: string): string[] {
+  return searchable(meaning)
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((token) => token.length >= 2 && !VI_MEANING_STOPWORDS.has(token));
+}
+
+export function meaningsAlign(localMeaning: string, onlineMeaning: string): boolean {
+  const localNorm = searchable(localMeaning);
+  const onlineNorm = searchable(onlineMeaning);
+  if (!localNorm || !onlineNorm) return false;
+  if (onlineNorm.includes(localNorm) || localNorm.includes(onlineNorm)) return true;
+
+  const localClauses = localMeaning
+    .split(/[;,/]/)
+    .map((c) => searchable(c).trim())
+    .filter((c) => c.length >= 3);
+  if (localClauses.some((clause) => onlineNorm.includes(clause))) return true;
+
+  const localTokens = extractMeaningTokens(localMeaning);
+  const onlineTokens = new Set(extractMeaningTokens(onlineMeaning));
+  if (!localTokens.length || !onlineTokens.size) return false;
+  const overlap = localTokens.filter((t) => onlineTokens.has(t)).length;
+  return overlap >= (localTokens.length <= 2 ? 1 : 2);
+}
+
+function mergeDistinctExamples(
+  primary: readonly DictionaryExample[],
+  secondary: readonly DictionaryExample[],
+  maxCount = 3,
+): DictionaryExample[] {
+  const seen = new Set<string>();
+  const out: DictionaryExample[] = [];
+  for (const ex of [...primary, ...secondary]) {
+    const sentence = ex.sentence.trim();
+    if (!sentence) continue;
+    const key = normalizeExampleKey(sentence) || searchable(sentence);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(ex);
+    if (out.length >= maxCount) break;
+  }
+  return out;
+}
+
+function mergeDistinctCollocations(
+  primary: readonly CollocationItem[],
+  secondary: readonly CollocationItem[],
+  maxCount = 4,
+): CollocationItem[] {
+  const seen = new Set<string>();
+  const out: CollocationItem[] = [];
+  for (const item of [...primary, ...secondary]) {
+    const phrase = item.phrase.trim();
+    if (!phrase) continue;
+    const key = searchable(phrase);
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(item);
+    if (out.length >= maxCount) break;
+  }
+  return out;
+}
+
+export function mergeLocalWithOnlineLookup(
+  storedWord: VocabWord,
+  onlineResult: DictionaryLookupResult,
+  allWords: readonly VocabWord[],
+): DictionaryLookupResult {
+  const onlineKey = searchable(onlineResult.term);
+  const matchesStored =
+    searchable(storedWord.term) === onlineKey ||
+    (storedWord.englishForms?.['en-GB']?.term && searchable(storedWord.englishForms['en-GB'].term) === onlineKey) ||
+    (storedWord.englishForms?.['en-US']?.term && searchable(storedWord.englishForms['en-US'].term) === onlineKey);
+  if (!matchesStored) return onlineResult;
+
+  const localEntry = buildLocalLookupResult(storedWord, allWords);
+  const onlineByPos = new Map<string, DictionarySense>();
+  for (const sense of onlineResult.senses) {
+    const posKey = searchable(sense.partOfSpeech);
+    if (posKey && !onlineByPos.has(posKey)) {
+      onlineByPos.set(posKey, sense);
+    }
+  }
+
+  const usedOnlinePos = new Set<string>();
+  const extraDistinctOnlineSenses: DictionarySense[] = [];
+
+  const mergedSenses: DictionarySense[] = localEntry.senses.map((localSense) => {
+    const posKey = searchable(localSense.partOfSpeech);
+    const match = onlineByPos.get(posKey);
+    if (!match) return localSense;
+    usedOnlinePos.add(posKey);
+
+    const aligned = !localSense.meaning || !match.meaning || meaningsAlign(localSense.meaning, match.meaning);
+    if (!aligned) {
+      // Online primary meaning for this POS covers a different sense (e.g. "take off" = cất cánh vs local = cởi; tháo ra).
+      // Keep the curated local sense pure and expose the online meaning cleanly in its own tab.
+      extraDistinctOnlineSenses.push({
+        ...match,
+        partOfSpeech: `${match.partOfSpeech} (nghĩa khác)`,
+      });
+      return localSense;
+    }
+
+    const bilingualOnlineExamples = match.examples.filter((ex) => Boolean(ex.translation.trim()));
+    const supplementExamples = localSense.examples.length > 0 ? bilingualOnlineExamples : match.examples;
+
+    return {
+      partOfSpeech: localSense.partOfSpeech,
+      meaning: localSense.meaning || match.meaning,
+      ...(match.englishDefinition ? { englishDefinition: match.englishDefinition } : {}),
+      collocations: mergeDistinctCollocations(localSense.collocations, match.collocations, 4),
+      examples: mergeDistinctExamples(localSense.examples, supplementExamples, 3),
+      synonyms: Array.from(new Set([...localSense.synonyms, ...match.synonyms])).slice(0, 6),
+      antonyms: Array.from(new Set([...localSense.antonyms, ...match.antonyms])).slice(0, 6),
+    };
+  });
+
+  for (const extraSense of extraDistinctOnlineSenses) {
+    mergedSenses.push(extraSense);
+  }
+
+  for (const onlineSense of onlineResult.senses) {
+    const posKey = searchable(onlineSense.partOfSpeech);
+    if (posKey && !usedOnlinePos.has(posKey)) {
+      usedOnlinePos.add(posKey);
+      mergedSenses.push(onlineSense);
+    }
+  }
+
+  const ukPhonetic = localEntry.englishForms?.['en-GB']?.phonetic || onlineResult.englishForms?.['en-GB']?.phonetic || '';
+  const usPhonetic = localEntry.englishForms?.['en-US']?.phonetic || onlineResult.englishForms?.['en-US']?.phonetic || '';
+  const mergedEnglishForms: EnglishWordForms | undefined = (ukPhonetic || usPhonetic)
+    ? {
+        ...(ukPhonetic ? { 'en-GB': { ...(localEntry.englishForms?.['en-GB'] ?? {}), phonetic: ukPhonetic } } : {}),
+        ...(usPhonetic ? { 'en-US': { ...(localEntry.englishForms?.['en-US'] ?? {}), phonetic: usPhonetic } } : {}),
+      }
+    : (localEntry.englishForms ?? onlineResult.englishForms);
+
+  const wordFamily = getMergedWordFamily(
+    { term: onlineResult.term, wordFamily: [...(localEntry.wordFamily ?? []), ...(onlineResult.wordFamily ?? [])] },
+    allWords,
+  );
+  const relatedIdioms = Array.from(new Set([...(onlineResult.relatedIdioms ?? []), ...(localEntry.relatedIdioms ?? [])])).slice(0, 6);
+
+  const seenProviders = new Set<string>();
+  const providers: DictionaryProviderInfo[] = [];
+  for (const provider of [
+    { id: 'largo-library', name: 'Kho từ vựng Largo (đã biên tập)', license: 'Offline' },
+    ...onlineResult.providers,
+  ]) {
+    if (seenProviders.has(provider.id)) continue;
+    seenProviders.add(provider.id);
+    providers.push(provider);
+  }
+
+  const primaryExamples = mergedSenses[0]?.examples ?? localEntry.examples;
+
+  return {
+    ...onlineResult,
+    term: localEntry.term,
+    ...(localEntry.isIdiom || onlineResult.isIdiom ? { isIdiom: true } : {}),
+    phonetic: usPhonetic || localEntry.phonetic || onlineResult.phonetic || ukPhonetic,
+    ...(mergedEnglishForms ? { englishForms: mergedEnglishForms } : {}),
+    senses: mergedSenses,
+    examples: primaryExamples.slice(0, 3),
+    collocations: mergeDistinctCollocations(localEntry.collocations, onlineResult.collocations, 6),
+    synonyms: Array.from(new Set([...localEntry.synonyms, ...onlineResult.synonyms])).slice(0, 8),
+    antonyms: Array.from(new Set([...localEntry.antonyms, ...onlineResult.antonyms])).slice(0, 8),
+    wordFamily,
+    ...(relatedIdioms.length ? { relatedIdioms } : {}),
+    providers,
+  };
+}
+
+export function isIdiomWord(word: Pick<VocabWord, 'partOfSpeech'>): boolean {
+  const pos = word.partOfSpeech.trim().toLowerCase();
+  return pos === 'thành ngữ' || pos.includes('thành ngữ') || pos === 'idiom' || pos.includes('idiom');
 }
 
 export function createLookupDeck(timestamp: number): VocabDeck {
@@ -458,13 +737,28 @@ export function createLookupDeck(timestamp: number): VocabDeck {
   };
 }
 
+export function createIdiomDeck(timestamp: number): VocabDeck {
+  return {
+    id: IDIOM_DECK_ID,
+    name: IDIOM_DECK_NAME,
+    description: 'Các thành ngữ tiếng Anh bạn sưu tầm và luyện tập theo ngữ cảnh.',
+    language: 'en',
+    category: 'Thành ngữ',
+    collection: 'idioms',
+    isCustom: true,
+    createdAt: timestamp,
+  };
+}
+
 export async function fetchDictionarySuggestions(
   query: string,
   signal?: AbortSignal,
+  mode: 'all' | 'idiom' = 'all',
 ): Promise<DictionarySuggestion[]> {
   const trimmed = query.trim();
   if (trimmed.length < 2) return [];
-  const res = await fetch('/api/dictionary/suggest?q=' + encodeURIComponent(trimmed) + '&limit=8', {
+  const modeParam = mode === 'idiom' ? '&mode=idiom' : '';
+  const res = await fetch('/api/dictionary/suggest?q=' + encodeURIComponent(trimmed) + '&limit=8' + modeParam, {
     method: 'GET',
     headers: { Accept: 'application/json' },
     signal,
@@ -472,6 +766,23 @@ export async function fetchDictionarySuggestions(
   if (!res.ok) return [];
   const data = await res.json();
   return Array.isArray(data?.suggestions) ? data.suggestions : [];
+}
+
+export async function fetchDictionaryIdioms(
+  query: string,
+  signal?: AbortSignal,
+  limit = 10,
+): Promise<DictionaryIdiomMatch[]> {
+  const trimmed = query.trim();
+  if (trimmed.length < 2) return [];
+  const res = await fetch('/api/dictionary/idioms?q=' + encodeURIComponent(trimmed) + '&limit=' + limit, {
+    method: 'GET',
+    headers: { Accept: 'application/json' },
+    signal,
+  });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return Array.isArray(data?.idioms) ? data.idioms : [];
 }
 
 export async function fetchDictionaryEntry(

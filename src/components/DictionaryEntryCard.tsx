@@ -46,10 +46,14 @@ export function DictionaryEntryCard({
   }, [allWords, entry.term]);
 
   const activeExamples = useMemo(() => {
+    const senseExamples = activeSense?.examples ?? [];
+    const sourcePool = entry.senses.length > 1 && senseExamples.length > 0
+      ? senseExamples
+      : [...senseExamples, ...entry.examples];
     const seen = new Set<string>();
     const bilingual = [];
     const englishOnly = [];
-    for (const ex of [...(activeSense?.examples ?? []), ...entry.examples]) {
+    for (const ex of sourcePool) {
       const key = ex.sentence.trim().toLowerCase();
       if (!key || seen.has(key)) continue;
       seen.add(key);
@@ -57,12 +61,16 @@ export function DictionaryEntryCard({
       else englishOnly.push(ex);
     }
     return [...bilingual, ...englishOnly].slice(0, 4);
-  }, [entry.examples, activeSense]);
+  }, [entry.examples, entry.senses.length, activeSense]);
 
   const activeCollocations = useMemo(() => {
+    const senseCollocs = activeSense?.collocations ?? [];
+    const sourcePool = entry.senses.length > 1
+      ? senseCollocs
+      : [...senseCollocs, ...entry.collocations];
     const seen = new Set<string>();
     const list = [];
-    for (const item of [...(activeSense?.collocations ?? []), ...entry.collocations]) {
+    for (const item of sourcePool) {
       const key = item.phrase.trim().toLowerCase();
       if (!key || seen.has(key)) continue;
       seen.add(key);
@@ -70,12 +78,25 @@ export function DictionaryEntryCard({
       if (list.length >= 4) break;
     }
     return list;
-  }, [entry.collocations, activeSense]);
+  }, [entry.collocations, entry.senses.length, activeSense]);
+
+  const activeSynonyms = useMemo(() => {
+    const senseList = activeSense?.synonyms ?? [];
+    return (senseList.length > 0 ? senseList : entry.synonyms).slice(0, 5);
+  }, [activeSense?.synonyms, entry.synonyms]);
+
+  const activeAntonyms = useMemo(() => {
+    const senseList = activeSense?.antonyms ?? [];
+    return (senseList.length > 0 ? senseList : entry.antonyms).slice(0, 5);
+  }, [activeSense?.antonyms, entry.antonyms]);
 
   const wordFamily: WordFamilyItem[] = useMemo(
     () => getMergedWordFamily({ term: entry.term, wordFamily: entry.wordFamily }, allWords),
     [entry.term, entry.wordFamily, allWords],
   );
+
+  const relatedIdioms = entry.relatedIdioms ?? [];
+  const isIdiomEntry = Boolean(entry.isIdiom || activeSense?.partOfSpeech === 'Thành ngữ');
 
   const handleSave = () => {
     const enrichedEntry: DictionaryLookupResult = {
@@ -98,6 +119,9 @@ export function DictionaryEntryCard({
         <div>
           <div className="lookup-term-line">
             <strong lang="en">{entry.term}</strong>
+            {isIdiomEntry && (
+              <span className="lookup-idiom-badge">Thành ngữ</span>
+            )}
             {isAlreadyInLibrary && (
               <span className="lookup-saved-badge">
                 <Check size={12} aria-hidden="true" /> Đã có trong kho
@@ -205,27 +229,63 @@ export function DictionaryEntryCard({
         </div>
       )}
 
-      {(entry.synonyms.length > 0 || entry.antonyms.length > 0) && (
+      {relatedIdioms.length > 0 && (
+        <div className="lookup-dict-block">
+          <span className="lookup-section-label">Thành ngữ liên quan ({relatedIdioms.length})</span>
+          <div className="word-family-chips" role="list" aria-label={`Thành ngữ liên quan tới ${entry.term}`}>
+            {relatedIdioms.map((idiom) => (
+              <button
+                key={idiom}
+                type="button"
+                role="listitem"
+                className="word-family-chip idiom-related-chip"
+                title={`Xem chi tiết thành ngữ “${idiom}”`}
+                onClick={() => onInspectTerm?.(idiom)}
+              >
+                <span className="word-family-term" lang="en">{idiom}</span>
+                <span className="word-family-pos">Thành ngữ</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {(activeSynonyms.length > 0 || activeAntonyms.length > 0) && (
         <div className="lookup-dict-relations">
-          {entry.synonyms.length > 0 && (
-            <p><span>Đồng nghĩa:</span> <span lang="en">{entry.synonyms.slice(0, 5).join(', ')}</span></p>
+          {activeSynonyms.length > 0 && (
+            <p><span>Đồng nghĩa:</span> <span lang="en">{activeSynonyms.join(', ')}</span></p>
           )}
-          {entry.antonyms.length > 0 && (
-            <p><span>Trái nghĩa:</span> <span lang="en">{entry.antonyms.slice(0, 5).join(', ')}</span></p>
+          {activeAntonyms.length > 0 && (
+            <p><span>Trái nghĩa:</span> <span lang="en">{activeAntonyms.join(', ')}</span></p>
           )}
         </div>
       )}
 
       {entry.providers.length > 0 && (
         <p className="lookup-provider-footer">
-          Nguồn tham khảo: {entry.providers.map((p) => p.name).join(' · ')}
+          {'Nguồn tham khảo: '}
+          {entry.providers.map((provider, idx) => {
+            const href = safeExternalUrl(provider.url);
+            return (
+              <span key={provider.id}>
+                {idx > 0 ? ' · ' : ''}
+                {href ? (
+                  <a href={href} target="_blank" rel="noopener noreferrer" className="underline decoration-dotted underline-offset-2 hover:opacity-80">
+                    {provider.name}
+                  </a>
+                ) : (
+                  provider.name
+                )}
+              </span>
+            );
+          })}
         </p>
       )}
 
       <div className="lookup-dict-actions">
         <button type="button" className="button-primary" onClick={handleSave}>
           <BookmarkPlus size={15} aria-hidden="true" />
-          <span>Lưu vào bộ từ…</span>
+          <span>{isIdiomEntry ? 'Lưu thành ngữ…' : 'Lưu vào bộ từ…'}</span>
         </button>
         <div className="lookup-ext-links">
           {safeExternalUrl(entry.links.cambridgeEnVi) && (

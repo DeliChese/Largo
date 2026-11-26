@@ -110,7 +110,7 @@ export interface VocabWord extends LexicalRelations {
   createdAt: number;
 }
 
-export type DeckCollection = 'textbook' | 'vocabulary' | 'situations' | 'collocations' | 'regional' | 'phrasal' | 'phrases';
+export type DeckCollection = 'textbook' | 'vocabulary' | 'situations' | 'collocations' | 'regional' | 'phrasal' | 'phrases' | 'idioms';
 
 export interface VocabDeck {
   id: string;

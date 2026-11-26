@@ -72,8 +72,12 @@ import { addChainDeckEntry, wordChainDeckId, type ChainEntry, type ChainLanguage
 import { normalizeChainTerm } from './utils/wordChainRules.mjs';
 import {
   buildWordDraftFromDictionary,
+  createIdiomDeck,
   createLookupDeck,
+  ENGLISH_IDIOM_POS,
   fetchDictionaryEntry,
+  IDIOM_DECK_ID,
+  IDIOM_DECK_NAME,
   LOOKUP_DECK_ID,
   LOOKUP_DECK_NAME,
   safeExternalUrl,
@@ -616,6 +620,18 @@ export default function App() {
     setWords((prev) => [newWord, ...prev]);
   };
 
+  const handleSaveIdiom = (
+    word: Omit<VocabWord, 'id' | 'createdAt' | 'srs'>,
+    ensureIdiomDeck: boolean,
+  ) => {
+    const nowTs = Date.now();
+    if (ensureIdiomDeck || (word.deckId === IDIOM_DECK_ID && !decks.some((d) => d.id === IDIOM_DECK_ID))) {
+      const idiomDeck = createIdiomDeck(nowTs);
+      setDecks((prev) => (prev.some((d) => d.id === IDIOM_DECK_ID) ? prev : [idiomDeck, ...prev]));
+    }
+    handleAddWord(word);
+  };
+
   const handleSaveChainWord = (entry: ChainEntry, chainLanguage: ChainLanguage) => {
     const timestamp = Date.now();
     setDecks((previous) => addChainDeckEntry(previous, chainLanguage, entry.wordId, timestamp));
@@ -727,9 +743,16 @@ export default function App() {
   };
 
   const openQuickAddWithDraft = (draft: DictionaryWordDraft) => {
-    const hasLookupDeck = decks.some((d) => d.id === LOOKUP_DECK_ID);
-    const firstCustom = decks.find((d) => d.language === 'en' && d.isCustom);
-    setQaDeckId(hasLookupDeck ? LOOKUP_DECK_ID : firstCustom?.id ?? LOOKUP_DECK_ID);
+    const isIdiom = Boolean(draft.isIdiom || draft.partOfSpeech === ENGLISH_IDIOM_POS);
+    if (isIdiom) {
+      const existingIdiomDeck = decks.find((d) => d.id === IDIOM_DECK_ID)
+        ?? decks.find((d) => d.language === 'en' && d.collection === 'idioms');
+      setQaDeckId(existingIdiomDeck?.id ?? IDIOM_DECK_ID);
+    } else {
+      const hasLookupDeck = decks.some((d) => d.id === LOOKUP_DECK_ID);
+      const firstCustom = decks.find((d) => d.language === 'en' && d.isCustom && d.collection !== 'idioms');
+      setQaDeckId(hasLookupDeck ? LOOKUP_DECK_ID : firstCustom?.id ?? LOOKUP_DECK_ID);
+    }
     applyDictionaryDraft(draft);
     setShowQuickAdd(true);
   };
@@ -754,7 +777,13 @@ export default function App() {
         setQaError(result.message);
         return;
       }
-      applyDictionaryDraft(buildWordDraftFromDictionary(result, 0));
+      const draft = buildWordDraftFromDictionary(result, 0);
+      if (draft.isIdiom || draft.partOfSpeech === ENGLISH_IDIOM_POS) {
+        const existingIdiomDeck = decks.find((d) => d.id === IDIOM_DECK_ID)
+          ?? decks.find((d) => d.language === 'en' && d.collection === 'idioms');
+        setQaDeckId(existingIdiomDeck?.id ?? IDIOM_DECK_ID);
+      }
+      applyDictionaryDraft(draft);
     } catch (error: unknown) {
       setQaError(error instanceof Error ? error.message : 'Chưa thể tra từ điển trực tuyến.');
     } finally {
@@ -770,7 +799,11 @@ export default function App() {
     }
     const nowTs = Date.now();
     let targetDeck = decks.find((d) => d.id === qaDeckId) || quickAddDecks[0];
-    if (qaDeckId === LOOKUP_DECK_ID && !decks.some((d) => d.id === LOOKUP_DECK_ID)) {
+    if (qaDeckId === IDIOM_DECK_ID && !decks.some((d) => d.id === IDIOM_DECK_ID)) {
+      const idiomDeck = createIdiomDeck(nowTs);
+      setDecks((prev) => prev.some((d) => d.id === IDIOM_DECK_ID) ? prev : [idiomDeck, ...prev]);
+      targetDeck = idiomDeck;
+    } else if (qaDeckId === LOOKUP_DECK_ID && !decks.some((d) => d.id === LOOKUP_DECK_ID)) {
       const lookupDeck = createLookupDeck(nowTs);
       setDecks((prev) => prev.some((d) => d.id === LOOKUP_DECK_ID) ? prev : [lookupDeck, ...prev]);
       targetDeck = lookupDeck;
@@ -935,7 +968,11 @@ export default function App() {
   const openQuickAdd = () => {
     if (!quickAddDecks.length) {
       setQaDeckId(LOOKUP_DECK_ID);
-    } else if (qaDeckId !== LOOKUP_DECK_ID && !quickAddDecks.some((deck) => deck.id === qaDeckId)) {
+    } else if (
+      qaDeckId !== LOOKUP_DECK_ID &&
+      qaDeckId !== IDIOM_DECK_ID &&
+      !quickAddDecks.some((deck) => deck.id === qaDeckId)
+    ) {
       setQaDeckId(quickAddDecks[0].id);
     }
     setQaLookupStatus('');
@@ -1113,6 +1150,7 @@ export default function App() {
                       onCreateDeck={handleCreateDeck}
                       onDeleteDeck={handleDeleteDeck}
                       onAddWord={handleAddWord}
+                      onSaveIdiom={handleSaveIdiom}
                       onDeleteWord={handleDeleteWord}
                       onUpdateWordRelations={handleUpdateWordRelations}
                       onStartDeckStudy={(deckId, mode) => {
@@ -1172,6 +1210,9 @@ export default function App() {
               <div className="control-field">
                 <label htmlFor="qa-deck">Bộ từ vựng</label>
                 <select id="qa-deck" value={qaDeckId} onChange={(event) => setQaDeckId(event.target.value)}>
+                  {!decks.some((d) => d.id === IDIOM_DECK_ID) && (
+                    <option value={IDIOM_DECK_ID}>{IDIOM_DECK_NAME} (Tạo mới)</option>
+                  )}
                   {!decks.some((d) => d.id === LOOKUP_DECK_ID) && (
                     <option value={LOOKUP_DECK_ID}>{LOOKUP_DECK_NAME} (Tạo mới)</option>
                   )}
@@ -1182,7 +1223,7 @@ export default function App() {
                 <label htmlFor="qa-term">Từ vựng / Cụm từ</label>
                 <div className="quick-add-term-row">
                   <input id="qa-term" lang="en" required value={qaTerm}
-                    placeholder="Ví dụ: resilient, negotiate, break down…"
+                    placeholder="Ví dụ: resilient, break down, break the ice…"
                     onChange={(event) => setQaTerm(event.target.value)} />
                   <button
                     type="button"

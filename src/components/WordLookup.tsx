@@ -14,6 +14,8 @@ import {
   buildLocalLookupResult,
   fetchDictionaryEntry,
   fetchDictionarySuggestions,
+  mergeLocalWithOnlineLookup,
+  POPULAR_IDIOM_PICKS,
   safeExternalUrl,
   type DictionaryLookupResult,
   type DictionaryNotFoundResult,
@@ -48,6 +50,7 @@ const ENGLISH_QUERY_PATTERN = /^[A-Za-z0-9][A-Za-z0-9\s'’.-]{0,79}$/;
 
 export function WordLookup({ words, allWords, speechRate, isOnline, onSaveDraft }: WordLookupProps) {
   const [open, setOpen] = useState(false);
+  const [lookupMode, setLookupMode] = useState<'all' | 'idiom'>('all');
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<DictionarySuggestion[]>([]);
   const [loadingSuggest, setLoadingSuggest] = useState(false);
@@ -112,7 +115,7 @@ export function WordLookup({ words, allWords, speechRate, isOnline, onSaveDraft 
     const controller = new AbortController();
     const timer = window.setTimeout(() => {
       setLoadingSuggest(true);
-      fetchDictionarySuggestions(trimmedQuery, controller.signal)
+      fetchDictionarySuggestions(trimmedQuery, controller.signal, lookupMode)
         .then((items) => setSuggestions(items))
         .catch(() => {})
         .finally(() => setLoadingSuggest(false));
@@ -121,7 +124,7 @@ export function WordLookup({ words, allWords, speechRate, isOnline, onSaveDraft 
       window.clearTimeout(timer);
       controller.abort();
     };
-  }, [open, canLookupOnline, trimmedQuery]);
+  }, [open, canLookupOnline, trimmedQuery, lookupMode]);
 
   useEffect(() => {
     if (open) input.current?.focus();
@@ -193,6 +196,8 @@ export function WordLookup({ words, allWords, speechRate, isOnline, onSaveDraft 
       const entry = await fetchDictionaryEntry(clean, controller.signal);
       if (entry.status === 'not_found' && localFallback) {
         setLookupResult(buildLocalLookupResult(localFallback, allWords));
+      } else if (entry.status === 'ok' && localFallback) {
+        setLookupResult(mergeLocalWithOnlineLookup(localFallback, entry, allWords));
       } else {
         setLookupResult(entry);
       }
@@ -256,6 +261,27 @@ export function WordLookup({ words, allWords, speechRate, isOnline, onSaveDraft 
               </button>
             </div>
 
+            <div className="lookup-mode-tabs" role="tablist" aria-label="Chế độ tra cứu">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={lookupMode === 'all'}
+                className={'lookup-mode-tab' + (lookupMode === 'all' ? ' is-active' : '')}
+                onClick={() => setLookupMode('all')}
+              >
+                Từ &amp; cụm từ
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={lookupMode === 'idiom'}
+                className={'lookup-mode-tab' + (lookupMode === 'idiom' ? ' is-active' : '')}
+                onClick={() => setLookupMode('idiom')}
+              >
+                Thành ngữ (Idiom)
+              </button>
+            </div>
+
             <form
               className="lookup-search-row"
               onSubmit={(event) => {
@@ -263,13 +289,15 @@ export function WordLookup({ words, allWords, speechRate, isOnline, onSaveDraft 
                 void runOnlineLookup(query);
               }}
             >
-              <label htmlFor="lookup-search" className="sr-only">Tìm từ, cụm từ, phiên âm hoặc nghĩa</label>
+              <label htmlFor="lookup-search" className="sr-only">Tìm từ, cụm từ, thành ngữ, phiên âm hoặc nghĩa</label>
               <input
                 id="lookup-search"
                 type="search"
                 ref={input}
                 value={query}
-                placeholder="Nhập từ tiếng Anh hoặc nghĩa tiếng Việt…"
+                placeholder={lookupMode === 'idiom'
+                  ? 'Tìm thành ngữ theo từ khóa (vd: ice, time, break a leg)…'
+                  : 'Nhập từ, cụm từ hoặc thành ngữ tiếng Anh…'}
                 onChange={(event) => {
                   const next = event.target.value;
                   setQuery(next);
@@ -293,23 +321,47 @@ export function WordLookup({ words, allWords, speechRate, isOnline, onSaveDraft 
               </button>
             </form>
 
+            {lookupMode === 'idiom' && !trimmedQuery && !activeEntry && (
+              <div className="lookup-suggestions" aria-label="Thành ngữ gợi ý">
+                <span className="lookup-section-label">Thành ngữ phổ biến · bấm để xem &amp; lưu</span>
+                <div className="lookup-suggestion-chips">
+                  {POPULAR_IDIOM_PICKS.slice(0, 6).map((idiom) => (
+                    <button
+                      key={idiom}
+                      type="button"
+                      className="lookup-chip idiom-chip"
+                      onClick={() => {
+                        setQuery(idiom);
+                        void runOnlineLookup(idiom);
+                      }}
+                    >
+                      <span lang="en">{idiom}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {suggestions.length > 0 && (
               <div className="lookup-suggestions" aria-label="Gợi ý từ điển trực tuyến">
                 <span className="lookup-section-label">
-                  {loadingSuggest ? 'Đang gợi ý…' : 'Gợi ý từ điển'}
+                  {loadingSuggest
+                    ? (lookupMode === 'idiom' ? 'Đang tìm thành ngữ…' : 'Đang gợi ý…')
+                    : (lookupMode === 'idiom' ? 'Thành ngữ tìm thấy' : 'Gợi ý từ điển')}
                 </span>
                 <div className="lookup-suggestion-chips">
                   {suggestions.slice(0, 6).map((item) => (
                     <button
                       key={item.term}
                       type="button"
-                      className="lookup-chip"
+                      className={'lookup-chip' + (item.isIdiom ? ' idiom-chip' : '')}
                       onClick={() => {
                         setQuery(item.term);
                         void runOnlineLookup(item.term);
                       }}
                     >
                       <span lang="en">{item.term}</span>
+                      {item.isIdiom && lookupMode === 'all' && <span className="lookup-chip-tag">Idiom</span>}
                     </button>
                   ))}
                 </div>

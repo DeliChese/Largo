@@ -39,7 +39,7 @@ export function englishLearningCategory(category: string, collection: DeckCollec
 // Within each CEFR level, learn core words before combining them into phrases.
 // Keep the original order within each type (stable sort).
 const COLLECTION_ORDER: Record<DeckCollection, number> = {
-  textbook: 0, vocabulary: 1, situations: 2, collocations: 3, phrases: 4, phrasal: 5, regional: 6,
+  textbook: 0, vocabulary: 1, situations: 2, collocations: 3, phrases: 4, phrasal: 5, idioms: 6, regional: 7,
 };
 export function englishLearningOrder(collection?: DeckCollection): number {
   return COLLECTION_ORDER[collection ?? 'vocabulary'];

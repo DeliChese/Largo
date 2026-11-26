@@ -4,12 +4,19 @@ import { createInitialSRS } from './srsBloom';
 import {
   buildLocalLookupResult,
   buildWordDraftFromDictionary,
+  createIdiomDeck,
   createLookupDeck,
+  ENGLISH_IDIOM_POS,
   getMergedWordFamily,
+  IDIOM_DECK_ID,
+  isIdiomWord,
   LOOKUP_DECK_ID,
+  mergeLocalWithOnlineLookup,
   safeExternalUrl,
   type DictionaryLookupResult,
 } from './dictionaryClient';
+import { createBackup, previewBackup } from './backup';
+import { INITIAL_DECKS, INITIAL_LOGS, INITIAL_PROFILE, INITIAL_SETTINGS, INITIAL_WORDS, CURRENT_DATA_VERSION } from '../data/seedVocab';
 import type { VocabWord } from '../types/vocab';
 
 const SAMPLE_ENTRY: DictionaryLookupResult = {
@@ -106,7 +113,7 @@ test('buildWordDraftFromDictionary omits English definition & source attribution
   assert.equal(draft.extraCollocations.length, 1);
   assert.equal(draft.examples[0].sentence, 'She has been a vocal advocate for public libraries.');
   assert.equal(draft.examples[0].sourceUrl, 'https://tatoeba.org/en/sentences/show/123');
-  assert.equal(draft.examples[1].sentence, 'Doctors advocate regular exercise for heart health.');
+  assert.equal(draft.examples[1].sentence, '');
   assert.equal(draft.additionalSenses?.length, 1);
   assert.equal(draft.additionalSenses?.[0].partOfSpeech, 'Động từ');
   assert.deepEqual(draft.wordFamily, [{ term: 'advocacy', partOfSpeech: 'Danh từ' }]);
@@ -201,4 +208,214 @@ test('safeExternalUrl allows only https URLs and createLookupDeck builds valid c
   assert.equal(deck.id, LOOKUP_DECK_ID);
   assert.equal(deck.isCustom, true);
   assert.equal(deck.language, 'en');
+});
+
+test('createIdiomDeck, isIdiomWord, idiom draft, and backup round-trip preserve collection: idioms', async () => {
+  const idiomDeck = createIdiomDeck(987654);
+  assert.equal(idiomDeck.id, IDIOM_DECK_ID);
+  assert.equal(idiomDeck.collection, 'idioms');
+  assert.equal(idiomDeck.isCustom, true);
+
+  const idiomEntry: DictionaryLookupResult = {
+    ...SAMPLE_ENTRY,
+    term: 'break the ice',
+    queriedTerm: 'break the ice',
+    inflectionNote: undefined,
+    isIdiom: true,
+    relatedIdioms: ['on thin ice', 'skate on thin ice'],
+    senses: [
+      {
+        partOfSpeech: ENGLISH_IDIOM_POS,
+        meaning: 'phá vỡ sự ngại ngùng ban đầu',
+        collocations: [],
+        examples: [
+          { sentence: 'She told a joke to break the ice.', translation: 'Cô ấy kể chuyện vui để phá vỡ sự ngại ngùng.' },
+        ],
+        synonyms: [],
+        antonyms: [],
+      },
+    ],
+  };
+
+  const draft = buildWordDraftFromDictionary(idiomEntry, 0);
+  assert.equal(draft.isIdiom, true);
+  assert.equal(draft.partOfSpeech, ENGLISH_IDIOM_POS);
+
+  const savedIdiom: VocabWord = {
+    id: 'w-custom-idiom-1',
+    deckId: idiomDeck.id,
+    language: 'en',
+    term: draft.term,
+    phonetic: '',
+    partOfSpeech: draft.partOfSpeech,
+    meaning: draft.meaning,
+    collocations: [],
+    examples: draft.examples,
+    synonyms: [],
+    antonyms: [],
+    bloomLevel: 1,
+    srs: createInitialSRS(987654),
+    createdAt: 987654,
+  };
+  assert.equal(isIdiomWord(savedIdiom), true);
+
+  const localResult = buildLocalLookupResult(savedIdiom, [savedIdiom]);
+  assert.equal(localResult.isIdiom, true);
+
+  const backup = createBackup(
+    {
+      decks: [idiomDeck, ...INITIAL_DECKS],
+      words: [savedIdiom, ...INITIAL_WORDS],
+      logs: INITIAL_LOGS,
+      profile: INITIAL_PROFILE,
+      settings: INITIAL_SETTINGS,
+      version: CURRENT_DATA_VERSION,
+    },
+    {},
+    new Date('2026-01-01T00:00:00Z'),
+  );
+  const restored = await previewBackup(new Blob([JSON.stringify(backup)]));
+  const restoredDeck = restored.state.decks.find((d) => d.id === IDIOM_DECK_ID);
+  assert.equal(restoredDeck?.collection, 'idioms');
+  assert.ok(restored.state.words.some((w) => w.id === 'w-custom-idiom-1' && w.partOfSpeech === ENGLISH_IDIOM_POS));
+});
+
+test('mergeLocalWithOnlineLookup preserves curated Largo core meaning/examples while enriching with online senses and IPA', () => {
+  const curatedAddress: VocabWord = {
+    id: 'deck-en-a1-conversation-address',
+    deckId: 'deck-en-a1-conversation',
+    language: 'en',
+    term: 'address',
+    phonetic: '/əˈdres/',
+    partOfSpeech: 'Danh từ',
+    meaning: 'địa chỉ',
+    collocations: [{ phrase: 'home address', meaning: 'địa chỉ nhà' }],
+    examples: [
+      { sentence: "What's your address?", translation: 'Địa chỉ của bạn là gì?' },
+      { sentence: 'Write your address here.', translation: 'Hãy viết địa chỉ của bạn ở đây.' },
+    ],
+    synonyms: [],
+    antonyms: [],
+    bloomLevel: 1,
+    srs: createInitialSRS(1000),
+    createdAt: 1000,
+  };
+
+  const onlineEntry: DictionaryLookupResult = {
+    ...SAMPLE_ENTRY,
+    term: 'address',
+    queriedTerm: 'address',
+    inflectionNote: undefined,
+    phonetic: '/əˈdrɛs/',
+    englishForms: {
+      'en-GB': { phonetic: '/əˈdres/' },
+      'en-US': { phonetic: '/ˈæd.res/' },
+    },
+    senses: [
+      {
+        partOfSpeech: 'Danh từ',
+        meaning: 'Địa chỉ; Bài diễn văn',
+        englishDefinition: 'The location of a building or place where mail can be delivered.',
+        collocations: [{ phrase: 'email address', meaning: 'địa chỉ thư điện tử' }],
+        examples: [
+          { sentence: 'What is your address?', translation: 'Địa chỉ của bạn là gì?' },
+          { sentence: 'I went to his address yesterday.', translation: 'Tôi đã đến địa chỉ của anh ấy hôm qua.' },
+          { sentence: 'The program crashed at that address.', translation: '' },
+        ],
+        synonyms: ['location'],
+        antonyms: [],
+      },
+      {
+        partOfSpeech: 'Động từ',
+        meaning: 'giải quyết vấn đề; phát biểu trước',
+        englishDefinition: 'To deal with or speak directly to someone.',
+        collocations: [{ phrase: 'address a problem', meaning: 'giải quyết một vấn đề' }],
+        examples: [{ sentence: 'We need to address this issue immediately.', translation: 'Chúng ta cần giải quyết vấn đề này ngay lập tức.' }],
+        synonyms: ['tackle'],
+        antonyms: [],
+      },
+    ],
+    examples: [{ sentence: 'I went to his address yesterday.', translation: 'Tôi đã đến địa chỉ của anh ấy hôm qua.' }],
+    collocations: [{ phrase: 'email address', meaning: 'địa chỉ thư điện tử' }],
+    wordFamily: [{ term: 'addressee', partOfSpeech: 'Danh từ' }],
+    relatedIdioms: ['public address'],
+  };
+
+  const merged = mergeLocalWithOnlineLookup(curatedAddress, onlineEntry, [curatedAddress]);
+  assert.equal(merged.senses.length, 2);
+  assert.equal(merged.senses[0].partOfSpeech, 'Danh từ');
+  assert.equal(merged.senses[0].meaning, 'địa chỉ');
+  assert.equal(merged.senses[0].englishDefinition, 'The location of a building or place where mail can be delivered.');
+  assert.equal(merged.senses[0].examples[0].sentence, "What's your address?");
+  assert.ok(!merged.senses[0].examples.some((e) => e.sentence === 'What is your address?'));
+  assert.ok(!merged.senses[0].examples.some((e) => e.sentence.includes('program crashed')));
+  assert.equal(merged.senses[0].collocations[0].phrase, 'home address');
+  assert.equal(merged.senses[1].partOfSpeech, 'Động từ');
+  assert.equal(merged.englishForms?.['en-US']?.phonetic, '/ˈæd.res/');
+  assert.equal(merged.providers[0].id, 'largo-library');
+  assert.deepEqual(merged.relatedIdioms, ['public address']);
+
+  // Switching draft to the Verb tab must keep Verb examples isolated without leaking Noun examples
+  const verbDraft = buildWordDraftFromDictionary(merged, 1);
+  assert.equal(verbDraft.partOfSpeech, 'Động từ');
+  assert.equal(verbDraft.examples[0].sentence, 'We need to address this issue immediately.');
+  assert.equal(verbDraft.examples[1].sentence, '');
+});
+
+test('mergeLocalWithOnlineLookup isolates mismatched same-POS online sense instead of mixing definitions', () => {
+  const curatedTakeOff: VocabWord = {
+    id: 'deck-en-phrasal-take-off',
+    deckId: 'deck-en-phrasal',
+    language: 'en',
+    term: 'take off',
+    phonetic: '',
+    partOfSpeech: 'Cụm động từ',
+    meaning: 'cởi; tháo ra',
+    collocations: [],
+    examples: [{ sentence: 'Take off your shoes.', translation: 'Hãy cởi giày.' }],
+    synonyms: [],
+    antonyms: [],
+    bloomLevel: 1,
+    srs: createInitialSRS(1000),
+    createdAt: 1000,
+  };
+
+  const onlineTakeOff: DictionaryLookupResult = {
+    ...SAMPLE_ENTRY,
+    term: 'take off',
+    queriedTerm: 'take off',
+    inflectionNote: undefined,
+    senses: [
+      {
+        partOfSpeech: 'Cụm động từ',
+        meaning: 'Rời khỏi mặt đất và bay lên không trung hoặc bay',
+        englishDefinition: '(intransitive) To leave the ground and ascend into the air or into flight.',
+        collocations: [],
+        examples: [{ sentence: 'The plane has been cleared to take off from runway 3.', translation: 'Máy bay đã được phép cất cánh từ đường băng số 3.' }],
+        synonyms: [],
+        antonyms: [],
+      },
+      {
+        partOfSpeech: 'Danh từ',
+        meaning: 'Sự cất cánh của máy bay',
+        englishDefinition: 'The rising of an aircraft into flight.',
+        collocations: [],
+        examples: [],
+        synonyms: [],
+        antonyms: [],
+      },
+    ],
+    examples: [{ sentence: 'The plane has been cleared to take off from runway 3.', translation: 'Máy bay đã được phép cất cánh từ đường băng số 3.' }],
+  };
+
+  const merged = mergeLocalWithOnlineLookup(curatedTakeOff, onlineTakeOff, [curatedTakeOff]);
+  assert.equal(merged.senses.length, 3);
+  assert.equal(merged.senses[0].partOfSpeech, 'Cụm động từ');
+  assert.equal(merged.senses[0].meaning, 'cởi; tháo ra');
+  assert.equal(merged.senses[0].englishDefinition, undefined);
+  assert.equal(merged.senses[0].examples.length, 1);
+  assert.equal(merged.senses[0].examples[0].sentence, 'Take off your shoes.');
+  assert.equal(merged.senses[1].partOfSpeech, 'Cụm động từ (nghĩa khác)');
+  assert.match(merged.senses[1].englishDefinition ?? '', /ascend into the air/i);
+  assert.equal(merged.senses[2].partOfSpeech, 'Danh từ');
 });

@@ -12,6 +12,7 @@ import {
   Pencil,
   Play,
   Plus,
+  Quote,
   Search,
   Sparkles,
   Trash2,
@@ -26,7 +27,15 @@ import { getDeckStudyLevel, getScopedDecks, getScopedWords, getStudyLevels } fro
 import { compactPhonetic, searchable } from '../utils/vocabSearch';
 import { exportDeckWord, importExamples, importTerms } from '../utils/vocabImport';
 import { cambridgeEnViLookupUrl, cambridgeLookupUrl, DEFAULT_ENGLISH_LOCALE, ENGLISH_COLLOCATION_POS, ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishStudyWord } from '../utils/englishStudy';
-import { buildWordDraftFromDictionary, fetchDictionaryEntry, getMergedWordFamily } from '../utils/dictionaryClient';
+import {
+  buildWordDraftFromDictionary,
+  ENGLISH_IDIOM_POS,
+  fetchDictionaryEntry,
+  getMergedWordFamily,
+  IDIOM_DECK_ID,
+  isIdiomWord,
+  POPULAR_IDIOM_PICKS,
+} from '../utils/dictionaryClient';
 import { EnglishVariantDetails } from './EnglishVariantDetails';
 import { EMPTY_EXAMPLES, EMPTY_RELATIONS, ExampleFields, RelationFields } from './WordFormFields';
 import { WordRelations } from './WordRelations';
@@ -34,6 +43,7 @@ import { WordExamples } from './WordExamples';
 import { WordAdditionalSenses } from './WordAdditionalSenses';
 import { WordFamilyList } from './WordFamilyList';
 import { WordExampleGenerator } from './WordExampleGenerator';
+import { AddIdiomModal } from './AddIdiomModal';
 import { describeMastery, type WordMastery } from '../utils/mastery';
 
 const WORDS_PER_PAGE = 24;
@@ -46,11 +56,13 @@ const COLLECTION_LABELS: Record<DeckCollection | 'personal', string> = {
   phrasal: 'Cụm động từ',
   phrases: 'Cụm danh từ và tính từ',
   collocations: 'Collocations',
+  idioms: 'Thành ngữ',
   regional: 'Anh-Anh / Anh-Mỹ',
   personal: 'Bộ cá nhân',
 };
 
-function deckCollection(deck: VocabDeck) {
+function deckCollection(deck: VocabDeck): DeckCollection | 'personal' {
+  if (deck.collection === 'idioms') return 'idioms';
   return deck.isCustom ? 'personal' : deck.collection ?? 'vocabulary';
 }
 
@@ -76,6 +88,7 @@ interface DecksViewProps {
   onCreateDeck: (deck: Omit<VocabDeck, 'id' | 'createdAt' | 'isCustom'>) => string;
   onDeleteDeck: (deckId: string) => void;
   onAddWord: (word: Omit<VocabWord, 'id' | 'createdAt' | 'srs'>) => void;
+  onSaveIdiom: (word: Omit<VocabWord, 'id' | 'createdAt' | 'srs'>, ensureIdiomDeck: boolean) => void;
   onDeleteWord: (wordId: string, deckId?: string) => void;
   onUpdateWordRelations: (wordId: string, relations: LexicalRelations) => void;
   onStartDeckStudy: (deckId: string, mode: StudyModeId) => void;
@@ -94,6 +107,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
   onCreateDeck,
   onDeleteDeck,
   onAddWord,
+  onSaveIdiom,
   onDeleteWord,
   onUpdateWordRelations,
   onStartDeckStudy,
@@ -112,6 +126,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
   const deckSearch = useRef<HTMLInputElement>(null);
   const [showNewDeckModal, setShowNewDeckModal] = useState(false);
   const [showAddWordModal, setShowAddWordModal] = useState(false);
+  const [showAddIdiomModal, setShowAddIdiomModal] = useState(false);
   const [importFeedback, setImportFeedback] = useState<string | null>(null);
 
   // New Deck Form State
@@ -119,12 +134,14 @@ export const DecksView: React.FC<DecksViewProps> = ({
   const [deckDesc, setDeckDesc] = useState('');
   const [deckLevel, setDeckLevel] = useState(activeLevel === 'all' ? 'custom' : activeLevel);
   const [deckCategory, setDeckCategory] = useState('Cá nhân');
+  const [deckIsIdiom, setDeckIsIdiom] = useState(false);
 
   // New Word Form State
   const [wordTerm, setWordTerm] = useState('');
   const [wordPhonetic, setWordPhonetic] = useState('');
   const [alternateForm, setAlternateForm] = useState(EMPTY_ENGLISH_FORM);
   const [wordIsCollocation, setWordIsCollocation] = useState(false);
+  const [wordIsIdiom, setWordIsIdiom] = useState(false);
   const [wordPos, setWordPos] = useState('');
   const [wordMeaning, setWordMeaning] = useState('');
   const [wordNotes, setWordNotes] = useState('');
@@ -144,6 +161,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
 
   const collections = useMemo(() => {
     const present = new Set(decks.map(deckCollection));
+    present.add('idioms');
     return Object.entries(COLLECTION_LABELS).filter(([id]) => present.has(id as DeckCollection | 'personal'));
   }, [decks]);
   const browseLevels = collection
@@ -172,11 +190,19 @@ export const DecksView: React.FC<DecksViewProps> = ({
   const scopeWords = useMemo(() => {
     const scoped = getScopedWords(words, filteredDecks, 'en');
     const ids = new Set(scoped.map(({ id }) => id));
-    return scoped.filter(({ id }) => {
+    const cleaned = scoped.filter(({ id }) => {
       const legacy = ENGLISH_LEGACY_PHRASAL_DUPLICATES.get(id);
       return !legacy || !ids.has(legacy.canonicalId);
     });
-  }, [words, filteredDecks]);
+    if (collection === 'idioms') {
+      const seen = new Set(cleaned.map(({ id }) => id));
+      const extraIdioms = words.filter(
+        (w) => w.language === 'en' && isIdiomWord(w) && !seen.has(w.id),
+      );
+      return [...cleaned, ...extraIdioms];
+    }
+    return cleaned;
+  }, [words, filteredDecks, collection]);
   const deckWords = useMemo(() => activeDeck ? getScopedWords(words, [activeDeck], 'en') : scopeWords,
     [activeDeck, scopeWords, words]);
   const targetDeck = activeDeck ?? filteredDecks[0] ?? scopedDecks[0];
@@ -283,12 +309,21 @@ export const DecksView: React.FC<DecksViewProps> = ({
   const openCreateDeck = () => {
     setFormError(null);
     setDeckLevel(activeLevel === 'all' ? 'custom' : activeLevel);
+    const asIdiom = collection === 'idioms';
+    setDeckIsIdiom(asIdiom);
+    setDeckCategory(asIdiom ? 'Thành ngữ' : 'Cá nhân');
     setShowNewDeckModal(true);
   };
 
   const openAddWord = () => {
     setFormError(null);
     setDictLookupStatus('');
+    const inIdiomDeck = targetDeck?.collection === 'idioms';
+    setWordIsIdiom(inIdiomDeck);
+    if (inIdiomDeck) {
+      setWordIsCollocation(false);
+      setWordPos(ENGLISH_IDIOM_POS);
+    }
     setShowAddWordModal(true);
   };
 
@@ -303,14 +338,16 @@ export const DecksView: React.FC<DecksViewProps> = ({
       description: deckDesc.trim(),
       language: 'en',
       level: deckLevel,
-      category: deckCategory.trim() || 'Cá nhân',
+      category: deckCategory.trim() || (deckIsIdiom ? 'Thành ngữ' : 'Cá nhân'),
+      ...(deckIsIdiom ? { collection: 'idioms' } : {}),
     });
     setDeckQuery('');
-    setCollection('personal');
+    setCollection(deckIsIdiom ? 'idioms' : 'personal');
     setSearchQuery('');
     selectDeck(newId);
     setDeckName('');
     setDeckDesc('');
+    setDeckIsIdiom(false);
     setFormError(null);
     setShowNewDeckModal(false);
   };
@@ -357,7 +394,11 @@ export const DecksView: React.FC<DecksViewProps> = ({
       ...(Object.keys(englishForms).length > 0 && { englishForms }),
       ...(wordAdditionalSenses.length > 0 && { additionalSenses: wordAdditionalSenses }),
       ...(wordFamily.length > 0 && { wordFamily }),
-      partOfSpeech: wordIsCollocation ? ENGLISH_COLLOCATION_POS : wordPos.trim() || 'Từ / cụm từ',
+      partOfSpeech: wordIsIdiom
+        ? ENGLISH_IDIOM_POS
+        : wordIsCollocation
+          ? ENGLISH_COLLOCATION_POS
+          : wordPos.trim() || 'Từ / cụm từ',
       meaning: wordMeaning.trim(),
       notes: wordNotes.trim() || undefined,
       collocations,
@@ -371,6 +412,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
     setWordPhonetic('');
     setAlternateForm(EMPTY_ENGLISH_FORM);
     setWordIsCollocation(false);
+    setWordIsIdiom(false);
     setWordPos('');
     setWordMeaning('');
     setWordNotes('');
@@ -408,6 +450,10 @@ export const DecksView: React.FC<DecksViewProps> = ({
         setAlternateForm((current) => ({ ...current, phonetic: draft.ukPhonetic }));
       }
       setWordPos(draft.partOfSpeech);
+      if (draft.isIdiom || draft.partOfSpeech === ENGLISH_IDIOM_POS) {
+        setWordIsIdiom(true);
+        setWordIsCollocation(false);
+      }
       setWordMeaning(draft.meaning);
       setWordNotes(draft.notes);
       setWordCollocation(draft.collocation);
@@ -466,7 +512,16 @@ export const DecksView: React.FC<DecksViewProps> = ({
         </div>
 
         <div className="deck-library-actions">
-
+          <button
+            type="button"
+            onClick={() => setShowAddIdiomModal(true)}
+            className="button-secondary"
+            aria-label="Thêm thành ngữ"
+            title="Thêm thành ngữ (Idiom)"
+          >
+            <Quote size={16} aria-hidden="true" />
+            <span>Thêm thành ngữ</span>
+          </button>
           <button
             type="button"
             onClick={openCreateDeck}
@@ -551,7 +606,15 @@ export const DecksView: React.FC<DecksViewProps> = ({
                 </ul>
               </section>
             ))}
-            {!filteredDecks.length && <p className="panel-empty">{decks.length ? 'Không có bộ từ phù hợp.' : 'Tạo bộ từ đầu tiên để bắt đầu học.'}</p>}
+            {!filteredDecks.length && (
+              <p className="panel-empty">
+                {collection === 'idioms'
+                  ? 'Chưa có bộ thành ngữ nào. Bấm “Thêm thành ngữ” để tạo bộ đầu tiên.'
+                  : decks.length
+                    ? 'Không có bộ từ phù hợp.'
+                    : 'Tạo bộ từ đầu tiên để bắt đầu học.'}
+              </p>
+            )}
           </div>
         </aside>
 
@@ -565,7 +628,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
               <div className="deck-title-group">
                 {activeDeck && <p className="deck-topic-label">{activeDeck.category}</p>}
                 <h2 id="deck-content-title" ref={wordsHeading} tabIndex={-1}>
-                  {activeDeck ? activeDeck.name : 'Thẻ trong phạm vi'}
+                  {activeDeck ? activeDeck.name : collection === 'idioms' ? 'Thành ngữ (Idioms)' : 'Thẻ trong phạm vi'}
                 </h2>
                 {activeDeck?.nativeName && (
                   <p className="deck-native-name" lang={activeDeck.language} dir="auto">{activeDeck.nativeName}</p>
@@ -596,7 +659,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   onChange={(event) => { setSearchQuery(event.target.value); setPage(1); }}
                   placeholder="Từ, cụm từ hoặc nghĩa…" />
               </label>
-              {targetDeck && (
+              {targetDeck && (filteredDecks.length > 0 || collection !== 'idioms') && (
                 <button type="button" className="button-secondary" onClick={openAddWord}>
                   <Plus size={16} aria-hidden="true" /> Thêm từ
                 </button>
@@ -617,10 +680,35 @@ export const DecksView: React.FC<DecksViewProps> = ({
 
           <div ref={wordScroll} className="deck-word-list" tabIndex={0} role="region" aria-label="Danh sách thẻ từ vựng">
             {visibleWords.length === 0 ? (
-              <div className="deck-empty">
-                <BookOpen size={27} aria-hidden="true" />
-                <p>{searchQuery.trim() || (decks.length && !filteredDecks.length) ? 'Không có kết quả phù hợp.' : 'Bộ từ này đang trống.'}</p>
-              </div>
+              collection === 'idioms' && !searchQuery.trim() ? (
+                <div className="deck-empty idiom-empty-panel">
+                  <Quote size={28} aria-hidden="true" />
+                  <p className="font-semibold">Chưa có thẻ thành ngữ nào</p>
+                  <p className="text-xs opacity-75 max-w-md text-center">
+                    Tìm kiếm thành ngữ bằng từ điển hoặc bấm một thành ngữ phổ biến bên dưới để xem nghĩa, ví dụ và lưu vào bộ học.
+                  </p>
+                  <button type="button" className="button-primary" onClick={() => setShowAddIdiomModal(true)}>
+                    <Plus size={15} aria-hidden="true" /> Thêm thành ngữ
+                  </button>
+                  <div className="idiom-empty-picks" aria-label="Thành ngữ phổ biến">
+                    {POPULAR_IDIOM_PICKS.map((pick) => (
+                      <button
+                        key={pick}
+                        type="button"
+                        className="lookup-chip idiom-chip"
+                        onClick={() => onInspectTerm(pick)}
+                      >
+                        <span lang="en">{pick}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="deck-empty">
+                  <BookOpen size={27} aria-hidden="true" />
+                  <p>{searchQuery.trim() || (decks.length && !filteredDecks.length) ? 'Không có kết quả phù hợp.' : 'Bộ từ này đang trống.'}</p>
+                </div>
+              )
             ) : (
               <div className="deck-word-cards">
                 {pageWords.map((storedWord) => {
@@ -633,6 +721,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                         <div>
                           <div className="deck-term">
                             <h3 lang={englishLocale}>{word.term}</h3>
+                            {isIdiomWord(word) && <span className="lookup-idiom-badge">Thành ngữ</span>}
                           </div>
                           <p className="deck-word-meta">{[word.phonetic, word.additionalSenses?.length ? 'Từ loại chính: ' + word.partOfSpeech : word.partOfSpeech].filter(Boolean).join(' · ')}</p>
                           <p className="deck-word-meaning"><span className="sr-only">Nghĩa · </span>{word.meaning}</p>
@@ -824,6 +913,23 @@ export const DecksView: React.FC<DecksViewProps> = ({
                 />
               </div>
 
+              <label className="flex items-center gap-2 text-xs font-medium">
+                <input
+                  type="checkbox"
+                  checked={deckIsIdiom}
+                  onChange={(event) => {
+                    const checked = event.target.checked;
+                    setDeckIsIdiom(checked);
+                    if (checked && (!deckCategory.trim() || deckCategory === 'Cá nhân')) {
+                      setDeckCategory('Thành ngữ');
+                    } else if (!checked && deckCategory === 'Thành ngữ') {
+                      setDeckCategory('Cá nhân');
+                    }
+                  }}
+                />
+                Đây là bộ thành ngữ (Idiom)
+              </label>
+
               <div>
                 <label htmlFor="new-deck-desc" className="block text-xs font-medium mb-1">
                   Mô tả ngắn
@@ -982,10 +1088,35 @@ export const DecksView: React.FC<DecksViewProps> = ({
                 </div>
               </div>
 
-              <label className="flex items-center gap-2 text-xs font-medium">
-                <input type="checkbox" checked={wordIsCollocation} onChange={(event) => setWordIsCollocation(event.target.checked)} />
-                Đây là một collocation
-              </label>
+              <div className="flex flex-wrap gap-4">
+                <label className="flex items-center gap-2 text-xs font-medium">
+                  <input
+                    type="checkbox"
+                    checked={wordIsCollocation}
+                    onChange={(event) => {
+                      const checked = event.target.checked;
+                      setWordIsCollocation(checked);
+                      if (checked) setWordIsIdiom(false);
+                    }}
+                  />
+                  Đây là một collocation
+                </label>
+                <label className="flex items-center gap-2 text-xs font-medium">
+                  <input
+                    type="checkbox"
+                    checked={wordIsIdiom}
+                    onChange={(event) => {
+                      const checked = event.target.checked;
+                      setWordIsIdiom(checked);
+                      if (checked) {
+                        setWordIsCollocation(false);
+                        setWordPos(ENGLISH_IDIOM_POS);
+                      }
+                    }}
+                  />
+                  Đây là một thành ngữ (Idiom)
+                </label>
+              </div>
 
               <div>
                 <label htmlFor="add-notes" className="block text-xs font-medium mb-1">
@@ -1077,6 +1208,20 @@ export const DecksView: React.FC<DecksViewProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AddIdiomModal
+        open={showAddIdiomModal}
+        decks={decks}
+        defaultDeckId={activeDeck?.collection === 'idioms' ? activeDeck.id : IDIOM_DECK_ID}
+        onClose={() => setShowAddIdiomModal(false)}
+        onSaveIdiom={(word, ensureIdiomDeck) => {
+          onSaveIdiom(word, ensureIdiomDeck);
+          setDeckQuery('');
+          setCollection('idioms');
+          setSearchQuery('');
+          selectDeck(word.deckId);
+        }}
+      />
     </div>
   );
 };
