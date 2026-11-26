@@ -38,12 +38,14 @@ const examples = list(shape({ sentence: string, translation: string, phonetic: o
 const collocations = list(shape({ phrase: string, meaning: string }));
 const englishForm = shape({ term: optional(string), phonetic: optional(string), examples: optional(examples), collocations: optional(collocations) });
 const additionalSense = shape({ partOfSpeech: string, meaning: string, phonetic: optional(string), notes: optional(string), examples });
+const wordFamilyItem = shape({ term: string, partOfSpeech: string, meaning: optional(string) });
 const word = shape({
   id, deckId: id, language, term: string, meaning: string, phonetic: string, partOfSpeech: string,
   synonyms: list(string), antonyms: optional(list(string)), examples, collocations,
   personalRelations: optional(relations), notes: optional(string), radical: optional(string), sinoVietnamese: optional(string),
   englishForms: optional(shape({ 'en-GB': optional(englishForm), 'en-US': optional(englishForm) })),
   additionalSenses: optional(list(additionalSense, 100)),
+  wordFamily: optional(list(wordFamilyItem, 40)),
   bloomLevel: oneOf(1, 2, 3, 4, 5, 6), lastSynthesisAt: optional(count), createdAt: count,
   srs: shape({
     easeFactor: number, intervalDays: number, repetitions: count, lapses: count, nextReviewAt: count,

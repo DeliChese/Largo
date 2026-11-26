@@ -1,4 +1,4 @@
-import type { CollocationItem, DeckWordImport, EnglishWordForms, ExampleSentence, VocabWord } from '../types/vocab';
+import type { CollocationItem, DeckWordImport, EnglishWordForms, ExampleSentence, VocabWord, WordFamilyItem } from '../types/vocab';
 import { ENGLISH_LOCALES } from './englishStudy';
 import { combineTerms, getWordRelations } from './wordRelations';
 
@@ -53,6 +53,24 @@ export function importEnglishForms(input: EnglishWordForms | undefined): English
   return Object.keys(forms).length ? forms : undefined;
 }
 
+export function importWordFamily(items: readonly WordFamilyItem[] | undefined): WordFamilyItem[] | undefined {
+  if (!Array.isArray(items)) return undefined;
+  const seen = new Set<string>();
+  const cleaned: WordFamilyItem[] = [];
+  for (const entry of items) {
+    const term = trimImportText(entry?.term);
+    const partOfSpeech = trimImportText(entry?.partOfSpeech);
+    const meaning = trimImportText(entry?.meaning);
+    if (!term || !partOfSpeech) continue;
+    const key = term.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    cleaned.push({ term, partOfSpeech, ...(meaning ? { meaning } : {}) });
+    if (cleaned.length >= 12) break;
+  }
+  return cleaned.length ? cleaned : undefined;
+}
+
 export function exportDeckWord(word: VocabWord): DeckWordImport {
   return {
     term: word.term,
@@ -68,6 +86,7 @@ export function exportDeckWord(word: VocabWord): DeckWordImport {
     collocations: word.collocations,
     examples: word.examples,
     englishForms: word.englishForms,
+    ...(word.wordFamily?.length ? { wordFamily: word.wordFamily } : {}),
     ...getWordRelations(word),
   };
 }

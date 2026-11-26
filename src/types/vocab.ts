@@ -83,6 +83,12 @@ export interface EnglishAdditionalSense {
   examples: ExampleSentence[];
 }
 
+export interface WordFamilyItem {
+  term: string;
+  partOfSpeech: string;
+  meaning?: string;
+}
+
 export interface VocabWord extends LexicalRelations {
   id: string;
   deckId: string;
@@ -93,6 +99,7 @@ export interface VocabWord extends LexicalRelations {
   language: LanguageCode;
   englishForms?: EnglishWordForms;
   additionalSenses?: EnglishAdditionalSense[];
+  wordFamily?: WordFamilyItem[];
   collocations: CollocationItem[];
   examples: ExampleSentence[];
   personalRelations?: LexicalRelations;
@@ -135,6 +142,7 @@ export interface DeckWordImport {
   synonyms?: string[] | string;
   antonyms?: string[] | string;
   englishForms?: EnglishWordForms;
+  wordFamily?: WordFamilyItem[];
 }
 
 export interface StudySessionLog {

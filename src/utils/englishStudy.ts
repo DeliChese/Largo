@@ -36,3 +36,7 @@ export function getEnglishStudyWord(word: VocabWord, locale: EnglishLocale): Voc
 export function cambridgeLookupUrl(term: string) {
   return 'https://dictionary.cambridge.org/search/english/direct/?q=' + encodeURIComponent(term);
 }
+
+export function cambridgeEnViLookupUrl(term: string) {
+  return 'https://dictionary.cambridge.org/search/english-vietnamese/direct/?q=' + encodeURIComponent(term);
+}

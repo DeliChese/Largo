@@ -345,6 +345,162 @@
   color: var(--text-primary);
   font-size: 0.91rem;
 }
+.lookup-panel { width: min(390px, calc(100vw - 32px)); transition: width 160ms ease; }
+.lookup-panel.is-expanded { width: min(460px, calc(100vw - 32px)); max-height: min(82dvh, 660px); }
+.lookup-search-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px; align-items: stretch; }
+.lookup-submit { display: inline-flex; align-items: center; gap: 5px; padding-inline: 11px; white-space: nowrap; font-size: 0.82rem; min-height: 40px; }
+.lookup-suggestions { margin-top: 9px; display: grid; gap: 5px; }
+.lookup-section-label { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
+.lookup-suggestion-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.lookup-chip {
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--control-border);
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 550;
+  cursor: pointer;
+}
+.lookup-chip:hover { border-color: var(--accent-text); color: var(--accent-text); }
+.lookup-status { margin-top: 8px; }
+.lookup-dict-card {
+  margin-top: 11px;
+  padding: 13px;
+  border-radius: 13px;
+  border: 1px solid var(--control-border);
+  background: var(--bg-subtle);
+  display: grid;
+  gap: 10px;
+}
+.lookup-dict-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 8px 10px; }
+.lookup-dict-head strong { font-size: 1.15rem; }
+.lookup-dict-head .english-variants { margin-block: 0; flex-shrink: 0; }
+.lookup-dict-head .english-variant { white-space: nowrap; flex-wrap: nowrap; }
+.lookup-ipa-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+.lookup-saved-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--bg-surface);
+  border: 1px solid var(--control-border);
+  color: var(--accent-text);
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+.lookup-inflection-note { font-size: 0.78rem; color: var(--accent-text); font-weight: 550; }
+.lookup-sense-tabs { display: flex; flex-wrap: wrap; gap: 5px; }
+.lookup-sense-tab {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--control-border);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 0.77rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.lookup-sense-tab.is-active {
+  border-color: var(--accent-text);
+  color: var(--accent-text);
+  background: var(--bg-subtle);
+}
+.lookup-sense-body { display: grid; gap: 4px; }
+.lookup-dict-meaning { font-size: 0.94rem; font-weight: 600; color: var(--text-primary); }
+.lookup-dict-en-def { font-size: 0.8rem; color: var(--text-muted); line-height: 1.45; }
+.lookup-dict-block { display: grid; gap: 5px; }
+.lookup-mini-list { display: grid; gap: 3px; font-size: 0.81rem; color: var(--text-secondary); }
+.lookup-mini-list strong { color: var(--text-primary); font-weight: 650; }
+.lookup-dict-examples { display: grid; gap: 6px; }
+.lookup-dict-examples li {
+  display: grid;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  background: var(--bg-surface);
+  font-size: 0.81rem;
+}
+.lookup-dict-examples li > div:not(.english-variants) { min-width: 0; display: grid; gap: 2px; }
+.lookup-dict-examples .english-variants { margin-block: 0; }
+.lookup-dict-examples .english-variant { min-height: 26px; padding: 2px 8px; font-size: 0.72rem; white-space: nowrap; flex-wrap: nowrap; }
+.lookup-ex-en { color: var(--text-primary); font-weight: 550; }
+.lookup-ex-vi { color: var(--text-secondary); }
+.lookup-dict-relations { display: grid; gap: 3px; font-size: 0.78rem; color: var(--text-secondary); }
+.lookup-dict-relations span:first-child { color: var(--text-muted); font-weight: 650; }
+.lookup-dict-actions {
+  position: sticky;
+  bottom: -15px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-inline: -13px;
+  margin-bottom: -13px;
+  padding: 10px 13px;
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--control-border);
+  border-radius: 0 0 12px 12px;
+}
+.lookup-dict-actions .button-primary { display: inline-flex; align-items: center; gap: 6px; font-size: 0.83rem; padding: 8px 12px; }
+.lookup-ext-links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.lookup-ext-links .text-button { display: inline-flex; align-items: center; gap: 4px; font-size: 0.78rem; }
+.lookup-provider-footer { font-size: 0.71rem; color: var(--text-muted); }
+.lookup-back-btn { display: inline-flex; align-items: center; gap: 5px; justify-self: start; font-size: 0.8rem; }
+.word-family-section { display: grid; gap: 5px; }
+.word-family-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.word-family-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border-radius: 9px;
+  border: 1px solid var(--control-border);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 0.79rem;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease, transform 120ms ease;
+}
+.word-family-chip:hover {
+  border-color: var(--accent-text);
+  background: var(--bg-subtle);
+}
+.word-family-chip:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+}
+.word-family-term { font-weight: 680; color: var(--text-primary); }
+.word-family-pos {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--bg-subtle);
+  color: var(--accent-text);
+  font-size: 0.7rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.deck-word-card .word-family-chip { background: var(--bg-subtle); }
+.deck-word-card .word-family-chip:hover { background: var(--bg-surface); }
+.deck-word-card .word-family-pos { background: var(--bg-surface); }
+.dict-inspect-dialog { width: min(540px, calc(100vw - 32px)); }
+.dict-inspect-card .lookup-dict-card { margin-top: 4px; }
+.dict-inspect-card .lookup-dict-actions { bottom: -22px; }
+.dict-inspect-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 12px;
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+}
+.lookup-not-found, .lookup-empty-hint { margin-top: 10px; display: grid; gap: 8px; font-size: 0.83rem; color: var(--text-secondary); }
+.lookup-local-block { margin-top: 11px; display: grid; gap: 6px; }
+.lookup-local-block .lookup-results { margin-top: 0; }
 .lookup-results, .reminder-list { display: grid; gap: 7px; margin-top: 10px; }
 .lookup-results li, .reminder-list li {
   padding: 10px;
@@ -364,7 +520,7 @@
 .lookup-collocation span { color: var(--text-primary); font-weight: 650; }
 .reminder-list button { margin-top: 7px; }
 .quick-add-dialog {
-  width: min(460px, calc(100vw - 32px));
+  width: min(500px, calc(100vw - 32px));
   max-height: calc(100dvh - 32px);
   margin: auto;
   color: var(--text-primary);
@@ -372,10 +528,35 @@
   background: transparent;
 }
 .quick-add-dialog::backdrop { background: #17112a73; backdrop-filter: blur(5px); }
-.quick-add-card { background-color: var(--bg-surface); padding: 22px; }
+.quick-add-card { background-color: var(--bg-surface); padding: 22px; overflow-y: auto; max-height: calc(100dvh - 36px); }
 .quick-add-form { display: grid; gap: 12px; }
+.quick-add-term-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: stretch; }
+.quick-add-autofill { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; padding-inline: 12px; font-size: 0.84rem; }
+.quick-add-lookup-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--bg-subtle);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+.quick-add-lookup-banner .text-button { display: inline-flex; align-items: center; gap: 4px; font-size: 0.78rem; }
+.quick-add-extra-senses {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+.quick-add-extra-senses input { width: auto; }
 .quick-add-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .quick-add-form .session-actions { justify-content: flex-end; }
+.spin-icon { animation: largo-spin 0.9s linear infinite; }
+@keyframes largo-spin { to { transform: rotate(360deg); } }
 .form-error { color: var(--error-text); font-size: 0.875rem; }
 
 .overview { display: grid; gap: 19px; }

@@ -5,29 +5,34 @@ import {
   ArrowRight,
   BookOpen,
   Download,
+  ExternalLink,
   FolderPlus,
   LibraryBig,
+  Loader2,
   Pencil,
   Play,
   Plus,
   Search,
+  Sparkles,
   Trash2,
   Upload,
   X,
 } from 'lucide-react';
-import type { DeckCollection, DeckWordImport, EnglishWordForms, ExampleSentence, LexicalRelations, StudyModeId, VocabDeck, VocabWord } from '../types/vocab';
+import type { CollocationItem, DeckCollection, DeckWordImport, EnglishAdditionalSense, EnglishWordForms, ExampleSentence, LexicalRelations, StudyModeId, VocabDeck, VocabWord, WordFamilyItem } from '../types/vocab';
 import { isBuiltinWord } from '../data/seedVocab';
 import { ENGLISH_LEGACY_PHRASAL_DUPLICATES } from '../data/englishDecks';
 import { BLOOM_META, calculateRetentionProbability, formatIntervalVi } from '../utils/srsBloom';
 import { getDeckStudyLevel, getScopedDecks, getScopedWords, getStudyLevels } from '../utils/studyScope';
 import { compactPhonetic, searchable } from '../utils/vocabSearch';
 import { exportDeckWord, importExamples, importTerms } from '../utils/vocabImport';
-import { cambridgeLookupUrl, DEFAULT_ENGLISH_LOCALE, ENGLISH_COLLOCATION_POS, ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishStudyWord } from '../utils/englishStudy';
+import { cambridgeEnViLookupUrl, cambridgeLookupUrl, DEFAULT_ENGLISH_LOCALE, ENGLISH_COLLOCATION_POS, ENGLISH_LOCALES, ENGLISH_LOCALE_LABEL, getEnglishStudyWord } from '../utils/englishStudy';
+import { buildWordDraftFromDictionary, fetchDictionaryEntry, getMergedWordFamily } from '../utils/dictionaryClient';
 import { EnglishVariantDetails } from './EnglishVariantDetails';
 import { EMPTY_EXAMPLES, EMPTY_RELATIONS, ExampleFields, RelationFields } from './WordFormFields';
 import { WordRelations } from './WordRelations';
 import { WordExamples } from './WordExamples';
 import { WordAdditionalSenses } from './WordAdditionalSenses';
+import { WordFamilyList } from './WordFamilyList';
 import { WordExampleGenerator } from './WordExampleGenerator';
 import { describeMastery, type WordMastery } from '../utils/mastery';
 
@@ -75,6 +80,7 @@ interface DecksViewProps {
   onUpdateWordRelations: (wordId: string, relations: LexicalRelations) => void;
   onStartDeckStudy: (deckId: string, mode: StudyModeId) => void;
   onImportWordsJson: (deckId: string, items: DeckWordImport[]) => number;
+  onInspectTerm: (term: string) => void;
 }
 
 export const DecksView: React.FC<DecksViewProps> = ({
@@ -92,6 +98,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
   onUpdateWordRelations,
   onStartDeckStudy,
   onImportWordsJson,
+  onInspectTerm,
 }) => {
   const [selectedDeckId, setSelectedDeckId] = useState('');
   const [deckQuery, setDeckQuery] = useState('');
@@ -123,8 +130,13 @@ export const DecksView: React.FC<DecksViewProps> = ({
   const [wordNotes, setWordNotes] = useState('');
   const [wordCollocation, setWordCollocation] = useState('');
   const [wordCollocationMeaning, setWordCollocationMeaning] = useState('');
+  const [wordExtraCollocations, setWordExtraCollocations] = useState<CollocationItem[]>([]);
   const [wordExamples, setWordExamples] = useState<readonly ExampleSentence[]>(EMPTY_EXAMPLES);
   const [wordRelations, setWordRelations] = useState(EMPTY_RELATIONS);
+  const [wordAdditionalSenses, setWordAdditionalSenses] = useState<EnglishAdditionalSense[]>([]);
+  const [wordFamily, setWordFamily] = useState<WordFamilyItem[]>([]);
+  const [dictLookupBusy, setDictLookupBusy] = useState(false);
+  const [dictLookupStatus, setDictLookupStatus] = useState('');
   const [relationWordId, setRelationWordId] = useState<string>();
   const [relationDraft, setRelationDraft] = useState(EMPTY_RELATIONS);
   const relationDialog = useRef<HTMLDialogElement>(null);
@@ -276,6 +288,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
 
   const openAddWord = () => {
     setFormError(null);
+    setDictLookupStatus('');
     setShowAddWordModal(true);
   };
 
@@ -329,18 +342,25 @@ export const DecksView: React.FC<DecksViewProps> = ({
     } else if (phonetic) {
       englishForms[englishLocale] = { phonetic };
     }
+    const collocations: CollocationItem[] = [
+      ...(wordCollocation.trim()
+        ? [{ phrase: wordCollocation.trim(), meaning: wordCollocationMeaning.trim() }]
+        : []),
+      ...wordExtraCollocations.filter((item) => item.phrase.trim() &&
+        item.phrase.trim().toLowerCase() !== wordCollocation.trim().toLowerCase()),
+    ];
     onAddWord({
       deckId: targetDeck.id,
       language: 'en',
       term,
       phonetic,
       ...(Object.keys(englishForms).length > 0 && { englishForms }),
+      ...(wordAdditionalSenses.length > 0 && { additionalSenses: wordAdditionalSenses }),
+      ...(wordFamily.length > 0 && { wordFamily }),
       partOfSpeech: wordIsCollocation ? ENGLISH_COLLOCATION_POS : wordPos.trim() || 'Từ / cụm từ',
       meaning: wordMeaning.trim(),
       notes: wordNotes.trim() || undefined,
-      collocations: wordCollocation.trim()
-        ? [{ phrase: wordCollocation.trim(), meaning: wordCollocationMeaning.trim() }]
-        : [],
+      collocations,
       examples: importExamples(wordExamples) ?? [],
       synonyms: importTerms(wordRelations.synonyms),
       antonyms: importTerms(wordRelations.antonyms),
@@ -356,10 +376,53 @@ export const DecksView: React.FC<DecksViewProps> = ({
     setWordNotes('');
     setWordCollocation('');
     setWordCollocationMeaning('');
+    setWordExtraCollocations([]);
     setWordExamples(EMPTY_EXAMPLES);
     setWordRelations(EMPTY_RELATIONS);
+    setWordAdditionalSenses([]);
+    setWordFamily([]);
+    setDictLookupStatus('');
     setFormError(null);
     setShowAddWordModal(false);
+  };
+
+  const handleDeckDictionaryAutofill = async () => {
+    const clean = wordTerm.trim();
+    if (!clean) {
+      setFormError('Hãy nhập từ tiếng Anh trước khi tra tự động.');
+      return;
+    }
+    setDictLookupBusy(true);
+    setDictLookupStatus('');
+    setFormError(null);
+    try {
+      const result = await fetchDictionaryEntry(clean);
+      if (result.status === 'not_found') {
+        setFormError(result.message);
+        return;
+      }
+      const draft = buildWordDraftFromDictionary(result, 0);
+      setWordTerm(draft.term);
+      setWordPhonetic(draft.phonetic);
+      if (draft.ukPhonetic && draft.ukPhonetic !== draft.phonetic) {
+        setAlternateForm((current) => ({ ...current, phonetic: draft.ukPhonetic }));
+      }
+      setWordPos(draft.partOfSpeech);
+      setWordMeaning(draft.meaning);
+      setWordNotes(draft.notes);
+      setWordCollocation(draft.collocation);
+      setWordCollocationMeaning(draft.collocationMeaning);
+      setWordExtraCollocations(draft.extraCollocations);
+      setWordExamples(draft.examples);
+      setWordRelations({ synonyms: draft.synonyms, antonyms: draft.antonyms });
+      setWordAdditionalSenses(draft.additionalSenses ?? []);
+      setWordFamily(draft.wordFamily ?? []);
+      setDictLookupStatus(`Đã điền tự động cho “${draft.term}”`);
+    } catch (error: unknown) {
+      setFormError(error instanceof Error ? error.message : 'Chưa thể tra từ điển trực tuyến.');
+    } finally {
+      setDictLookupBusy(false);
+    }
   };
 
   const handleExportDeck = () => {
@@ -612,6 +675,11 @@ export const DecksView: React.FC<DecksViewProps> = ({
                         </div>
                       )}
                       <WordAdditionalSenses word={word} speechRate={speechRate} />
+                      <WordFamilyList
+                        items={getMergedWordFamily(storedWord, words)}
+                        headword={word.term}
+                        onInspectTerm={onInspectTerm}
+                      />
                       <WordRelations word={word} />
                       <WordExampleGenerator key={englishLocale + ':' + word.term} word={word} locale={englishLocale}
                         level={sourceDeck ? getDeckStudyLevel(sourceDeck) : undefined} speechRate={speechRate} />
@@ -620,9 +688,14 @@ export const DecksView: React.FC<DecksViewProps> = ({
                         <WordExamples examples={word.examples.slice(2)} startAt={3} speechRate={speechRate} />
                         {retention !== null && <p>Bloom cũ · Tầng {word.bloomLevel} · {BLOOM_META[word.bloomLevel].nameVi}</p>}
                         {word.srs.intervalDays > 0 && <p>Chu kỳ ôn · {formatIntervalVi(word.srs.intervalDays)}</p>}
-                        <a href={cambridgeLookupUrl(word.term)} target="_blank" rel="noreferrer" className="text-button">
-                          Tra Cambridge<span className="sr-only"> cho {word.term}</span>
-                        </a>
+                        <div className="lookup-ext-links">
+                          <a href={cambridgeEnViLookupUrl(word.term)} target="_blank" rel="noopener noreferrer" className="text-button">
+                            Tra Cambridge Anh–Việt <ExternalLink size={12} aria-hidden="true" /><span className="sr-only"> cho {word.term}</span>
+                          </a>
+                          <a href={cambridgeLookupUrl(word.term)} target="_blank" rel="noopener noreferrer" className="text-button">
+                            Cambridge EN <ExternalLink size={12} aria-hidden="true" /><span className="sr-only"> cho {word.term}</span>
+                          </a>
+                        </div>
                       </details>
                     </article>
                   );
@@ -824,35 +897,58 @@ export const DecksView: React.FC<DecksViewProps> = ({
             </div>
 
             <form onSubmit={handleAddWordSubmit} className="space-y-3">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label htmlFor="add-term" className="block text-xs font-medium mb-1">
-                    Từ hoặc cụm từ *
-                  </label>
+              <div>
+                <label htmlFor="add-term" className="block text-xs font-medium mb-1">
+                  Từ hoặc cụm từ *
+                </label>
+                <div className="quick-add-term-row">
                   <input
                     id="add-term"
                     type="text"
+                    lang="en"
                     value={wordTerm}
                     onChange={(e) => setWordTerm(e.target.value)}
                     placeholder={ENGLISH_FORM_EXAMPLE.term}
                     className="w-full rounded-lg border px-3 py-2 text-sm"
                     style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
                   />
+                  <button
+                    type="button"
+                    className="button-secondary quick-add-autofill"
+                    onClick={() => void handleDeckDictionaryAutofill()}
+                    disabled={!wordTerm.trim() || dictLookupBusy}
+                    title="Tra từ điển trực tuyến và điền đúng form tự động"
+                  >
+                    {dictLookupBusy
+                      ? <Loader2 size={15} className="spin-icon" aria-hidden="true" />
+                      : <Sparkles size={15} aria-hidden="true" />}
+                    <span>Tra & điền</span>
+                  </button>
                 </div>
-                <div>
-                  <label htmlFor="add-phonetic" className="block text-xs font-medium mb-1">
-                    {`Phiên âm (${ENGLISH_LOCALE_LABEL[englishLocale]})`}
-                  </label>
-                  <input
-                    id="add-phonetic"
-                    type="text"
-                    value={wordPhonetic}
-                    onChange={(e) => setWordPhonetic(e.target.value)}
-                    placeholder={ENGLISH_FORM_EXAMPLE.phonetic}
-                    className="w-full rounded-lg border px-3 py-2 text-sm font-mono"
-                    style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
-                  />
+              </div>
+
+              {dictLookupStatus && (
+                <div className="quick-add-lookup-banner" role="status">
+                  <span>{dictLookupStatus}</span>
+                  <a href={cambridgeEnViLookupUrl(wordTerm.trim())} target="_blank" rel="noopener noreferrer" className="text-button">
+                    Cambridge Anh–Việt <ExternalLink size={12} aria-hidden="true" />
+                  </a>
                 </div>
+              )}
+
+              <div>
+                <label htmlFor="add-phonetic" className="block text-xs font-medium mb-1">
+                  {`Phiên âm (${ENGLISH_LOCALE_LABEL[englishLocale]})`}
+                </label>
+                <input
+                  id="add-phonetic"
+                  type="text"
+                  value={wordPhonetic}
+                  onChange={(e) => setWordPhonetic(e.target.value)}
+                  placeholder={ENGLISH_FORM_EXAMPLE.phonetic}
+                  className="w-full rounded-lg border px-3 py-2 text-sm font-mono"
+                  style={{ backgroundColor: 'var(--bg-canvas)', borderColor: 'var(--border-hairline)' }}
+                />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

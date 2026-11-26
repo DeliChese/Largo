@@ -17,7 +17,7 @@ type CompactSnapshot = PersistedAppState & {
 const patchKeys = [
   'createdAt', 'srs', 'bloomLevel', 'lastSynthesisAt', 'personalRelations', 'deckId',
   'term', 'meaning', 'partOfSpeech', 'phonetic', 'examples', 'collocations', 'notes',
-  'synonyms', 'antonyms', 'englishForms', 'additionalSenses',
+  'synonyms', 'antonyms', 'englishForms', 'additionalSenses', 'wordFamily',
 ] as const;
 
 function equal(a: unknown, b: unknown): boolean {

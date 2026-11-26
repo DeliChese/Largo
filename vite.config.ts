@@ -8,6 +8,7 @@ import {createSpeechRouter, loadSpeechEnvironment} from './server/speech.mjs';
 import {createSentenceAssessmentRouter} from './server/sentenceAssessment.mjs';
 import {createWordChainRouter} from './server/wordChain.mjs';
 import {createExampleGeneratorRouter} from './server/exampleGenerator.mjs';
+import {createDictionaryRouter} from './server/dictionary.mjs';
 
 const projectRoot = import.meta.dirname;
 
@@ -57,12 +58,14 @@ export default defineConfig(() => {
         name: 'largo-ai-api',
         configureServer(server) {
           const env = aiServerEnvironment(server.config.mode);
+          server.middlewares.use('/api/dictionary', createDictionaryRouter(env));
           server.middlewares.use('/api/ai/word-chain', createWordChainRouter(env));
           server.middlewares.use('/api/ai/examples', createExampleGeneratorRouter(env));
           server.middlewares.use('/api/ai', createSentenceAssessmentRouter(env));
         },
         configurePreviewServer(server) {
           const env = aiServerEnvironment(server.config.mode);
+          server.middlewares.use('/api/dictionary', createDictionaryRouter(env));
           server.middlewares.use('/api/ai/word-chain', createWordChainRouter(env));
           server.middlewares.use('/api/ai/examples', createExampleGeneratorRouter(env));
           server.middlewares.use('/api/ai', createSentenceAssessmentRouter(env));

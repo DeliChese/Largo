@@ -1,12 +1,14 @@
 import React, { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import { Bell, ChevronDown, Menu, Moon, Plus, Sun, X } from 'lucide-react';
+import { Bell, ChevronDown, ExternalLink, Loader2, Menu, Moon, Plus, Sparkles, Sun, X } from 'lucide-react';
 import type {
   AnalyticsSubRoute,
   AppRoute,
   AppSettings,
   BloomLevel,
+  CollocationItem,
   DeckWordImport,
+  EnglishAdditionalSense,
   ExampleSentence,
   LanguageCode,
   LexicalRelations,
@@ -17,6 +19,7 @@ import type {
   UserProfile,
   VocabDeck,
   VocabWord,
+  WordFamilyItem,
 } from './types/vocab';
 import {
   INITIAL_DECKS,
@@ -36,7 +39,7 @@ import {
 } from './utils/studyPlan';
 import { getDeckStudyLevel, getScopedDecks, getScopedWords, getStudyLevels } from './utils/studyScope';
 import { DEFAULT_ENGLISH_LOCALE, getEnglishStudyWord } from './utils/englishStudy';
-import { importCollocations, importEnglishForms, importExamples, importTerms, trimImportText } from './utils/vocabImport';
+import { importCollocations, importEnglishForms, importExamples, importTerms, importWordFamily, trimImportText } from './utils/vocabImport';
 import {
   commitLearningAttempt,
   loadOfflineState,
@@ -63,9 +66,21 @@ import { buildMasteryProjection } from './utils/mastery';
 import { planAdaptiveSession, type AdaptiveStudyPlan } from './utils/adaptivePlanner';
 import { compareAdaptivePlans } from './utils/plannerMetrics';
 import { WordLookup } from './components/WordLookup';
+import { DictionaryInspectDialog } from './components/DictionaryInspectDialog';
 import { EMPTY_EXAMPLES, EMPTY_RELATIONS, ExampleFields, RelationFields } from './components/WordFormFields';
 import { addChainDeckEntry, wordChainDeckId, type ChainEntry, type ChainLanguage } from './utils/wordChain';
 import { normalizeChainTerm } from './utils/wordChainRules.mjs';
+import {
+  buildWordDraftFromDictionary,
+  createLookupDeck,
+  fetchDictionaryEntry,
+  LOOKUP_DECK_ID,
+  LOOKUP_DECK_NAME,
+  safeExternalUrl,
+  STANDARD_POS_OPTIONS,
+  type DictionaryExternalLinks,
+  type DictionaryWordDraft,
+} from './utils/dictionaryClient';
 
 const GamesView = lazy(() => import('./components/GamesView').then(({ GamesView }) => ({ default: GamesView })));
 const DecksView = lazy(() => import('./components/DecksView').then(({ DecksView }) => ({ default: DecksView })));
@@ -153,13 +168,25 @@ export default function App() {
   const [showQuickAdd, setShowQuickAdd] = useState(false);
   const [qaTerm, setQaTerm] = useState('');
   const [qaPhonetic, setQaPhonetic] = useState('');
+  const [qaUkPhonetic, setQaUkPhonetic] = useState('');
+  const [qaPartOfSpeech, setQaPartOfSpeech] = useState<string>('Danh từ');
   const [qaMeaning, setQaMeaning] = useState('');
+  const [qaNotes, setQaNotes] = useState('');
   const [qaCollocation, setQaCollocation] = useState('');
   const [qaCollocationMeaning, setQaCollocationMeaning] = useState('');
+  const [qaExtraCollocations, setQaExtraCollocations] = useState<CollocationItem[]>([]);
   const [qaExamples, setQaExamples] = useState<readonly ExampleSentence[]>(EMPTY_EXAMPLES);
   const [qaRelations, setQaRelations] = useState(EMPTY_RELATIONS);
+  const [qaAdditionalSenses, setQaAdditionalSenses] = useState<EnglishAdditionalSense[]>([]);
+  const [qaIncludeExtraSenses, setQaIncludeExtraSenses] = useState(true);
+  const [qaWordFamily, setQaWordFamily] = useState<WordFamilyItem[]>([]);
+  const [qaIncludeWordFamily, setQaIncludeWordFamily] = useState(true);
+  const [qaLookupLinks, setQaLookupLinks] = useState<DictionaryExternalLinks | null>(null);
+  const [qaLookupBusy, setQaLookupBusy] = useState(false);
+  const [qaLookupStatus, setQaLookupStatus] = useState('');
   const [qaDeckId, setQaDeckId] = useState('');
   const [qaError, setQaError] = useState<string | null>(null);
+  const [inspectTerm, setInspectTerm] = useState<string | null>(null);
   const [showReminderPopover, setShowReminderPopover] = useState(false);
   const reminderContainer = useRef<HTMLDivElement>(null);
   const reminderButton = useRef<HTMLButtonElement>(null);
@@ -652,6 +679,7 @@ export default function App() {
           ? [{ sentence: trimText(item.example), phonetic: trimText(item.examplePhonetic) || undefined, translation: trimText(item.translation) }]
           : []),
         englishForms: importEnglishForms(item.englishForms),
+        wordFamily: importWordFamily(item.wordFamily),
         synonyms: importTerms(item.synonyms),
         antonyms: importTerms(item.antonyms),
         bloomLevel: 1 as BloomLevel,
@@ -664,28 +692,128 @@ export default function App() {
     return valid.length;
   };
 
+  const quickAddDecks = useMemo(() => {
+    const customDecks = decks.filter((d) => d.language === 'en' && d.isCustom);
+    const seen = new Set(customDecks.map((d) => d.id));
+    const merged = [...customDecks];
+    for (const d of scopedDecks) {
+      if (!seen.has(d.id)) {
+        seen.add(d.id);
+        merged.push(d);
+      }
+    }
+    return merged;
+  }, [decks, scopedDecks]);
+
+  const applyDictionaryDraft = (draft: DictionaryWordDraft) => {
+    setQaTerm(draft.term);
+    setQaPhonetic(draft.phonetic);
+    setQaUkPhonetic(draft.ukPhonetic);
+    setQaPartOfSpeech(draft.partOfSpeech || 'Từ / cụm từ');
+    setQaMeaning(draft.meaning);
+    setQaNotes(draft.notes);
+    setQaCollocation(draft.collocation);
+    setQaCollocationMeaning(draft.collocationMeaning);
+    setQaExtraCollocations(draft.extraCollocations);
+    setQaExamples(draft.examples);
+    setQaRelations({ synonyms: draft.synonyms, antonyms: draft.antonyms });
+    setQaAdditionalSenses(draft.additionalSenses ?? []);
+    setQaIncludeExtraSenses(true);
+    setQaWordFamily(draft.wordFamily ?? []);
+    setQaIncludeWordFamily(true);
+    setQaLookupLinks(draft.links);
+    setQaLookupStatus(`Đã điền tự động cho “${draft.term}”`);
+    setQaError(null);
+  };
+
+  const openQuickAddWithDraft = (draft: DictionaryWordDraft) => {
+    const hasLookupDeck = decks.some((d) => d.id === LOOKUP_DECK_ID);
+    const firstCustom = decks.find((d) => d.language === 'en' && d.isCustom);
+    setQaDeckId(hasLookupDeck ? LOOKUP_DECK_ID : firstCustom?.id ?? LOOKUP_DECK_ID);
+    applyDictionaryDraft(draft);
+    setShowQuickAdd(true);
+  };
+
+  const handleQuickAddAutofill = async () => {
+    const clean = qaTerm.trim();
+    if (!clean) {
+      setQaError('Hãy nhập từ tiếng Anh trước khi tra tự động.');
+      return;
+    }
+    if (!isOnline) {
+      setQaError('Đang ngoại tuyến — không thể tra từ điển trực tuyến.');
+      return;
+    }
+    setQaLookupBusy(true);
+    setQaLookupStatus('');
+    setQaError(null);
+    try {
+      const result = await fetchDictionaryEntry(clean);
+      if (result.status === 'not_found') {
+        setQaLookupLinks(result.links);
+        setQaError(result.message);
+        return;
+      }
+      applyDictionaryDraft(buildWordDraftFromDictionary(result, 0));
+    } catch (error: unknown) {
+      setQaError(error instanceof Error ? error.message : 'Chưa thể tra từ điển trực tuyến.');
+    } finally {
+      setQaLookupBusy(false);
+    }
+  };
+
   const handleQuickAddSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!qaTerm.trim() || !qaMeaning.trim()) {
       setQaError('Vui lòng nhập đầy đủ từ vựng và nghĩa tiếng Việt.');
       return;
     }
-    const targetDeck = scopedDecks.find((d) => d.id === qaDeckId) || scopedDecks[0];
+    const nowTs = Date.now();
+    let targetDeck = decks.find((d) => d.id === qaDeckId) || quickAddDecks[0];
+    if (qaDeckId === LOOKUP_DECK_ID && !decks.some((d) => d.id === LOOKUP_DECK_ID)) {
+      const lookupDeck = createLookupDeck(nowTs);
+      setDecks((prev) => prev.some((d) => d.id === LOOKUP_DECK_ID) ? prev : [lookupDeck, ...prev]);
+      targetDeck = lookupDeck;
+    }
     if (!targetDeck) {
       setQaError('Hãy tạo một bộ từ trước khi thêm từ mới.');
       return;
     }
     const cleanTerm = qaTerm.trim();
+    const cleanUsIpa = qaPhonetic.trim();
+    const cleanUkIpa = qaUkPhonetic.trim();
+    const englishForms = cleanUkIpa && cleanUkIpa !== cleanUsIpa
+      ? {
+          'en-GB': { phonetic: cleanUkIpa },
+          ...(cleanUsIpa ? { 'en-US': { phonetic: cleanUsIpa } } : {}),
+        }
+      : undefined;
+    const collocations: CollocationItem[] = [
+      ...(qaCollocation.trim()
+        ? [{ phrase: qaCollocation.trim(), meaning: qaCollocationMeaning.trim() }]
+        : []),
+      ...qaExtraCollocations.filter((item) => item.phrase.trim() &&
+        item.phrase.trim().toLowerCase() !== qaCollocation.trim().toLowerCase()),
+    ];
+    const cleanAdditionalSenses = qaIncludeExtraSenses && qaAdditionalSenses.length > 0
+      ? qaAdditionalSenses
+      : undefined;
+    const cleanWordFamily = qaIncludeWordFamily && qaWordFamily.length > 0
+      ? qaWordFamily
+      : undefined;
+
     handleAddWord({
       deckId: targetDeck.id,
       language: targetDeck.language,
       term: cleanTerm,
-      phonetic: qaPhonetic.trim(),
-      partOfSpeech: 'Từ / cụm từ',
+      phonetic: cleanUsIpa || cleanUkIpa,
+      partOfSpeech: qaPartOfSpeech.trim() || 'Từ / cụm từ',
       meaning: qaMeaning.trim(),
-      collocations: qaCollocation.trim()
-        ? [{ phrase: qaCollocation.trim(), meaning: qaCollocationMeaning.trim() }]
-        : [],
+      ...(qaNotes.trim() ? { notes: qaNotes.trim() } : {}),
+      ...(englishForms ? { englishForms } : {}),
+      ...(cleanAdditionalSenses ? { additionalSenses: cleanAdditionalSenses } : {}),
+      ...(cleanWordFamily ? { wordFamily: cleanWordFamily } : {}),
+      collocations,
       examples: importExamples(qaExamples) ?? [],
       synonyms: importTerms(qaRelations.synonyms),
       antonyms: importTerms(qaRelations.antonyms),
@@ -693,11 +821,21 @@ export default function App() {
     });
     setQaTerm('');
     setQaPhonetic('');
+    setQaUkPhonetic('');
+    setQaPartOfSpeech('Danh từ');
     setQaMeaning('');
+    setQaNotes('');
     setQaCollocation('');
     setQaCollocationMeaning('');
+    setQaExtraCollocations([]);
     setQaExamples(EMPTY_EXAMPLES);
     setQaRelations(EMPTY_RELATIONS);
+    setQaAdditionalSenses([]);
+    setQaIncludeExtraSenses(true);
+    setQaWordFamily([]);
+    setQaIncludeWordFamily(true);
+    setQaLookupLinks(null);
+    setQaLookupStatus('');
     setQaError(null);
     setShowQuickAdd(false);
   };
@@ -795,11 +933,12 @@ export default function App() {
   }, [activeViewKey, scopeKey]);
 
   const openQuickAdd = () => {
-    if (!scopedDecks.length) {
-      navigate('decks');
-      return;
+    if (!quickAddDecks.length) {
+      setQaDeckId(LOOKUP_DECK_ID);
+    } else if (qaDeckId !== LOOKUP_DECK_ID && !quickAddDecks.some((deck) => deck.id === qaDeckId)) {
+      setQaDeckId(quickAddDecks[0].id);
     }
-    if (!scopedDecks.some((deck) => deck.id === qaDeckId)) setQaDeckId(scopedDecks[0].id);
+    setQaLookupStatus('');
     setQaError(null);
     setShowQuickAdd(true);
   };
@@ -844,7 +983,14 @@ export default function App() {
                   </label>}
                 </div>
                 <div className="header-actions">
-                  <WordLookup key={scopeKey} words={libraryWords} speechRate={settings.speechRate} />
+                  <WordLookup
+                    key={scopeKey}
+                    words={libraryWords}
+                    allWords={words}
+                    speechRate={settings.speechRate}
+                    isOnline={isOnline}
+                    onSaveDraft={openQuickAddWithDraft}
+                  />
                   <button type="button" className="icon-button" title={isDarkActive ? 'Giao diện sáng' : 'Giao diện tối'}
                     aria-label={isDarkActive ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối'}
                     onClick={() => setSettings((value) => ({ ...value, colorScheme: isDarkActive ? 'light' : 'dark' }))}>
@@ -975,6 +1121,7 @@ export default function App() {
                         handleBeginHubSession(mode, deckId);
                       }}
                       onImportWordsJson={handleImportWordsJson}
+                      onInspectTerm={setInspectTerm}
                     />
                   )}
 
@@ -1025,22 +1172,72 @@ export default function App() {
               <div className="control-field">
                 <label htmlFor="qa-deck">Bộ từ vựng</label>
                 <select id="qa-deck" value={qaDeckId} onChange={(event) => setQaDeckId(event.target.value)}>
-                  {scopedDecks.map((deck) => <option key={deck.id} value={deck.id}>{deck.name}</option>)}
+                  {!decks.some((d) => d.id === LOOKUP_DECK_ID) && (
+                    <option value={LOOKUP_DECK_ID}>{LOOKUP_DECK_NAME} (Tạo mới)</option>
+                  )}
+                  {quickAddDecks.map((deck) => <option key={deck.id} value={deck.id}>{deck.name}</option>)}
                 </select>
               </div>
-              <div className="quick-add-row">
-                <div className="control-field">
-                  <label htmlFor="qa-term">Từ vựng</label>
-                  <input id="qa-term" required value={qaTerm} onChange={(event) => setQaTerm(event.target.value)} />
-                </div>
-                <div className="control-field">
-                  <label htmlFor="qa-ipa">Phiên âm</label>
-                  <input id="qa-ipa" value={qaPhonetic} onChange={(event) => setQaPhonetic(event.target.value)} />
+              <div className="control-field">
+                <label htmlFor="qa-term">Từ vựng / Cụm từ</label>
+                <div className="quick-add-term-row">
+                  <input id="qa-term" lang="en" required value={qaTerm}
+                    placeholder="Ví dụ: resilient, negotiate, break down…"
+                    onChange={(event) => setQaTerm(event.target.value)} />
+                  <button
+                    type="button"
+                    className="button-secondary quick-add-autofill"
+                    onClick={() => void handleQuickAddAutofill()}
+                    disabled={!qaTerm.trim() || qaLookupBusy || !isOnline}
+                    title="Tra từ điển trực tuyến và điền đúng form tự động"
+                  >
+                    {qaLookupBusy
+                      ? <Loader2 size={15} className="spin-icon" aria-hidden="true" />
+                      : <Sparkles size={15} aria-hidden="true" />}
+                    <span>Tra & điền</span>
+                  </button>
                 </div>
               </div>
+              {qaLookupStatus && (
+                <div className="quick-add-lookup-banner" role="status">
+                  <span>{qaLookupStatus}</span>
+                  {safeExternalUrl(qaLookupLinks?.cambridgeEnVi) && (
+                    <a href={qaLookupLinks!.cambridgeEnVi} target="_blank" rel="noopener noreferrer" className="text-button">
+                      Cambridge Anh–Việt <ExternalLink size={12} aria-hidden="true" />
+                    </a>
+                  )}
+                </div>
+              )}
+              <div className="quick-add-row">
+                <div className="control-field">
+                  <label htmlFor="qa-pos">Từ loại</label>
+                  <select id="qa-pos" value={qaPartOfSpeech} onChange={(event) => setQaPartOfSpeech(event.target.value)}>
+                    {STANDARD_POS_OPTIONS.map((pos) => <option key={pos} value={pos}>{pos}</option>)}
+                    {!STANDARD_POS_OPTIONS.includes(qaPartOfSpeech as typeof STANDARD_POS_OPTIONS[number]) && qaPartOfSpeech && (
+                      <option value={qaPartOfSpeech}>{qaPartOfSpeech}</option>
+                    )}
+                  </select>
+                </div>
+                <div className="control-field">
+                  <label htmlFor="qa-ipa">Phiên âm (US / chung)</label>
+                  <input id="qa-ipa" value={qaPhonetic} placeholder="/rɪˈzɪl.jənt/"
+                    onChange={(event) => setQaPhonetic(event.target.value)} />
+                </div>
+              </div>
+              {qaUkPhonetic && qaUkPhonetic !== qaPhonetic && (
+                <div className="control-field">
+                  <label htmlFor="qa-ipa-uk">Phiên âm Anh–Anh (UK)</label>
+                  <input id="qa-ipa-uk" value={qaUkPhonetic} onChange={(event) => setQaUkPhonetic(event.target.value)} />
+                </div>
+              )}
               <div className="control-field">
                 <label htmlFor="qa-meaning">Nghĩa tiếng Việt</label>
                 <input id="qa-meaning" required value={qaMeaning} onChange={(event) => setQaMeaning(event.target.value)} />
+              </div>
+              <div className="control-field">
+                <label htmlFor="qa-notes">Ghi chú & cách dùng</label>
+                <input id="qa-notes" value={qaNotes} placeholder="Ngữ cảnh dùng, ghi chú biến thể hoặc nguồn tham khảo…"
+                  onChange={(event) => setQaNotes(event.target.value)} />
               </div>
               <div className="control-field">
                 <label htmlFor="qa-col">Cụm từ đi kèm</label>
@@ -1054,6 +1251,30 @@ export default function App() {
               )}
               <ExampleFields values={qaExamples} onChange={setQaExamples} language={language} />
               <RelationFields value={qaRelations} onChange={setQaRelations} />
+              {qaAdditionalSenses.length > 0 && (
+                <label className="quick-add-extra-senses">
+                  <input
+                    type="checkbox"
+                    checked={qaIncludeExtraSenses}
+                    onChange={(event) => setQaIncludeExtraSenses(event.target.checked)}
+                  />
+                  <span>
+                    Lưu kèm {qaAdditionalSenses.length} từ loại phụ ({qaAdditionalSenses.map((s) => s.partOfSpeech).join(', ')})
+                  </span>
+                </label>
+              )}
+              {qaWordFamily.length > 0 && (
+                <label className="quick-add-extra-senses">
+                  <input
+                    type="checkbox"
+                    checked={qaIncludeWordFamily}
+                    onChange={(event) => setQaIncludeWordFamily(event.target.checked)}
+                  />
+                  <span>
+                    Lưu kèm gia đình từ ({qaWordFamily.slice(0, 4).map((w) => w.term).join(', ')}{qaWordFamily.length > 4 ? '…' : ''})
+                  </span>
+                </label>
+              )}
               {qaError && <p className="form-error" role="alert">{qaError}</p>}
               <div className="session-actions">
                 <button type="button" className="button-secondary" onClick={() => setShowQuickAdd(false)}>Hủy</button>
@@ -1062,6 +1283,15 @@ export default function App() {
             </form>
           </div>
         </dialog>
+
+        <DictionaryInspectDialog
+          term={inspectTerm}
+          allWords={words}
+          speechRate={settings.speechRate}
+          isOnline={isOnline}
+          onClose={() => setInspectTerm(null)}
+          onSaveDraft={openQuickAddWithDraft}
+        />
       </div>
     </MotionConfig>
   );
